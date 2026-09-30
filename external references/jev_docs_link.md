@@ -1,0 +1,1 @@
+https://docs.typesafe.ai/introduction
