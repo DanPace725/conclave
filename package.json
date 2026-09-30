@@ -1,0 +1,13 @@
+{
+  "name": "conclave",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node src/cli.js chat",
+    "demo": "node scripts/demo.js",
+    "test": "node --test test/smoke.test.js test/attention.test.js",
+    "evaluate": "node scripts/evaluate.js"
+  }
+}
