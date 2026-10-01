@@ -2,6 +2,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { randomUUID, createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync, renameSync } from 'node:fs';
 import { resolve, join } from 'node:path';
+import { validateState, checkAttribution } from './state.js';
 
 export const id = (prefix) => `${prefix}_${randomUUID()}`;
 export const hash = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -176,13 +177,20 @@ export class Store {
     const current = this.context(conversation);
     const active = new Set(current.segments.map((s) => s.id));
     const references = new Set(current.segments.map((s) => s.ref_bundle_id).filter(Boolean));
+    const superseded = new Set(), pending = current.segments.flatMap((s) => s.relations?.supersedes || []);
+    while (pending.length) {
+      const bundleId = pending.pop();
+      if (superseded.has(bundleId)) continue;
+      superseded.add(bundleId);
+      pending.push(...(this.resolveBundle(conversation, bundleId).relations?.supersedes || []));
+    }
     const terms = String(query).toLowerCase().match(/[\p{L}\p{N}_-]+/gu) || [];
     return this.db.prepare('SELECT * FROM bundle_index WHERE conversation_id=? ORDER BY revision DESC,id').all(conversation)
       .map((row) => {
         const item = JSON.parse(row.segment);
         return { ...item, last_revision: row.revision,
           proximity: active.has(item.id) ? item.type === 'reference' ? 'proximal' : 'active'
-            : references.has(item.id) ? 'proximal' : item.status === 'superseded' ? 'archived' : 'indexed',
+            : references.has(item.id) ? 'proximal' : item.status === 'superseded' || superseded.has(item.id) ? 'archived' : 'indexed',
           frame: `conversation.${item.type}`, refs: item.source_event_ids.map((eventId) => `trajectory://${conversation}/${eventId}`) };
       }).filter((s) => !terms.length || terms.some((t) => s.content.toLowerCase().includes(t))).slice(0, limit);
   }
@@ -200,7 +208,8 @@ export class Store {
     // Later pins remain authoritative even when restoring an earlier projection.
     const protectedItems = current.segments.filter((s) => s.pinned || s.verbatim_required);
     const protectedIds = new Set(protectedItems.map((s) => s.id));
-    const next = old.segments.filter((s) => !protectedIds.has(s.id)).concat(protectedItems);
+    const protectedKeys = new Set(protectedItems.map((s) => s.state_key).filter(Boolean));
+    const next = old.segments.filter((s) => !protectedIds.has(s.id) && !protectedKeys.has(s.state_key)).concat(protectedItems);
     return this.commit(conversation, next, 'restore context revision', current.revision, [], {
       restored_from_revision: revision, restored_from_receipt: old.receipt_id, preserved_pin_ids: [...protectedIds],
     });
@@ -240,6 +249,7 @@ export class Store {
       const previous = this.context(conversation);
       if (previous.revision !== expectedRevision) throw Error('Stale context revision; reload context');
       const seen = new Set();
+      const stateKeys = new Set();
       for (const segment of segments) {
         if (seen.has(segment.id)) throw Error('Duplicate bundle ID');
         seen.add(segment.id);
@@ -250,6 +260,13 @@ export class Store {
           || !['active', 'unresolved', 'superseded'].includes(segment.status)) throw Error('Invalid context segment');
         for (const eventId of segment.source_event_ids) this.source(conversation, eventId);
         for (const parentId of segment.parent_bundle_ids) this.resolveBundle(conversation, parentId);
+        if (segment.state_key !== undefined) {
+          validateState(segment);
+          checkAttribution(this, conversation, segment);
+          if (stateKeys.has(segment.state_key)) throw Error('Duplicate active state key');
+          stateKeys.add(segment.state_key);
+          for (const ref of Object.values(segment.relations).flat()) this.resolveBundle(conversation, ref);
+        }
         if (segment.type === 'reference') {
           if (typeof segment.ref_bundle_id !== 'string' || !segment.parent_bundle_ids.includes(segment.ref_bundle_id)) throw Error('Reference must identify its parent bundle');
           const original = this.resolveBundle(conversation, segment.ref_bundle_id);
@@ -258,7 +275,8 @@ export class Store {
         if (segment.content_hash !== hash(segment.content)) throw Error('Content hash mismatch');
       }
       for (const segment of previous.segments) {
-        if (segment.pinned || segment.verbatim_required || protectedIds.includes(segment.id)) {
+        if (segment.pinned || segment.verbatim_required || protectedIds.includes(segment.id)
+          || (segment.state_key && !['update structured task state', 'restore context revision'].includes(reason))) {
           const next = segments.find((s) => s.id === segment.id);
           if (!next || hash(next) !== hash(segment)) throw Error(`Protected segment cannot be changed: ${segment.id}`);
         }
@@ -286,7 +304,7 @@ export class Store {
     const folder = join(this.directory, conversation);
     mkdirSync(folder, { recursive: true });
     const text = `# Live context — revision ${context.revision}\n\n` + context.segments.map((s) =>
-      `## ${s.type} [${s.id}]${s.pinned ? ' PINNED' : ''} (${s.status})\nSources: ${s.source_event_ids.join(', ')}\n\n${s.content}\n`).join('\n');
+      `## ${s.type} [${s.id}]${s.pinned ? ' PINNED' : ''} (${s.status})${s.state_key ? `\nState key: ${s.state_key}; resolution: ${s.resolution.status}; confidence: unknown` : ''}\nSources: ${s.source_event_ids.join(', ')}\n\n${s.content}\n`).join('\n');
     const temporary = join(folder, 'context.md.tmp');
     writeFileSync(temporary, text);
     renameSync(temporary, join(folder, 'context.md'));

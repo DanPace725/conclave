@@ -1,6 +1,8 @@
 # Initial implementation — 2026-09-30
 
-The standalone CLI is working. Converse was used as a reference for native API transport/provenance patterns; its app and repository were not edited.
+**Current update:** Jev retention now survives multiple compaction passes and the answer turn. Basic local Converse chat/resume/state/export integration is implemented; see [CONVERSE_INTEGRATION.md](<E:/Coding/converse/CLA/conclave/CONVERSE_INTEGRATION.md>). The dated entries below preserve the earlier stages.
+
+The standalone CLI is working. During the initial phase below, Converse was used only as a reference; its app has since received the optional local integration described above.
 
 Implemented:
 
@@ -58,3 +60,25 @@ Implemented:
 Validation: six offline checks passed, plus [a CLI walkthrough receipt](<E:/Coding/converse/CLA/conclave/.conclave/attention-demo/receipt.json>) covering the new commands and [an existing-data migration receipt](<E:/Coding/converse/CLA/conclave/.conclave/attention-migration/receipt.json>). **Zero API calls** in this phase. The walkthrough's single document bundle went from 1,394 to 529 serialized bytes when offloaded; this is a mechanical example, not a token-savings benchmark.
 
 Remaining: structured relationships/conflict handling, an optional small-model decision adapter, reusable local API, other providers, and deeper CLP resolution/policy semantics. Keyword priority is not semantic relevance; proximity is not confidence; restored projections may need compaction before inference. Long-form quality and net savings remain unmeasured.
+
+## Structured state and bounded decisions — steps 2–3 implemented
+
+Per the user's request, the next stage is their longer testing, before step 4. No local service/provider expansion was started.
+
+- Named task entries for objectives, constraints, decisions, questions, and evidence; source actor/kind attribution; explicit limitations and unknown confidence. Corrections create new source-linked bundles with supersession chains. Declared conflicts stay unresolved and supporting references remain inspectable.
+- Guarded `update_state` tool and `state-update` CLI operation, plus `state` inspection. Generic edits/compaction/offload cannot remove structured entries. Reindex/restart preserve relationships; old generations remain resolvable. Confidence is not invented and sources are not automatically certified true.
+- Optional bounded selection adapter: disabled by default, separate model/budget/output/candidate settings, short descriptions, retain/offload/compact/escalate actions, and priority 0–4. Invalid/failed/stale/oversized outputs fall back to deterministic selection. Automatic selection is limited to once per context-management invocation under pressure; escalation preserves rather than starting another call. Decision previews never apply edits.
+- Actual requests/responses/proposals/rejections and usage are recorded. Total usage includes decision calls; decision usage is also listed separately. The OpenAI path is implemented; Jev remains deferred.
+
+Validation: nine offline checks passed (the three new boundary checks were rerun after their targeted fixes), plus [offline CLI state walkthrough](<E:/Coding/converse/CLA/conclave/.conclave/state-demo/receipt.json>). [Two short live checks](<E:/Coding/converse/CLA/conclave/.conclave/state-demo/live-receipt.json>) used **2,170 input and 122 output tokens**; the decision preview accounted for 309 input and 73 output. Luna accepted the new schemas and preserved the revised decision, unresolved condition, and caveat in its answer. Live automatic offload/compaction with this adapter and long-form quality/savings remain untested.
+
+See [TESTING_GUIDE.md](<E:/Coding/converse/CLA/conclave/TESTING_GUIDE.md>) for normal chat, optional selector activation, state inspection, and exports. Protected state may eventually fill the input budget; it stops explicitly and can be corrected or the budget increased. Relations are declared; automated semantic contradiction detection/full CLP resolution enforcement are still deferred.
+
+## Long-conversation follow-ups and Jev — 2026-09-30
+
+- Native TypeSafe `/v1/systemone` transport and Jev Choice/Score selector, credential lookup, bounded candidate packing, confidence gating, raw distributions and model/usage receipts, and deterministic fallback. Enabled with `--decision-provider jev`; Luna remains the answer/compaction model. Provider usage is separated in `/stats`.
+- Retrieval planning reserve plus continuation recovery: shorter temporary excerpts and lossless eligible offloads, preserving canonical outputs and protected context. An isolated offline replay of the user's failed turn now fits 27,904 input units + 4,096 reserve within 32,000; the original database was not edited.
+- Compaction preflight for impossible reductions, automatic cooldown for unchanged rejected batches, and non-shrinking offload guards. `/remember KEY TYPE TEXT` creates/corrects state without JSON or inference; instructions also emphasize durable state and checking constraints in comprehensive reports.
+- Twelve offline checks passed, plus a small manual-state CLI walkthrough. One live Jev preview on synthetic color/shape fixtures used **992 input and 134 output tokens**, returned **jev-1.13.0**, and recorded **193 ms** API time. It preserved uncertainty and changed no projection. No additional OpenAI calls were made.
+
+These checks establish wiring, recovery, and small mechanical behavior. They do not establish live automatic Jev offload, complete semantic fidelity, or net system savings. Jev retrieval reranking/ingress classification and the reusable local service remain next-stage work.

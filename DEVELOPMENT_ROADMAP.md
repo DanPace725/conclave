@@ -11,18 +11,26 @@
 
 Verification: six offline checks, one small CLI walkthrough, and an index upgrade with canonical records unchanged. No hosted inference was used for this phase. This does not establish semantic fidelity or savings.
 
-## 2. Structured task state and accountable changes — next
+## 2. Structured task state and accountable changes — implemented
 
 Make objectives, decisions, questions, evidence, and supersession explicit rather than relying on a prose summary to carry all relationships. Add source attribution and resolution limits to derived state; retain conflicting/unresolved alternatives. Support correcting a derived claim through lineage without rewriting history. Keep this a declared CLP-derived subset, with unknown confidence left unset.
 
-## 3. Optional bounded model decisions
+Implemented named source-attributed entries, explicit limitations/unknown confidence, supersession/support/conflict references, effective unresolved status, guarded corrections, state inspection, and protection from generic attention operations. Sources and prior generations remain retrievable. Relationships are declared, not inferred by a semantic conflict detector.
+
+## 3. Optional bounded model decisions — implemented
 
 Add a separate adapter for retain/offload/compact/escalate decisions and priority, using small candidate descriptions and a separately bounded budget. Record its input, decision, usage, and validation failures. Fall back conservatively to deterministic selection; do not add a decision call to every turn by default. Jev is one future adapter option, not a required dependency.
 
-## 4. Reusable local service and provider adapters
+Implemented a provider-independent selector contract with OpenAI and native Jev paths, bounded candidate excerpts, separate limits, proposals and usage receipts, deterministic fallback, and guarded automatic application. Disabled by default; manual `decide` previews do not apply edits. Jev Choice/Score confidence gates preserve uncertain candidates; no semantic rewriting or extra inference is triggered by escalation.
 
-Expose the working core through a small local API for conversations, ingestion, projections, retrieval, and recovery. Separate transport from orchestration and add other providers behind the existing request/provenance contract. Keep credentials server-side. Converse integration can consume this service later.
+## Testing checkpoint — before step 4
 
-## 5. Longer user testing after these capabilities settle
+The user completed a longer conversation and accepted substantial working-context reduction as demonstrating the core idea. The [findings](<E:/Coding/converse/CLA/conclave/LONG_CONVERSATION_FINDINGS.md>) led to continuation-budget recovery, compaction preflight/cooldown, simpler named-state updates, and stronger report/state guidance. Native Jev is now enabled optionally; twelve offline checks, an isolated replay of the failed continuation, and one small synthetic live Jev preview cover the new mechanics. See [JEV_INTEGRATION.md](<E:/Coding/converse/CLA/conclave/JEV_INTEGRATION.md>) for results and limits. Net end-to-end savings and complete report fidelity remain open.
 
-Use real long-form conversations to inspect current decisions, lost caveats, attribution, recovery, and total inference usage. A matched full-context comparison can then assess savings. Add targeted fixes from actual failures; avoid building an extensive benchmark framework now.
+Next Jev work should focus on observing/tuning selection in real chat, then optional retrieval reranking and bounded ingress classification. This advances the cheap decision layer without making Jev responsible for free-text transformation.
+
+## 4. Reusable local service and Converse integration — basic local scope implemented
+
+The user completed another conversation and authorized the next phase. A transport-independent service now handles local conversation creation/resume, answers, Markdown ingress, manual state, projection/state/usage inspection and complete exports. Converse's local server exposes it behind the existing access guard; a small optional composer panel supplies the browser controls. SQLite remains canonical, with an automatic JSON audit copy and complete Converse downloads including every source event and snapshot. Jev retention decisions now survive subsequent compaction passes and the rest of the answer turn. See [CONVERSE_INTEGRATION.md](<E:/Coding/converse/CLA/conclave/CONVERSE_INTEGRATION.md>).
+
+Other provider adapters, layered streaming, advanced recovery controls in the UI, JSON import and hosted persistence remain later steps. Current fidelity and savings limitations still apply; arithmetic/source guidance is not semantic enforcement.

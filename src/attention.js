@@ -7,12 +7,12 @@ export function retentionPlan(segments, { query = '', recent = 4, protectedIds =
   const recentIds = new Set(segments.slice(-recent).map((s) => s.id));
   const terms = [...new Set(query.toLowerCase().match(/[\p{L}\p{N}_-]+/gu) || [])].slice(0, 12);
   const entries = segments.map((s, order) => {
-    const protectedItem = s.pinned || s.verbatim_required || protectedIds.includes(s.id) || recentIds.has(s.id);
+    const protectedItem = !!(s.pinned || s.verbatim_required || s.state_key || protectedIds.includes(s.id) || recentIds.has(s.id));
     const matches = terms.filter((t) => s.content.toLowerCase().includes(t)).length;
     const important = ['objective', 'constraint', 'decision', 'question'].includes(s.type) || s.status === 'unresolved';
     const priority = protectedItem ? 4 : s.status === 'superseded' ? 0 : important || matches ? 3 : s.type === 'summary' ? 2 : 1;
     return { bundle_id: s.id, priority, protected: protectedItem, order, matches,
-      action: 'retain', reason: protectedItem ? 'pin, verbatim requirement, current request, or recent window'
+      action: 'retain', reason: protectedItem ? 'pin, structured state, verbatim requirement, current request, or recent window'
         : s.status === 'superseded' ? 'superseded; original remains recoverable'
           : important ? 'structured task state or unresolved material' : matches ? 'matches current task' : 'older working material' };
   });

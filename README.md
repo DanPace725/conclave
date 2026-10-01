@@ -13,7 +13,7 @@ node scripts/demo.js                 # offline demonstration, no API calls
 node src/cli.js chat --model gpt-6-luna
 ```
 
-The model defaults to `CONCLAVE_MODEL` or `gpt-6-luna`. Reasoning defaults to `none` and output to 1,000 tokens to keep initial calls small. There is no automatic model fallback. `node src/cli.js models` lists models available to the configured key. The adapter follows the [Responses function-calling contract](https://developers.openai.com/api/docs/guides/function-calling); model settings are based on the [GPT-6 Luna documentation](https://developers.openai.com/api/docs/models/gpt-6-luna).
+The model defaults to `CONCLAVE_MODEL` or `gpt-6-luna`. Reasoning defaults to `none` and output to 4,096 tokens. There is no automatic model fallback. `node src/cli.js models` lists models available to the configured key. The adapter follows the [Responses function-calling contract](https://developers.openai.com/api/docs/guides/function-calling); model settings are based on the [GPT-6 Luna documentation](https://developers.openai.com/api/docs/models/gpt-6-luna).
 
 The CLI prints a conversation ID. Resume with:
 
@@ -21,7 +21,7 @@ The CLI prints a conversation ID. Resume with:
 node src/cli.js chat --conversation conv_YOUR_ID --model gpt-6-luna
 ```
 
-Inside chat, use `/context`, `/diff`, `/history`, `/stats`, `/attention`, `/memory [query]`, `/compact`, `/pin exact constraint`, `/ingest E:\path\notes.md`, `/offload cb_BUNDLE_ID`, `/restore REVISION`, and `/quit`. Pin hard constraints explicitly; pins are protected in code. Context edits and compaction are model judgments and can still change meaning in unpinned material.
+Inside chat, use `/context`, `/diff`, `/history`, `/stats`, `/attention`, `/memory [query]`, `/state`, `/remember KEY TYPE TEXT`, `/state-update PATH`, `/decide [task keywords]`, `/compact`, `/pin exact constraint`, `/ingest E:\path\notes.md`, `/offload cb_BUNDLE_ID`, `/restore REVISION`, and `/quit`. Pin hard constraints explicitly; pins are protected in code. Context edits and compaction are model judgments and can still change meaning in unpinned material.
 
 ## Inspect and control
 
@@ -41,9 +41,14 @@ node src/cli.js memory "parser" --conversation conv_YOUR_ID
 node src/cli.js bundle cb_BUNDLE_ID --conversation conv_YOUR_ID
 node src/cli.js revisions --conversation conv_YOUR_ID
 node src/cli.js restore 5 --conversation conv_YOUR_ID
+node src/cli.js state --conversation conv_YOUR_ID
+node src/cli.js remember program.budget constraint 'Original grant is $15,000.' --conversation conv_YOUR_ID
+node src/cli.js state-update .conclave\update.json --conversation conv_YOUR_ID
 node src/cli.js compact --conversation conv_YOUR_ID
 node src/cli.js stats --conversation conv_YOUR_ID
 node src/cli.js export .conclave\transcript.json --conversation conv_YOUR_ID
+node src/cli.js export .conclave\transcript.json --conversation conv_2af6bb45-b273-4524-9d1c-55756a881c3a
+
 ```
 
 `evict` affects working context only. `offload` replaces a sufficiently large unprotected bundle with a small retrieval reference; the original bundle and its lineage remain indexed. `bundle` expands a current or past bundle. The layered model has an `offload_context` tool as well as `edit_context`.
@@ -66,6 +71,14 @@ The context index contains overlapping source chunks and current/past bundles. `
 
 ## Context modes and limits
 
+Named task entries hold objectives, constraints, decisions, questions, and evidence. In layered chat, ask the model to track these explicitly; it uses `update_state`. Reusing a key creates a new bundle that supersedes the prior one, with original sources and parents retained. Declared conflicts stay unresolved. `/state` shows both declared and effective status; a conflict can make an otherwise active entry effectively unresolved. Attribution describes the source's recorded actor/kind, not proof of authorship or truth. Resolution confidence stays `null`, and limitations are explicit.
+
+Structured entries are protected from generic edits, offloading, and compaction. Correct them through `update_state` or `state-update`, rather than editing a generated file. A pinned state entry cannot be replaced. Historical entries remain inspectable with `bundle` and `memory`, and their supersession chain remains available after index rebuild. These are Conclave fields inspired by CLP; full CLP conformance and semantic conflict detection are not implemented.
+
+The simplest manual path is `/remember KEY TYPE TEXT`, for example `/remember program.budget constraint Original grant is $15,000.` It records your text as a source and creates or corrects that named entry without an API call. Reuse the key to supersede an old entry. Types are objective, constraint, decision, question, or evidence; questions default to unresolved, other explicit manual entries to active. For tentative choices, use a question entry or the richer JSON/model tool. The model is also instructed to maintain compact durable planning state and cross-check active constraints in comprehensive reports; those instructions do not guarantee fidelity.
+
+For manual updates, JSON contains `expected_revision` and `updates`. Each update has `key`, `type`, `content`, `source_event_ids`, `status`, `supersedes`, `conflicts_with`, `supports`, and `limitations`; unused relationship arrays may be empty. Relationships use bundle IDs, sources use event IDs. Batch size is at most eight; content is at most 2,000 characters per entry. `scripts/state-demo.js` creates working example files with real IDs.
+
 - `--mode layered` (default): source-linked segments, model edits, automatic compaction, retrieval.
 - `--mode append`: full completed history on every call; retrieval remains available, edits/compaction disabled.
 - `--mode summary`: automatic rolling summaries of older material; retrieval remains available, discretionary model edits disabled.
@@ -74,17 +87,41 @@ Automatic compaction starts around 75% of the configured budget, preserving pins
 
 Runtime provider/model identity is supplied in every request. Compaction avoids an API call when eligible content is below 1,000 UTF-8 bytes, and commits a generated rewrite only if it reduces the full serialized projection by at least 15%. These initial engineering thresholds also apply to `/compact`; a skipped attempt reports its reason and leaves the projection unchanged. The post-generation check saves future context overhead, but the compaction call itself is still counted.
 
-`--budget 24000` caps a conservative **UTF-8 byte proxy** for the serialized request plus the configured output reserve. This is deliberately stricter than typical token counts, is not a provider tokenizer, and does not guarantee an exact provider token limit. `/stats` distinguishes the estimate from actual reported usage. All requests, including compaction and tool continuations, are checked; overflow stops explicitly with history saved. Increase `--budget` for larger tasks. `--output`, `--recent`, `--max-calls`, and `--reasoning` are configurable. Up to three automatic compaction calls may precede the bounded answer loop; errors stop rather than retrying indefinitely.
+Preflight also skips a batch when even an empty source-linked replacement cannot meet the 15% threshold. A batch that failed that threshold is not paid for again automatically until its bundle IDs change; `/compact` permits an explicit retry. Offload proposals are checked for actual byte reduction before application.
+
+`--budget 24000` caps a conservative **UTF-8 byte proxy** for the serialized request plus the configured output reserve. This is deliberately stricter than typical token counts, is not a provider tokenizer, and does not guarantee an exact provider token limit. `/stats` distinguishes the estimate from actual reported usage. All requests, including compaction and tool continuations, are checked; overflow stops explicitly with history saved. Increase `--budget` for larger tasks. `--output`, `--recent`, `--max-calls`, and `--reasoning` are configurable. Up to three automatic compaction calls and one optional bounded selection call may precede the bounded answer loop. If protected state fills the budget, inference stops explicitly; it is not silently deleted.
+
+Automatic planning leaves additional retrieval headroom (`--tool-reserve 2000`, capped at 10% of the budget). If a continuation overflows, the harness shortens temporary retrieval excerpts and, when needed, offloads older eligible bundles to source-linked pointers. Full tool outputs remain in history; actual shortened inputs and `tool_projection`/`budget_recovery` receipts are recorded. Call IDs, reasoning items, pins, named state, the current request, and the recent window remain protected. A request still fails explicitly if these measures cannot make it fit. `/stats` reports recoveries and usage by provider.
+
+## Optional bounded decisions
+
+The decision adapter is off by default. Enable it explicitly in layered mode:
+
+```powershell
+node src/cli.js chat --conversation conv_YOUR_ID --decision-model gpt-6-luna
+node src/cli.js decide "current task keywords" --conversation conv_YOUR_ID --decision-model gpt-6-luna
+node src/cli.js chat --conversation conv_YOUR_ID --budget 32000 --decision-provider jev
+node src/cli.js decide "current task keywords" --conversation conv_YOUR_ID --decision-provider jev
+```
+
+It sees at most six eligible candidate descriptions by default (180-character excerpts), with a separate `--decision-budget 8000` and `--decision-output 600`. `--decision-candidates` permits 1–12. Pins, structured state, current requests, recent turns, and references are excluded. Automatic use occurs only under compaction pressure with substantial eligible material, at most once per context-management invocation. It selects retain/offload/compact/escalate and priority; the main model still performs semantic rewriting. Unsubmitted candidates retain deterministic selection. `escalate` preserves material for later judgment and does not spawn another model call.
+
+`decide` and `/decide` are previews: they record their actual API request/response/proposal and usage but do not apply edits. Invalid, incomplete, failed, stale, or oversized decisions fall back to deterministic selection with a rejection receipt. Protected state and source validation remain enforced in code. `/stats` includes decision calls and usage within total usage, and reports decision usage separately. Using Luna for both roles exercises separation; it does not establish a cheaper-model advantage.
+
+`--decision-provider jev` enables TypeSafe's native typed API with `jev-latest` and `JEV_API_KEY` or `TYPESAFE_API_KEY`. Choice selects the action; Score supplies priority. `--jev-confidence 0.65` gates uncertain decisions to escalation/retention. Candidate count is reduced when necessary to fit the separate input budget. Jev has no generation output cap, so `--decision-output` applies only to the OpenAI selector; native requests reserve zero generated output units. Probabilities/confidence are saved as selection metadata, while factual state confidence remains unknown. Main replies and semantic compaction continue through OpenAI. See [JEV_INTEGRATION.md](<E:/Coding/converse/CLA/conclave/JEV_INTEGRATION.md>) for setup, findings, and next integration targets.
 
 ## Small checks
 
 ```powershell
-node --test test/smoke.test.js test/attention.test.js # six offline checks, no model spend
+node --test test/smoke.test.js test/attention.test.js test/state-decision.test.js test/jev-budget.test.js # twelve offline checks
 node scripts/attention-demo.js       # offline CLI walkthrough of attention/index/recovery
+node scripts/state-demo.js           # offline CLI walkthrough of structured state/correction
+node scripts/replay-budget.js        # offline replay of the exported final tool continuation in a fresh store
+node scripts/jev-smoke.js            # opt-in: one Jev request using synthetic color/shape fixtures
 node scripts/live-smoke.js           # opt-in: one conversation, at most four answer calls
 node scripts/evaluate.js             # opt-in: tiny append/summary/layered comparison
 ```
 
 The offline demo is scripted; it demonstrates mechanics, not model quality. The live smoke exercises actual retrieval and editing. The comparison stores its fixed fixture, answers, settings, errors, and usage (including preparation) in `.conclave/evaluation/comparison.json`; caveat fidelity requires a quick human read. These small runs do not establish general quality or cost savings.
 
-The next development steps are in [DEVELOPMENT_ROADMAP.md](<E:/Coding/converse/CLA/conclave/DEVELOPMENT_ROADMAP.md>). This version has no UI, streaming, embeddings, Jev, custom model training, or Converse integration. Local SQLite on Node 22 may print an experimental-feature warning.
+Steps 2 and 3, the long-conversation follow-ups, and the optional Jev selector are implemented. Basic local Converse integration now provides browser chat, reasoning/Jev controls, saved-chat resume, manual state, context inspection and full JSON audit exports through a reusable service. See [CONVERSE_INTEGRATION.md](<E:/Coding/converse/CLA/conclave/CONVERSE_INTEGRATION.md>), [TESTING_GUIDE.md](<E:/Coding/converse/CLA/conclave/TESTING_GUIDE.md>) and [DEVELOPMENT_ROADMAP.md](<E:/Coding/converse/CLA/conclave/DEVELOPMENT_ROADMAP.md>). Layered streaming, other providers, embeddings, custom training and hosted integration remain later work. Local SQLite on Node 22 may print an experimental-feature warning.
