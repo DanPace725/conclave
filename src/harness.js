@@ -6,6 +6,7 @@ import { retentionPlan, referenceFor, ATTENTION_POLICY } from './attention.js';
 import { prepareState, stateView, stateUpdateSchema } from './state.js';
 import { BoundedDecisionAdapter } from './decision.js';
 import { fitToolExchanges } from './tool-context.js';
+import { inputSize } from './input-size.js';
 
 // UTF-8 bytes are an intentionally conservative proxy, not an exact tokenizer.
 export const budgetUnits = (value) => Buffer.byteLength(typeof value === 'string' ? value : JSON.stringify(value), 'utf8');
@@ -108,6 +109,7 @@ export class Harness {
       input_budget: limits.budget ?? this.options.budget, output_reserve: limits.output ?? payload.max_output_tokens,
       counter: 'utf8-bytes-conservative-proxy-v1', mode: this.options.mode,
       attention_policy: this.options.policy,
+      token_count: inputSize(payload, provider),
     });
     const started = Date.now();
     try {
@@ -498,6 +500,7 @@ export class Harness {
     const events = this.store.events(this.conversation);
     const requests = events.filter((e) => e.kind === 'inference_request');
     const responses = events.filter((e) => e.kind === 'inference_response');
+    const counted = requests.filter((e) => Number.isSafeInteger(e.metadata.token_count?.tokenizer_tokens));
     const sumUsage = (read) => responses.length && responses.every((e) => typeof read(e.metadata.usage) === 'number')
       ? responses.reduce((sum, e) => sum + read(e.metadata.usage), 0) : null;
     const decisionRequests = requests.filter((e) => e.content === 'attention-selection');
@@ -524,6 +527,10 @@ export class Harness {
       state_updates: events.filter((e) => e.kind === 'context_transform' && e.content === 'update structured task state').length,
       peak_estimated_input_units: Math.max(0, ...requests.map((e) => e.metadata.estimated_input_units)),
       cumulative_estimated_input_units: requests.reduce((sum, e) => sum + e.metadata.estimated_input_units, 0),
+      next_request_input: inputSize(this.answerPayload([]), this.provider, events),
+      cumulative_local_tokenizer_tokens: counted.reduce((sum, e) => sum + e.metadata.token_count.tokenizer_tokens, 0),
+      local_tokenizer_counted_requests: counted.length,
+      local_tokenizer_counts_complete: counted.length === requests.length,
       input_tokens: sumUsage((usage) => usage?.input_tokens),
       output_tokens: sumUsage((usage) => usage?.output_tokens),
       cached_input_tokens: sumUsage((usage) => usage?.input_tokens_details?.cached_tokens),

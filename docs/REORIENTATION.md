@@ -6,7 +6,7 @@
 
 Conclave works mechanically: the trajectory is preserved, lineage resolves, retrieval works, and the working context shrinks. **It does not yet reduce what users pay.** Counting only tokens, layered mode sent an estimated 23% less answer input than append mode. Once provider prompt caching is counted, it probably cost **more** than plain append-only chat with caching. The machinery used to reduce context, the format of the context itself, and the way edits break the cache together outweigh the reduction.
 
-The idea itself isn't refuted. The working assumption that "smaller context = smaller cost" was too compressed, and the implementation was optimized for context size rather than cost. The next phase optimizes for cost directly.
+The idea itself isn't refuted. The working assumption that "smaller context = smaller cost" was too compressed. Context reduction remains a primary goal and works: across the 11 conversations the final working context is **67% smaller than the full append-only history** (561K → 183K characters). The gap is that this reduction isn't yet reaching the bill. The next phase keeps context reduction as a headline measure and adds cost as an equal goal, so the two are tracked side by side and improvements to one aren't paid for by the other.
 
 ## 1. What Conclave is for
 
@@ -22,7 +22,14 @@ not "minimize context length." Its three hypotheses:
 2. Separating cheap selection from expensive transformation reduces frontier inference further.
 3. Provenance and retrieval reduce the quality loss normally caused by summarization.
 
-The MVP gate was: *at least one long case shows lower total inference input without worse task results, counting all management calls.* That gate was waived when the proof of concept was accepted. **It has still not been met, and it is now the first gate again, restated in cost terms.**
+Conclave therefore has two primary, co-equal measures:
+
+1. **Context reduction:** how much smaller the working context is than the full append-only conversation, and where each piece of history went (kept verbatim, condensed into a summary/state/excerpt, reduced to a pointer, or left in history only). This is the direct test of "persistent trajectory, mutable context," and it is already working.
+2. **Cost:** what the user is billed compared with append-only chat with caching enabled, counting management calls.
+
+Fidelity (constraints, decisions and caveats survive) and recoverability (removed detail can be retrieved) are the constraints on both.
+
+The MVP gate was: *at least one long case shows lower total inference input without worse task results, counting all management calls.* That gate was waived when the proof of concept was accepted. **The context-reduction half is met. The cost half has not been met, and it is now the first gate again, restated in cost terms.**
 
 ## 2. The corrected model of "context" and cost
 
@@ -60,6 +67,8 @@ The proposal anticipated this ("prefix caching substantially reduces the actual 
 | Measure | Value |
 |---|---|
 | Conversations / turns / API calls | 11 / 101 (8 failed) / 324 |
+| **Final working context vs. full append-only history** | **183K vs. 561K characters: 67% smaller** (31–84% per substantial conversation) |
+| Where history items ended up | 104 verbatim, 89 condensed, 8 pointer-only, 84 left in history only |
 | Input / output tokens | 4.84M / 184K |
 | Answer-input reduction vs. append mode, raw tokens (estimated) | 23% saved |
 | Same, with cache discounts applied to both sides (cached price 10% / 25% / 50% of full) | about 145% / 71% / 18% **more** than cached append |
@@ -91,7 +100,7 @@ Two notes from the history:
 
 ## 5. What is holding the project back
 
-1. **The target was context size, not cost.** "The working context got smaller" was accepted as success. No metric tracked priced cost against cached append.
+1. **Context size was tracked; cost wasn't.** "The working context got smaller" was accepted as success, which is right for goal 1. But nothing tracked whether that reduction reached the bill, so the mechanisms around it (management calls, metadata, cache-breaking edits) grew unchecked.
 2. **The projection defeats prompt caching:**
    - The model-facing message begins `Working context revision N:`, so the cacheable prefix ends right after the instructions.
    - Provider caching is not enabled.
@@ -107,13 +116,14 @@ Two notes from the history:
 
 Each phase has a gate measured on user-run conversations through `conclave_report.py`, not on agent-authored fixtures.
 
-### Phase 0: Measure the real target
+### Phase 0: Measure both targets
 
+- Keep the full-history vs. working-context comparison as the lead section of `conclave_report.py` (implemented 2026-10-02): characters of text on both sides, a breakdown of what each side contains, where every history item ended up, and the same comparison turn by turn. Any other report generator should keep this comparison rather than replace it.
 - Add priced, cache-aware cost to `conclave_report.py`: a per-provider price table (input, cached input, cache write, output), cached share per call, cost against a cached-append estimate, and the cost of management calls.
 - Calibrate once: replay the user messages of one recorded long conversation in append mode with the same model and settings, with caching enabled. Compare its actual bill with the estimator, then fix the estimator.
 - Record database operations per turn in the event log or a debug counter, so "excessive DB traffic" becomes measurable.
 
-**Gate:** the report states, per conversation, Conclave cost vs. estimated cached-append cost, and one paid replay agrees with the estimate within a stated margin.
+**Gate:** the report states, per conversation, both the context reduction and Conclave cost vs. estimated cached-append cost, and one paid replay agrees with the cost estimate within a stated margin.
 
 ### Phase 1: Stop paying for overhead
 
@@ -126,7 +136,7 @@ Each phase has a gate measured on user-run conversations through `conclave_repor
 - **Compact model-facing view.** Short handles (`[b12]`), type and status only where informative, no hashes or false flags. Lineage stays in the store and remains resolvable through tools.
 - **Fix the known failures:** reasoning-setting validation per model, Claude signed-continuation overflow handling, and `update_state` key/ID confusion. Accept keys in relationship fields, or reject with a corrective message the model can act on.
 
-**Gate:** in ordinary chat, layered request size is at or below the append estimate from the first turn. First-call cached share is comparable to cached append. No regressions in recovery or fidelity checks.
+**Gate:** in ordinary chat, layered request size is at or below the append estimate from the first turn. First-call cached share is comparable to cached append. Context reduction does not fall, and there are no regressions in recovery or fidelity checks.
 
 ### Phase 2: Make management economic
 
@@ -169,13 +179,14 @@ Test-bench needs (exports, reports, agent runner fixes, reliability) are not def
 
 These address the failure mode in §5.8:
 
-1. **State the goal metric.** Every change says which measure it is expected to move (priced cost, cached share, failures, fidelity) and roughly how much.
-2. **Agent tests are necessary, not acceptance.** A mechanism is accepted when user-run conversations show its effect in `conclave_report.py`.
-3. **Count every token a mechanism costs.** Any feature that adds model calls, tool schema bytes, or projection bytes must report that overhead.
-4. **Don't change the prompt prefix casually.** Anything that alters early prompt content per call or per turn needs justification against cache cost.
-5. **Prefer removing mechanisms to adding them** when a measure is flat or negative.
-6. **Report honestly.** End a session with what was *not* verified in real use, not just what passed.
-7. **Re-read this document** at the start of any Conclave or context-layer session.
+1. **State the goal metric.** Every change says which measure it is expected to move (context reduction, priced cost, cached share, failures, fidelity) and roughly how much. A change that improves one primary measure must report its effect on the other.
+2. **Don't remove measurements the owner relies on.** The full-history vs. working-context comparison is a primary result. Report generators may add caveats or better units, but not drop it.
+3. **Agent tests are necessary, not acceptance.** A mechanism is accepted when user-run conversations show its effect in `conclave_report.py`.
+4. **Count every token a mechanism costs.** Any feature that adds model calls, tool schema bytes, or projection bytes must report that overhead.
+5. **Don't change the prompt prefix casually.** Anything that alters early prompt content per call or per turn needs justification against cache cost.
+6. **Prefer removing mechanisms to adding them** when a measure is flat or negative.
+7. **Report honestly.** End a session with what was *not* verified in real use, not just what passed.
+8. **Re-read this document** at the start of any Conclave or context-layer session.
 
 ## 9. Open decisions for the project owner
 

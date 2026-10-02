@@ -49,7 +49,7 @@ node src/cli.js export .conclave\long-form-test.json --conversation conv_YOUR_ID
 
 Original history remains in `.conclave/conclave.sqlite`. Exports include requests, responses, transformations, decisions, state, and usage through the current snapshot/events; credentials are not recorded. If a projection becomes unhelpful, `revisions` and `restore REVISION` can create a new revision from an older snapshot, retaining later pins.
 
-If protected state fills the budget, inference stops explicitly. Increase `--budget` or correct overly verbose state entries; generic compaction cannot delete them. The estimate uses UTF-8 bytes, not a provider tokenizer.
+If protected state fills the budget, inference stops explicitly. Increase `--budget` or correct overly verbose state entries; generic compaction cannot delete them. Enforcement still uses UTF-8 bytes. `/stats` separately previews the saved next request with the local `o200k_base` tokenizer, including instructions and tools; this is a framing estimate, not billed usage or a model context limit. New inference requests save that count; historical count coverage is explicit. No provider counting calls are made by stats.
 
 Tool continuations first attempt bounded excerpt projection and lossless offloading of eligible older material. `/stats` reports `budget_recoveries` and `tool_projections`; exports retain full tool outputs and actual submitted requests. Compaction also skips impossible or unchanged low-yield batches before another paid rewrite. These measures reduce avoidable failures without guaranteeing an indefinitely growing conversation will fit a fixed budget.
 

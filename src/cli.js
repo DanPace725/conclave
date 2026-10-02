@@ -84,7 +84,9 @@ try {
       if (command === 'decide' && !values['decision-model'] && values['decision-provider'] !== 'jev') throw Error('Set --decision-model or --decision-provider jev to request bounded selection');
       const live = ['chat', 'ask', 'compact', 'decide'].includes(command);
       const jev = live && values['decision-provider'] === 'jev';
-      const provider = live && !(command === 'decide' && jev) ? new OpenAIProvider() : { name: 'local' };
+      // Offline previews describe the same OpenAI request as live inference,
+      // without constructing an adapter or reading a credential.
+      const provider = live && !(command === 'decide' && jev) ? new OpenAIProvider() : { name: 'openai' };
       const decisionModel = values['decision-model'] || (jev ? 'jev-latest' : null);
       const decisionAdapter = jev ? new JevDecisionAdapter(new JevProvider({ keyEnv: values['jev-key-env'] }), {
         model: decisionModel, budget: Number(values['decision-budget']), candidates: Number(values['decision-candidates']),

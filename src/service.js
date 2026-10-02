@@ -145,11 +145,11 @@ export class ConclaveService {
       attachment_id: e.metadata.attachment_id, name: e.metadata.filename, mime_type: e.metadata.mime_type,
       sha256: e.metadata.sha256, source_sha256: e.metadata.source_sha256, content: e.content, source_event_id: e.id,
     }));
-    const harness = this.harness(conversation);
     const lastRequest = events.findLast((e) => e.kind === 'inference_request' && e.content === 'answer');
     const lastUser = events.findLast((e) => e.kind === 'user' && e.metadata.web_settings);
     const settings = lastUser?.metadata.web_settings || { ...defaults, model: lastRequest?.metadata.payload.model || defaults.model,
       reasoning: lastRequest?.metadata.payload.reasoning?.effort || defaults.reasoning, jev: events.some((e) => e.kind === 'inference_request' && e.metadata.provider === 'typesafe') };
+    const harness = this.harness(conversation, settings);
     return { schema_version: 1, conversation_id: conversation, created_at: events[0]?.timestamp || null,
       title: events[0]?.content, messages, attachments, settings, context: this.store.context(conversation),
       state: stateView(this.store, conversation), metrics: harness.metrics(), busy: this.busy.has(conversation),

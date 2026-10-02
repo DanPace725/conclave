@@ -4,11 +4,12 @@ Standalone local prototype for **persistent trajectory, mutable context**. The f
 
 ## Start
 
-Requires Node.js **22.13+**. No package install is needed. This version uses OpenAI's Responses API and an existing `OPENAI_API_KEY`; on Windows it also reads User/Machine environment variables if the process did not inherit them. Credential values are never printed or saved by the adapter.
+Requires Node.js **22.13+** and `npm ci` to install the local tokenizer. This version uses OpenAI's Responses API and an existing `OPENAI_API_KEY`; on Windows it also reads User/Machine environment variables if the process did not inherit them. Credential values are never printed or saved by the adapter.
 
 From `E:\Coding\converse\CLA\conclave`:
 
 ```powershell
+npm ci
 node scripts/demo.js                 # offline demonstration, no API calls
 node src/cli.js chat --model gpt-6-luna
 ```
@@ -22,6 +23,8 @@ node src/cli.js chat --conversation conv_YOUR_ID --model gpt-6-luna
 ```
 
 Inside chat, use `/context`, `/diff`, `/history`, `/stats`, `/attention`, `/memory [query]`, `/state`, `/remember KEY TYPE TEXT`, `/state-update PATH`, `/decide [task keywords]`, `/compact`, `/pin exact constraint`, `/ingest E:\path\notes.md`, `/offload cb_BUNDLE_ID`, `/restore REVISION`, and `/quit`. Pin hard constraints explicitly; pins are protected in code. Context edits and compaction are model judgments and can still change meaning in unpinned material.
+
+`/stats` includes `next_request_input`: a local `o200k_base` count of the saved next answer request, including instructions and tools, with its provider, requested model, fingerprint and scope. This precisely counts the serialized text in that encoding; native request framing and other model encodings remain estimates. Each inference request saves its `token_count` without changing the provider payload or making a count API call. Cumulative local counts identify coverage; older requests without counts are not treated as measured zeroes. Provider-reported usage remains separate. The UTF-8 byte guard and management triggers are unchanged. See [cost reference](docs/MODEL_COSTS_2026-10-02.md) and [next iteration](docs/NEXT_ITERATION_2026-10-02.md).
 
 ## Inspect and control
 
