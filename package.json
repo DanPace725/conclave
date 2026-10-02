@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/cli.js chat",
     "demo": "node scripts/demo.js",
-    "test": "node --test test/smoke.test.js test/attention.test.js test/state-decision.test.js test/jev-budget.test.js test/service.test.js",
+    "test": "node --test test/smoke.test.js test/attention.test.js test/state-decision.test.js test/jev-budget.test.js test/service.test.js test/receipts.test.js",
     "evaluate": "node scripts/evaluate.js"
   }
 }

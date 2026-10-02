@@ -21,7 +21,9 @@ try {
   store.db.exec('BEGIN');
   for (const event of events) {
     insertEvent.run(event.seq, event.id, event.conversation_id, event.kind, event.actor, event.timestamp, event.content, JSON.stringify(event.metadata));
-    if (event.kind === 'context_transform') insertSnapshot.run(event.conversation_id, event.metadata.revision, JSON.stringify(event.metadata.segments), event.id);
+    if (event.kind === 'context_transform') insertSnapshot.run(event.conversation_id, event.metadata.revision, JSON.stringify(event.metadata.segments
+      // Newer receipts do not embed segments; the export's snapshot list holds them.
+      || exported.snapshots.find((s) => s.receipt_id === event.id).segments), event.id);
   }
   store.db.exec('COMMIT');
   store.reindex();
