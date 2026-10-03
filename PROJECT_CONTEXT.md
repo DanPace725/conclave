@@ -6,6 +6,7 @@ Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Developmen
 
 - Source of truth for the complete engine deployed in Converse. Shared changes start here, are tested/committed, then migrate with a hash manifest and drift checks. [Workflow](docs/CONVERSE_INTEGRATION.md)
 - OpenAI/Anthropic task providers, native streaming/reasoning summaries, explicit provider/model provenance, signed Claude continuations and token-count controls. Jev advises bounded attention/reranking/ingress separately from the task model.
+- Context/Agent prompts explain shared conversations across model switches: engage with earlier models' contributions and preserve authorship, clarifying identity when requested or relevant instead of routinely interrupting the discussion.
 - Append-only SQLite or PostgreSQL trajectory, immutable snapshots, restart/resume, complete request/response/failure records, JSON exports, and rebuildable working views. Hosted leases and fenced writes preserve progress across service instances.
 - Append, summary, and layered modes; source-linked edits, compaction, eviction, lossless pointers, protections, stable S/E handles, frozen tool-loop projections, cached/periodic reviews, and explicit refreshes.
 - Indexed source chunks and historical bundles, lexical search with bounded Jev reranking, pageable exact retrieval, bounded ingress, memory tiers, and index rebuilding.
