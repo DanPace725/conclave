@@ -10,6 +10,7 @@ import { ConclaveService } from '../src/service.js';
 import { createContextHandler } from '../src/http.js';
 import { createHostedHandler } from '../src/hosted.js';
 import { agentState } from '../src/agent.js';
+import { EventEmitter } from 'node:events';
 
 const deferred = () => { let resolve; const promise = new Promise(r => { resolve = r; }); return { promise, resolve }; };
 const waitForAbort = signal => new Promise((_, reject) => {
@@ -109,6 +110,38 @@ test('a cancelled step never spends a model call, and a late response cannot com
   } finally { release.resolve(); store.close(); }
 });
 
+for (const transport of ['request signal', 'request error']) test(`${transport}: Vercel cancellation stops an Agent response`, async () => {
+  const store = new Store(undefined, { memory: true });
+  const entered = deferred();
+  let activeSignal;
+  const previous = process.env.APP_PASSWORD; delete process.env.APP_PASSWORD;
+  const service = new ConclaveService(store, {
+    availability: () => ({ openai: true, jev: false }),
+    providerFactory: () => ({ name: 'openai', respond: async (_payload, { signal }) => {
+      activeSignal = signal; entered.resolve(); return waitForAbort(signal);
+    } }),
+  });
+  try {
+    const id = service.create().conversation_id;
+    const { agent } = await service.agentStart(id, start('openai'));
+    const req = new EventEmitter(), res = new EventEmitter(), controller = new AbortController();
+    Object.assign(req, { method: 'POST', url: '/api/conclave', headers: { 'content-type': 'application/json' }, signal: controller.signal,
+      body: { action: 'agent_step', stream: true, conversation_id: id, run_id: agent.run_id, expected_step: 0 } });
+    Object.assign(res, { writeHead() {}, flushHeaders() {}, write() {}, end() { this.writableEnded = true; } });
+    const pending = createContextHandler(service)(req, res);
+    await entered.promise;
+    if (transport === 'request signal') controller.abort(); else req.emit('error', Error('aborted'));
+    await pending;
+    assert.equal(activeSignal.aborted, true);
+    assert.equal(service.view(id).agent.status, 'stopped');
+    assert.equal(service.view(id).messages.some(m => m.role === 'assistant'), false);
+    assert.equal(req.listenerCount('error'), 0);
+  } finally {
+    store.close();
+    if (previous === undefined) delete process.env.APP_PASSWORD; else process.env.APP_PASSWORD = previous;
+  }
+});
+
 for (const hosted of [false, true]) test(`${hosted ? 'hosted PostgreSQL' : 'local'} HTTP: aborting the stream stops the provider and saves a terminal checkpoint`, { timeout: 20000 }, async () => {
   const store = new Store(undefined, { memory: true });
   const entered = deferred(), aborted = deferred();
@@ -125,6 +158,7 @@ for (const hosted of [false, true]) test(`${hosted ? 'hosted PostgreSQL' : 'loca
   };
   try {
     let handler;
+    const lifetimes = [];
     if (hosted) {
       client = new PGlite();
       const directory = new URL('../drizzle/', import.meta.url);
@@ -132,7 +166,7 @@ for (const hosted of [false, true]) test(`${hosted ? 'hosted PostgreSQL' : 'loca
         for (const statement of readFileSync(new URL(file, directory), 'utf8').split('--> statement-breakpoint'))
           if (statement.trim()) await client.exec(statement);
       const db = drizzle(client, { schema });
-      handler = createHostedHandler({ database: () => db, serviceOptions });
+      handler = createHostedHandler({ database: () => db, serviceOptions, waitUntil: promise => lifetimes.push(promise) });
     } else handler = createContextHandler(new ConclaveService(store, serviceOptions));
     server = createServer(handler);
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
@@ -146,8 +180,11 @@ for (const hosted of [false, true]) test(`${hosted ? 'hosted PostgreSQL' : 'loca
     const reader = response.body.getReader();
     await entered.promise;
     await reader.read();
+    const keptStep = lifetimes.at(-1);
+    if (hosted) assert.ok(keptStep instanceof Promise);
     controller.abort();
     await aborted.promise;
+    await keptStep;
     assert.equal(activeSignal.aborted, true);
     let view;
     for (let attempt = 0; attempt < 100; attempt++) {

@@ -21,7 +21,7 @@ Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Developmen
 
 | Result | Evidence |
 |---|---|
-| Agent interruption: six cancellation checks passed, including local and hosted PostgreSQL HTTP streams, active OpenAI/Anthropic calls, late-response guards, and preservation of completed writes. Full source suite: 158 passes, one optional replay skipped. | [Stop implementation](docs/archive/2026-10-03/agent-stop.md) |
+| Agent interruption: eight cancellation checks passed, including local/hosted PostgreSQL HTTP streams, Vercel cancellation events and cleanup lifetime, active OpenAI/Anthropic calls, late-response guards, and preservation of completed writes. Full source suite: 162 passes, one optional replay skipped. | [Stop implementation](docs/archive/2026-10-03/agent-stop.md) |
 | CLP broker: all six acceptance cases passed; six-bundle toy admitted one supported claim and withheld thin/refuted claims. 152 offline checks passed, one optional replay skipped; CLI restart, full model-tool turn and hosted PostgreSQL API persistence covered. | [CLP increment](docs/archive/2026-10-03/clp-broker.md) |
 | Engine promoted from Converse; 138 offline checks passed with one optional local-export replay skipped, including the hosted HTTP/PostgreSQL path. CLI Agent restart, shared HTTP operations, PostgreSQL persistence, and migration drift refusal are covered. | [Parity work](docs/archive/2026-10-03/engine-parity.md) |
 | Live retrieval recovered `orchard-719` after eviction; one compaction reduced projection text 3,018 → 1,890 characters while retaining a conditional alternative and lineage. | [Initial results](docs/archive/2026-10-02/docs/IMPLEMENTATION_STATUS.md) |

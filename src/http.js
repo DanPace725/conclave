@@ -114,6 +114,11 @@ export function createContextHandler(core) {
                 { name: "AbortError", agent_status: "stopped" }));
           };
           res.once?.("close", disconnect);
+          // Vercel's Node runtime reports cancellation on the request. Local
+          // Node HTTP also reports a closed response connection.
+          req.once?.("error", disconnect);
+          req.signal?.addEventListener("abort", disconnect, { once: true });
+          if (req.signal?.aborted) disconnect();
           res.writeHead(200, {
             "Content-Type": "application/x-ndjson; charset=utf-8",
             "Cache-Control": "no-store, no-transform",
@@ -139,6 +144,8 @@ export function createContextHandler(core) {
           } finally {
             clearInterval(heartbeat);
             res.off?.("close", disconnect);
+            req.off?.("error", disconnect);
+            req.signal?.removeEventListener("abort", disconnect);
             res.end();
           }
           return;
