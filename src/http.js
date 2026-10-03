@@ -107,6 +107,13 @@ export function createContextHandler(core) {
         if (input.action === "create")
           return json(res, 201, await core.create(input.title));
         if (input.stream === true && ["ask", "agent_step"].includes(input.action)) {
+          const controller = new AbortController();
+          const disconnect = () => {
+            if (input.action === "agent_step" && !res.writableEnded)
+              controller.abort(Object.assign(Error("Agent stopped; the active request was cancelled."),
+                { name: "AbortError", agent_status: "stopped" }));
+          };
+          res.once?.("close", disconnect);
           res.writeHead(200, {
             "Content-Type": "application/x-ndjson; charset=utf-8",
             "Cache-Control": "no-store, no-transform",
@@ -117,18 +124,21 @@ export function createContextHandler(core) {
           const write = event => {
             if (!res.destroyed) res.write(JSON.stringify(event) + "\n");
           };
-          // Keep long context/tool preparation requests alive. A disconnected
-          // display does not replay or abandon a possibly executed tool step.
+          // Keep long preparation requests alive; cancelled Agent streams stop
+          // their active work while preserving already executed actions.
           const heartbeat = setInterval(() => write({ type: "heartbeat" }), 15000);
           try {
             const method = input.action === "ask" ? "ask" : "agentStep";
-            const view = await core[method](input.conversation_id, input, { onEvent: write });
+            const view = await core[method](input.conversation_id, input, {
+              onEvent: write, ...(input.action === "agent_step" ? { signal: controller.signal } : {}),
+            });
             write({ done: true, view });
           } catch (error) {
             const storageError = !error.agent_detail && !!(error.code || error.cause?.code);
             write({ error: storageError ? "Context storage unavailable. Try again shortly." : redact(error) });
           } finally {
             clearInterval(heartbeat);
+            res.off?.("close", disconnect);
             res.end();
           }
           return;
