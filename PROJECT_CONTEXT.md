@@ -4,6 +4,8 @@ Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Developmen
 
 ## Current capabilities
 
+- Automatic conversation-local memory in Context/Agent: exact explicit user commitments/corrections, bounded unresolved candidate extraction, independent event-backed lifecycle/revision, source invalidation/dependencies, frozen bounded activation, model-state authority gates, correction/suppression APIs, canonical export and Converse Memory inspection. Binding overflow is explicit; inspection stays available. [Usage and limits](docs/AUTOMATIC_MEMORY.md)
+
 - Source of truth for the complete engine deployed in Converse. Shared changes start here, are tested/committed, then migrate with a hash manifest and drift checks. [Workflow](docs/CONVERSE_INTEGRATION.md)
 - OpenAI/Anthropic task providers, native streaming/reasoning summaries, explicit provider/model provenance, signed Claude continuations and token-count controls. Jev advises bounded attention/reranking/ingress separately from the task model.
 - Context/Agent prompts explain shared conversations across model switches: engage with earlier models' contributions and preserve authorship, clarifying identity when requested or relevant instead of routinely interrupting the discussion.
@@ -22,6 +24,7 @@ Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Developmen
 
 | Result | Evidence |
 |---|---|
+| Automatic-memory first increment: 12 focused fixtures cover exact constraints/conditions, authority, corrections, restart, source/dependency invalidation, suppression, capacity/frozen projections, paid capture failure/retry, Agent Stop/scope, and fresh PostgreSQL instances. Source suite: 199 passes, one optional replay skipped at bounded concurrency. Live quality and cost benefit remain unmeasured. | [Implementation](docs/AUTOMATIC_MEMORY.md), [fixtures](test/automatic-memory.test.js) |
 | Controller reconciliation: 187 source checks passed, one optional replay skipped. Bounded live checks used 54 dispatches ($0.358127–$0.367209 public-rate valuation); all fixed fields passed in 12 non-recovery arms and four revised recovery arms. Original grader/call-limit failures are retained. No general savings claim. | [Reconciliation and trial](docs/archive/2026-10-03/context-cost-controller-v3.md) |
 | Context cost controller: 171 source checks passed, one optional saved-export replay skipped; syntax checks passed. Eleven dedicated action-pricing cases plus chat/Agent fixtures cover first-use pricing, cache/tier/recovery uncertainty, local periodic checks, routine offload before paid selection, source recovery and protections. Action-cost mutations remain in shadow mode; production savings are unmeasured. | [First increment](docs/archive/2026-10-03/context-cost-controller.md) |
 | Agent interruption: eight cancellation checks passed, including local/hosted PostgreSQL HTTP streams, Vercel cancellation events and cleanup lifetime, active OpenAI/Anthropic calls, late-response guards, and preservation of completed writes. Full source suite: 162 passes, one optional replay skipped. | [Stop implementation](docs/archive/2026-10-03/agent-stop.md) |
@@ -42,6 +45,7 @@ These are recorded checks and workloads. Context reduction, source recovery, ans
 - Exact/filter-aware and semantic retrieval; embeddings tied to source versions; heading/TOC lookup and search within files.
 - Declared-state resolved/archive lifecycle, confirmation/proposal status, semantic conflict detection, and revision-conflict diffs.
 - Portable JSON import/restore and explicit cross-conversation memory with ownership/corrections.
+- Memory: semantic correction targeting, episode consolidation, learned controller/utility policies, resumption packets and broader document/tool capture remain unapplied. Capture is conservative; live benefit/cost are unmeasured.
 - Broader controls and file lifecycle: rename/version diffs, model/user pin changes, private scratch workspaces and artifact handoffs.
 - JavaScript rendering and PDF extraction; longer native-search/page fidelity checks and hosted live verification.
 - Calibrate action-pricing cache boundaries, summary/recovery bounds and continuation forecasts before enabling cost-triggered mutations; shadow v3 uses only the pending next request. Native prefix matching and reported usage are traced separately; residency and candidate reuse bounds remain uncalibrated. Measure source recovery, correction fidelity, useful completion, management overhead, and comparable total cost on matched long tasks. [First increment](docs/archive/2026-10-03/context-cost-controller.md)

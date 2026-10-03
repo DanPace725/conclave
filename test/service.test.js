@@ -14,7 +14,7 @@ test('local chat resumes from SQLite and exports complete sources, revisions, st
     const options = { availability: () => ({ openai: true, jev: false }), providerFactory: () => ({ name: 'openai', respond: async (payload) => {
       calls++;
       assert.equal(payload.model, 'fixture');
-      assert.match(payload.input[0].content, /document detail/);
+      assert.match(JSON.stringify(payload.input), /document detail/);
       return { status: 'completed', id: 'response-fixture', model: 'fixture-reported', usage: { input_tokens: 101, output_tokens: 12 },
         output: [{ type: 'message', content: [{ type: 'output_text', text: 'A completed local answer.' }] }] };
     } }) };

@@ -1,0 +1,35 @@
+# Automatic conversation memory
+
+Context and Agent mode capture conversation-local user commitments and corrections before answering. The append-only ledger is separate from context snapshots: restoring or compacting a working snapshot cannot undo a correction or suppression. Ordinary browser Chat does not use this ledger.
+
+## Capture and authority
+
+Explicit instruction clauses such as `Keep it below $500.50.` and `Only use staff with clearance if children attend.` retain their complete exact wording and source spans. Tentative preferences stay unresolved. Quotes, code blocks and document instructions cannot create binding commitments. This conservative grammar can miss an instruction; the exact current user message remains in the request.
+
+When a message contains a durable-memory cue (budget, preference, constraint, requirement, remember, correction or decision) without an explicit capture, the production service may make one candidate-extraction call. The call is limited to 4,000 input characters, four short prior heads, eight candidate spans, 600 output tokens, a 12,000-byte request guard and a 15-second signal. It uses the selected task model, has no tools, and appears as `memory-extraction` in purpose/usage records. Its proposals can only be unresolved preferences/reports/questions. A span check establishes provenance, not semantic entailment or factual truth.
+
+Library harnesses use deterministic capture by default; enable the candidate proposer with `memoryModel: true`. Dependency-injected service providers default to deterministic capture unless this option is explicitly enabled. The normal local and hosted services enable it. Failed extraction retains the source and records a failure. A subsequent Context turn retries at most one previous eligible failed/deferred source, with at most three total attempts and one candidate model call shared across retry/new capture. Stop aborts Agent memory calls through the same run signal and token/deadline guards. Completed user captures survive; partial model output is never admitted as a memory.
+
+`user_committed` is an instruction status, not verified external truth. `user_reported`, `model_proposed`, and `externally_reported` remain attributed reports. Confidence stays null. Recalls and paraphrases add no independent support. Model-created named constraints/decisions are unresolved unless they preserve an explicit human instruction. Model state updates cannot replace a binding user constraint with arithmetic or an interpretation.
+
+## Corrections and selection
+
+`Correction: keep it below $700.` replaces a unique head with the same syntactic key. Keys preserve subject, units and conditions; there is no automatic semantic merging. Ambiguous corrections preserve alternatives and mark affected commitments contested. Contested records require clarification before consequential action. The Memory editor can identify/correct the intended record without a model call.
+
+Binding records and their conflict alternatives are selected first. Exact duplicate wording shares projection space without changing the ledger's provenance. Optional unresolved memories use lexical task matching under the remaining allowance. The automatic-memory allowance is 20% of the request byte guard, bounded to 800–16,000 bytes; the complete provider request still passes the existing guard. Overflow produces an explicit failure rather than silently dropping a commitment. Inspection remains available so the user can correct or suppress records. Selection priority does not measure truth or observed usefulness.
+
+Selected memory appears before the settled working context and recent tail, participates in native-input counts and the Memory request-breakdown category, and stays frozen within tool exchanges. User-message revisions and file version/removal changes invalidate dependent records, including transitive declared dependencies, on replay after restart. Agent-start records are scoped to that objective; a new objective or ordinary Context turn does not activate them. Context records remain scoped to the conversation.
+
+## Inspect and edit
+
+Converse's existing Memory tab shows automatic entries alongside manual named state. Open an entry for authority, resolution, lifecycle, scope, selection status, exact sources and previous versions. Edit appends a new human correction. **Don't use this** suppresses the record and excludes its source passages and source-linked context copies from model lookup/projection. **Use this again** rechecks eligibility. Since one source event can contain several clauses, suppressing a clause also excludes that original whole message from raw model lookup; other eligible memory clauses can still be selected.
+
+Suppression is reversible and is not erasure. Human source inspection, prior replies and canonical exports retain the history. Superseded/invalidated sources are also excluded from ordinary model lookup; human inspection can still recover their originals. Existing manual named state remains editable through its prior API.
+
+HTTP mutations are `memory_save` (`memory_id`, `kind`, `content`, `expected_memory_revision`) and `memory_lifecycle` (`memory_id`, `operation: suppress|restore`, `expected_memory_revision`). The service view/export includes `memory.records`, current `entries`, independent `revision`, and latest capture status. SQLite and PostgreSQL persist generic memory events through the existing event envelope and hosted sequence/revision/lease fence; no database migration is required. Public library functions are exported from `src/index.js`.
+
+## Current limits
+
+This is capture, lifecycle and activation, with fixed rules. It does not implement episode consolidation, learned controller policies, utility decay, cross-chat memory, semantic correction targeting, unattended workers or resumption packets. Automatic capture currently reads human messages/objectives; the ledger can also validate completed assistant/document reports and declared dependencies through library calls. It does not automatically extract facts from all workspace tools/documents. Context objective/topic boundaries within one conversation are not inferred.
+
+The fixtures in `test/automatic-memory.test.js` cover authority, conditions/units, corrections, capacity, frozen projections, restart, PostgreSQL, source invalidation, suppression and cancellation. They establish those invariants; live quality, latency and total cost benefit are unmeasured.
