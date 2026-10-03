@@ -10,6 +10,7 @@ Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Developmen
 - Append, summary, and layered modes; source-linked edits, compaction, eviction, lossless pointers, protections, stable S/E handles, frozen tool-loop projections, cached/periodic reviews, and explicit refreshes.
 - Indexed source chunks and historical bundles, lexical search with bounded Jev reranking, pageable exact retrieval, bounded ingress, memory tiers, and index rebuilding.
 - Named objectives, constraints, decisions, questions, and evidence with source attribution, supersession, explicit support/conflict links, key/handle relationships, manual correction, and unknown confidence retained.
+- Opt-in CLP broker: immutable versioned frames/validators, source-origin and copy-lineage attestations, typed records, support/refute/supersede links, conservative independent-source floors, scoped/paged queries, deterministic per-result explanations, and explicit unresolved results. SQLite/PostgreSQL, CLI/API, exports and a read-only model tool share the implementation. [Usage and limits](docs/CLP_BROKER.md)
 - Checkpointed Agent start/step/stop/resume with bounded adaptive limits, duplicate-step guards, batches of up to 16 tools, precise diagnostics, and saved pending exchanges.
 - Versioned workspace text files, uploads, exact patches, removal/restoration, current-file authority/readback checks, arithmetic/formulas, native web search, and public HTTP page retrieval with preserved canonical sources.
 - Settled context ordering, compact tool receipts, cache-aware economic reviews, purpose/provider usage, local token-count coverage, preflight counts, audit/replay, and full-request comparisons.
@@ -19,6 +20,7 @@ Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Developmen
 
 | Result | Evidence |
 |---|---|
+| CLP broker: all six acceptance cases passed; six-bundle toy admitted one supported claim and withheld thin/refuted claims. 152 offline checks passed, one optional replay skipped; CLI restart, full model-tool turn and hosted PostgreSQL API persistence covered. | [CLP increment](docs/archive/2026-10-03/clp-broker.md) |
 | Engine promoted from Converse; 138 offline checks passed with one optional local-export replay skipped, including the hosted HTTP/PostgreSQL path. CLI Agent restart, shared HTTP operations, PostgreSQL persistence, and migration drift refusal are covered. | [Parity work](docs/archive/2026-10-03/engine-parity.md) |
 | Live retrieval recovered `orchard-719` after eviction; one compaction reduced projection text 3,018 → 1,890 characters while retaining a conditional alternative and lineage. | [Initial results](docs/archive/2026-10-02/docs/IMPLEMENTATION_STATUS.md) |
 | Initial three-mode fixture retained the code and condition; layered consumed 4,683 input tokens vs append's 3,253. | [Initial results](docs/archive/2026-10-02/docs/IMPLEMENTATION_STATUS.md) |
@@ -31,7 +33,7 @@ These are recorded checks and workloads. Context reduction, source recovery, ans
 
 ## Work not yet applied
 
-- CLP: evidence-resolution floors and independent-source/diversity accounting first; then frame validation/scoping and query results with per-result explanations. Portable bundles/sidecars, signed registries, policy membranes, vector/graph brokerage, exploration/coherence telemetry, and unresolved review remain unapplied.
+- CLP: portable bundles/sidecars, signed trust/frame/resolver registries, policy membranes and unresolved review, vector/graph brokerage, exploratory recall, measured confidence/separation and coherence/attention telemetry remain unapplied. Current independence grouping is conservative declared provenance, not proof of truth or editorial independence.
 - Exact/filter-aware and semantic retrieval; embeddings tied to source versions; heading/TOC lookup and search within files.
 - Declared-state resolved/archive lifecycle, confirmation/proposal status, semantic conflict detection, and revision-conflict diffs.
 - Portable JSON import/restore and explicit cross-conversation memory with ownership/corrections.

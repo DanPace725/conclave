@@ -56,6 +56,18 @@ test('standalone HTTP server runs the shared authenticated API with a supplied s
     assert.equal(uploaded.status, 200);
     const viewed = await (await fetch(url + `/api/conclave?conversation=${created.conversation_id}`, { headers })).json();
     assert.equal(viewed.workspace[0].content, 'Exact source');
+    const clp = async (action, input) => {
+      const response = await fetch(url + '/api/conclave', { method: 'POST', headers, body: JSON.stringify({
+        action, conversation_id: created.conversation_id, ...input,
+      }) });
+      const result = await response.json();
+      assert.equal(response.status, 200, JSON.stringify(result));
+      return result;
+    };
+    await clp('clp_frame_register', { name: 'claim', version: '1.0', required_fields: ['text'] });
+    await clp('clp_attest', { source_event_id: viewed.workspace[0].source_event_id, origin_uri: 'https://local.example/report' });
+    const bundle = await clp('clp_record', { frame: 'claim', frame_version: '1.0', content: { text: 'Exact source claim' }, source_event_ids: [viewed.workspace[0].source_event_id] });
+    assert.equal((await clp('clp_query', { frame: ['claim'] })).rows[0].id, bundle.id);
   } finally {
     if (server) await new Promise(resolve => server.close(resolve));
     store.close();

@@ -11,7 +11,8 @@ export const serviceCommands = new Set(['call', 'view', 'workspace-list', 'works
   'agent-start', 'agent-step', 'agent-stop', 'agent-status', 'count-tokens', 'activity', 'audit', 'download']);
 const methods = new Set(['status', 'list', 'create', 'view', 'ask', 'remember', 'name', 'sourceEvent',
   'contextBundle', 'workspaceFile', 'saveDocument', 'uploadDocument', 'changeDocument', 'countTokens',
-  'saveContext', 'saveState', 'agentStart', 'agentStep', 'agentStop', 'activity', 'audit', 'export', 'modelInput']);
+  'saveContext', 'saveState', 'agentStart', 'agentStep', 'agentStop', 'activity', 'audit', 'export', 'modelInput',
+  'clpFrames', 'clpBundle', 'clpRegisterFrame', 'clpAttest', 'clpRecord', 'clpLink', 'clpQuery']);
 
 export async function serviceCommand(argv, { service: suppliedService, write = text => console.log(text) } = {}) {
   const { values, positionals } = parseArgs({ args: argv, allowPositionals: true, options: {
@@ -41,7 +42,7 @@ export async function serviceCommand(argv, { service: suppliedService, write = t
       else {
         if (!id) throw Error('--conversation ID is required');
         // For reads taking a string, a JSON object names that argument explicitly.
-        const argument = method === 'sourceEvent' ? input.event_id : method === 'contextBundle' ? input.bundle_id
+        const argument = method === 'sourceEvent' ? input.event_id : ['contextBundle', 'clpBundle'].includes(method) ? input.bundle_id
           : method === 'workspaceFile' ? input.path : input;
         result = await service[method](id, argument, onEvent ? { onEvent } : undefined);
       }
