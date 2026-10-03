@@ -47,7 +47,7 @@ test('Jev retention excludes automatic rewrites while old advisory-retained bund
       decisionAdapter: new JevDecisionAdapter(decisionProvider) });
     // Six queried candidates fit alongside unqueried rewrite candidates in the
     // first bounded batch; substantial unqueried material remains for pass two.
-    const originals = Array.from({ length: 11 }, (_, i) => harness.addMessage('assistant', `Historical note ${i}. ` + 'Routine background. '.repeat(i < 6 ? 60 : 130)).item);
+    const originals = Array.from({ length: 11 }, (_, i) => harness.addMessage('assistant', `Planning historical note ${i}. ` + 'Routine background. '.repeat(i < 6 ? 60 : 130)).item);
     retained = originals.slice(0, 6).map((item) => item.id);
     await harness.ask('Continue the planning discussion.');
     assert.equal(selections, 1);
