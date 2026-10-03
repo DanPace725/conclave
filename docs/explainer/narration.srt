@@ -1,0 +1,111 @@
+1
+00:00:00,500 --> 00:00:08,950
+Here's what Conclave does with a conversation, between the moment you send a message and the moment the model replies.
+
+2
+00:00:10,200 --> 00:00:19,450
+It starts with a log. Every message, document and tool result is written to an append-only SQLite record before anything else happens.
+
+3
+00:00:19,700 --> 00:00:26,150
+Each entry gets an event ID. Nothing in this log is ever edited or deleted.
+
+4
+00:00:27,400 --> 00:00:33,850
+Conclave groups the log into context bundles. Each bundle remembers which events it came from.
+
+5
+00:00:34,100 --> 00:00:46,150
+Some bundles are protected. Named task state, like the fixed budget and the irrigation decision, is outlined in green. Pins are pink. The four most recent turns are amber.
+
+6
+00:00:46,400 --> 00:00:51,250
+Everything else is an ordinary bundle that can be reshaped later.
+
+7
+00:00:52,500 --> 00:01:00,550
+Now the split. Each bundle is copied out of the log, and the log itself slides to the left.
+
+8
+00:01:00,800 --> 00:01:14,450
+On the left is the trajectory: the full record, exactly as it was. On the right is the live context, a versioned projection of what the model will see on its next call.
+
+9
+00:01:15,700 --> 00:01:21,750
+Then a new question arrives: what did the survey say about the east fence?
+
+10
+00:01:22,000 --> 00:01:30,450
+It's logged first, then added to the live context as the current request. The recent window slides forward by one.
+
+11
+00:01:30,700 --> 00:01:40,950
+The live context has a byte budget, with room held back for the model's answer. This next request would use 86% of it.
+
+12
+00:01:41,200 --> 00:01:53,450
+Past 75%, Conclave manages attention before it answers. Pins, named state and the last four bundles, including your question, are locked. The five older, ordinary bundles are candidates.
+
+13
+00:01:54,700 --> 00:02:08,750
+Deciding what to do with each candidate is a small, frequent judgment. Conclave can hand that job to Jev, a typed decision model from TypeSafe, and keep the main model for the hard work.
+
+14
+00:02:09,000 --> 00:02:22,250
+Jev receives the task and at most six candidates. Each is a short excerpt with its type, its status, and whether a pointer would make it smaller. Protected bundles are never sent.
+
+15
+00:02:22,500 --> 00:02:34,950
+For every candidate, Jev answers two typed questions. Which action: retain, offload, compact or escalate. And how important it is, on a scale from 0 to 4.
+
+16
+00:02:35,200 --> 00:02:40,050
+Each answer comes back as a probability distribution with a confidence.
+
+17
+00:02:40,300 --> 00:02:55,550
+Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. Escalated and retained bundles stay protected for the rest of this turn.
+
+18
+00:02:55,800 --> 00:03:09,050
+Jev only chooses. It can't write summaries, invent bundle IDs or delete sources. If its answer is malformed, fails, or refers to a stale revision, Conclave falls back to its own ranking.
+
+19
+00:03:10,300 --> 00:03:22,950
+Now the plan is applied. The site survey becomes a small pointer to its original in the log. That alone leaves the request at 77%, so Conclave keeps going.
+
+20
+00:03:23,200 --> 00:03:31,250
+The two older assistant turns are compacted. The main model rewrites them into one summary that cites both sources.
+
+21
+00:03:31,500 --> 00:03:43,350
+The rewrite is kept only if it shrinks the projection by at least 15%. This one roughly halves it. Every step left a receipt in the log.
+
+22
+00:03:44,600 --> 00:03:53,850
+With the context back under budget, the answer request is assembled: instructions, tools, and the current projection, which ends with your question.
+
+23
+00:03:54,100 --> 00:04:00,550
+Before anything is sent, the request plus the output reserve is checked against the budget.
+
+24
+00:04:01,800 --> 00:04:09,050
+The survey is only a pointer now, so the model calls a tool to read the original.
+
+25
+00:04:09,300 --> 00:04:15,750
+A bounded excerpt comes back from the log and is added to this request only.
+
+26
+00:04:16,000 --> 00:04:25,250
+The model answers. The answer joins the live context, the excerpt stays in the log, and the recent window slides forward again.
+
+27
+00:04:26,500 --> 00:04:38,150
+So Conclave keeps two records. The trajectory is permanent and complete. The live context is small, rebuilt for every call, and can be restored to any earlier revision.
+
+28
+00:04:38,400 --> 00:04:45,250
+Summaries and pointers keep their source IDs, so an original is always one tool call away.
