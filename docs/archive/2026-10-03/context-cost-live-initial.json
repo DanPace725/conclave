@@ -1,0 +1,3493 @@
+{
+  "fixture": "context-cost-trial-v1",
+  "baseline_commit": "90640b66a9c8ece5a636277428e04e994363280c",
+  "pricing_date": "2026-10-02",
+  "limits": {
+    "maxCalls": 48,
+    "maxUsd": 1,
+    "durationMs": 300000,
+    "output": 1024
+  },
+  "ledger": {
+    "max_calls": 48,
+    "max_usd": 1,
+    "dispatched": 36,
+    "spent_usd_max": 0.274022722,
+    "unpriced": false,
+    "calls": [
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.009052,
+        "reported_usage": {
+          "input_tokens": 5402,
+          "input_tokens_details": {
+            "cache_write_tokens": 5399,
+            "cached_tokens": 0
+          },
+          "output_tokens": 33,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5435
+        },
+        "cost": {
+          "counts": {
+            "input": 5402,
+            "output": 33,
+            "read": 0,
+            "write": 5399,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.000691675,
+          "usd_max": 0.0013751,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.0092765,
+        "reported_usage": {
+          "input_tokens": 5607,
+          "input_tokens_details": {
+            "cache_write_tokens": 3108,
+            "cached_tokens": 2496
+          },
+          "output_tokens": 33,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5640
+        },
+        "cost": {
+          "counts": {
+            "input": 5607,
+            "output": 33,
+            "read": 2496,
+            "write": 3108,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.00043026,
+          "usd_max": 0.00085227,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.009052,
+        "reported_usage": {
+          "input_tokens": 5405,
+          "input_tokens_details": {
+            "cache_write_tokens": 5402,
+            "cached_tokens": 0
+          },
+          "output_tokens": 39,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5444
+        },
+        "cost": {
+          "counts": {
+            "input": 5405,
+            "output": 39,
+            "read": 0,
+            "write": 5402,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.00069505,
+          "usd_max": 0.0013803499999999998,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.0092835,
+        "reported_usage": {
+          "input_tokens": 5615,
+          "input_tokens_details": {
+            "cache_write_tokens": 3113,
+            "cached_tokens": 2499
+          },
+          "output_tokens": 39,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5654
+        },
+        "cost": {
+          "counts": {
+            "input": 5615,
+            "output": 39,
+            "read": 2499,
+            "write": 3113,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.000433915,
+          "usd_max": 0.00085808,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.00742375,
+        "reported_usage": {
+          "input_tokens": 4350,
+          "input_tokens_details": {
+            "cache_write_tokens": 4347,
+            "cached_tokens": 0
+          },
+          "output_tokens": 33,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 4383
+        },
+        "cost": {
+          "counts": {
+            "input": 4350,
+            "output": 33,
+            "read": 0,
+            "write": 4347,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.000560175,
+          "usd_max": 0.0011121,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "typesafe",
+        "model": "jev-latest",
+        "reserve_usd": 0.000331086,
+        "reported_usage": {
+          "input_tokens": 2127,
+          "output_tokens": 329
+        },
+        "cost": {
+          "counts": {
+            "input": 2127,
+            "output": 329,
+            "read": null,
+            "write": null,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "typesafe",
+          "model": "jev-latest",
+          "usd_min": 0.00008933400000000001,
+          "usd_max": 0.00008933400000000001,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.00742375,
+        "reported_usage": {
+          "input_tokens": 4349,
+          "input_tokens_details": {
+            "cache_write_tokens": 4346,
+            "cached_tokens": 0
+          },
+          "output_tokens": 47,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 4396
+        },
+        "cost": {
+          "counts": {
+            "input": 4349,
+            "output": 47,
+            "read": 0,
+            "write": 4346,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.0005670499999999999,
+          "usd_max": 0.0011223499999999998,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.00812475,
+        "reported_usage": {
+          "input_tokens": 4917,
+          "input_tokens_details": {
+            "cache_write_tokens": 4914,
+            "cached_tokens": 0
+          },
+          "output_tokens": 24,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 4941
+        },
+        "cost": {
+          "counts": {
+            "input": 4917,
+            "output": 24,
+            "read": 0,
+            "write": 4914,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.0006265499999999999,
+          "usd_max": 0.0012471,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.008816,
+        "reported_usage": {
+          "input_tokens": 5473,
+          "input_tokens_details": {
+            "cache_write_tokens": 556,
+            "cached_tokens": 4914
+          },
+          "output_tokens": 74,
+          "output_tokens_details": {
+            "reasoning_tokens": 47
+          },
+          "total_tokens": 5547
+        },
+        "cost": {
+          "counts": {
+            "input": 5473,
+            "output": 74,
+            "read": 4914,
+            "write": 556,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.00015594,
+          "usd_max": 0.00029338,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "typesafe",
+        "model": "jev-latest",
+        "reserve_usd": 0.000332136,
+        "reported_usage": {
+          "input_tokens": 2135,
+          "output_tokens": 329
+        },
+        "cost": {
+          "counts": {
+            "input": 2135,
+            "output": 329,
+            "read": null,
+            "write": null,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "typesafe",
+          "model": "jev-latest",
+          "usd_min": 0.00008967,
+          "usd_max": 0.00008967,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.008469,
+        "reported_usage": {
+          "input_tokens": 5082,
+          "input_tokens_details": {
+            "cache_write_tokens": 2582,
+            "cached_tokens": 2497
+          },
+          "output_tokens": 25,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5107
+        },
+        "cost": {
+          "counts": {
+            "input": 5082,
+            "output": 25,
+            "read": 2497,
+            "write": 2582,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.00036052,
+          "usd_max": 0.0007147900000000001,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.00812475,
+        "reported_usage": {
+          "input_tokens": 4916,
+          "input_tokens_details": {
+            "cache_write_tokens": 4913,
+            "cached_tokens": 0
+          },
+          "output_tokens": 24,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 4940
+        },
+        "cost": {
+          "counts": {
+            "input": 4916,
+            "output": 24,
+            "read": 0,
+            "write": 4913,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.000626425,
+          "usd_max": 0.0012468499999999999,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.008816,
+        "reported_usage": {
+          "input_tokens": 5464,
+          "input_tokens_details": {
+            "cache_write_tokens": 548,
+            "cached_tokens": 4913
+          },
+          "output_tokens": 25,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5489
+        },
+        "cost": {
+          "counts": {
+            "input": 5464,
+            "output": 25,
+            "read": 4913,
+            "write": 548,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.00013043,
+          "usd_max": 0.00025461,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.00950825,
+        "reported_usage": {
+          "input_tokens": 6005,
+          "input_tokens_details": {
+            "cache_write_tokens": 541,
+            "cached_tokens": 5461
+          },
+          "output_tokens": 25,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 6030
+        },
+        "cost": {
+          "counts": {
+            "input": 6005,
+            "output": 25,
+            "read": 5461,
+            "write": 541,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.00013503500000000004,
+          "usd_max": 0.00026382000000000006,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.00915325,
+        "reported_usage": {
+          "input_tokens": 5498,
+          "input_tokens_details": {
+            "cache_write_tokens": 5495,
+            "cached_tokens": 0
+          },
+          "output_tokens": 34,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5532
+        },
+        "cost": {
+          "counts": {
+            "input": 5498,
+            "output": 34,
+            "read": 0,
+            "write": 5495,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.0007041749999999999,
+          "usd_max": 0.00139985,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reserve_usd": 0.00915325,
+        "reported_usage": {
+          "input_tokens": 5497,
+          "input_tokens_details": {
+            "cache_write_tokens": 5494,
+            "cached_tokens": 0
+          },
+          "output_tokens": 36,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 5533
+        },
+        "cost": {
+          "counts": {
+            "input": 5497,
+            "output": 36,
+            "read": 0,
+            "write": 5494,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "usd_min": 0.0007050499999999999,
+          "usd_max": 0.0014011,
+          "reasons": [
+            "Short/long tier boundary unverified; range covers both"
+          ]
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.141924,
+        "reported_usage": {
+          "input_tokens": 10177,
+          "cache_creation_input_tokens": 10173,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 10173,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10177,
+            "output": 67,
+            "read": 0,
+            "write": 10173,
+            "write_5m": 10173,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0261105,
+          "usd_max": 0.0261105,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "typesafe",
+        "model": "jev-latest",
+        "reserve_usd": 0.000331086,
+        "reported_usage": {
+          "input_tokens": 2127,
+          "output_tokens": 329
+        },
+        "cost": {
+          "counts": {
+            "input": 2127,
+            "output": 329,
+            "read": null,
+            "write": null,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "typesafe",
+          "model": "jev-latest",
+          "usd_min": 0.00008933400000000001,
+          "usd_max": 0.00008933400000000001,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.11998,
+        "reported_usage": {
+          "input_tokens": 9108,
+          "cache_creation_input_tokens": 3590,
+          "cache_read_input_tokens": 5514,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 3590,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 9108,
+            "output": 67,
+            "read": 5514,
+            "write": 3590,
+            "write_5m": 3590,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0107558,
+          "usd_max": 0.0107558,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.141924,
+        "reported_usage": {
+          "input_tokens": 10175,
+          "cache_creation_input_tokens": 10171,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 10171,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10175,
+            "output": 67,
+            "read": 0,
+            "write": 10171,
+            "write_5m": 10171,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0261055,
+          "usd_max": 0.0261055,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.14604,
+        "reported_usage": {
+          "input_tokens": 10556,
+          "cache_creation_input_tokens": 5040,
+          "cache_read_input_tokens": 5512,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 5040,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10556,
+            "output": 67,
+            "read": 5512,
+            "write": 5040,
+            "write_5m": 5040,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0143804,
+          "usd_max": 0.0143804,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.115872,
+        "reported_usage": {
+          "input_tokens": 8730,
+          "cache_creation_input_tokens": 8726,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 8726,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 8730,
+            "output": 67,
+            "read": 0,
+            "write": 8726,
+            "write_5m": 8726,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.022493,
+          "usd_max": 0.022493,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "typesafe",
+        "model": "jev-latest",
+        "reserve_usd": 0.000331086,
+        "reported_usage": {
+          "input_tokens": 2127,
+          "output_tokens": 329
+        },
+        "cost": {
+          "counts": {
+            "input": 2127,
+            "output": 329,
+            "read": null,
+            "write": null,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "typesafe",
+          "model": "jev-latest",
+          "usd_min": 0.00008933400000000001,
+          "usd_max": 0.00008933400000000001,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.115872,
+        "reported_usage": {
+          "input_tokens": 8728,
+          "cache_creation_input_tokens": 8724,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 8724,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 8728,
+            "output": 67,
+            "read": 0,
+            "write": 8724,
+            "write_5m": 8724,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.022488,
+          "usd_max": 0.022488,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.127088,
+        "reported_usage": {
+          "input_tokens": 9242,
+          "cache_creation_input_tokens": 9238,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 9238,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 76,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 9242,
+            "output": 76,
+            "read": 0,
+            "write": 9238,
+            "write_5m": 9238,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.023863,
+          "usd_max": 0.023863,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.138156,
+        "reported_usage": {
+          "input_tokens": 10181,
+          "cache_creation_input_tokens": 941,
+          "cache_read_input_tokens": 9238,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 941,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 74,
+          "output_tokens_details": {
+            "thinking_tokens": 27
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10181,
+            "output": 74,
+            "read": 9238,
+            "write": 941,
+            "write_5m": 941,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.004944100000000001,
+          "usd_max": 0.004944100000000001,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "typesafe",
+        "model": "jev-latest",
+        "reserve_usd": 0.000332136,
+        "reported_usage": {
+          "input_tokens": 2135,
+          "output_tokens": 329
+        },
+        "cost": {
+          "counts": {
+            "input": 2135,
+            "output": 329,
+            "read": null,
+            "write": null,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "typesafe",
+          "model": "jev-latest",
+          "usd_min": 0.00008967,
+          "usd_max": 0.00008967,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.10632,
+        "reported_usage": {
+          "input_tokens": 8275,
+          "cache_creation_input_tokens": 2760,
+          "cache_read_input_tokens": 5511,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 2760,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 76,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 8275,
+            "output": 76,
+            "read": 5511,
+            "write": 2760,
+            "write_5m": 2760,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0087702,
+          "usd_max": 0.0087702,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.117388,
+        "reported_usage": {
+          "input_tokens": 9214,
+          "cache_creation_input_tokens": 941,
+          "cache_read_input_tokens": 8271,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 941,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 189,
+          "output_tokens_details": {
+            "thinking_tokens": 37
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 9214,
+            "output": 189,
+            "read": 8271,
+            "write": 941,
+            "write_5m": 941,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0059007,
+          "usd_max": 0.0059007,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "typesafe",
+        "model": "jev-latest",
+        "reserve_usd": 0.000160776,
+        "reported_usage": {
+          "input_tokens": 1065,
+          "output_tokens": 132
+        },
+        "cost": {
+          "counts": {
+            "input": 1065,
+            "output": 132,
+            "read": null,
+            "write": null,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "provider": "typesafe",
+          "model": "jev-latest",
+          "usd_min": 0.00004473000000000001,
+          "usd_max": 0.00004473000000000001,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.141316,
+        "reported_usage": {
+          "input_tokens": 10995,
+          "cache_creation_input_tokens": 1781,
+          "cache_read_input_tokens": 9212,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 1781,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 47,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10995,
+            "output": 47,
+            "read": 9212,
+            "write": 1781,
+            "write_5m": 1781,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0067689,
+          "usd_max": 0.0067689,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.127088,
+        "reported_usage": {
+          "input_tokens": 9242,
+          "cache_creation_input_tokens": 9238,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 9238,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 76,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 9242,
+            "output": 76,
+            "read": 0,
+            "write": 9238,
+            "write_5m": 9238,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.023863,
+          "usd_max": 0.023863,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.138156,
+        "reported_usage": {
+          "input_tokens": 10173,
+          "cache_creation_input_tokens": 933,
+          "cache_read_input_tokens": 9238,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 933,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 117,
+          "output_tokens_details": {
+            "thinking_tokens": 39
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10173,
+            "output": 117,
+            "read": 9238,
+            "write": 933,
+            "write_5m": 933,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0053541000000000005,
+          "usd_max": 0.0053541000000000005,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.15362,
+        "reported_usage": {
+          "input_tokens": 11136,
+          "cache_creation_input_tokens": 963,
+          "cache_read_input_tokens": 10171,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 963,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 77,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 11136,
+            "output": 77,
+            "read": 10171,
+            "write": 963,
+            "write_5m": 963,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.0052157,
+          "usd_max": 0.0052157,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.143624,
+        "reported_usage": {
+          "input_tokens": 10330,
+          "cache_creation_input_tokens": 10326,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 10326,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10330,
+            "output": 67,
+            "read": 0,
+            "write": 10326,
+            "write_5m": 10326,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.026493,
+          "usd_max": 0.026493,
+          "reasons": []
+        }
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "reserve_usd": 0.143624,
+        "reported_usage": {
+          "input_tokens": 10334,
+          "cache_creation_input_tokens": 10330,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 10330,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "cost": {
+          "counts": {
+            "input": 10334,
+            "output": 67,
+            "read": 0,
+            "write": 10330,
+            "write_5m": 10330,
+            "write_1h": 0
+          },
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "usd_min": 0.026503,
+          "usd_max": 0.026503,
+          "reasons": []
+        }
+      }
+    ]
+  },
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "warm-cache",
+      "arm": "baseline",
+      "conversation_id": "conv_b541e457-d3fb-473f-ae59-9af7dd9397f3",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"X changes\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": true,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        },
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"X changes\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": true,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_891cf5fc-8577-4698-ae0f-b8ec60784667",
+            "seq": 21,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5402,
+              "output": 33,
+              "read": 0,
+              "write": 5399,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.000691675,
+            "usd_max": 0.0013751,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          },
+          {
+            "request_id": "evt_51be41b8-46f4-4f95-9b7a-bf05573fd8bc",
+            "seq": 29,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5607,
+              "output": 33,
+              "read": 2496,
+              "write": 3108,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.00043026,
+            "usd_max": 0.00085227,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 2,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.0011219350000000001,
+        "known_usd_max": 0.0022273700000000002,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 2,
+            "priced_calls": 2,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0011219350000000001,
+            "known_usd_max": 0.0022273700000000002
+          }
+        },
+        "context": {
+          "history_characters": 13140,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [],
+      "fidelity_pass": true
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "warm-cache",
+      "arm": "current",
+      "conversation_id": "conv_44c7f8a0-8a09-400c-aaaa-e62bdd3a01d9",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        },
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_a6a0d6a7-4f5b-4a4c-8353-3f238fd024c6",
+            "seq": 21,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5405,
+              "output": 39,
+              "read": 0,
+              "write": 5402,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.00069505,
+            "usd_max": 0.0013803499999999998,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          },
+          {
+            "request_id": "evt_cfd43f3a-aa3b-47a2-8d88-06460017c47c",
+            "seq": 30,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5615,
+              "output": 39,
+              "read": 2499,
+              "write": 3113,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.000433915,
+            "usd_max": 0.00085808,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 2,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.001128965,
+        "known_usd_max": 0.0022384299999999996,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 2,
+            "priced_calls": 2,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.001128965,
+            "known_usd_max": 0.0022384299999999996
+          }
+        },
+        "context": {
+          "history_characters": 13196,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_a6a0d6a7-4f5b-4a4c-8353-3f238fd024c6",
+          "response_event_id": "evt_69522a3f-ba45-4317-b7b0-082434216ca0",
+          "economics_event_id": "evt_30e2854a-a430-4dab-9719-518e53908b3a",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 5405,
+            "output": 39,
+            "read": 0,
+            "write": 5402,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "actual_input_usd": {
+            "min": 0.0006755499999999999,
+            "max": 0.0013510999999999998
+          },
+          "pricing_notes": [
+            "Short/long tier boundary unverified; range covers both"
+          ],
+          "predicted_input_usd": {
+            "min": 0.0000592,
+            "max": 0.00148
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": -0.0008044500000000001,
+            "max": 0.0012919
+          },
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 1800000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "message-end candidates; lookup mode/minimum/hidden framing not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        },
+        {
+          "request_id": "evt_cfd43f3a-aa3b-47a2-8d88-06460017c47c",
+          "response_event_id": "evt_caf5e98e-c8ec-42cf-bc03-90f3fb1e0ce5",
+          "economics_event_id": "evt_6faea45b-c2c3-4265-8a5b-aaef683f8d2c",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 5615,
+            "output": 39,
+            "read": 2499,
+            "write": 3113,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "actual_input_usd": {
+            "min": 0.000414415,
+            "max": 0.00082883
+          },
+          "pricing_notes": [
+            "Short/long tier boundary unverified; range covers both"
+          ],
+          "predicted_input_usd": {
+            "min": 0.00006175999999999999,
+            "max": 0.001544
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": -0.001129585,
+            "max": 0.00076707
+          },
+          "cache_trace": {
+            "previous_request_id": "evt_a6a0d6a7-4f5b-4a4c-8353-3f238fd024c6",
+            "previous_status": "completed",
+            "age_ms": 3407,
+            "declared_default_ttl_ms": 1800000,
+            "ttl_phase": "within-default-ttl",
+            "identical_units": 2,
+            "eligible_prefix_units": 2,
+            "prefix_hash": "12d45a5798cd58077b851fb8eea1aad7510a1ba9b09c88a6bf3eb780be924758",
+            "prefix_local_tokens": 3106,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "message-end candidates; lookup mode/minimum/hidden framing not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "new-prefix",
+      "arm": "current",
+      "conversation_id": "conv_55252f69-10a2-4dfc-9410-22a44f9cac8d",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"X changes\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": true,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_043aadf0-77ab-42a6-a5ff-dea064eb6a12",
+            "seq": 23,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 4350,
+              "output": 33,
+              "read": 0,
+              "write": 4347,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.000560175,
+            "usd_max": 0.0011121,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.000560175,
+        "known_usd_max": 0.0011121,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.000560175,
+            "known_usd_max": 0.0011121
+          }
+        },
+        "context": {
+          "history_characters": 12828,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_043aadf0-77ab-42a6-a5ff-dea064eb6a12",
+          "response_event_id": "evt_46783c6d-c10d-4005-b952-f29db4cdaab1",
+          "economics_event_id": "evt_10deb7a1-f7a5-471f-ac54-1207be53c4eb",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 4350,
+            "output": 33,
+            "read": 0,
+            "write": 4347,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "actual_input_usd": {
+            "min": 0.000543675,
+            "max": 0.00108735
+          },
+          "pricing_notes": [
+            "Short/long tier boundary unverified; range covers both"
+          ],
+          "predicted_input_usd": null,
+          "comparable": false,
+          "difference_usd": null,
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 1800000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "message-end candidates; lookup mode/minimum/hidden framing not certified"
+          },
+          "reason": "No matching estimate or actual payload changed; counterfactual saving is unmeasured",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": true
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "new-prefix",
+      "arm": "baseline",
+      "conversation_id": "conv_791c40c7-fcd1-49f8-9f65-15df2fc87713",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_cf634956-8649-42b7-8e50-c6aaf910e83a",
+            "seq": 21,
+            "purpose": "attention-selection",
+            "requested_model": "jev-latest",
+            "reported_model": "jev-1.13.0",
+            "status": "missing_response",
+            "counts": {
+              "input": 2127,
+              "output": 329,
+              "read": null,
+              "write": null,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "typesafe",
+            "model": "jev-latest",
+            "usd_min": 0.00008933400000000001,
+            "usd_max": 0.00008933400000000001,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_02291e17-766a-470a-8e7e-e9db82e81317",
+            "seq": 26,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 4349,
+              "output": 47,
+              "read": 0,
+              "write": 4346,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.0005670499999999999,
+            "usd_max": 0.0011223499999999998,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 2,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.000656384,
+        "known_usd_max": 0.0012116839999999998,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "attention-selection": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.00008933400000000001,
+            "known_usd_max": 0.00008933400000000001
+          },
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0005670499999999999,
+            "known_usd_max": 0.0011223499999999998
+          }
+        },
+        "context": {
+          "history_characters": 12895,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "recovery",
+      "arm": "baseline",
+      "conversation_id": "conv_d4d593c9-1a99-490c-8277-5f460668ac80",
+      "turns": [],
+      "status": "failed",
+      "retrieval_calls": 3,
+      "canonical_source_preserved": false,
+      "error": "Stopped at 3 answer calls; history and context were saved",
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_4e9eb92d-5911-470c-a900-257f120aa95c",
+            "seq": 22,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 4917,
+              "output": 24,
+              "read": 0,
+              "write": 4914,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.0006265499999999999,
+            "usd_max": 0.0012471,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          },
+          {
+            "request_id": "evt_a8eb4ac7-0720-4acb-b014-3a7aa5813840",
+            "seq": 27,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5473,
+              "output": 74,
+              "read": 4914,
+              "write": 556,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.00015594,
+            "usd_max": 0.00029338,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          },
+          {
+            "request_id": "evt_f2d7bc9d-2585-467e-8ae9-cfbc2918064c",
+            "seq": 33,
+            "purpose": "attention-selection",
+            "requested_model": "jev-latest",
+            "reported_model": "jev-1.13.0",
+            "status": "missing_response",
+            "counts": {
+              "input": 2135,
+              "output": 329,
+              "read": null,
+              "write": null,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "typesafe",
+            "model": "jev-latest",
+            "usd_min": 0.00008967,
+            "usd_max": 0.00008967,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_715ddab7-fbae-45e1-80fe-6df44f0b95eb",
+            "seq": 39,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5082,
+              "output": 25,
+              "read": 2497,
+              "write": 2582,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.00036052,
+            "usd_max": 0.0007147900000000001,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 4,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.0012326799999999999,
+        "known_usd_max": 0.0023449400000000002,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 3,
+            "priced_calls": 3,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0011430099999999999,
+            "known_usd_max": 0.00225527
+          },
+          "attention-selection": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.00008967,
+            "known_usd_max": 0.00008967
+          }
+        },
+        "context": {
+          "history_characters": 13233,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "recovery",
+      "arm": "current",
+      "conversation_id": "conv_63fae8fb-888a-478b-81df-cd67ef45db59",
+      "turns": [],
+      "status": "failed",
+      "retrieval_calls": 3,
+      "canonical_source_preserved": false,
+      "error": "Stopped at 3 answer calls; history and context were saved",
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_e7454fae-74d0-40d9-84a6-0f7ee0f4bcf6",
+            "seq": 22,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 4916,
+              "output": 24,
+              "read": 0,
+              "write": 4913,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.000626425,
+            "usd_max": 0.0012468499999999999,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          },
+          {
+            "request_id": "evt_276343de-18d2-4cdc-a8be-bfecb55a07b1",
+            "seq": 28,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5464,
+              "output": 25,
+              "read": 4913,
+              "write": 548,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.00013043,
+            "usd_max": 0.00025461,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          },
+          {
+            "request_id": "evt_73bb489a-36ae-4fd4-a659-7e8d7166eb29",
+            "seq": 35,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 6005,
+              "output": 25,
+              "read": 5461,
+              "write": 541,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.00013503500000000004,
+            "usd_max": 0.00026382000000000006,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 3,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.0008918900000000001,
+        "known_usd_max": 0.00176528,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 3,
+            "priced_calls": 3,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0008918900000000001,
+            "known_usd_max": 0.00176528
+          }
+        },
+        "context": {
+          "history_characters": 12831,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_e7454fae-74d0-40d9-84a6-0f7ee0f4bcf6",
+          "response_event_id": "evt_e1211e4a-2bbf-4744-8fb7-890e0a180f44",
+          "economics_event_id": "evt_c7a02047-95aa-403f-b823-83c8165f653b",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 4916,
+            "output": 24,
+            "read": 0,
+            "write": 4913,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "actual_input_usd": {
+            "min": 0.0006144249999999999,
+            "max": 0.0012288499999999999
+          },
+          "pricing_notes": [
+            "Short/long tier boundary unverified; range covers both"
+          ],
+          "predicted_input_usd": {
+            "min": 0.00005432,
+            "max": 0.001358
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": -0.0007435750000000001,
+            "max": 0.0011745299999999998
+          },
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 1800000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "message-end candidates; lookup mode/minimum/hidden framing not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        },
+        {
+          "request_id": "evt_276343de-18d2-4cdc-a8be-bfecb55a07b1",
+          "response_event_id": "evt_08013175-eefb-4b09-a8f2-87da732e5ee5",
+          "economics_event_id": "evt_141ce134-55be-4000-b8ca-9023c445ce17",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 5464,
+            "output": 25,
+            "read": 4913,
+            "write": 548,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "actual_input_usd": {
+            "min": 0.00011792999999999999,
+            "max": 0.00023585999999999998
+          },
+          "pricing_notes": [
+            "Short/long tier boundary unverified; range covers both"
+          ],
+          "predicted_input_usd": null,
+          "comparable": false,
+          "difference_usd": null,
+          "cache_trace": {
+            "previous_request_id": "evt_e7454fae-74d0-40d9-84a6-0f7ee0f4bcf6",
+            "previous_status": "completed",
+            "age_ms": 3181,
+            "declared_default_ttl_ms": 1800000,
+            "ttl_phase": "within-default-ttl",
+            "identical_units": 5,
+            "eligible_prefix_units": 5,
+            "prefix_hash": "ba5a5dc58ee1f489eb9be43aaab3411619aff74a9b069d5344af4a48452f4816",
+            "prefix_local_tokens": 5632,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "message-end candidates; lookup mode/minimum/hidden framing not certified"
+          },
+          "reason": "No matching estimate or actual payload changed; counterfactual saving is unmeasured",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        },
+        {
+          "request_id": "evt_73bb489a-36ae-4fd4-a659-7e8d7166eb29",
+          "response_event_id": "evt_0a67295a-13fe-4cbc-8f1e-117af2614ac9",
+          "economics_event_id": "evt_cb6a7c82-aebc-4b19-bc0a-0f9c2503e370",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 6005,
+            "output": 25,
+            "read": 5461,
+            "write": 541,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "actual_input_usd": {
+            "min": 0.000122535,
+            "max": 0.00024507
+          },
+          "pricing_notes": [
+            "Short/long tier boundary unverified; range covers both"
+          ],
+          "predicted_input_usd": null,
+          "comparable": false,
+          "difference_usd": null,
+          "cache_trace": {
+            "previous_request_id": "evt_276343de-18d2-4cdc-a8be-bfecb55a07b1",
+            "previous_status": "completed",
+            "age_ms": 2711,
+            "declared_default_ttl_ms": 1800000,
+            "ttl_phase": "within-default-ttl",
+            "identical_units": 7,
+            "eligible_prefix_units": 5,
+            "prefix_hash": "ba5a5dc58ee1f489eb9be43aaab3411619aff74a9b069d5344af4a48452f4816",
+            "prefix_local_tokens": 5632,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "message-end candidates; lookup mode/minimum/hidden framing not certified"
+          },
+          "reason": "No matching estimate or actual payload changed; counterfactual saving is unmeasured",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "correction",
+      "arm": "current",
+      "conversation_id": "conv_e4eae00e-0ef5-4022-b1f9-74c084fca235",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"if X changes\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_a921a006-7cca-4113-ba4a-6135ca4aa16d",
+            "seq": 23,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5498,
+              "output": 34,
+              "read": 0,
+              "write": 5495,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.0007041749999999999,
+            "usd_max": 0.00139985,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.0007041749999999999,
+        "known_usd_max": 0.00139985,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0007041749999999999,
+            "known_usd_max": 0.00139985
+          }
+        },
+        "context": {
+          "history_characters": 12919,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_a921a006-7cca-4113-ba4a-6135ca4aa16d",
+          "response_event_id": "evt_144fbab6-8eed-4195-b0fa-10223f7430e5",
+          "economics_event_id": "evt_0297ec11-4d85-44b5-b0f9-5a25602eda1c",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 5498,
+            "output": 34,
+            "read": 0,
+            "write": 5495,
+            "write_5m": null,
+            "write_1h": null
+          },
+          "actual_input_usd": {
+            "min": 0.0006871749999999999,
+            "max": 0.0013743499999999999
+          },
+          "pricing_notes": [
+            "Short/long tier boundary unverified; range covers both"
+          ],
+          "predicted_input_usd": {
+            "min": 0.0000602,
+            "max": 0.001505
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": -0.0008178250000000001,
+            "max": 0.0013141499999999998
+          },
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 1800000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "message-end candidates; lookup mode/minimum/hidden framing not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "scenario": "correction",
+      "arm": "baseline",
+      "conversation_id": "conv_2461bb63-76d0-4db6-b536-e43e25dda9a6",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"may work if X changes\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_a93fa410-e957-4b77-a142-97fcadc39163",
+            "seq": 23,
+            "purpose": "answer",
+            "requested_model": "gpt-6-luna",
+            "reported_model": "gpt-6-luna",
+            "status": "completed",
+            "counts": {
+              "input": 5497,
+              "output": 36,
+              "read": 0,
+              "write": 5494,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "usd_min": 0.0007050499999999999,
+            "usd_max": 0.0014011,
+            "reasons": [
+              "Short/long tier boundary unverified; range covers both"
+            ]
+          }
+        ],
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.0007050499999999999,
+        "known_usd_max": 0.0014011,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0007050499999999999,
+            "known_usd_max": 0.0014011
+          }
+        },
+        "context": {
+          "history_characters": 12928,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": false
+      },
+      "reconciliations": [],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "warm-cache",
+      "arm": "baseline",
+      "conversation_id": "conv_9d1db50c-1e4d-4a0a-b0d0-26f385b9d097",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        },
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_37ba20ca-e7e5-4a02-9259-70e57ee99fa1",
+            "seq": 21,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10177,
+              "output": 67,
+              "read": 0,
+              "write": 10173,
+              "write_5m": 10173,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0261105,
+            "usd_max": 0.0261105,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_aa320923-aaaf-4914-a190-9623a6932fa7",
+            "seq": 29,
+            "purpose": "attention-selection",
+            "requested_model": "jev-latest",
+            "reported_model": "jev-1.13.0",
+            "status": "missing_response",
+            "counts": {
+              "input": 2127,
+              "output": 329,
+              "read": null,
+              "write": null,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "typesafe",
+            "model": "jev-latest",
+            "usd_min": 0.00008933400000000001,
+            "usd_max": 0.00008933400000000001,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_5c7319eb-b437-4145-b53b-28622f4295bd",
+            "seq": 35,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 9108,
+              "output": 67,
+              "read": 5514,
+              "write": 3590,
+              "write_5m": 3590,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0107558,
+            "usd_max": 0.0107558,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 3,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.036955634,
+        "known_usd_max": 0.036955634,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 2,
+            "priced_calls": 2,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0368663,
+            "known_usd_max": 0.0368663
+          },
+          "attention-selection": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.00008933400000000001,
+            "known_usd_max": 0.00008933400000000001
+          }
+        },
+        "context": {
+          "history_characters": 13274,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "warm-cache",
+      "arm": "current",
+      "conversation_id": "conv_dd408f9d-b61f-47e4-a88a-38798a0d23ff",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        },
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_ae17aabe-5557-492e-8cc1-1557d406ed60",
+            "seq": 21,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10175,
+              "output": 67,
+              "read": 0,
+              "write": 10171,
+              "write_5m": 10171,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0261055,
+            "usd_max": 0.0261055,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_4264ea65-21f4-44cf-bf45-cc03526fa743",
+            "seq": 31,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10556,
+              "output": 67,
+              "read": 5512,
+              "write": 5040,
+              "write_5m": 5040,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0143804,
+            "usd_max": 0.0143804,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 2,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.0404859,
+        "known_usd_max": 0.0404859,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 2,
+            "priced_calls": 2,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0404859,
+            "known_usd_max": 0.0404859
+          }
+        },
+        "context": {
+          "history_characters": 13274,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_ae17aabe-5557-492e-8cc1-1557d406ed60",
+          "response_event_id": "evt_92b46e59-d3e2-4f14-8b9a-74da317d0ab5",
+          "economics_event_id": "evt_39dd7c2c-42a3-4e2b-b85d-63b0c57842c8",
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 10175,
+            "output": 67,
+            "read": 0,
+            "write": 10171,
+            "write_5m": 10171,
+            "write_1h": 0
+          },
+          "actual_input_usd": {
+            "min": 0.0254355,
+            "max": 0.0254355
+          },
+          "pricing_notes": [],
+          "predicted_input_usd": {
+            "min": 0.0011744000000000001,
+            "max": 0.01468
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": 0.0107555,
+            "max": 0.0242611
+          },
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 300000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "explicit/automatic markers; lookback/minimum not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        },
+        {
+          "request_id": "evt_4264ea65-21f4-44cf-bf45-cc03526fa743",
+          "response_event_id": "evt_ae6a8e5e-cd0e-46cb-a095-63c6ae7c4ab0",
+          "economics_event_id": "evt_c35fcc76-f7ae-4aa9-9d19-954ea1e65c01",
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 10556,
+            "output": 67,
+            "read": 5512,
+            "write": 5040,
+            "write_5m": 5040,
+            "write_1h": 0
+          },
+          "actual_input_usd": {
+            "min": 0.0137104,
+            "max": 0.0137104
+          },
+          "pricing_notes": [],
+          "predicted_input_usd": {
+            "min": 0.0012302,
+            "max": 0.0153775
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": -0.0016671000000000012,
+            "max": 0.012480199999999999
+          },
+          "cache_trace": {
+            "previous_request_id": "evt_ae17aabe-5557-492e-8cc1-1557d406ed60",
+            "previous_status": "completed",
+            "age_ms": 3545,
+            "declared_default_ttl_ms": 300000,
+            "ttl_phase": "within-default-ttl",
+            "identical_units": 3,
+            "eligible_prefix_units": 2,
+            "prefix_hash": "569a023fa6a31f98a14059f0c50518ef0f2904a87c5908aa9f5a0af17b2d8969",
+            "prefix_local_tokens": 3021,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "explicit/automatic markers; lookback/minimum not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "new-prefix",
+      "arm": "current",
+      "conversation_id": "conv_d72cff7d-2d2e-40e2-ad97-f3b5d6e9e4f9",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_d8e4eaac-deab-4895-a99f-1b45832d9d7b",
+            "seq": 23,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 8730,
+              "output": 67,
+              "read": 0,
+              "write": 8726,
+              "write_5m": 8726,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.022493,
+            "usd_max": 0.022493,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.022493,
+        "known_usd_max": 0.022493,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.022493,
+            "known_usd_max": 0.022493
+          }
+        },
+        "context": {
+          "history_characters": 12895,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_d8e4eaac-deab-4895-a99f-1b45832d9d7b",
+          "response_event_id": "evt_4d2f4416-b400-419d-95ae-0120dc2b247c",
+          "economics_event_id": "evt_b54fc6a0-e133-451a-9c87-dfadd62527c1",
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 8730,
+            "output": 67,
+            "read": 0,
+            "write": 8726,
+            "write_5m": 8726,
+            "write_1h": 0
+          },
+          "actual_input_usd": {
+            "min": 0.021823,
+            "max": 0.021823
+          },
+          "pricing_notes": [],
+          "predicted_input_usd": null,
+          "comparable": false,
+          "difference_usd": null,
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 300000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "explicit/automatic markers; lookback/minimum not certified"
+          },
+          "reason": "No matching estimate or actual payload changed; counterfactual saving is unmeasured",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "new-prefix",
+      "arm": "baseline",
+      "conversation_id": "conv_dec1d689-0d4a-49d4-a4ff-fd818f3e0d4f",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_8d24cfa2-b610-40b3-b86c-46be0870d24d",
+            "seq": 21,
+            "purpose": "attention-selection",
+            "requested_model": "jev-latest",
+            "reported_model": "jev-1.13.0",
+            "status": "missing_response",
+            "counts": {
+              "input": 2127,
+              "output": 329,
+              "read": null,
+              "write": null,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "typesafe",
+            "model": "jev-latest",
+            "usd_min": 0.00008933400000000001,
+            "usd_max": 0.00008933400000000001,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_08eb79a2-3266-436d-bc74-58bb3a270e12",
+            "seq": 26,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 8728,
+              "output": 67,
+              "read": 0,
+              "write": 8724,
+              "write_5m": 8724,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.022488,
+            "usd_max": 0.022488,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 2,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.022577334,
+        "known_usd_max": 0.022577334,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "attention-selection": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.00008933400000000001,
+            "known_usd_max": 0.00008933400000000001
+          },
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.022488,
+            "known_usd_max": 0.022488
+          }
+        },
+        "context": {
+          "history_characters": 12895,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "recovery",
+      "arm": "baseline",
+      "conversation_id": "conv_50733fb3-3039-4ca3-8704-0e8ce9b53801",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"X changes\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": true,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        },
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"X changes\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": true,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 4,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_7c7168d1-0d1e-4f1e-898a-b0d22822d8e4",
+            "seq": 22,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 9242,
+              "output": 76,
+              "read": 0,
+              "write": 9238,
+              "write_5m": 9238,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.023863,
+            "usd_max": 0.023863,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_b1a0f894-141f-458f-9a44-c4e03d9f144a",
+            "seq": 27,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10181,
+              "output": 74,
+              "read": 9238,
+              "write": 941,
+              "write_5m": 941,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.004944100000000001,
+            "usd_max": 0.004944100000000001,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_a1bd1010-676e-4fc4-9bad-a79641c35970",
+            "seq": 36,
+            "purpose": "attention-selection",
+            "requested_model": "jev-latest",
+            "reported_model": "jev-1.13.0",
+            "status": "missing_response",
+            "counts": {
+              "input": 2135,
+              "output": 329,
+              "read": null,
+              "write": null,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "typesafe",
+            "model": "jev-latest",
+            "usd_min": 0.00008967,
+            "usd_max": 0.00008967,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_b9241bdb-0d29-4261-b8a5-e5e9aead8adc",
+            "seq": 42,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 8275,
+              "output": 76,
+              "read": 5511,
+              "write": 2760,
+              "write_5m": 2760,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0087702,
+            "usd_max": 0.0087702,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_159e822e-e15a-4c4b-8da2-5a2b3abb45b1",
+            "seq": 47,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 9214,
+              "output": 189,
+              "read": 8271,
+              "write": 941,
+              "write_5m": 941,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0059007,
+            "usd_max": 0.0059007,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_3cb01e23-ca82-4438-ac1e-b0d8ecaeee78",
+            "seq": 55,
+            "purpose": "attention-selection",
+            "requested_model": "jev-latest",
+            "reported_model": "jev-1.13.0",
+            "status": "missing_response",
+            "counts": {
+              "input": 1065,
+              "output": 132,
+              "read": null,
+              "write": null,
+              "write_5m": null,
+              "write_1h": null
+            },
+            "provider": "typesafe",
+            "model": "jev-latest",
+            "usd_min": 0.00004473000000000001,
+            "usd_max": 0.00004473000000000001,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_347928f1-59dc-42cf-b8e2-509fc3a4df5e",
+            "seq": 60,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10995,
+              "output": 47,
+              "read": 9212,
+              "write": 1781,
+              "write_5m": 1781,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0067689,
+            "usd_max": 0.0067689,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 7,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.050381300000000004,
+        "known_usd_max": 0.050381300000000004,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 5,
+            "priced_calls": 5,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.050246900000000004,
+            "known_usd_max": 0.050246900000000004
+          },
+          "attention-selection": {
+            "calls": 2,
+            "priced_calls": 2,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.00013440000000000001,
+            "known_usd_max": 0.00013440000000000001
+          }
+        },
+        "context": {
+          "history_characters": 13609,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [],
+      "fidelity_pass": true
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "recovery",
+      "arm": "current",
+      "conversation_id": "conv_3e62763c-9b2a-4a60-b715-ac54d2824b63",
+      "turns": [],
+      "status": "failed",
+      "retrieval_calls": 3,
+      "canonical_source_preserved": false,
+      "error": "Stopped at 3 answer calls; history and context were saved",
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_2a1c217a-46a0-44fd-9d26-9b5fd11220e5",
+            "seq": 22,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 9242,
+              "output": 76,
+              "read": 0,
+              "write": 9238,
+              "write_5m": 9238,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.023863,
+            "usd_max": 0.023863,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_6a221128-8212-4d6d-b717-06c16acab4fa",
+            "seq": 28,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10173,
+              "output": 117,
+              "read": 9238,
+              "write": 933,
+              "write_5m": 933,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0053541000000000005,
+            "usd_max": 0.0053541000000000005,
+            "reasons": []
+          },
+          {
+            "request_id": "evt_ce54f397-478d-451c-82a6-a561fe0fbe59",
+            "seq": 36,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 11136,
+              "output": 77,
+              "read": 10171,
+              "write": 963,
+              "write_5m": 963,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.0052157,
+            "usd_max": 0.0052157,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 3,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.0344328,
+        "known_usd_max": 0.0344328,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 3,
+            "priced_calls": 3,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.0344328,
+            "known_usd_max": 0.0344328
+          }
+        },
+        "context": {
+          "history_characters": 12935,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_2a1c217a-46a0-44fd-9d26-9b5fd11220e5",
+          "response_event_id": "evt_5ff0860f-8a16-4448-b98e-91360b584ff2",
+          "economics_event_id": "evt_898aec28-8a3c-4d10-8d31-23a1f43d137d",
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 9242,
+            "output": 76,
+            "read": 0,
+            "write": 9238,
+            "write_5m": 9238,
+            "write_1h": 0
+          },
+          "actual_input_usd": {
+            "min": 0.023103,
+            "max": 0.023103
+          },
+          "pricing_notes": [],
+          "predicted_input_usd": {
+            "min": 0.0010776000000000002,
+            "max": 0.01347
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": 0.009633,
+            "max": 0.022025399999999997
+          },
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 300000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "explicit/automatic markers; lookback/minimum not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        },
+        {
+          "request_id": "evt_6a221128-8212-4d6d-b717-06c16acab4fa",
+          "response_event_id": "evt_b8f651f5-874f-4e49-a700-fe2013463412",
+          "economics_event_id": "evt_cb323c45-11d5-4387-9c22-bfb24ccf970b",
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 10173,
+            "output": 117,
+            "read": 9238,
+            "write": 933,
+            "write_5m": 933,
+            "write_1h": 0
+          },
+          "actual_input_usd": {
+            "min": 0.0041841000000000005,
+            "max": 0.0041841000000000005
+          },
+          "pricing_notes": [],
+          "predicted_input_usd": null,
+          "comparable": false,
+          "difference_usd": null,
+          "cache_trace": {
+            "previous_request_id": "evt_2a1c217a-46a0-44fd-9d26-9b5fd11220e5",
+            "previous_status": "completed",
+            "age_ms": 4900,
+            "declared_default_ttl_ms": 300000,
+            "ttl_phase": "within-default-ttl",
+            "identical_units": 6,
+            "eligible_prefix_units": 2,
+            "prefix_hash": "cf80c2d49512fb9b30f3dba4359da403683fdcb94f772333f3a9fddb77a60a9d",
+            "prefix_local_tokens": 3022,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "explicit/automatic markers; lookback/minimum not certified"
+          },
+          "reason": "No matching estimate or actual payload changed; counterfactual saving is unmeasured",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        },
+        {
+          "request_id": "evt_ce54f397-478d-451c-82a6-a561fe0fbe59",
+          "response_event_id": "evt_dc51bd9b-448b-4702-92ec-845f6b9d8512",
+          "economics_event_id": "evt_a41d1bcf-6168-4508-8cec-0470ac8fcf6e",
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 11136,
+            "output": 77,
+            "read": 10171,
+            "write": 963,
+            "write_5m": 963,
+            "write_1h": 0
+          },
+          "actual_input_usd": {
+            "min": 0.0044456999999999995,
+            "max": 0.0044456999999999995
+          },
+          "pricing_notes": [],
+          "predicted_input_usd": null,
+          "comparable": false,
+          "difference_usd": null,
+          "cache_trace": {
+            "previous_request_id": "evt_6a221128-8212-4d6d-b717-06c16acab4fa",
+            "previous_status": "completed",
+            "age_ms": 4675,
+            "declared_default_ttl_ms": 300000,
+            "ttl_phase": "within-default-ttl",
+            "identical_units": 10,
+            "eligible_prefix_units": 2,
+            "prefix_hash": "cf80c2d49512fb9b30f3dba4359da403683fdcb94f772333f3a9fddb77a60a9d",
+            "prefix_local_tokens": 3022,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "explicit/automatic markers; lookback/minimum not certified"
+          },
+          "reason": "No matching estimate or actual payload changed; counterfactual saving is unmeasured",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "correction",
+      "arm": "current",
+      "conversation_id": "conv_93d13eee-a170-4bd0-8860-9e182487d3be",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_317ec402-45e9-46d7-8ef7-3c5be11e9a88",
+            "seq": 23,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10330,
+              "output": 67,
+              "read": 0,
+              "write": 10326,
+              "write_5m": 10326,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.026493,
+            "usd_max": 0.026493,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.026493,
+        "known_usd_max": 0.026493,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.026493,
+            "known_usd_max": 0.026493
+          }
+        },
+        "context": {
+          "history_characters": 12983,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [
+        {
+          "request_id": "evt_317ec402-45e9-46d7-8ef7-3c5be11e9a88",
+          "response_event_id": "evt_3da67d9b-de90-4d52-b42a-fea4071096bc",
+          "economics_event_id": "evt_57248bbd-6d3a-4a2a-8ceb-7d8325668dcf",
+          "provider": "anthropic",
+          "model": "claude-sonnet-5-5",
+          "pricing_date": "2026-10-02",
+          "status": "completed",
+          "usage": {
+            "input": 10330,
+            "output": 67,
+            "read": 0,
+            "write": 10326,
+            "write_5m": 10326,
+            "write_1h": 0
+          },
+          "actual_input_usd": {
+            "min": 0.025823,
+            "max": 0.025823
+          },
+          "pricing_notes": [],
+          "predicted_input_usd": {
+            "min": 0.0011952,
+            "max": 0.01494
+          },
+          "comparable": true,
+          "difference_usd": {
+            "min": 0.010882999999999999,
+            "max": 0.0246278
+          },
+          "cache_trace": {
+            "previous_request_id": null,
+            "previous_status": null,
+            "age_ms": null,
+            "declared_default_ttl_ms": 300000,
+            "ttl_phase": "unknown",
+            "identical_units": 0,
+            "eligible_prefix_units": 0,
+            "prefix_hash": null,
+            "prefix_local_tokens": null,
+            "method": "complete logical native-unit comparison; o200k-base local prefix estimate",
+            "residency": "unknown; matching content and TTL do not guarantee a cache hit",
+            "boundary_coverage": "explicit/automatic markers; lookback/minimum not certified"
+          },
+          "reason": "Kept payload matches the estimate; compare input only",
+          "basis": "Reported input/cache buckets valued at public rates; excludes answer output and tool fees"
+        }
+      ],
+      "fidelity_pass": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "scenario": "correction",
+      "arm": "baseline",
+      "conversation_id": "conv_7ded8e41-7ab0-4934-b8d0-2622bb33bc85",
+      "turns": [
+        {
+          "answer": "{\"code\":\"orchard-719\",\"cap\":250,\"seats\":12,\"architecture_a_rejected\":false,\"condition\":\"Architecture A may work if X changes; it has not been conclusively rejected.\"}",
+          "checks": {
+            "exact_code": true,
+            "cap": true,
+            "seats": true,
+            "conditional_alternative": false,
+            "review": "Automatic checks cover these fields only; inspect the full answer for fidelity."
+          }
+        }
+      ],
+      "status": "completed",
+      "retrieval_calls": 0,
+      "canonical_source_preserved": true,
+      "costs": {
+        "price_date": "2026-10-02",
+        "basis": "public direct API list rates; standard paid tier; not an invoice or historical effective-rate record",
+        "calls": [
+          {
+            "request_id": "evt_ed6f2cf8-c02b-4ce7-8f22-6e9895873fe8",
+            "seq": 23,
+            "purpose": "answer",
+            "requested_model": "claude-sonnet-5-5",
+            "reported_model": "claude-sonnet-5-5",
+            "status": "completed",
+            "counts": {
+              "input": 10334,
+              "output": 67,
+              "read": 0,
+              "write": 10330,
+              "write_5m": 10330,
+              "write_1h": 0
+            },
+            "provider": "anthropic",
+            "model": "claude-sonnet-5-5",
+            "usd_min": 0.026503,
+            "usd_max": 0.026503,
+            "reasons": []
+          }
+        ],
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "known_usd_min": 0.026503,
+        "known_usd_max": 0.026503,
+        "record_format": "canonical context events; normalized inference usage",
+        "purpose": {
+          "answer": {
+            "calls": 1,
+            "priced_calls": 1,
+            "unpriced_calls": 0,
+            "known_usd_min": 0.026503,
+            "known_usd_max": 0.026503
+          }
+        },
+        "context": {
+          "history_characters": 12983,
+          "working_characters": 0,
+          "reduction_fraction": 1
+        },
+        "complete": true
+      },
+      "reconciliations": [],
+      "fidelity_pass": false
+    }
+  ],
+  "notes": [
+    "Separate synthetic conversations and counterbalanced arm order; stochastic trajectories can differ.",
+    "Cold/new-prefix and warm labels are cache attempts; actual read/write usage determines hits.",
+    "No cache-expiry wait or background keepalive calls. Source/prompt IDs can affect caching.",
+    "All inference purposes and retrieval-triggered answer calls are counted; public-rate valuation excludes native tool fees.",
+    "Hard call/time bounds; USD uses conservative pre-dispatch reservation estimates, not an invoice guarantee.",
+    "Fidelity checks cover fixed fields; broader quality and savings remain unmeasured."
+  ]
+}
