@@ -25,7 +25,7 @@ src/ contains the portable engine and its resources. The CLI is a standalone ent
 
 The manifest at converse/lib/conclave/manifest.json records the Conclave commit, required dependency ranges, and hashes of all migrated files. Converse's scripts/check-engine.js verifies that receipt without requiring a sibling checkout. Migration refuses downstream edits that differ from both the last receipt and current Conclave; port such edits into Conclave before applying the migration. New unmanaged engine modules also fail verification. The one-time promotion uses --apply --bootstrap; later changes use ordinary --apply.
 
-The initial parity migration promotes Converse's engine at commit 81c7ccc5e08c91a21549c698e1567385d3e22fce, including its web-search/page integrations, into Conclave. Subsequent engine work moves only from Conclave into Converse.
+The initial parity migration promotes Converse's engine at commit 0a65a2f434dbed70c34b3bdeb2ddc7bf8dea8320, including its web-search/page integrations, into Conclave. Subsequent engine work moves only from Conclave into Converse.
 
 ## Local and hosted use
 
