@@ -77,6 +77,14 @@ export function commitMemory(store, conversation, proposals, { expected_revision
     if (target && !manual && (!p.correction || target.canonical_key !== key)) throw Error('Automatic correction requires the same exact syntactic key');
     const objective = event.metadata.purpose === 'agent-objective' ? event.id : undefined;
     const peers = view.records.filter(r => r.canonical_key === key && r.scope.objective_id === objective && !['invalidated', 'superseded', 'suppressed'].includes(r.lifecycle));
+    const duplicate = event.kind === 'user' && event.actor === 'human' && !p.depends_on?.length && !target && !p.correction && peers.find(r => !r.depends_on.length && r.content === content && r.kind === p.kind
+      && r.attribution?.actor === event.actor && r.attribution?.kind === event.kind);
+    if (duplicate) {
+      if (!duplicate.source_refs.some(ref => ref.event_id === event.id && ref.span_start === p.span_start && ref.span_end === p.span_end))
+        changes.push({ memory_id: duplicate.memory_id, source_refs: [...duplicate.source_refs, { event_id: event.id, content_hash: hash(event.content),
+          span_hash: hash(content), span_start: p.span_start, span_end: p.span_end, source_version: event.id }] });
+      continue; // Exact repeats add provenance, never another head or independent support.
+    }
     // Even identical paraphrases do not add independent support. Retain distinct
     // source versions; competing quantities stay contested unless explicitly corrected.
     if (p.conflicts_with && (!Array.isArray(p.conflicts_with) || p.conflicts_with.some(ref => !view.records.some(r => r.memory_id === ref)))) throw Error('Invalid memory conflict target');

@@ -5,28 +5,39 @@ import { responseText, redact } from './provider.js';
 export function selectMemory(store, conversation, query = '', allowance = 8000, inspectOverflow = false) {
   const view = memoryView(store, conversation);
   const currentObjective = store.events(conversation).findLast(e => e.kind === 'user' && !e.metadata.purpose?.startsWith('manual-'));
-  const eligible = view.records.filter(r => !['superseded', 'invalidated', 'suppressed', 'dormant'].includes(r.lifecycle)
+  let eligible = view.records.filter(r => !['superseded', 'invalidated', 'suppressed', 'dormant'].includes(r.lifecycle)
     && (!r.scope.objective_id || (currentObjective?.metadata.purpose === 'agent-objective' && r.scope.objective_id === currentObjective.id)));
+  let previousLength;
+  do {
+    previousLength = eligible.length;
+    const ids = new Set(eligible.map(r => r.memory_id));
+    eligible = eligible.filter(r => r.depends_on.every(ref => ids.has(ref)));
+  } while (eligible.length !== previousLength);
+  const byId = new Map(eligible.map(r => [r.memory_id, r]));
+  const closure = list => {
+    const result = new Map(list.map(r => [r.memory_id, r]));
+    for (const r of result.values()) for (const ref of [...r.depends_on, ...r.conflicts_with]) {
+      const related = byId.get(ref); if (related && !result.has(ref)) result.set(ref, related);
+    }
+    return [...result.values()];
+  };
   const binding = eligible.filter(r => r.binding);
   // Duplicates carry no extra authority; exact same conditions can share one
   // projection entry while the ledger preserves every distinct source.
   const unique = list => list.filter((r, i) => list.findIndex(n => n.content === r.content && n.resolution === r.resolution) === i);
-  const selected = unique(binding);
-  // Alternatives needed to interpret binding records are mandatory.
-  for (const r of selected.slice()) for (const related of eligible.filter(n => r.conflicts_with.includes(n.memory_id)))
-    if (!selected.includes(related)) selected.push(related);
+  const selected = closure(unique(binding));
   const terms = new Set(query.toLowerCase().match(/[\p{L}\p{N}_-]+/gu) || []);
   const scores = eligible.filter(r => !r.binding).map(r => ({ record: r, match: [...terms].filter(t => r.content.toLowerCase().includes(t)).length }));
   scores.sort((a, b) => b.match - a.match || b.record.created_at.localeCompare(a.record.created_at));
   const project = r => ({ memory_id: r.memory_id, kind: r.kind, content: r.content, authority: r.authority,
-    resolution: r.resolution, binding: r.binding, source_refs: r.source_refs, conflicts_with: r.conflicts_with,
+    resolution: r.resolution, binding: r.binding, source_refs: r.source_refs.slice(-1), source_count: r.source_refs.length, conflicts_with: r.conflicts_with, depends_on: r.depends_on,
     scope: r.scope, ...(r.unresolved_source_ids ? { unresolved_source_ids: r.unresolved_source_ids } : {}), confidence: null });
   const bytes = list => Buffer.byteLength(JSON.stringify(list.map(project)), 'utf8');
   const capacityError = bytes(selected) > allowance ? `Binding memory capacity exceeded: ${bytes(selected)} bytes > ${allowance}. Resolve or scope commitments before continuing; none were silently dropped.` : null;
   if (capacityError && !inspectOverflow) throw Error(capacityError);
   for (const { record, match } of scores) {
     if (!match || selected.length >= 20 || selected.some(r => r.content === record.content)) continue;
-    const cluster = [record, ...eligible.filter(r => record.conflicts_with.includes(r.memory_id))].filter(r => !selected.includes(r));
+    const cluster = closure([record]).filter(r => !selected.includes(r));
     if (bytes([...selected, ...cluster]) <= allowance) selected.push(...cluster);
   }
   return { revision: view.revision, records: selected.map(project), memory_ids: selected.map(r => r.memory_id),

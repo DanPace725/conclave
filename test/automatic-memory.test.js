@@ -93,6 +93,18 @@ test('correction supersedes immediately; retries are idempotent and context rest
   } finally { s.close(); }
 });
 
+test('exact repeated commitments remain one head; correction retires every repeated source without gaining support', async () => {
+  const { store: s, id, h } = fixture();
+  try {
+    await capture(h, 'Keep it below $500.'); await capture(h, 'Keep it below $500.');
+    assert.equal(records(s, id).length, 1); assert.equal(records(s, id)[0].source_refs.length, 2);
+    assert.equal(records(s, id)[0].origin_groups.length, 1); assert.equal(records(s, id)[0].confidence, null);
+    await capture(h, 'Correction: keep it below $700.');
+    assert.equal(selectMemory(s, id, '').records.length, 1);
+    assert.doesNotMatch(JSON.stringify(h.input()), /500/);
+  } finally { s.close(); }
+});
+
 test('unresolved competing quantities and ambiguous corrections carry both passages and never silently merge units/conditions', async () => {
   const { store: s, id, h } = fixture();
   try {
@@ -133,6 +145,9 @@ test('file version/removal invalidates dependent copies transitively, without ch
     commitMemory(s, id, [{ kind: 'claim', span_start: 0, span_end: doc.content.length }], { event: doc, expected_revision: 0 });
     const a = records(s, id)[0]; const event = user(h, 'Budget report from file.');
     commitMemory(s, id, [{ kind: 'claim', span_start: 0, span_end: event.content.length, depends_on: [a.memory_id] }], { event, expected_revision: 1 });
+    const selected = selectMemory(s, id, 'Budget report from file.').records;
+    assert.equal(selected.length, 2, 'Selecting a derived report carries its source dependency even without a lexical match');
+    assert.ok(selected.some(r => r.content === doc.content));
     s.append(id, 'document', 'Limit 700 USD.', { workspace_path: 'budget.md' }, 'human');
     assert.ok(records(s, id).every(r => r.lifecycle === 'invalidated'));
     assert.equal(selectMemory(s, id, 'budget').records.length, 0);
