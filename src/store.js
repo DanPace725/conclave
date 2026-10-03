@@ -3,16 +3,19 @@ import { randomUUID, createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync, renameSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { validateState, checkAttribution } from './state.js';
+import { removedSources } from './documents.js';
+import { referenceIndex, resolveHandle } from "./references.js";
 
 export const id = (prefix) => `${prefix}_${randomUUID()}`;
 export const hash = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const decode = (row) => row && { ...row, metadata: JSON.parse(row.metadata) };
 
 export class Store {
-  constructor(directory = '.conclave') {
-    this.directory = resolve(directory);
-    mkdirSync(this.directory, { recursive: true });
-    this.db = new DatabaseSync(join(this.directory, 'conclave.sqlite'));
+  constructor(directory = '.conclave', { memory = false } = {}) {
+    this.memoryOnly = memory;
+    this.directory = memory ? null : resolve(directory);
+    if (!memory) mkdirSync(this.directory, { recursive: true });
+    this.db = new DatabaseSync(memory ? ':memory:' : join(this.directory, 'conclave.sqlite'));
     this.db.exec(`
       PRAGMA journal_mode=WAL;
       PRAGMA busy_timeout=3000;
@@ -81,7 +84,9 @@ export class Store {
   }
 
   list() {
-    return this.db.prepare("SELECT conversation_id,content AS title,timestamp FROM events WHERE kind='conversation' ORDER BY seq DESC").all();
+    return this.db.prepare(`SELECT e.conversation_id, COALESCE((SELECT t.content FROM events t
+      WHERE t.conversation_id=e.conversation_id AND t.kind='conversation_title' ORDER BY t.seq DESC LIMIT 1), e.content) AS title,
+      e.timestamp FROM events e WHERE e.kind='conversation' ORDER BY e.seq DESC`).all();
   }
 
   events(conversation) {
@@ -89,6 +94,7 @@ export class Store {
   }
 
   event(conversation, eventId) {
+    eventId = resolveHandle(this.references(conversation), eventId, "sources");
     const row = decode(this.db.prepare('SELECT * FROM events WHERE conversation_id=? AND id=?').get(conversation, eventId));
     if (!row) throw Error(`Unknown source event: ${eventId}`);
     return row;
@@ -96,24 +102,25 @@ export class Store {
 
   source(conversation, eventId) {
     const event = this.event(conversation, eventId);
-    if (!['user', 'assistant', 'document'].includes(event.kind)) throw Error('Source must be a completed message or document');
+    if (!['user', 'assistant', 'document', 'reasoning'].includes(event.kind)) throw Error('Source must be a message, document or reasoning summary');
     return event;
   }
 
   search(conversation, query, limit = 5) {
+    const removed = removedSources(this.events(conversation));
     const terms = String(query).match(/[\p{L}\p{N}_-]+/gu)?.slice(0, 12) || [];
     if (!terms.length) return [];
     let rows;
     if (this.fts) {
       rows = this.db.prepare(`SELECT e.* FROM history_search h JOIN events e ON e.id=h.event_id
         WHERE history_search MATCH ? AND h.conversation_id=? ORDER BY bm25(history_search),e.seq DESC LIMIT ?`)
-        .all(terms.map((t) => `"${t}"`).join(' OR '), conversation, limit);
+        .all(terms.map((t) => `"${t}"`).join(' OR '), conversation, limit + removed.size);
     } else {
-      rows = this.db.prepare(`SELECT * FROM events WHERE conversation_id=? AND kind IN ('user','assistant','document')
+      rows = this.db.prepare(`SELECT * FROM events WHERE conversation_id=? AND kind IN ('user','assistant','document','reasoning')
         AND (${terms.map(() => "instr(lower(content),lower(?))>0").join(' OR ')}) ORDER BY seq DESC LIMIT ?`)
-        .all(conversation, ...terms, limit);
+        .all(conversation, ...terms, limit + removed.size);
     }
-    return rows.map(decode);
+    return rows.map(decode).filter(e => !removed.has(e.id)).slice(0, limit);
   }
 
   refreshIndex() {
@@ -122,7 +129,7 @@ export class Store {
     try {
     const checkpoint = this.db.prepare('SELECT last_seq FROM context_index_state WHERE singleton=1').get().last_seq;
     for (const event of this.db.prepare('SELECT * FROM events WHERE seq>? ORDER BY seq').all(checkpoint).map(decode)) {
-      if (['user', 'assistant', 'document'].includes(event.kind)) {
+      if (['user', 'assistant', 'document', 'reasoning'].includes(event.kind)) {
         this.db.prepare('DELETE FROM source_chunks WHERE event_id=?').run(event.id);
         // Overlap keeps a short phrase searchable across a chunk boundary. Offsets are JS characters, like retrieval.
         for (let offset = 0; offset < event.content.length; offset += 1440) {
@@ -137,15 +144,27 @@ export class Store {
         }
       }
       if (event.kind === 'context_transform') {
-        for (const item of event.metadata.segments || []) {
-          this.db.prepare('INSERT INTO bundle_index VALUES (?,?,?,?) ON CONFLICT(conversation_id,id) DO UPDATE SET revision=excluded.revision,segment=excluded.segment WHERE excluded.revision>=bundle_index.revision')
-            .run(event.conversation_id, item.id, event.metadata.revision, JSON.stringify(item));
-        }
+        // Older receipts embed their segments. Newer ones rely on the snapshot row; during
+        // commit that row does not exist yet, and commit indexes the bundles itself.
+        const segments = event.metadata.segments || this.receiptSegments(event.conversation_id, event.metadata.revision, event.id);
+        if (segments) this.indexBundles(event.conversation_id, event.metadata.revision, segments);
       }
       this.db.prepare('UPDATE context_index_state SET last_seq=max(last_seq,?) WHERE singleton=1').run(event.seq);
     }
       if (ownsTransaction) this.db.exec('COMMIT');
     } catch (error) { if (ownsTransaction) this.db.exec('ROLLBACK'); throw error; }
+  }
+
+  indexBundles(conversation, revision, segments) {
+    for (const item of segments) {
+      this.db.prepare('INSERT INTO bundle_index VALUES (?,?,?,?) ON CONFLICT(conversation_id,id) DO UPDATE SET revision=excluded.revision,segment=excluded.segment WHERE excluded.revision>=bundle_index.revision')
+        .run(conversation, item.id, revision, JSON.stringify(item));
+    }
+  }
+
+  receiptSegments(conversation, revision, receiptId) {
+    const row = this.db.prepare('SELECT segments FROM snapshots WHERE conversation_id=? AND revision=? AND receipt_id=?').get(conversation, revision, receiptId);
+    return row ? JSON.parse(row.segments) : null;
   }
 
   reindex() {
@@ -161,6 +180,7 @@ export class Store {
   }
 
   searchChunks(conversation, query, limit = 4, eventId = null) {
+    const removed = removedSources(this.events(conversation));
     const terms = [...new Set(String(query).toLowerCase().match(/[\p{L}\p{N}_-]+/gu) || [])].slice(0, 12);
     if (!terms.length) return [];
     const conditions = terms.map(() => 'instr(lower(c.content),?)>0').join(' OR ');
@@ -170,7 +190,8 @@ export class Store {
       WHERE c.conversation_id=? ${eventId ? 'AND c.event_id=?' : ''} AND (${conditions})
     ), ranked AS (SELECT *,row_number() OVER (PARTITION BY event_id ORDER BY matches DESC,offset) AS rank FROM matches)
     SELECT * FROM ranked WHERE rank=1 ORDER BY matches DESC,seq DESC LIMIT ?`)
-      .all(...terms, conversation, ...(eventId ? [eventId] : []), ...terms, limit);
+      .all(...terms, conversation, ...(eventId ? [eventId] : []), ...terms, limit + removed.size)
+      .filter(e => !removed.has(e.event_id)).slice(0, limit);
   }
 
   memory(conversation, query = '', limit = 50) {
@@ -221,7 +242,69 @@ export class Store {
       : { revision: 0, segments: [], receipt_id: null };
   }
 
+  references(conversation) {
+    // Rebuild only when a source or snapshot changed. First appearances are
+    // deterministic across SQLite restarts and hydrated Neon service instances.
+    this.referenceCache ||= new Map();
+    const end =
+      this.db
+        .prepare(
+          "SELECT max(seq) AS seq FROM events WHERE conversation_id=? AND kind IN ('user','assistant','document','reasoning','tool_result')",
+        )
+        .get(conversation).seq || 0;
+    const revision = this.context(conversation).revision;
+    const cached = this.referenceCache.get(conversation);
+    if (cached?.seq === end && cached.revision === revision)
+      return cached.index;
+    const snapshots = this.db
+      .prepare(
+        "SELECT segments FROM snapshots WHERE conversation_id=? AND revision>? ORDER BY revision",
+      )
+      .all(conversation, cached?.revision || 0)
+      .map((row) => ({ segments: JSON.parse(row.segments) }));
+    const index = cached?.index || referenceIndex([], []);
+    for (const snapshot of snapshots)
+      for (const item of snapshot.segments)
+        if (!index.segments.has(item.id))
+          index.segments.set(item.id, `S${index.segments.size + 1}`);
+    const events = this.db
+      .prepare(
+        "SELECT id,kind FROM events WHERE conversation_id=? AND seq>? ORDER BY seq",
+      )
+      .all(conversation, cached?.seq || 0);
+    for (const event of events)
+      if (
+        ["user", "assistant", "document", "reasoning", "tool_result"].includes(
+          event.kind,
+        ) &&
+        !index.sources.has(event.id)
+      )
+        index.sources.set(event.id, `E${index.sources.size + 1}`);
+    this.referenceCache.set(conversation, { seq: end, revision, index });
+    return index;
+  }
+
+  describeSegments(conversation, items) {
+    const index = this.references(conversation);
+    return items.map((item) => ({
+      ...item,
+      segmentRef: index.segments.get(item.id) || null,
+      sourceRefs: item.source_event_ids.map((id) => ({
+        id,
+        sourceRef: index.sources.get(id) || null,
+      })),
+      parentRefs: item.parent_bundle_ids.map((id) => ({
+        id,
+        segmentRef: index.segments.get(id) || null,
+      })),
+      referenceRef: item.ref_bundle_id
+        ? index.segments.get(item.ref_bundle_id) || null
+        : null,
+    }));
+  }
+
   resolveBundle(conversation, bundleId) {
+    bundleId = resolveHandle(this.references(conversation), bundleId);
     const indexed = this.db.prepare('SELECT segment FROM bundle_index WHERE conversation_id=? AND id=?').get(conversation, bundleId);
     if (indexed) return JSON.parse(indexed.segment);
     for (const row of this.db.prepare('SELECT segments FROM snapshots WHERE conversation_id=? ORDER BY revision DESC').all(conversation)) {
@@ -275,19 +358,23 @@ export class Store {
         if (segment.content_hash !== hash(segment.content)) throw Error('Content hash mismatch');
       }
       for (const segment of previous.segments) {
+        const removedByUser = reason === 'user document removal' && details.edited_by === 'human'
+          && segment.source_event_ids.some(id => details.removed_source_ids?.includes(id));
         if (segment.pinned || segment.verbatim_required || protectedIds.includes(segment.id)
           || (segment.state_key && !['update structured task state', 'restore context revision'].includes(reason))) {
           const next = segments.find((s) => s.id === segment.id);
-          if (!next || hash(next) !== hash(segment)) throw Error(`Protected segment cannot be changed: ${segment.id}`);
+          if ((!next || hash(next) !== hash(segment)) && !removedByUser) throw Error(`Protected segment cannot be changed: ${segment.id}`);
         }
       }
       revision = previous.revision + 1;
       const receipt = this.append(conversation, 'context_transform', reason, {
         ...details, revision, previous_revision: previous.revision,
         before_hash: hash(previous.segments), after_hash: hash(segments),
-        source_event_ids: [...new Set(segments.flatMap((s) => s.source_event_ids))], segments,
+        source_event_ids: [...new Set(segments.flatMap((s) => s.source_event_ids))],
       });
+      // The snapshot row is the one stored copy of the segments; after_hash binds the receipt to it.
       this.db.prepare('INSERT INTO snapshots VALUES (?,?,?,?)').run(conversation, revision, JSON.stringify(segments), receipt.id);
+      this.indexBundles(conversation, revision, segments);
       this.db.exec('COMMIT');
     } catch (error) {
       this.db.exec('ROLLBACK');
@@ -301,10 +388,11 @@ export class Store {
   writeView(conversation) {
     this.requireConversation(conversation);
     const context = this.context(conversation);
-    const folder = join(this.directory, conversation);
-    mkdirSync(folder, { recursive: true });
     const text = `# Live context — revision ${context.revision}\n\n` + context.segments.map((s) =>
       `## ${s.type} [${s.id}]${s.pinned ? ' PINNED' : ''} (${s.status})${s.state_key ? `\nState key: ${s.state_key}; resolution: ${s.resolution.status}; confidence: unknown` : ''}\nSources: ${s.source_event_ids.join(', ')}\n\n${s.content}\n`).join('\n');
+    if (this.memoryOnly) return text;
+    const folder = join(this.directory, conversation);
+    mkdirSync(folder, { recursive: true });
     const temporary = join(folder, 'context.md.tmp');
     writeFileSync(temporary, text);
     renameSync(temporary, join(folder, 'context.md'));

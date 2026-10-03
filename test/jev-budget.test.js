@@ -11,7 +11,7 @@ import { JevDecisionAdapter } from '../src/jev.js';
 const text = (content) => ({ status: 'completed', model: 'fixture', usage: { input_tokens: 10, output_tokens: 5 },
   output: [{ type: 'message', content: [{ type: 'output_text', text: content }] }] });
 
-test('Jev retain/escalate decisions survive later compaction passes and answer-tool edits', async () => {
+test('Jev retention excludes automatic rewrites while old advisory-retained bundles remain recoverably offloadable', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'conclave-jev-retention-'));
   const store = new Store(directory);
   try {
@@ -38,7 +38,9 @@ test('Jev retain/escalate decisions survive later compaction passes and answer-t
       if (answerCalls === 1) return { ...text(''), output: [{ type: 'function_call', name: 'offload_context', call_id: 'retain-check',
         arguments: JSON.stringify({ bundle_ids: retained, expected_revision: store.context(conversation).revision }) }] };
       const result = payload.input.find((item) => item.type === 'function_call_output');
-      assert.match(JSON.parse(result.output).error, /Protected segment/);
+      const receipt = store.events(conversation).findLast(e => e.kind === 'tool_result');
+      assert.equal(JSON.parse(receipt.content).error, undefined);
+      assert.ok(result, 'offload result remains in the model continuation');
       return text('The retained details are still available.');
     } };
     const harness = new Harness(store, conversation, provider, { budget: 34000, recent: 1,
@@ -50,9 +52,12 @@ test('Jev retain/escalate decisions survive later compaction passes and answer-t
     await harness.ask('Continue the planning discussion.');
     assert.equal(selections, 1);
     const batches = store.events(conversation).filter((e) => e.kind === 'attention_decision' && e.content === 'select compaction batch');
-    assert.ok(batches.length >= 2, 'fixture must reach a subsequent deterministic pass');
-    assert.deepEqual(batches[1].metadata.decision_retained_bundle_ids, retained);
-    for (const item of originals.slice(0, 6)) assert.deepEqual(store.context(conversation).segments.find((s) => s.id === item.id), item);
+    assert.ok(batches.length >= 1, 'fixture must review context before answering');
+    for (const item of originals.slice(0, 6)) {
+      assert.equal(store.resolveBundle(conversation, item.id).content, item.content);
+      assert.ok(store.context(conversation).segments.some(s => s.ref_bundle_id === item.id),
+        'explicit tool offload preserves a retrievable pointer');
+    }
     assert.equal(harness.metrics().failures, 0);
   } finally { store.close(); rmSync(directory, { recursive: true }); }
 });

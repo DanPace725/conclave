@@ -17,10 +17,12 @@ test('one complete loop: edit changes next request, history survives eviction an
     const store = new Store(directory);
     try {
       const requests = store.events(result.conversation).filter((e) => e.kind === 'inference_request');
-      assert.match(requests[0].metadata.payload.input[0].content, /Architecture A was tried twice/);
-      assert.doesNotMatch(requests[1].metadata.payload.input[0].content, /Architecture A was tried twice/);
-      assert.match(requests[1].metadata.payload.input[0].content, /A may still work if X changes/);
-      assert.doesNotMatch(requests.at(-2).metadata.payload.input[0].content, /orchard-719/);
+      const projection = request => request.metadata.payload.input.filter(item => item.content
+        && /^(Working context:|Recent context tail:)/.test(item.content)).map(item => item.content).join('\n');
+      assert.match(projection(requests[0]), /Architecture A was tried twice/);
+      assert.doesNotMatch(projection(requests[1]), /Architecture A was tried twice/);
+      assert.match(projection(requests[1]), /A may still work if X changes/);
+      assert.doesNotMatch(projection(requests.at(-2)), /orchard-719/);
       assert.throws(() => store.db.exec('DELETE FROM events'), /append-only/);
     } finally { store.close(); }
   } finally { rmSync(directory, { recursive: true }); }
@@ -41,7 +43,7 @@ test('pin, source, revision and budget checks reject bad edits without changing 
       content: 'Fabricated source', source_event_ids: ['missing'], type: 'summary', status: 'active',
     }] }), /Unknown source/);
     assert.deepEqual(store.context(conversation), current);
-    await assert.rejects(harness.ask('x'.repeat(20000)), /budget|No older unprotected/);
+    await assert.rejects(harness.ask('x'.repeat(20000)), /budget|byte guard|No older unprotected/);
     assert.equal(provider.requests.length, 0);
     assert.equal(store.events(conversation).at(-1).kind, 'turn_failure');
   } finally { store.close(); rmSync(directory, { recursive: true }); }

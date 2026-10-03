@@ -7,7 +7,9 @@ export class DemoProvider {
   requests = [];
   async respond(payload) {
     this.requests.push(payload);
-    const context = JSON.parse(payload.input[0].content.split('\n')[1]);
+    const context = payload.input.filter(item => typeof item.content === 'string'
+      && /^(Working context:|Recent context tail:)/.test(item.content))
+      .flatMap(item => JSON.parse(item.content.split('\n')[1]));
     const last = payload.input.at(-1);
     const make = (output) => ({ id: `demo_${this.requests.length}`, model: 'scripted-demo', status: 'completed', output });
     const answer = (text) => make([{ type: 'message', role: 'assistant', content: [{ type: 'output_text', text }] }]);
@@ -24,7 +26,7 @@ export class DemoProvider {
     const latest = [...context].reverse().find((s) => s.type === 'user')?.content || '';
     if (latest === 'Compact the old architecture note.') {
       const old = context.find((s) => s.content.startsWith('Architecture A'));
-      const revision = Number(payload.input[0].content.match(/revision (\d+)/)[1]);
+      const revision = Number(payload.input.map(item => item.content || '').join('\n').match(/revision (\d+)/)[1]);
       return call('edit_context', { expected_revision: revision, remove_ids: [old.id], additions: [{
         content: 'B currently looks easier; A may still work if X changes.',
         source_event_ids: old.source_event_ids, type: 'decision', status: 'unresolved',
@@ -37,12 +39,14 @@ export class DemoProvider {
 
 export async function runDemo(directory = '.conclave/demo') {
   let store = new Store(directory);
+  try {
   const conversation = store.create('Offline recovery demo');
   const provider = new DemoProvider();
   let harness = new Harness(store, conversation, provider);
   harness.pin('Never drop the caveat that architecture A may still work if X changes.');
   const old = harness.addMessage('user', 'Architecture A was tried twice. It may still work if X changes, but B currently looks easier.');
   const code = harness.addMessage('user', 'The amber recovery code is orchard-719.');
+  for (let i = 0; i < 4; i++) harness.addMessage('user', `Routine note ${i}; no change to the architecture choice.`);
   harness.edit({ expected_revision: store.context(conversation).revision, remove_ids: [code.item.id], additions: [] });
   const edited = await harness.ask('Compact the old architecture note.');
   const saved = store.context(conversation);
@@ -56,8 +60,8 @@ export async function runDemo(directory = '.conclave/demo') {
     old_source_intact: store.source(conversation, old.event.id).content,
     code_source_intact: store.source(conversation, code.event.id).content,
     context_file: `${store.directory}/${conversation}/context.md`, metrics: harness.metrics() };
-  store.close();
   return output;
+  } finally { store.close(); }
 }
 
 if (process.argv[1]?.replaceAll('\\', '/').endsWith('/scripts/demo.js')) {

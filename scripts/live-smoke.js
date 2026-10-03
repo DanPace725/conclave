@@ -11,6 +11,7 @@ try {
   const harness = new Harness(store, conversation, new OpenAIProvider(), { output: 700, maxCalls: 4 });
   harness.pin('Architecture A may still work if X changes. Never turn this possibility into a rejection.');
   const code = harness.addMessage('user', 'The amber recovery code is orchard-719.');
+  harness.addMessage('user', 'Continue after recording that code.');
   harness.edit({ expected_revision: store.context(conversation).revision, remove_ids: [code.item.id], additions: [] });
   const result = await harness.ask('First search_history for "amber recovery code". Then use edit_context to add a short evidence bundle containing the recovered code and its source_event_ids, without removing any existing bundle. Finally give the code and state whether architecture A has been conclusively rejected.');
   const context = store.context(conversation);

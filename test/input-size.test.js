@@ -38,7 +38,7 @@ test('request counts persist without changing the payload or guard; legacy count
     assert.deepEqual(payload, before);
     const request = store.events(conversation).find(e => e.kind === 'inference_request');
     assert.equal(request.metadata.estimated_input_units, budgetUnits(payload));
-    assert.equal(request.metadata.token_count.tokenizer_tokens, inputSize(payload, provider).tokenizer_tokens);
+    assert.equal(request.metadata.input_size.tokenizer_tokens, inputSize(payload, provider).tokenizer_tokens);
     assert.equal(harness.metrics().local_tokenizer_counts_complete, true);
     assert.equal(harness.metrics().input_tokens, 91);
     assert.equal(harness.metrics().next_request_input.method, 'local-o200k_base-serialized-input');

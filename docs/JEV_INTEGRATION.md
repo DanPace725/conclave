@@ -1,6 +1,6 @@
 # Jev selector setup
 
-Jev selects bounded retention actions and priorities. OpenAI remains the standalone answer and semantic-compaction provider.
+Jev selects bounded retention actions and priorities, reranks lexical shortlists, and classifies document ingress. OpenAI or Anthropic supplies answers and semantic compaction.
 
 Set `JEV_API_KEY` or `TYPESAFE_API_KEY` in the process or Windows environment.
 
@@ -22,4 +22,4 @@ node src/cli.js models --decision-provider jev
 
 Jev uses native Choice/Score questions. Candidate packing fits the separate guard; `--decision-output` applies to the OpenAI selector, not Jev. The engine validates IDs, revisions, protections, and actual reduction. Invalid/failed decisions fall back to deterministic attention. Raw decisions and usage remain in exports; `/stats` separates providers and purposes.
 
-For an OpenAI selector, use `--decision-model MODEL`. The task model performs semantic rewriting in either case. Converse's selector scheduling/protection behavior has further adaptations; see [integration](CONVERSE_INTEGRATION.md).
+For a bounded task-provider selector, use `--decision-model MODEL`. The task model performs semantic rewriting in either case. The shared engine includes cached/periodic reviews, scoped protections, reranking, classification, and deterministic fallback. Service/Agent commands use Jev when credentials exist; `--no-jev` disables it. See [integration](CONVERSE_INTEGRATION.md).

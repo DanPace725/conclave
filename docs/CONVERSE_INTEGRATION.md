@@ -1,30 +1,34 @@
 # Conclave and Converse integration
 
-The standalone CLI lives in `CLA/conclave/src/`. Converse deploys its own engine snapshot in `converse/lib/conclave/`; the web deployment does not import the sibling checkout.
+CLA/conclave is the source of truth for the complete engine. Converse deploys a self-contained copy under converse/lib/conclave; it does not import the sibling checkout at runtime.
 
-## Local use
+## Ownership
 
-From `E:\Coding\converse\converse`:
-
-```powershell
-npm ci
-npm run dev
-```
-
-Open http://127.0.0.1:3211. Choose Context or Agent and GPT or Claude. [The app guide](../../../converse/public/app-guide.md) describes controls, tools, limits, and exports.
-
-With `DATABASE_URL`, the web app uses Neon. Without it, local development uses SQLite under `CONCLAVE_DATA_DIR` or the sibling `.conclave` directory. The CLI uses `--data DIR`; point it at the same directory to inspect local conversations. Coordinate edits when sharing a database between CLI and browser.
-
-## Implementation boundary
-
-| Standalone | Additional Converse implementation |
+| Conclave owns | Converse owns |
 |---|---|
-| OpenAI task adapter, optional Jev selection | Anthropic task adapter, streaming and reasoning summaries |
-| SQLite trajectory and projections | Neon persistence, fenced leases, Vercel endpoints |
-| CLI context/state/retrieval controls | Checkpointed agents, versioned workspace, manual editor |
-| Local token counts and exports | Provider counting, Garden/activity, shared guide, cost reporting |
-| Deterministic/bounded attention | Periodic cached reviews, scoped protections, readable handles, frozen tool projections |
+| Providers, streaming, reasoning attribution, token counts | Browser shell, chat UI, editors, Context Garden presentation |
+| Trajectory, state, references, projections, attention, economics, Jev | Ordinary multi-model chat and application-specific title generation |
+| Agents, workspace tools, arithmetic, search, page retrieval | Vercel deployment/configuration and connection provisioning |
+| SQLite/in-memory stores, PostgreSQL repository, schema/migrations, leases, fenced writes | Deployment database connection lifecycle |
+| Context HTTP protocol, portable local/hosted handlers, session helpers | App-specific entrypoint wrappers |
+| Shared engine guide, effort table, export filename helper, rate snapshot | Other application assets |
 
-Web JSON exports contain a canonical transcript and full `context_layer` audit. Native CLI exports contain the engine audit. Ordinary web Chat is browser-local and supports GPT, Claude, and Gemini; Gemini does not have a Context/Agent adapter.
+src/ contains the portable engine and its resources. The CLI is a standalone entrypoint; integrations/converse/ contains thin wrappers preserving Converse's existing import paths. drizzle/ contains the same database schema history. API/CLI users can inspect or change all engine operations; browser UI stays in Converse.
 
-When refreshing the web engine, preserve [Converse's snapshot adaptations](../../../converse/lib/conclave/VENDORED.md). [Hosted setup](../../../converse/docs/HOSTED_CONTEXT.md) covers migrations and deployment.
+## Change sequence
+
+1. Implement the engine change in Conclave, including required resources, dependencies, tests, or migrations.
+2. Run npm test and npm run check in Conclave. Commit the verified source.
+3. Run node scripts/sync-converse.js --apply from Conclave. Use --target PATH for a different Converse checkout.
+4. Run node scripts/sync-converse.js --check. Every managed runtime file and resource must match byte for byte.
+5. In Converse, run npm run check and npm test; update its lockfile if migration adds dependencies. Commit and push the snapshot.
+
+The manifest at converse/lib/conclave/manifest.json records the Conclave commit, required dependency ranges, and hashes of all migrated files. Converse's scripts/check-engine.js verifies that receipt without requiring a sibling checkout. Migration refuses downstream edits that differ from both the last receipt and current Conclave; port such edits into Conclave before applying the migration. New unmanaged engine modules also fail verification. The one-time promotion uses --apply --bootstrap; later changes use ordinary --apply.
+
+The initial parity migration promotes Converse's engine at commit 81c7ccc5e08c91a21549c698e1567385d3e22fce, including its web-search/page integrations, into Conclave. Subsequent engine work moves only from Conclave into Converse.
+
+## Local and hosted use
+
+Conclave provides npm run serve, its CLI, and reusable classes/handlers. Converse retains npm run dev and its web UI. Both support GPT/Claude Context and Agent flows, workspace documents, inspection, and the same persistence behavior.
+
+For standalone storage use .conclave/, CLI --data DIR, or CONCLAVE_DATA_DIR. Converse's local wrapper preserves its existing sibling .conclave location unless configured otherwise. Coordinate mutations when sharing a local database. With DATABASE_URL, the portable server and Converse use the shared PostgreSQL repository. Existing databases retain their schema and audit records; promoting the engine does not itself run migrations or modify saved conversations.

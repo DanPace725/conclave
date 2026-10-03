@@ -20,7 +20,7 @@ Persistent trajectory, mutable context applies to project knowledge as well as m
 
 1. **Orient.** Read PROJECT_CONTEXT.md. Confirm the affected implementation and identify the result the task should improve.
 2. **Retrieve.** Open the smallest relevant source set. Follow an archive link for rationale, exact measurements, or an unresolved choice.
-3. **Develop.** Implement the authorized change. Shared engine work starts in Conclave; Converse's vendored snapshot has additional hosted/provider/UI adaptations documented in VENDORED.md. Check both copies when changing shared behavior.
+3. **Develop.** Implement all Conclave engine changes in the Conclave repository first, including providers, streaming, agents, workspaces, web tools, context controls, and hosted persistence. Test and commit the source. Migrate it into Converse with `node scripts/sync-converse.js --apply`, verify `--check`, and run Converse's checks before committing its snapshot. The manifest records exact file hashes and the source commit. Converse owns its application UI and deployment configuration. See [integration](CONVERSE_INTEGRATION.md).
 4. **Demonstrate.** Check the changed behavior with a focused test or replay. For performance claims, compare completed workloads and actual usage; distinguish saved text, request tokens, cache buckets, and cost.
 5. **Compact.** Update capabilities and demonstrated results; remove completed work from the pending list. Archive detailed reports and superseded discussion. Keep operational instructions in the usage docs.
 6. **Handoff.** Leave the current result, its evidence, and the remaining work in PROJECT_CONTEXT.md. The next session starts there.

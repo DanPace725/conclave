@@ -4,7 +4,7 @@ export const ATTENTION_POLICY = 'attention-v1';
 
 export function retentionPlan(segments, { query = '', recent = 4, protectedIds = [], batchBytes, measure,
   budget, force = false, legacy = false }) {
-  const recentIds = new Set(segments.slice(-recent).map((s) => s.id));
+  const recentIds = new Set((recent > 0 ? segments.slice(-recent) : []).map((s) => s.id));
   const terms = [...new Set(query.toLowerCase().match(/[\p{L}\p{N}_-]+/gu) || [])].slice(0, 12);
   const entries = segments.map((s, order) => {
     const protectedItem = !!(s.pinned || s.verbatim_required || s.state_key || protectedIds.includes(s.id) || recentIds.has(s.id));
@@ -23,7 +23,10 @@ export function retentionPlan(segments, { query = '', recent = 4, protectedIds =
   if (force || requestUnits >= budget * 0.75) {
     for (const entry of candidates) {
       const item = segments[entry.order];
-      if (Buffer.byteLength(JSON.stringify([...selected, item]), 'utf8') > batchBytes) continue;
+      if (Buffer.byteLength(JSON.stringify([...selected, item]), 'utf8') > batchBytes) {
+        if (Buffer.byteLength(item.content) > 1000) { entry.action = 'offload'; entry.reason = 'Older bundle exceeds remaining compaction batch; preserve it through a retrieval pointer.'; }
+        continue;
+      }
       selected.push(item);
       entry.action = 'compact';
     }
@@ -31,10 +34,20 @@ export function retentionPlan(segments, { query = '', recent = 4, protectedIds =
   return { policy_version: ATTENTION_POLICY, strategy: legacy ? 'chronological' : 'priority-and-task',
     counter: 'utf8-bytes-conservative-proxy-v1', request_units: requestUnits, budget,
     trigger_units: Math.floor(budget * 0.75), protected_units: measure(segments.filter((_, i) => entries[i].protected)),
-    over_budget: requestUnits > budget, entries, selected_bundle_ids: selected.map((s) => s.id) };
+    over_budget: requestUnits > budget, entries, selected_bundle_ids: selected.map((s) => s.id), offload_bundle_ids: entries.filter(e => e.action === 'offload').map(e => e.bundle_id) };
 }
 
-export function referenceFor(item, makeSegment) {
-  return makeSegment(`Offloaded ${item.type} (${item.status}). Original bundle: ${item.id}. Use resolve_context to expand it.`,
-    item.source_event_ids, { type: 'reference', status: item.status, parent_bundle_ids: [item.id], ref_bundle_id: item.id });
+export function referenceFor(item, makeSegment, segmentRef = item.id) {
+  const text = item.content.replace(/\s+/g, ' ').trim();
+  const excerpt = text.slice(0, 160) + (text.length > 160 ? '…' : '');
+  return makeSegment(
+    `Offloaded ${item.type} (${item.status}). Original segment: ${segmentRef}. Use resolve_context at offset 0 and follow next_offset for full text.\nSource excerpt (not a summary): ${JSON.stringify(excerpt)}`,
+    item.source_event_ids,
+    {
+      type: "reference",
+      status: item.status,
+      parent_bundle_ids: [item.id],
+      ref_bundle_id: item.id,
+    },
+  );
 }

@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+src/** text eol=lf
+integrations/** text eol=lf
+drizzle/** text eol=lf

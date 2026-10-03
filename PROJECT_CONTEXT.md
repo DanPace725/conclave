@@ -1,22 +1,25 @@
 # Conclave project context
 
-Updated 2026-10-02. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
+Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
 
 ## Current capabilities
 
-- Local Node CLI and reusable service using OpenAI Responses. Jev or a bounded OpenAI selector can advise attention separately from the answer model.
-- Append-only SQLite trajectory, immutable snapshots, restart/resume, complete request/response/failure records, JSON exports, and a generated working-context view.
-- Append, rolling-summary, and layered modes. Layered mode supports source-linked edits, compaction, eviction, lossless pointers, protected pins/exact text, and restoration as a new revision.
-- Indexed source chunks and historical bundles, lexical search, matching excerpts, exact/pageable retrieval, focused document ingress, memory tiers, and index rebuilding.
-- Named objectives, constraints, decisions, questions, and evidence. Corrections retain sources and supersession; support/conflict relationships remain inspectable.
-- Deterministic attention selection, bounded candidate decisions, confidence gating, fallback receipts, compaction reduction preflight/cooldown, and continuation-budget recovery.
-- Local o200k token counts with request fingerprints, model/provider/scope metadata, persisted count coverage, separate provider usage, and a conservative byte-plus-output guard.
-- Converse contains an independently deployed engine snapshot with additional providers, streaming, agents, workspaces, hosted persistence, and controls. Those additions are not CLI capabilities. [Integration](docs/CONVERSE_INTEGRATION.md)
+- Source of truth for the complete engine deployed in Converse. Shared changes start here, are tested/committed, then migrate with a hash manifest and drift checks. [Workflow](docs/CONVERSE_INTEGRATION.md)
+- OpenAI/Anthropic task providers, native streaming/reasoning summaries, explicit provider/model provenance, signed Claude continuations and token-count controls. Jev advises bounded attention/reranking/ingress separately from the task model.
+- Append-only SQLite or PostgreSQL trajectory, immutable snapshots, restart/resume, complete request/response/failure records, JSON exports, and rebuildable working views. Hosted leases and fenced writes preserve progress across service instances.
+- Append, summary, and layered modes; source-linked edits, compaction, eviction, lossless pointers, protections, stable S/E handles, frozen tool-loop projections, cached/periodic reviews, and explicit refreshes.
+- Indexed source chunks and historical bundles, lexical search with bounded Jev reranking, pageable exact retrieval, bounded ingress, memory tiers, and index rebuilding.
+- Named objectives, constraints, decisions, questions, and evidence with source attribution, supersession, explicit support/conflict links, key/handle relationships, manual correction, and unknown confidence retained.
+- Checkpointed Agent start/step/stop/resume with bounded adaptive limits, duplicate-step guards, batches of up to 16 tools, precise diagnostics, and saved pending exchanges.
+- Versioned workspace text files, uploads, exact patches, removal/restoration, current-file authority/readback checks, arithmetic/formulas, native web search, and public HTTP page retrieval with preserved canonical sources.
+- Settled context ordering, compact tool receipts, cache-aware economic reviews, purpose/provider usage, local token-count coverage, preflight counts, audit/replay, and full-request comparisons.
+- CLI context and complete service operations, local/hosted HTTP API, and library exports. Converse supplies the browser UI; its engine modules and managed integration wrappers match this source.
 
 ## Demonstrated results
 
 | Result | Evidence |
 |---|---|
+| Engine promoted from Converse; 138 offline checks passed with one optional local-export replay skipped, including the hosted HTTP/PostgreSQL path. CLI Agent restart, shared HTTP operations, PostgreSQL persistence, and migration drift refusal are covered. | [Parity work](docs/archive/2026-10-03/engine-parity.md) |
 | Live retrieval recovered `orchard-719` after eviction; one compaction reduced projection text 3,018 → 1,890 characters while retaining a conditional alternative and lineage. | [Initial results](docs/archive/2026-10-02/docs/IMPLEMENTATION_STATUS.md) |
 | Initial three-mode fixture retained the code and condition; layered consumed 4,683 input tokens vs append's 3,253. | [Initial results](docs/archive/2026-10-02/docs/IMPLEMENTATION_STATUS.md) |
 | Robotics discussion completed 20 answers before a budget stop. A comprehensive report omitted the fee cap and clearance requirements despite their presence in input. | [Long conversation](docs/archive/2026-10-02/docs/LONG_CONVERSATION_FINDINGS.md) |
@@ -28,12 +31,11 @@ These are recorded checks and workloads. Context reduction, source recovery, ans
 
 ## Work not yet applied
 
-- Port selected Converse improvements to the standalone engine: compact S/E projections, frozen tool loops, scoped protection inspection, cached reviews, actionable state relationships, and periodic Jev scheduling.
-- Add standalone Anthropic/other task providers, streaming, remote token-count controls, and CLI access to agent/workspace operations where useful. These already exist in part in Converse.
-- Add exact/filter-aware and semantic retrieval, Jev shortlist reranking, and bounded ingress/state classification.
-- Add broader interactive context controls and conversational inspection/correction; the existing UI lives in Converse.
-- Develop declared-state lifecycle, semantic conflict detection, and fuller CLP resolution semantics.
-- Add portable JSON restore/import and explicit cross-conversation memory.
-- Apply cache-aware economic management and settled-state ordering; evaluate deterministic, model-directed, Jev, and hybrid attention strategies on matched long tasks.
-- Measure fidelity after corrections, recovery of offloaded facts, management overhead, and comparable total cost using user workloads.
-
+- CLP: evidence-resolution floors and independent-source/diversity accounting first; then frame validation/scoping and query results with per-result explanations. Portable bundles/sidecars, signed registries, policy membranes, vector/graph brokerage, exploration/coherence telemetry, and unresolved review remain unapplied.
+- Exact/filter-aware and semantic retrieval; embeddings tied to source versions; heading/TOC lookup and search within files.
+- Declared-state resolved/archive lifecycle, confirmation/proposal status, semantic conflict detection, and revision-conflict diffs.
+- Portable JSON import/restore and explicit cross-conversation memory with ownership/corrections.
+- Broader controls and file lifecycle: rename/version diffs, model/user pin changes, private scratch workspaces and artifact handoffs.
+- JavaScript rendering and PDF extraction; longer native-search/page fidelity checks and hosted live verification.
+- Calibrate cache/economic horizons and delegation on matched long tasks; measure source recovery, correction fidelity, useful completion, management overhead, and comparable total cost.
+- Durable unattended workers, isolated execution, and permanent erasure across canonical sources/copies/exports.

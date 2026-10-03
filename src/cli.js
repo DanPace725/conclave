@@ -4,10 +4,12 @@ import { stdin, stdout } from 'node:process';
 import { writeFileSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Store } from './store.js';
-import { Harness } from './harness.js';
-import { OpenAIProvider, JevProvider, environment, redact } from './provider.js';
+import { WorkspaceHarness as Harness } from './workspace.js';
+import { taskProvider, JevProvider, environment, redact, anthropicPayload } from './provider.js';
 import { JevDecisionAdapter } from './jev.js';
 import { stateView } from './state.js';
+import { ConclaveService } from './service.js';
+import { serviceCommands, runServiceCli } from './service-cli.js';
 
 const help = `Conclave — local persistent history / mutable context
   node src/cli.js new [title]
@@ -35,9 +37,18 @@ const help = `Conclave — local persistent history / mutable context
   node src/cli.js export PATH --conversation ID
   node src/cli.js reindex
   node src/cli.js models
+  node src/cli.js agent-start "task" --conversation ID [--provider anthropic --model claude-sonnet-5-5]
+  node src/cli.js agent-step|agent-stop|agent-status --conversation ID
+  node src/cli.js workspace-upload PATH --conversation ID
+  node src/cli.js workspace-list|workspace-read [PATH] --conversation ID
+  node src/cli.js view|count-tokens|activity|audit --conversation ID
+  node src/cli.js download PATH --conversation ID
+  node src/cli.js call METHOD [JSON_PATH] --conversation ID
 Options: --data DIR (default .conclave), --mode layered|append|summary,
-  --budget 24000 (conservative UTF-8 units, including output reserve),
-  --output 4096, --max-calls 5, --recent 4, --reasoning none, --tool-reserve 2000,
+  --provider openai|anthropic --stream --freeze-projection,
+  --budget 256000 (conservative UTF-8 units, including output reserve),
+  --output 16384, --max-calls 16, --recent 4, --reasoning low, --tool-reserve 2000,
+  --no-freeze-projection (default: stable projection within each tool loop),
   --policy balanced|legacy (default balanced)
   --focus "task keywords" (ingest: choose a matching source chunk)
   --decision-model MODEL (optional, off by default; layered mode only)
@@ -52,12 +63,17 @@ TYPE: objective|constraint|decision|question|evidence. Reuse KEY to correct stat
 Model: --model, CONCLAVE_MODEL, then gpt-6-luna. No automatic fallback.`;
 
 let store;
+if (serviceCommands.has(process.argv[2])) {
+  await runServiceCli(process.argv.slice(2));
+} else {
 try {
   const { values, positionals } = parseArgs({ allowPositionals: true, options: {
     conversation: { type: 'string' }, model: { type: 'string' }, data: { type: 'string', default: '.conclave' },
-    mode: { type: 'string', default: 'layered' }, budget: { type: 'string', default: '24000' },
-    output: { type: 'string', default: '4096' }, 'max-calls': { type: 'string', default: '5' },
-    recent: { type: 'string', default: '4' }, reasoning: { type: 'string', default: 'none' }, help: { type: 'boolean' },
+    provider: { type: 'string', default: 'openai' }, stream: { type: 'boolean' }, 'freeze-projection': { type: 'boolean', default: true },
+    'no-freeze-projection': { type: 'boolean' },
+    mode: { type: 'string', default: 'layered' }, budget: { type: 'string', default: '256000' },
+    output: { type: 'string', default: '16384' }, 'max-calls': { type: 'string', default: '16' },
+    recent: { type: 'string', default: '4' }, reasoning: { type: 'string' }, help: { type: 'boolean' },
     'tool-reserve': { type: 'string', default: '2000' },
     policy: { type: 'string', default: 'balanced' },
     focus: { type: 'string' },
@@ -72,7 +88,7 @@ try {
   if (values.help || command === 'help') {
     console.log(help);
   } else if (command === 'models') {
-    console.log((await (values['decision-provider'] === 'jev' ? new JevProvider({ keyEnv: values['jev-key-env'] }) : new OpenAIProvider()).models()).join('\n'));
+    console.log((await (values['decision-provider'] === 'jev' ? new JevProvider({ keyEnv: values['jev-key-env'] }) : taskProvider(values.provider)).models()).join('\n'));
   } else {
     store = new Store(values.data);
     if (command === 'new') console.log(store.create(argument || 'Untitled'));
@@ -86,16 +102,22 @@ try {
       const jev = live && values['decision-provider'] === 'jev';
       // Offline previews describe the same OpenAI request as live inference,
       // without constructing an adapter or reading a credential.
-      const provider = live && !(command === 'decide' && jev) ? new OpenAIProvider() : { name: 'openai' };
+      if (!['openai', 'anthropic'].includes(values.provider)) throw Error('--provider must be openai or anthropic');
+      const provider = live && !(command === 'decide' && jev) ? taskProvider(values.provider) : {
+        name: values.provider, ...(values.provider === 'anthropic' ? { requestPayload: anthropicPayload } : {}),
+      };
       const decisionModel = values['decision-model'] || (jev ? 'jev-latest' : null);
       const decisionAdapter = jev ? new JevDecisionAdapter(new JevProvider({ keyEnv: values['jev-key-env'] }), {
         model: decisionModel, budget: Number(values['decision-budget']), candidates: Number(values['decision-candidates']),
         confidence: Number(values['jev-confidence']),
       }) : undefined;
+      let displayedStream = false;
       const harness = new Harness(store, conversation, provider, {
-        model: values.model || environment('CONCLAVE_MODEL') || 'gpt-6-luna', mode: values.mode,
+        model: values.model || environment('CONCLAVE_MODEL') || (values.provider === 'anthropic' ? 'claude-sonnet-5-5' : 'gpt-6-luna'), mode: values.mode,
+        webSearch: true, freezeProjection: values['freeze-projection'] && !values['no-freeze-projection'],
+        ...(values.stream ? { onEvent: event => { if (event.delta) { displayedStream = true; stdout.write(event.delta); } } } : {}),
         budget: Number(values.budget), output: Number(values.output), maxCalls: Number(values['max-calls']),
-        recent: Number(values.recent), reasoning: values.reasoning, policy: values.policy,
+        recent: Number(values.recent), reasoning: values.reasoning || (values.provider === 'anthropic' ? 'default' : 'low'), policy: values.policy,
         toolReserve: Number(values['tool-reserve']), decisionAdapter,
         decisionModel: decisionModel, decisionBudget: Number(values['decision-budget']),
         decisionOutput: Number(values['decision-output']), decisionCandidates: Number(values['decision-candidates']),
@@ -103,6 +125,11 @@ try {
       const transcript = () => store.events(conversation).filter((e) => ['user', 'assistant', 'document'].includes(e.kind))
         .map((e) => `[${e.kind} ${e.id} seq=${e.seq}]\n${e.content}`).join('\n\n');
       const showStats = () => console.log(JSON.stringify(harness.metrics(), null, 2));
+      const answer = async text => {
+        displayedStream = false;
+        const result = await harness.ask(text);
+        if (displayedStream) stdout.write('\n'); else console.log(result.text);
+      };
       const remember = (text) => {
         const match = text.match(/^(\S+)\s+(\S+)\s+([\s\S]+)$/);
         if (!match) throw Error('Use /remember KEY TYPE TEXT; TYPE is objective, constraint, decision, question, or evidence');
@@ -143,12 +170,11 @@ try {
       else if (command === 'decide') console.log(JSON.stringify(await propose(argument), null, 2));
       else if (command === 'export') {
         if (!argument) throw Error('Export path required');
-        writeFileSync(resolve(argument), JSON.stringify({ schema_version: 1, conversation_id: conversation,
-          events: store.events(conversation), context: store.context(conversation), metrics: harness.metrics() }, null, 2));
+        writeFileSync(resolve(argument), JSON.stringify(new ConclaveService(store).export(conversation), null, 2));
         console.log(`Exported ${resolve(argument)}`);
       } else if (command === 'ask') {
         console.log(`Conversation: ${conversation}`);
-        console.log((await harness.ask(argument)).text);
+        await answer(argument);
         showStats();
       } else if (command === 'chat') {
         console.log(`Conversation: ${conversation}\nModel: ${harness.options.model}; mode: ${harness.options.mode}; policy: ${harness.options.policy}; decision model: ${harness.options.decisionModel || 'off'}\n/context /diff /history /stats /attention /memory /state /remember /state-update PATH /decide /compact /pin TEXT /ingest PATH /offload ID /restore REVISION /quit\n/remember KEY TYPE TEXT saves a named entry without an API call. Reuse KEY to correct it.`);
@@ -181,7 +207,7 @@ try {
               else if (line.startsWith('/pin ')) console.log(`Pinned ${harness.pin(line.slice(5)).id}`);
               else if (line.startsWith('/ingest ')) console.log(`Stored ${harness.ingest(line.slice(8)).id}`);
               else if (line.startsWith('/')) console.log('Unknown command.');
-              else console.log(`Assistant> ${(await harness.ask(line)).text}`);
+              else { stdout.write('Assistant> '); await answer(line); }
             } catch (error) { console.error(redact(error)); }
           }
         } finally { readline.close(); }
@@ -192,3 +218,4 @@ try {
   console.error(redact(error));
   process.exitCode = 1;
 } finally { store?.close(); }
+}
