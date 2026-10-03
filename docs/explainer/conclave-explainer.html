@@ -1,0 +1,779 @@
+<title>Conclave, Behind the Scenes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one 1280x720 stage (a desk) scaled to fit; the paper log lives left, live context right, decisions and inference in the middle, captions along the bottom. */
+:root {
+  color-scheme: dark;
+  --desk: #182030;
+  --desk-2: #222c3f;
+  --desk-3: #2c3850;
+  --chalk: #e8ecf3;
+  --chalk-dim: #94a0b6;
+  --paper: #f2f4f6;
+  --paper-rule: #dfe4ea;
+  --ink: #1c2332;
+  --ink-soft: #5d677a;
+  --state: #3fb8a9;
+  --pin: #e4688f;
+  --recent: #e8b54d;
+  --plain: #8a94a8;
+  --model: #93a5ff;
+  --jev: #56c6e4;
+  --hl: #ffe27a;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+html, body { background: var(--desk); color: var(--chalk); }
+body { font-family: var(--body); padding: 24px 16px 40px; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 16px; }
+.intro h1 { font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+.intro p { margin: 6px 0 0; color: var(--chalk-dim); max-width: 66ch; line-height: 1.5; }
+
+.viewport { position: relative; width: 100%; aspect-ratio: 16 / 9; max-width: 100%; overflow: hidden; border-radius: 10px; background: var(--desk); box-shadow: 0 0 0 1px #2e3a52, 0 20px 50px #0007; }
+.stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; overflow: hidden;
+  background: radial-gradient(1200px 700px at 50% 40%, #1d2638 0%, var(--desk) 70%); }
+.stage * { box-sizing: border-box; }
+.a { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+
+/* paper */
+.paper { width: 520px; height: 680px; transform-origin: 0 0; background:
+  repeating-linear-gradient(to bottom, transparent 0 23px, var(--paper-rule) 23px 24px) 0 46px / 100% 100% no-repeat, var(--paper);
+  border-radius: 3px; box-shadow: 0 2px 0 #c9d0d9, 0 18px 40px #0009; color: var(--ink); }
+.paper-head { position: absolute; left: 22px; right: 22px; top: 14px; display: flex; justify-content: space-between; font: 500 11px/1 var(--mono); color: var(--ink-soft); letter-spacing: .02em; }
+.paper-head b { color: var(--ink); font-weight: 500; }
+.entry { position: absolute; left: 22px; width: 476px; padding: 3px 8px 0; }
+.entry .meta { font: 400 9.5px/1.4 var(--mono); color: var(--ink-soft); display: flex; gap: 8px; }
+.entry .meta .role { text-transform: uppercase; letter-spacing: .08em; font-weight: 500; color: var(--ink); }
+.entry .txt { font: 400 12px/1.4 var(--body); }
+.doclines { margin-top: 5px; display: grid; gap: 4px; }
+.doclines i { display: block; height: 3px; border-radius: 2px; background: #c9d0da; }
+.boxes { position: absolute; left: 0; top: 0; overflow: visible; }
+.boxes rect { fill: none; stroke-width: 2; stroke-dasharray: 1; stroke-linejoin: round; }
+.boxtag { position: absolute; font: 600 8.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; padding: 3px 5px; border-radius: 3px; color: #fff; }
+.hl { position: absolute; left: 14px; width: 492px; background: var(--hl); mix-blend-mode: multiply; border-radius: 4px; }
+
+/* column headers */
+.colhead .k { font: 700 20px/1 var(--display); letter-spacing: -0.01em; }
+.colhead .sub { margin-top: 5px; font: 400 10.5px/1.3 var(--mono); color: var(--chalk-dim); white-space: nowrap; }
+
+/* cards */
+.card { width: 330px; border-radius: 6px; background: var(--desk-2); border: 1.5px solid var(--plain); overflow: hidden; color: var(--chalk); }
+.card.state { border-color: var(--state); } .card.pin { border-color: var(--pin); } .card.recent { border-color: var(--recent); }
+.card.sel { outline: 2px dashed var(--jev); outline-offset: 2px; }
+.card .layer { position: absolute; inset: 0; padding: 4px 9px; }
+.card .row { font: 400 9px/1.5 var(--mono); color: var(--chalk-dim); display: flex; gap: 7px; white-space: nowrap; }
+.card .row .role { text-transform: uppercase; letter-spacing: .08em; color: var(--chalk); }
+.card .t { font: 400 11px/1.35 var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .t.wrap { white-space: normal; }
+.badge { position: absolute; right: 7px; top: 4px; display: flex; align-items: center; gap: 4px; font: 600 8.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .07em; padding: 3px 5px; border-radius: 3px; background: var(--desk); }
+.badge svg { width: 8px; height: 9px; fill: currentColor; }
+.c-state { color: var(--state); } .c-pin { color: var(--pin); } .c-recent { color: var(--recent); } .c-plain { color: var(--chalk); } .c-model { color: var(--model); } .c-jev { color: var(--jev); }
+.act { position: absolute; right: 7px; top: 4px; font: 600 8.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .07em; padding: 3px 5px; border-radius: 3px; background: var(--jev); color: var(--desk); }
+
+/* meter */
+.meter { width: 330px; }
+.meter .lbl { display: flex; justify-content: space-between; font: 400 10px/1 var(--mono); color: var(--chalk-dim); }
+.meter .lbl b { color: var(--chalk); font-weight: 500; font-variant-numeric: tabular-nums; }
+.meter .bar { position: relative; margin-top: 7px; height: 10px; border-radius: 5px; background: var(--desk-3); overflow: hidden; }
+.meter .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, var(--state), var(--recent)); border-radius: 5px; }
+.meter .tick { position: absolute; left: 75%; top: 0; width: 2px; height: 10px; background: var(--pin); }
+.meter .ticklbl { position: absolute; left: 75%; top: 31px; transform: translateX(-50%); font: 500 9px/1 var(--mono); color: var(--pin); white-space: nowrap; }
+
+/* receipts below the paper */
+.receipt { font: 400 9.5px/1 var(--mono); color: var(--chalk-dim); white-space: nowrap; }
+.receipt b { color: var(--chalk); font-weight: 500; }
+.receipt .plus { color: var(--state); }
+
+/* middle: notes, bubbles, request envelope, model nodes */
+.note { width: 470px; padding: 10px 14px; border-radius: 6px; background: var(--desk-2); border: 1px solid var(--desk-3); }
+.note .h { font: 500 10.5px/1 var(--mono); color: var(--model); }
+.note .b { margin-top: 6px; font: 400 12.5px/1.45 var(--body); }
+.bubble { padding: 10px 14px; border-radius: 10px; background: var(--chalk); color: var(--ink); }
+.bubble .who { font: 600 9.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
+.bubble .b { margin-top: 5px; font: 400 13px/1.45 var(--body); }
+.bubble.model { background: var(--desk-2); color: var(--chalk); border: 1.5px solid var(--model); }
+.bubble.model .who { color: var(--model); }
+.env { width: 300px; border-radius: 8px; border: 1.5px solid var(--model); background: #1c2436; overflow: hidden; }
+.env .eh { height: 30px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; font: 500 10.5px/1 var(--mono); color: var(--model); border-bottom: 1px solid var(--desk-3); }
+.lay { width: 284px; height: 26px; border-radius: 4px; background: var(--desk-3); padding: 0 9px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font: 400 11px/1 var(--body); white-space: nowrap; }
+.lay span:first-child { overflow: hidden; text-overflow: ellipsis; }
+.lay span:last-child { font: 400 10px/1 var(--mono); color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
+.lay.tool { background: #3a3424; border: 1px dashed var(--recent); }
+.node { width: 130px; height: 110px; border-radius: 14px; border: 1.5px solid var(--model); background: #20294a; display: grid; place-content: center; text-align: center; box-shadow: 0 0 0 6px #93a5ff14; }
+.node .k { font: 700 22px/1 var(--display); }
+.node .s { margin-top: 6px; font: 400 10px/1 var(--mono); color: var(--chalk-dim); }
+.node.jev { width: 150px; border-color: var(--jev); background: #173443; box-shadow: 0 0 0 6px #56c6e414; transform-origin: 50% 50%; }
+.node.jev .k { color: var(--jev); }
+.chip { padding: 6px 10px; border-radius: 5px; font: 500 10.5px/1.2 var(--mono); white-space: nowrap; }
+.chip.call { background: var(--model); color: var(--desk); }
+.chip.ok { background: #1f3a37; color: var(--state); border: 1px solid var(--state); }
+.chip.excerpt { background: var(--hl); color: var(--ink); white-space: normal; font: 400 10.5px/1.35 var(--body); }
+.chip.cand { background: var(--desk-2); color: var(--chalk); border: 1px solid var(--jev); font-size: 9.5px; }
+.overlay { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.overlay path { fill: none; stroke-width: 2; stroke-dasharray: 1; stroke-linecap: round; }
+
+/* jev request and answers */
+.jreq { width: 330px; border-radius: 8px; border: 1.5px solid var(--jev); background: #16232f; overflow: hidden; }
+.jreq .eh { height: 28px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; font: 500 10px/1 var(--mono); color: var(--jev); border-bottom: 1px solid var(--desk-3); }
+.jreq .task { padding: 7px 10px; font: 400 11px/1.35 var(--body); border-bottom: 1px solid var(--desk-3); }
+.jreq .task span { font: 500 9px/1 var(--mono); color: var(--chalk-dim); text-transform: uppercase; letter-spacing: .08em; margin-right: 6px; }
+.jrow { width: 330px; padding: 5px 10px; }
+.jrow .m { font: 400 9px/1.4 var(--mono); color: var(--chalk-dim); }
+.jrow .m b { color: var(--chalk); font-weight: 500; }
+.jrow .x { font: 400 10.5px/1.3 var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jnot { width: 330px; padding: 8px 10px; font: 500 9.5px/1.3 var(--mono); color: var(--chalk-dim); }
+.jnot svg { width: 8px; height: 9px; fill: currentColor; margin-right: 5px; vertical-align: -1px; }
+.jtab { width: 520px; }
+.jhead { width: 520px; display: grid; grid-template-columns: 128px 196px 96px 1fr; gap: 0 10px; font: 500 9px/1 var(--mono); color: var(--chalk-dim); text-transform: uppercase; letter-spacing: .08em; padding: 0 10px; }
+.jans { width: 520px; height: 56px; display: grid; grid-template-columns: 128px 196px 96px 1fr; gap: 0 10px; align-items: center; padding: 0 10px; border-radius: 6px; background: var(--desk-2); border: 1px solid var(--desk-3); }
+.jans.fail { border-color: var(--pin); }
+.jans .cid { font: 500 11px/1.3 var(--mono); }
+.jans .cid small { display: block; font: 400 9px/1.3 var(--mono); color: var(--chalk-dim); }
+.bars { display: grid; gap: 2px; }
+.bars div { display: grid; grid-template-columns: 50px 1fr 26px; align-items: center; gap: 5px; font: 400 8.5px/1 var(--mono); color: var(--chalk-dim); }
+.bars i { display: block; height: 7px; border-radius: 2px; background: var(--jev); transform-origin: 0 50%; }
+.bars div.top { color: var(--chalk); }
+.bars em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums; }
+.score { font: 400 9px/1.35 var(--mono); color: var(--chalk-dim); }
+.score b { display: block; font: 500 15px/1.1 var(--display); color: var(--chalk); }
+.verdict { display: grid; gap: 4px; justify-items: start; }
+.verdict .cf { font: 400 9px/1 var(--mono); color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
+.verdict .cf b { color: var(--chalk); font-weight: 500; }
+.verdict .cf.low b { color: var(--pin); }
+.verdict .out { font: 600 9px/1 var(--mono); text-transform: uppercase; letter-spacing: .07em; padding: 4px 6px; border-radius: 3px; background: var(--jev); color: var(--desk); }
+.verdict .out.esc { background: var(--recent); }
+.floor { font: 500 9px/1 var(--mono); color: var(--pin); white-space: nowrap; }
+.limits { width: 470px; padding: 14px 16px; border-radius: 8px; background: var(--desk-2); border: 1px solid var(--jev); display: grid; gap: 10px; }
+.limits .h { font: 500 10.5px/1 var(--mono); color: var(--jev); }
+.limits div.r { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font: 400 12.5px/1.4 var(--body); }
+.limits div.r span:first-child { font: 600 12px/1.4 var(--mono); color: var(--pin); }
+.limits div.r.fb span:first-child { color: var(--state); }
+.limits div.r small { color: var(--chalk-dim); font-size: 11.5px; }
+
+/* scene titles, subtitles, title card, recap */
+.cap { width: 520px; }
+.cap .eb { font: 500 10.5px/1 var(--mono); color: var(--chalk-dim); letter-spacing: .08em; text-transform: uppercase; }
+.cap .h { margin-top: 6px; font: 700 21px/1.1 var(--display); letter-spacing: -0.01em; }
+.cap.side { width: 370px; }
+.cap.side .h { font-size: 24px; }
+.legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 14px; font: 500 11.5px/1 var(--body); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 10px; border-radius: 2px; border: 2px solid; display: inline-block; }
+.subs { position: absolute; left: 355px; top: 612px; width: 560px; height: 98px; display: flex; align-items: flex-end; justify-content: center; text-align: center; pointer-events: none; }
+.subs span { font: 400 15.5px/1.5 var(--body); color: #f4f6fa; background: #0b1019d9; padding: 3px 9px; border-radius: 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.subs span:empty { display: none; }
+.stage.nocc .subs { display: none; }
+.title { width: 1280px; text-align: center; }
+.title .k { font: 700 56px/1.05 var(--display); letter-spacing: -0.02em; }
+.title .s { margin-top: 14px; font: 400 17px/1.4 var(--body); color: var(--chalk-dim); }
+.recap { width: 520px; }
+.recap .k { font: 700 28px/1.12 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
+.recap dl { margin: 16px 0 0; display: grid; gap: 12px; }
+.recap dt { font: 500 10.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.recap dd { margin: 5px 0 0; font: 400 13px/1.45 var(--body); color: #cdd4e0; }
+
+/* page controls */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.btn { font: 500 13px/1 var(--body); color: var(--chalk); background: var(--desk-2); border: 1px solid var(--desk-3); border-radius: 6px; padding: 8px 12px; cursor: pointer; }
+.btn:hover { background: var(--desk-3); }
+.btn:focus-visible, .controls input:focus-visible, .cue:focus-visible { outline: 2px solid var(--model); outline-offset: 2px; }
+.btn[aria-pressed="true"] { border-color: var(--model); color: var(--model); }
+#play { min-width: 84px; background: var(--model); color: var(--desk); border-color: var(--model); }
+#scrub { flex: 1 1 260px; min-width: 0; accent-color: var(--model); }
+#time { font: 400 12px/1 var(--mono); color: var(--chalk-dim); font-variant-numeric: tabular-nums; min-width: 10ch; }
+.chapters { display: flex; flex-wrap: wrap; gap: 6px; }
+.chapters .btn { padding: 6px 10px; font-size: 12px; }
+.foot { color: var(--chalk-dim); font-size: 12.5px; line-height: 1.5; max-width: 76ch; margin: 0; }
+.foot code { font-family: var(--mono); font-size: 11.5px; color: var(--chalk); }
+
+.script { margin-top: 12px; display: grid; gap: 12px; }
+.script-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px; }
+.script-head h2 { margin: 0; font: 700 1.35rem/1.2 var(--display); }
+.script-head p { margin: 4px 0 0; color: var(--chalk-dim); font-size: 13px; line-height: 1.5; max-width: 62ch; }
+.script-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.script-tools .msg { font-size: 12.5px; color: var(--state); }
+.cues { display: grid; gap: 2px; border-top: 1px solid var(--desk-3); }
+.cues h3 { margin: 14px 0 4px; font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--chalk-dim); }
+.cue { display: grid; grid-template-columns: 6ch 1fr; gap: 14px; text-align: left; width: 100%; background: none; border: 0; border-radius: 6px; padding: 8px 10px; color: #cdd4e0; font: 400 15px/1.55 var(--body); cursor: pointer; }
+.cue:hover { background: var(--desk-2); }
+.cue time { font: 400 12px/1.9 var(--mono); color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
+.cue[aria-current="true"] { background: var(--desk-2); color: var(--chalk); box-shadow: inset 0 0 0 1px var(--model); }
+.cue[aria-current="true"] time { color: var(--model); }
+@media (max-width: 600px) { .cue { grid-template-columns: 1fr; gap: 2px; } }
+
+body.render { padding: 0; }
+body.render .intro, body.render .controls, body.render .chapters, body.render .foot, body.render .script { display: none; }
+body.render .wrap { max-width: none; display: block; }
+body.render .viewport { width: 1280px; border-radius: 0; box-shadow: none; }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>Conclave, behind the scenes</h1>
+    <p>One conversation followed through the event log, context bundles, a Jev attention decision, compaction, and a tool-assisted answer. The animation is timed to the narration script below.</p>
+  </header>
+  <div class="viewport" id="viewport"><div class="stage" id="stage"></div></div>
+  <div class="controls">
+    <button id="play" class="btn" type="button">Pause</button>
+    <input id="scrub" type="range" min="0" max="60" step="0.01" value="0" aria-label="Timeline position">
+    <span id="time">0:00 / 0:00</span>
+    <button id="cc" class="btn" type="button" aria-pressed="true">Captions</button>
+  </div>
+  <nav class="chapters" id="chapters" aria-label="Chapters"></nav>
+  <p class="foot">Space plays and pauses; the arrow keys step two seconds. The conversation, byte counts and Jev probabilities are illustrative. The order of steps follows <code>src/harness.js</code> and <code>src/jev.js</code>.</p>
+
+  <section class="script" aria-labelledby="script-title">
+    <div class="script-head">
+      <div>
+        <h2 id="script-title">Narration script</h2>
+        <p>Timed at 150 words per minute. The current line is highlighted during playback, and clicking a line jumps to it.</p>
+      </div>
+      <div class="script-tools">
+        <span class="msg" id="copy-msg" role="status"></span>
+        <button id="copy-text" class="btn" type="button">Copy script</button>
+        <button id="copy-srt" class="btn" type="button">Copy SRT captions</button>
+      </div>
+    </div>
+    <div class="cues" id="cues"></div>
+  </section>
+</div>
+
+<script>
+(() => {
+/* ---------- narration drives the clock ---------- */
+const SCENES = {
+  intro: 'Intro', log: 'The log', bundles: 'Bundles', split: 'Two copies', budget: 'Budget',
+  jev: 'Jev decides', compact: 'Compaction', infer: 'Inference', retrieve: 'Retrieval', recap: 'Recap',
+};
+const NARRATION = [
+  ['intro', 'i1', "Here's what Conclave does with a conversation, between the moment you send a message and the moment the model replies."],
+  ['log', 'l1', 'It starts with a log. Every message, document and tool result is written to an append-only SQLite record before anything else happens.'],
+  ['log', 'l2', 'Each entry gets an event ID. Nothing in this log is ever edited or deleted.'],
+  ['bundles', 'b1', 'Conclave groups the log into context bundles. Each bundle remembers which events it came from.'],
+  ['bundles', 'b2', 'Some bundles are protected. Named task state, like the fixed budget and the irrigation decision, is outlined in green. Pins are pink. The four most recent turns are amber.'],
+  ['bundles', 'b3', 'Everything else is an ordinary bundle that can be reshaped later.'],
+  ['split', 's1', 'Now the split. Each bundle is copied out of the log, and the log itself slides to the left.'],
+  ['split', 's2', 'On the left is the trajectory: the full record, exactly as it was. On the right is the live context, a versioned projection of what the model will see on its next call.'],
+  ['budget', 'g1', 'Then a new question arrives: what did the survey say about the east fence?'],
+  ['budget', 'g2', "It's logged first, then added to the live context as the current request. The recent window slides forward by one."],
+  ['budget', 'g3', "The live context has a byte budget, with room held back for the model's answer. This next request would use 86% of it."],
+  ['budget', 'g4', 'Past 75%, Conclave manages attention before it answers. Pins, named state and the last four bundles, including your question, are locked. The five older, ordinary bundles are candidates.'],
+  ['jev', 'j1', 'Deciding what to do with each candidate is a small, frequent judgment. Conclave can hand that job to Jev, a typed decision model from TypeSafe, and keep the main model for the hard work.'],
+  ['jev', 'j2', 'Jev receives the task and at most six candidates. Each is a short excerpt with its type, its status, and whether a pointer would make it smaller. Protected bundles are never sent.'],
+  ['jev', 'j3', 'For every candidate, Jev answers two typed questions. Which action: retain, offload, compact or escalate. And how important it is, on a scale from 0 to 4.'],
+  ['jev', 'j4', 'Each answer comes back as a probability distribution with a confidence.'],
+  ['jev', 'j5', 'Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. Escalated and retained bundles stay protected for the rest of this turn.'],
+  ['jev', 'j6', "Jev only chooses. It can't write summaries, invent bundle IDs or delete sources. If its answer is malformed, fails, or refers to a stale revision, Conclave falls back to its own ranking."],
+  ['compact', 'k1', 'Now the plan is applied. The site survey becomes a small pointer to its original in the log. That alone leaves the request at 77%, so Conclave keeps going.'],
+  ['compact', 'k2', 'The two older assistant turns are compacted. The main model rewrites them into one summary that cites both sources.'],
+  ['compact', 'k3', 'The rewrite is kept only if it shrinks the projection by at least 15%. This one roughly halves it. Every step left a receipt in the log.'],
+  ['infer', 'n1', 'With the context back under budget, the answer request is assembled: instructions, tools, and the current projection, which ends with your question.'],
+  ['infer', 'n2', 'Before anything is sent, the request plus the output reserve is checked against the budget.'],
+  ['retrieve', 'r1', 'The survey is only a pointer now, so the model calls a tool to read the original.'],
+  ['retrieve', 'r2', 'A bounded excerpt comes back from the log and is added to this request only.'],
+  ['retrieve', 'r3', 'The model answers. The answer joins the live context, the excerpt stays in the log, and the recent window slides forward again.'],
+  ['recap', 'z1', 'So Conclave keeps two records. The trajectory is permanent and complete. The live context is small, rebuilt for every call, and can be restored to any earlier revision.'],
+  ['recap', 'z2', 'Summaries and pointers keep their source IDs, so an original is always one tool call away.'],
+].map(([scene, id, text]) => ({ scene, id, text }));
+const WPS = 2.5, PAUSE = .7, SCENE_GAP = 1.0;
+// Numbers take longer to say than to read ("86%" is three spoken words).
+const spoken = (text) => text.split(/\s+/).reduce((n, w) => n + (/\d/.test(w) ? 2.5 : 1), 0);
+{
+  let clock = .5, prev = null;
+  for (const c of NARRATION) {
+    if (prev && prev !== c.scene) clock += SCENE_GAP;
+    c.start = clock; c.end = clock + spoken(c.text) / WPS; clock = c.end + PAUSE; prev = c.scene;
+  }
+}
+const DURATION = Math.ceil(NARRATION.at(-1).end + 3);
+const cue = Object.fromEntries(NARRATION.map((c) => [c.id, c]));
+const at = (id, k = 0) => cue[id].start + k;
+const end = (id, k = 0) => cue[id].end + k;
+const sceneStart = (s) => NARRATION.find((c) => c.scene === s).start;
+
+/* ---------- tiny keyframe engine ---------- */
+const stage = document.getElementById('stage');
+const ease = (k) => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const tracks = [], switches = [], texts = [];
+function el(html, cls = '', parent = stage) {
+  const d = document.createElement('div');
+  d.className = 'a ' + cls;
+  d.innerHTML = html;
+  parent.appendChild(d);
+  return d;
+}
+function anim(node, frames, fmt) {
+  const props = {};
+  for (const [t, p] of [...frames].sort((a, b) => a[0] - b[0])) for (const k in p) (props[k] ||= []).push([t, p[k]]);
+  tracks.push({ node, props, fmt });
+  return node;
+}
+function val(arr, t) {
+  if (t <= arr[0][0]) return arr[0][1];
+  for (let i = 1; i < arr.length; i++) {
+    const [t1, v1] = arr[i];
+    if (t < t1) { const [t0, v0] = arr[i - 1]; return v0 + (v1 - v0) * ease((t - t0) / (t1 - t0)); }
+  }
+  return arr[arr.length - 1][1];
+}
+const cls = (node, name, t0, t1 = Infinity) => switches.push({ node, name, t0, t1 });
+const say = (node, steps) => texts.push({ node, steps });
+// Fade in at t0 (and out at t1), with a small rise.
+const show = (node, x, y, t0, t1 = null, d = .5, rise = 8) => anim(node, [
+  [t0, { x, y: y + rise, o: 0 }], [t0 + d, { x, y, o: 1 }],
+  ...(t1 == null ? [] : [[t1 - d, { x, y, o: 1 }], [t1, { x, y: y - rise / 2, o: 0 }]])]);
+const fade = (node, t0, t1 = null, d = .4) => anim(node, [[t0, { o: 0 }], [t0 + d, { o: 1 }], ...(t1 == null ? [] : [[t1 - d, { o: 1 }], [t1, { o: 0 }]])]);
+const lock = '<svg viewBox="0 0 8 9"><path d="M2 4V2.6a2 2 0 0 1 4 0V4h.6c.3 0 .4.2.4.4v4c0 .3-.1.6-.4.6H1.4C1.1 9 1 8.7 1 8.4v-4c0-.2.1-.4.4-.4zm1 0h2V2.6a1 1 0 0 0-2 0z"/></svg>';
+const svgNS = 'http://www.w3.org/2000/svg';
+
+/* ---------- data ---------- */
+const E = [
+  { id: 'evt_001', role: 'user', k: 'state', tag: 'state', h: 52, ch: 34, text: 'Planning the community garden grant. The budget is $15,000 and it is fixed.' },
+  { id: 'evt_002', role: 'assistant', k: 'plain', h: 46, ch: 34, text: 'Proposed phases: site prep, raised beds, irrigation, weekend workshops.' },
+  { id: 'evt_003', role: 'document', k: 'plain', h: 80, ch: 64, doc: 5, text: 'site_survey.md · 4,800 words: soil pH by plot, drainage on the north lot, east fence condition, parcel measurements, utility access…' },
+  { id: 'evt_004', role: 'assistant', k: 'plain', h: 52, ch: 34, text: 'The north lot drains poorly. Raised beds there, in-ground beds on the south side.' },
+  { id: 'evt_005', role: 'user', k: 'pin', tag: 'pinned', h: 40, ch: 34, text: 'Pin this: no pesticides anywhere on site.' },
+  { id: 'evt_006', role: 'tool', k: 'plain', h: 70, ch: 56, doc: 4, text: 'vendor_quotes.csv · 3 irrigation suppliers, 22 line items, delivery terms, warranty notes…' },
+  { id: 'evt_007', role: 'assistant', k: 'state', tag: 'state', h: 40, ch: 34, text: 'Decision: drip irrigation from Vendor B at $3,200.' },
+  { id: 'evt_008', role: 'user', k: 'recent', tag: 'recent', h: 40, ch: 34, text: 'Should workshops run on weekends or weekday evenings?' },
+  { id: 'evt_009', role: 'assistant', k: 'recent', tag: 'recent', h: 40, ch: 34, text: 'Weekends draw more volunteers. Keep one evening slot for staff.' },
+  { id: 'evt_010', role: 'user', k: 'recent', tag: 'recent', h: 34, ch: 34, text: 'Draft the budget table.' },
+  { id: 'evt_011', role: 'assistant', k: 'recent', tag: 'recent', h: 52, ch: 34, text: 'Site prep $4,100 · Beds $2,900 · Irrigation $3,200 · Workshops $1,800 · Reserve $3,000' },
+];
+const kindColor = { state: 'var(--state)', pin: 'var(--pin)', recent: 'var(--recent)', plain: 'var(--plain)' };
+// Jev candidates: the five unprotected bundles once the question has pushed evt_008 out of the recent window.
+const CAND = [
+  { i: 1, id: 'evt_002', type: 'assistant', bytes: '3,050 B', off: true, ex: 'Proposed phases: site prep, raised beds, irrigation, weekend workshops…',
+    p: [.06, .14, .76, .04], score: 1.6, conf: .70, out: 'compact' },
+  { i: 2, id: 'evt_003', type: 'document', bytes: '2,180 B', off: true, ex: 'site_survey.md · soil pH by plot, drainage on the north lot, east fence…',
+    p: [.10, .81, .06, .03], score: 1.2, conf: .74, out: 'offload' },
+  { i: 3, id: 'evt_004', type: 'assistant', bytes: '2,860 B', off: true, ex: 'The north lot drains poorly. Raised beds there, in-ground beds…',
+    p: [.09, .12, .74, .05], score: 1.8, conf: .69, out: 'compact' },
+  { i: 5, id: 'evt_006', type: 'tool', bytes: '1,960 B', off: true, ex: 'vendor_quotes.csv · 3 irrigation suppliers, 22 line items…',
+    p: [.27, .58, .09, .06], score: 2.4, conf: .58, out: 'escalate', fail: true },
+  { i: 7, id: 'evt_008', type: 'user', bytes: '190 B', off: false, ex: 'Should workshops run on weekends or weekday evenings?',
+    p: [.78, .03, .07, .12], score: 2.6, conf: .71, out: 'retain' },
+];
+const ACTIONS = ['retain', 'offload', 'compact', 'escalate'];
+
+/* ---------- geometry ---------- */
+const PX = 330, PY = 22, PS = 0.86;   // paper while it is the subject
+const TX = 28, TY = 96, TS = 0.56;    // paper as the trajectory column
+const CX = 920, CY = 96, GAP = 6;     // live context column
+const MX = 380;                       // middle column
+
+/* ---------- intro title ---------- */
+anim(el('<div class="k">Conclave, behind the scenes</div><div class="s">What happens to a conversation between your message and the model\'s reply</div>', 'title'),
+  [[0, { x: 0, y: 250, o: 1 }], [end('i1', -.2), { x: 0, y: 250, o: 1 }], [end('i1', .5), { x: 0, y: 230, o: 0 }]]);
+
+/* ---------- paper ---------- */
+const paper = el(`<div class="paper-head"><span><b>conv_2af6</b> · event log</span><span>SQLite · append-only</span></div>`, 'paper');
+const MOVE0 = at('s1', 2.8), MOVE1 = MOVE0 + 1.8;
+anim(paper, [[end('i1', -.2), { x: PX, y: PY + 30, s: PS, o: 0 }], [end('i1', .8), { x: PX, y: PY, s: PS, o: 1 }],
+  [MOVE0, { x: PX, y: PY, s: PS }], [MOVE1, { x: TX, y: TY, s: TS }]]);
+const boxes = document.createElementNS(svgNS, 'svg');
+boxes.setAttribute('class', 'boxes'); boxes.setAttribute('width', 520); boxes.setAttribute('height', 680);
+paper.appendChild(boxes);
+const highlight = el('', 'hl', paper);
+let ey = 52;
+const entryStep = (cue.l1.end - cue.l1.start - 1.2) / E.length;
+const boxStep = .45;
+E.forEach((e, i) => {
+  e.y = ey; ey += e.h + GAP;
+  const node = el(`<div class="meta"><span class="role">${e.role}</span><span>${e.id}</span></div><div class="txt">${e.text}</div>` +
+    (e.doc ? `<div class="doclines">${Array.from({ length: e.doc - 3 }, (_, j) => `<i style="width:${92 - j * 17}%"></i>`).join('')}</div>` : ''), 'entry', paper);
+  node.style.height = e.h + 'px';
+  const t = at('l1', .8 + i * entryStep);
+  anim(node, [[t, { x: 0, y: e.y + 6, o: 0 }], [t + .45, { x: 0, y: e.y, o: 1 }]]);
+  const r = document.createElementNS(svgNS, 'rect');
+  Object.entries({ x: 16, y: e.y - 3, width: 488, height: e.h + 4, rx: 5, pathLength: 1 }).forEach(([k, v]) => r.setAttribute(k, v));
+  r.style.stroke = kindColor[e.k];
+  boxes.appendChild(r);
+  const bt = at('b1', 1 + i * boxStep);
+  anim(r, [[bt, { d: 0 }], [bt + .8, { d: 1 }]]);
+  if (e.tag) {
+    const tg = el(e.tag, 'boxtag', paper);
+    tg.style.background = kindColor[e.k];
+    const x = 452 - (e.tag.length - 5) * 6;
+    anim(tg, [[bt + .5, { x, y: e.y - 9, o: 0 }], [bt + .8, { x, y: e.y - 9, o: 1 }]]);
+  }
+});
+const e3 = E[2];
+highlight.style.top = (e3.y - 2) + 'px'; highlight.style.height = (e3.h + 2) + 'px';
+fade(highlight, at('r1', 2.2), end('r3', -1), .6);
+
+/* ---------- column headers ---------- */
+show(el('<div class="k">Trajectory</div><div class="sub" id="trajsub"></div>', 'colhead'), TX, 42, MOVE1 - .4);
+show(el('<div class="k">Live context</div><div class="sub" id="ctxsub"></div>', 'colhead'), CX, 42, MOVE0);
+
+/* ---------- receipts appended to the log ---------- */
+const receipts = [
+  [at('g2', .4), 'evt_012', 'user message'],
+  [at('g2', 1.4), 'evt_013', 'context_transform · r7 → r8'],
+  [end('j2', -1.2), 'evt_014', 'inference_request · jev selection'],
+  [at('j3', .4), 'evt_015', 'inference_response · jev'],
+  [at('j5', 8), 'evt_016', 'decision_proposal'],
+  [at('k1', 2.2), 'evt_017', 'context_transform · offload r8 → r9'],
+  [at('k2', .4), 'evt_018', 'attention_decision · compaction batch'],
+  [at('k2', 1.2), 'evt_019', 'inference_request · compaction'],
+  [at('k3', .8), 'evt_020', 'context_transform · r9 → r10'],
+  [end('n2', -.4), 'evt_021', 'inference_request · answer'],
+  [at('r1', 1.6), 'evt_022', 'tool_call · retrieve_event'],
+  [at('r2', .8), 'evt_023', 'tool_result'],
+  [at('r3', .2), 'evt_024', 'inference_request · answer'],
+  [at('r3', 2.4), 'evt_025', 'assistant message'],
+  [at('r3', 2.8), 'evt_026', 'context_transform · r10 → r11'],
+];
+receipts.forEach(([t, id, kind], i) => show(el(`<span class="plus">+</span> ${id} <b>${kind}</b>`, 'receipt'), TX + 4, 488 + i * 13.5, t, null, .4, 4));
+say(document.getElementById('trajsub'), [[0, 'SQLite · append-only · 11 events'], ...receipts.map(([t], i) => [t, `SQLite · append-only · ${12 + i} events`])]);
+say(document.getElementById('ctxsub'), [[0, 'projection · revision r7 · 11 bundles'], [at('g2', 1.4), 'projection · revision r8 · 12 bundles'],
+  [at('k1', 2.2), 'projection · revision r9 · 12 bundles'], [at('k3', .8), 'projection · revision r10 · 11 bundles'],
+  [at('r3', 2.8), 'projection · revision r11 · 12 bundles']]);
+
+/* ---------- live context cards ---------- */
+const stack = (order, hs) => { const out = {}; let y = CY; order.forEach((k) => { out[k] = y; y += hs[k] + GAP; }); return out; };
+const keys = E.map((_, i) => 'e' + i);
+const Ha = Object.fromEntries(E.map((e, i) => ['e' + i, e.ch])); Ha.q = 34; Ha.ans = 34; Ha.sum = 40;
+const Hb = { ...Ha, e2: 28 };
+const La = stack([...keys, 'q'], Ha);
+const Lb = stack([...keys, 'q'], Hb);
+const Lc = stack(['e0', 'sum', 'e2', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', 'q', 'ans'], Hb);
+const K1a = at('k1', 1.2), K1b = K1a + 1.1;                 // survey offload
+const M0 = at('k2', 1.6), K2a = M0 + 1.3, K2b = K2a + 1.0;  // compaction merge, then reflow
+const R3 = at('r3', 2.4);                                     // answer lands
+
+const badgeHtml = (k, label) => `<div class="badge c-${k}">${lock}<span>${label}</span></div>`;
+const overlayOn = (card, html, frames) => {
+  const n = el(html, '', card);
+  n.classList.remove('a'); n.style.position = 'absolute'; n.style.inset = '0'; n.style.pointerEvents = 'none';
+  return anim(n, frames);
+};
+const cards = {};
+E.forEach((e, i) => {
+  const key = 'e' + i;
+  const full = `<div class="layer full"><div class="row"><span class="role">${e.role}</span><span>${e.id}</span></div><div class="t${e.doc ? ' wrap' : ''}">${e.text}</div></div>`;
+  const ref = key === 'e2' ? `<div class="layer ref"><div class="row"><span class="role">pointer</span><span>offloaded · ${e.id} · expand with a tool</span></div></div>` : '';
+  const c = el(full + ref, 'card ' + e.k);
+  cards[key] = c;
+  const t0 = at('s1', .4 + i * .16), t1 = t0 + 1.4;
+  const start = { x: PX + 22 * PS, y: PY + e.y * PS, w: 476 * PS, h: e.h * PS };
+  const f = [[t0, { ...start, o: 0 }], [t0 + .2, { ...start, o: 1 }], [t1, { x: CX, y: La[key], w: 330, h: e.ch, o: 1 }],
+    [K1a, { y: La[key], h: Ha[key] }], [K1b, { y: Lb[key], h: Hb[key] }]];
+  if (key === 'e1') f.push([M0 + .4, { o: 1 }], [M0 + 1, { o: 0 }]);
+  else if (key === 'e3') f.push([M0, { y: Lb.e3 }], [M0 + .8, { y: Lb.e1 + 6, o: 1 }], [M0 + 1.1, { o: 0 }]);
+  else f.push([K2a, { y: Lb[key] }], [K2b, { y: Lc[key] }]);
+  anim(c, f);
+  if (key === 'e2') {
+    anim(c.querySelector('.full'), [[K1a, { o: 1 }], [K1a + .5, { o: 0 }]]);
+    anim(c.querySelector('.ref'), [[K1a + .5, { o: 0 }], [K1b, { o: 1 }]]);
+  }
+});
+// Protection badges appear when attention management starts.
+const locks = { e0: ['state', 'named state'], e4: ['pin', 'pinned'], e6: ['state', 'named state'], e8: ['recent', 'recent'], e9: ['recent', 'recent'], e10: ['recent', 'recent'] };
+Object.entries(locks).forEach(([key, [k, label]], n) => {
+  const t = at('g4', 3 + n * .2);
+  const fr = [[t, { o: 0 }], [t + .35, { o: 1 }]];
+  if (key === 'e8') fr.push([R3, { o: 1 }], [R3 + .5, { o: 0 }]);
+  overlayOn(cards[key], badgeHtml(k, label), fr);
+});
+// The question pushes evt_008 out of the recent window; the answer later pushes out evt_009.
+cls(cards.e7, 'recent', -1, at('g2', 2)); cls(cards.e7, 'plain', at('g2', 2));
+cls(cards.e8, 'recent', -1, R3); cls(cards.e8, 'plain', R3);
+// Candidates sent to Jev.
+const CAND_ON = at('g4', 7.5);
+CAND.forEach((c) => cls(cards['e' + c.i], 'sel', CAND_ON, at('k1', .6)));
+// Jev's verdicts land on the cards.
+const VERDICT = at('j5', 6);
+CAND.forEach((c, n) => {
+  const t = VERDICT + n * .35, card = cards['e' + c.i];
+  if (c.out === 'compact' || c.out === 'offload') {
+    const gone = c.out === 'offload' ? K1a : M0;
+    overlayOn(card, `<div class="act">${c.out}</div>`, [[t, { o: 0 }], [t + .35, { o: 1 }], [gone, { o: 1 }], [gone + .4, { o: 0 }]]);
+  } else {
+    overlayOn(card, badgeHtml('jev', c.out === 'escalate' ? 'escalated' : 'retained'), [[t, { o: 0 }], [t + .35, { o: 1 }], [R3, { o: 1 }], [R3 + .5, { o: 0 }]]);
+  }
+});
+
+cards.q = el(`<div class="layer"><div class="row"><span class="role">user</span><span>evt_012</span></div><div class="t">What did the survey say about the east fence?</div></div>` +
+  badgeHtml('recent', 'current request'), 'card recent');
+const Q_IN = at('g2', 1.4);
+anim(cards.q, [[Q_IN, { x: CX, y: La.q + 10, w: 330, h: 34, o: 0 }], [Q_IN + .5, { y: La.q, o: 1 }], [K1a, { y: La.q }], [K1b, { y: Lb.q }], [K2a, { y: Lb.q }], [K2b, { y: Lc.q }]]);
+say(cards.q.querySelector('.badge span'), [[0, 'current request'], [R3, 'recent']]);
+cards.sum = anim(el(`<div class="layer"><div class="row"><span class="role">summary</span><span>src evt_002, evt_004</span></div><div class="t">Phases set. North lot drains poorly, so raised beds there.</div></div>`, 'card'),
+  [[M0 + .6, { x: CX, y: Lc.sum, w: 330, h: 40, o: 0 }], [M0 + 1.2, { o: 1 }]]);
+cards.ans = anim(el(`<div class="layer"><div class="row"><span class="role">assistant</span><span>evt_025</span></div><div class="t">About 40 ft of rotted posts; replace before the beds go in.</div></div>` +
+  badgeHtml('recent', 'recent'), 'card recent'), [[R3, { x: CX, y: Lc.ans + 10, w: 330, h: 34, o: 0 }], [R3 + .5, { y: Lc.ans, o: 1 }]]);
+
+/* ---------- budget meter ---------- */
+const meter = el(`<div class="lbl"><span>next request + output reserve</span><b><span id="bytes">0</span> / 24,000 B</b></div>
+  <div class="bar"><div class="fill" id="fill"></div><div class="tick"></div></div><div class="ticklbl">75% · attention management starts</div>`, 'meter');
+show(meter, CX, 632, at('g3'));
+const meterFrames = [[at('g3', .3), 0], [at('g3', 3), 20600], [K1a + .2, 20600], [K1b, 18570], [K2a, 18570], [K2b, 13020],
+  [at('r2', .6), 13020], [at('r2', 1.4), 14400], [R3, 14400], [R3 + .6, 13280]];
+anim(document.getElementById('bytes'), meterFrames.map(([t, n]) => [t, { n }]), (n) => (Math.round(n / 10) * 10).toLocaleString('en-US'));
+anim(document.getElementById('fill'), meterFrames.map(([t, n]) => [t, { fw: n / 240 }]));
+
+/* ---------- budget: the question arrives ---------- */
+const qb = el(`<div class="who">You</div><div class="b">What did the survey say about the east fence?</div>`, 'bubble');
+qb.style.width = '440px';
+anim(qb, [[at('g1', .3), { x: MX + 20, y: 210, o: 0 }], [at('g1', .9), { x: MX + 20, y: 200, o: 1 }], [at('g2', .9), { x: MX + 20, y: 200, o: 1 }],
+  [at('g2', 1.6), { x: MX + 160, y: 200, o: 0 }]]);
+
+/* ---------- Jev scene ---------- */
+const jevNode = el('<div class="k">Jev</div><div class="s">TypeSafe · jev-latest</div>', 'node jev');
+anim(jevNode, [[at('j1', .6), { x: 565, y: 200, s: .9, o: 0 }], [at('j1', 1.3), { s: 1, o: 1 }], [end('j1', -.5), { x: 565, y: 200 }], [end('j1', .6), { x: 740, y: 56 }],
+  [end('j2', -.6), { s: 1 }], [end('j2', -.3), { s: 1.07 }], [end('j2'), { s: 1 }], [at('j6', 1), { o: 1 }], [end('j6'), { o: 0 }]]);
+const jevSub = el('decision layer · used only under budget pressure', 'floor');
+jevSub.style.color = 'var(--chalk-dim)';
+anim(jevSub, [[at('j1', 4), { x: 518, y: 326, o: 0 }], [at('j1', 4.5), { o: 1 }], [end('j1', -.9), { o: 1 }], [end('j1', -.4), { o: 0 }]]);
+
+const jreq = el(`<div class="eh"><span>attention-selection</span><span>budget 8,000 B</span></div>
+  <div class="task"><span>task</span>What did the survey say about the east fence?</div>`, 'jreq');
+anim(jreq, [[at('j2', .2), { x: MX, y: 66, h: 66, o: 0 }], [at('j2', .7), { y: 56, o: 1 }], [at('j2', 1.6), { h: 66 }], [at('j2', 5.6), { h: 66 + 5 * 44 + 32 }],
+  [at('j3', .2), { o: 1 }], [at('j3', .8), { o: 0 }]]);
+CAND.forEach((c, n) => {
+  const t = at('j2', 2 + n * .7);
+  const row = el(`<div class="m"><b>${c.id}</b> · ${c.type} · active · can_offload ${c.off ? '✓' : '✗'}</div><div class="x">“${c.ex}”</div>`, 'jrow', jreq);
+  anim(row, [[t + .6, { x: 0, y: 66 + n * 44, o: 0 }], [t + .9, { o: 1 }]]);
+  const fly = el(`${c.id} · excerpt`, 'chip cand');
+  anim(fly, [[t, { x: CX + 8, y: La['e' + c.i] + 6, o: 0 }], [t + .15, { o: 1 }], [t + .7, { x: MX + 10, y: 56 + 66 + n * 44, o: 1 }], [t + .9, { o: 0 }]]);
+});
+const jnot = el(`${lock}not sent: 7 protected bundles`, 'jnot', jreq);
+anim(jnot, [[at('j2', 6), { x: 0, y: 66 + 5 * 44, o: 0 }], [at('j2', 6.4), { o: 1 }]]);
+
+const jtab = el('', 'jtab');
+show(jtab, MX, 186, at('j3', .6), at('j6', .8));
+const jhead = el(`<span>candidate</span><span>action · choice</span><span>importance</span><span>confidence</span>`, 'jhead', jtab);
+anim(jhead, [[at('j3', .6), { x: 0, y: 0, o: 0 }], [at('j3', 1), { o: 1 }]]);
+const floor = el('floor 0.65', 'floor', jtab);
+anim(floor, [[at('j4', 1.2), { x: 470, y: -14, o: 0 }], [at('j4', 1.6), { o: 1 }]]);
+CAND.forEach((c, n) => {
+  const top = Math.max(...c.p);
+  const bars = ACTIONS.map((a, j) => `<div class="${c.p[j] === top ? 'top' : ''}"><span>${a}</span><i style="transform:scaleX(0)"></i><em>${c.p[j].toFixed(2)}</em></div>`).join('');
+  const row = el(`<div class="cid">${c.id}<small>${c.type} · ${c.bytes}</small></div><div class="bars">${bars}</div>
+    <div class="score"><b>${c.score.toFixed(1)}</b>of 4 · P${Math.ceil(c.score)}</div>
+    <div class="verdict"><span class="cf${c.fail ? ' low' : ''}">min <b>${c.conf.toFixed(2)}</b></span><span class="out${c.out === 'escalate' ? ' esc' : ''}">${c.out}</span></div>`, 'jans', jtab);
+  const t = at('j3', 1 + n * .3);
+  anim(row, [[t, { x: 0, y: 18 + n * 62, o: 0 }], [t + .4, { o: 1 }]]);
+  row.querySelectorAll('.bars i').forEach((bar, j) => {
+    const bt = at('j3', 2.5 + n * .45);
+    anim(bar, [[bt, { sx: 0 }], [bt + 1, { sx: c.p[j] }]]);
+  });
+  anim(row.querySelector('.score'), [[at('j3', 7.5 + n * .4), { o: 0 }], [at('j3', 7.9 + n * .4), { o: 1 }]]);
+  anim(row.querySelector('.cf'), [[at('j4', .4 + n * .25), { o: 0 }], [at('j4', .7 + n * .25), { o: 1 }]]);
+  anim(row.querySelector('.out'), [[at('j5', 1 + n * .5), { o: 0 }], [at('j5', 1.4 + n * .5), { o: 1 }]]);
+  if (c.fail) cls(row, 'fail', at('j5', 3));
+});
+const limits = el(`<div class="h">what Jev cannot do</div>
+  <div class="r"><span>✕</span><span>Write summaries <small>· the main model rewrites, under source-coverage checks</small></span></div>
+  <div class="r"><span>✕</span><span>Invent bundle IDs <small>· answers map back to the candidates code sent</small></span></div>
+  <div class="r"><span>✕</span><span>Delete sources <small>· originals stay in the log</small></span></div>
+  <div class="r fb"><span>↺</span><span>Malformed, failed, stale or oversized <small>· deterministic ranking takes over</small></span></div>`, 'limits');
+show(limits, MX, 196, at('j6', 1), end('j6', 1.2));
+
+/* jev request arrow */
+const overlay = document.createElementNS(svgNS, 'svg');
+overlay.setAttribute('class', 'overlay'); overlay.setAttribute('width', 1280); overlay.setAttribute('height', 720);
+const path = (d, color) => { const p = document.createElementNS(svgNS, 'path'); p.setAttribute('d', d); p.setAttribute('pathLength', 1); p.style.stroke = color; overlay.appendChild(p); return p; };
+anim(path('M 714 110 L 736 110', 'var(--jev)'), [[end('j2', -1.4), { d: 0, o: 1 }], [end('j2', -.6), { d: 1 }], [at('j3', .2), { o: 1 }], [at('j3', .8), { o: 0 }]]);
+
+/* ---------- compaction notes ---------- */
+const note = (h, b) => el(`<div class="h">${h}</div><div class="b">${b}</div>`, 'note');
+const NOTES_OUT = end('k3', .6);
+show(note('context_transform · offload r8 → r9', 'The survey becomes a pointer. The request is still at 77%, above the 75% line, so the compaction batch runs next.'), MX, 96, at('k1', 2.2), NOTES_OUT);
+show(note('inference_request · compaction · main model', 'The main model rewrites evt_002 and evt_004 as one summary. It must cite every source event, or the rewrite is rejected.'), MX, 196, at('k2', 1.2), NOTES_OUT);
+show(note('context_transform · r9 → r10', 'The projection is 52% smaller, above the 15% minimum, so the rewrite is committed. The originals stay in the log.'), MX, 296, at('k3', .8), NOTES_OUT);
+
+/* ---------- inference and retrieval ---------- */
+const MID_OUT = at('z1', -.6);
+const env = el(`<div class="eh"><span>inference_request</span><span>answer</span></div>`, 'env');
+const ENV_IN = at('n1', 3);
+anim(env, [[ENV_IN, { x: MX, y: 160, h: 30, o: 0 }], [ENV_IN + .3, { x: MX, y: 150, o: 1 }], [ENV_IN + .4, { h: 30 }], [ENV_IN + 2.4, { h: 128 }],
+  [at('r2', .6), { h: 128 }], [at('r2', 1), { h: 158 }], [R3, { h: 158 }], [R3 + .6, { h: 128 }], [MID_OUT, { o: 1 }], [MID_OUT + .5, { o: 0 }]]);
+[['Instructions', '1,450 B'], ['Tools · 9', '2,280 B'], ['Projection r10 · 11 bundles, ending with your question', '5,194 B']].forEach(([a, b], i) => {
+  const l = el(`<span>${a}</span><span>${b}</span>`, 'lay', env);
+  const t = ENV_IN + .6 + i * .6;
+  anim(l, [[t, { x: 8, y: 36 + i * 30, o: 0 }], [t + .4, { x: 8, y: 34 + i * 30, o: 1 }]]);
+});
+const toolLay = el(`<span>Tool output · this request only</span><span>1,380 B</span>`, 'lay tool', env);
+anim(toolLay, [[at('r2', .6), { x: 8, y: 124, o: 0 }], [at('r2', 1), { o: 1 }], [R3, { o: 1 }], [R3 + .6, { o: 0 }]]);
+
+const pill = el('', 'chip ok');
+say(pill, [[0, '8,924 B + 4,096 reserve ≤ 24,000 B  ✓ send'], [at('r2', 1), '10,304 B + 4,096 reserve ≤ 24,000 B  ✓ send']]);
+anim(pill, [[at('n2', 1), { x: MX, y: 296, o: 0 }], [at('n2', 1.4), { x: MX, y: 290, o: 1 }], [at('r2', .6), { y: 290 }], [at('r2', 1), { y: 320 }],
+  [R3, { y: 320 }], [R3 + .6, { y: 290 }], [MID_OUT, { o: 1 }], [MID_OUT + .5, { o: 0 }]]);
+
+const model = el('<div class="k">Model</div><div class="s">gpt-6-luna</div>', 'node');
+const SEND1 = end('n2', -.6), SEND2 = at('r3', .1);
+anim(model, [[at('n1', 1.5), { x: 750, y: 160, s: 1, o: 0 }], [at('n1', 2), { x: 750, y: 150, o: 1 }], [SEND1 + .4, { s: 1 }], [SEND1 + .7, { s: 1.06 }], [SEND1 + 1.1, { s: 1 }],
+  [SEND2 + .4, { s: 1 }], [SEND2 + .7, { s: 1.06 }], [SEND2 + 1.1, { s: 1 }], [MID_OUT, { o: 1 }], [MID_OUT + .5, { o: 0 }]]);
+const send = path('M 684 205 L 746 205', 'var(--model)');
+anim(send, [[SEND1, { d: 0, o: 1 }], [SEND1 + .5, { d: 1 }], [SEND2 - .05, { d: 1 }], [SEND2, { d: 0 }], [SEND2 + .5, { d: 1 }], [MID_OUT, { o: 1 }], [MID_OUT + .5, { o: 0 }]]);
+const e3y = TY + (e3.y + e3.h / 2) * TS, e3x = TX + 506 * TS;
+anim(path(`M 700 77 C 480 70, 390 110, ${e3x + 6} ${e3y}`, 'var(--hl)'), [[at('r1', 2), { d: 0, o: 1 }], [at('r1', 2.9), { d: 1 }], [end('r3', -1.4), { o: 1 }], [end('r3', -.8), { o: 0 }]]);
+stage.appendChild(overlay);
+
+const call = el('retrieve_event("evt_003")', 'chip call');
+anim(call, [[at('r1', 1), { x: 700, y: 72, o: 0 }], [at('r1', 1.4), { x: 700, y: 64, o: 1 }], [end('r3', -1.4), { o: 1 }], [end('r3', -.8), { o: 0 }]]);
+const excerpt = el('“East fence: about 40 ft of rotted posts. Replace before beds go in.”', 'chip excerpt');
+excerpt.style.width = '284px';
+anim(excerpt, [[at('r2', .1), { x: 60, y: e3y - 16, o: 0 }], [at('r2', .3), { o: 1 }], [at('r2', .9), { x: MX + 8, y: 272, o: 1 }], [at('r2', 1.1), { o: 0 }]]);
+const ans = el(`<div class="who">Model · reply</div><div class="b">The survey reports about 40 ft of rotted posts on the east fence and recommends replacing them before the beds go in. The $3,000 reserve can cover it.</div>`, 'bubble model');
+ans.style.width = '480px';
+anim(ans, [[at('r3', 1.2), { x: MX, y: 372, o: 0 }], [at('r3', 1.7), { x: MX, y: 362, o: 1 }], [MID_OUT, { o: 1 }], [MID_OUT + .5, { o: 0 }]]);
+
+/* ---------- recap ---------- */
+show(el(`<div class="k">The record is permanent. The working context is rebuilt for every call.</div>
+  <dl><div><dt class="c-state">Trajectory</dt><dd>26 events. Nothing was edited or deleted, and every context change left a receipt.</dd></div>
+  <div><dt class="c-recent">Live context</dt><dd>Revision r11, 12 bundles, 55% of the byte budget. Any earlier revision can be restored.</dd></div>
+  <div><dt class="c-jev">Decisions</dt><dd>Jev picked actions from typed questions. Code checked them, and the main model did the rewriting.</dd></div>
+  <div><dt class="c-model">The link between them</dt><dd>Summaries and pointers keep their source IDs, so an original is one tool call away.</dd></div></dl>`, 'recap'), MX, 50, at('z1'));
+
+/* ---------- scene titles ---------- */
+const order = Object.keys(SCENES).slice(1);
+const sceneEnd = (s) => { const i = order.indexOf(s); return i + 1 < order.length ? sceneStart(order[i + 1]) - .3 : null; };
+const HEADINGS = {
+  log: 'Everything is written down first', bundles: 'The log is split into context bundles', split: 'The record stays; a working copy moves',
+  budget: 'A new question pushes past 75%', jev: 'Jev chooses an action for each candidate', compact: 'Offload first, then compact',
+  infer: 'Each request is rebuilt and size-checked', retrieve: 'A pointer is enough to find the original', recap: 'Trajectory ≠ live context',
+};
+const titleCard = (s, extra = '', side = false) => {
+  const n = el(`<div class="eb">${order.indexOf(s) + 1} / ${order.length} · ${SCENES[s]}</div><div class="h">${HEADINGS[s]}</div>${extra}`, 'cap' + (side ? ' side' : ''));
+  return show(n, side ? 850 : 370, side ? 230 : 548, sceneStart(s) - .2, sceneEnd(s));
+};
+const legend = `<div class="legend"><span><i style="border-color:var(--state)"></i>Named state</span><span><i style="border-color:var(--pin)"></i>Pinned</span>
+  <span><i style="border-color:var(--recent)"></i>Recent turns</span><span><i style="border-color:var(--plain)"></i>Ordinary bundle</span></div>`;
+titleCard('log', '', true);
+titleCard('bundles', legend, true);
+['split', 'budget', 'jev', 'compact', 'infer', 'retrieve', 'recap'].forEach((s) => titleCard(s));
+
+/* ---------- subtitles ---------- */
+const subs = el('<span></span>', 'subs');
+subs.classList.remove('a');
+say(subs.firstChild, [[0, ''], ...NARRATION.flatMap((c) => [[c.start, c.text], [c.end + .45, '']])]);
+
+/* ---------- render ---------- */
+function renderAt(t) {
+  for (const tr of tracks) {
+    const p = {};
+    for (const k in tr.props) p[k] = val(tr.props[k], t);
+    const s = tr.node.style;
+    if ('x' in p || 'y' in p || 's' in p) s.transform = `translate(${(p.x ?? 0).toFixed(2)}px,${(p.y ?? 0).toFixed(2)}px) scale(${p.s ?? 1})`;
+    if ('sx' in p) s.transform = `scaleX(${p.sx})`;
+    if ('w' in p) s.width = p.w + 'px';
+    if ('h' in p) s.height = p.h + 'px';
+    if ('o' in p) { s.opacity = p.o; s.visibility = p.o < .005 ? 'hidden' : 'visible'; }
+    if ('d' in p) { s.strokeDashoffset = 1 - p.d; if (p.d < .002) s.visibility = 'hidden'; else if (!('o' in p)) s.visibility = 'visible'; }
+    if ('fw' in p) s.width = p.fw + '%';
+    if ('n' in p) tr.node.textContent = tr.fmt(p.n);
+  }
+  for (const sw of switches) sw.node.classList.toggle(sw.name, t >= sw.t0 && t < sw.t1);
+  for (const tx of texts) {
+    let cur = tx.steps[0][1];
+    for (const [ts, v] of tx.steps) if (t >= ts) cur = v;
+    if (tx.node.textContent !== cur) tx.node.textContent = cur;
+  }
+}
+window.renderAt = renderAt;
+window.DURATION = DURATION;
+window.NARRATION = NARRATION.map(({ scene, id, text, start, end }) => ({ scene: SCENES[scene], id, text, start, end }));
+window.setCaptions = (on) => stage.classList.toggle('nocc', !on);
+
+/* ---------- playback ---------- */
+const viewport = document.getElementById('viewport');
+const fit = () => { stage.style.transform = `scale(${viewport.clientWidth / 1280})`; };
+new ResizeObserver(fit).observe(viewport);
+fit();
+
+const playBtn = document.getElementById('play'), scrub = document.getElementById('scrub'), timeEl = document.getElementById('time');
+scrub.max = DURATION;
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const chapters = Object.entries(SCENES).map(([s, name]) => [name, s === 'intro' ? 0 : sceneStart(s) - .3]);
+const nav = document.getElementById('chapters');
+const chapBtns = chapters.map(([name, t]) => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = name;
+  b.addEventListener('click', () => seek(t));
+  nav.appendChild(b); return b;
+});
+
+// Script panel
+const cuesEl = document.getElementById('cues');
+let lastScene = null;
+const cueBtns = NARRATION.map((c) => {
+  if (c.scene !== lastScene) { const h = document.createElement('h3'); h.textContent = SCENES[c.scene]; cuesEl.appendChild(h); lastScene = c.scene; }
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'cue';
+  b.innerHTML = `<time>${fmt(c.start)}</time><span></span>`;
+  b.lastChild.textContent = c.text;
+  b.addEventListener('click', () => seek(c.start - .2));
+  cuesEl.appendChild(b); return b;
+});
+const srtTime = (s) => {
+  const ms = Math.round(s * 1000), h = Math.floor(ms / 3600000), m = Math.floor(ms / 60000) % 60, sec = Math.floor(ms / 1000) % 60;
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')},${String(ms % 1000).padStart(3, '0')}`;
+};
+const scriptText = () => { let s = null; return NARRATION.map((c) => { const head = c.scene !== s ? `\n${SCENES[c.scene].toUpperCase()}\n` : ''; s = c.scene; return `${head}[${fmt(c.start)}] ${c.text}`; }).join('\n').trim(); };
+const srtText = () => NARRATION.map((c, i) => `${i + 1}\n${srtTime(c.start)} --> ${srtTime(c.end + .45)}\n${c.text}\n`).join('\n');
+const msg = document.getElementById('copy-msg');
+const copy = async (text, label) => {
+  try { await navigator.clipboard.writeText(text); msg.textContent = `${label} copied`; }
+  catch { msg.textContent = 'Copy is blocked here; select the lines below instead'; }
+  setTimeout(() => { msg.textContent = ''; }, 3000);
+};
+document.getElementById('copy-text').addEventListener('click', () => copy(scriptText(), 'Script'));
+document.getElementById('copy-srt').addEventListener('click', () => copy(srtText(), 'SRT'));
+const ccBtn = document.getElementById('cc');
+ccBtn.addEventListener('click', () => { const on = ccBtn.getAttribute('aria-pressed') !== 'true'; ccBtn.setAttribute('aria-pressed', String(on)); window.setCaptions(on); });
+
+let now = 0, playing = false, last = 0, activeCue = -2;
+function draw() {
+  renderAt(now);
+  scrub.value = now;
+  timeEl.textContent = `${fmt(now)} / ${fmt(DURATION)}`;
+  let active = 0; chapters.forEach(([, t], i) => { if (now >= t) active = i; });
+  chapBtns.forEach((b, i) => b.setAttribute('aria-pressed', String(i === active)));
+  let ci = -1; NARRATION.forEach((c, i) => { if (now >= c.start - .1) ci = i; });
+  if (ci !== activeCue) {
+    cueBtns.forEach((b, i) => { if (i === ci) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+    activeCue = ci;
+  }
+}
+function seek(t) { now = Math.max(0, Math.min(DURATION, t)); if (!playing) setPlaying(true); else draw(); }
+function frame(ts) {
+  if (!playing) return;
+  now = Math.min(DURATION, now + (ts - last) / 1000); last = ts;
+  if (now >= DURATION) setPlaying(false);
+  draw();
+  if (playing) requestAnimationFrame(frame);
+}
+function setPlaying(on) {
+  playing = on;
+  if (on && now >= DURATION) now = 0;
+  playBtn.textContent = on ? 'Pause' : now >= DURATION ? 'Replay' : 'Play';
+  if (on) { last = performance.now(); requestAnimationFrame(frame); }
+  draw();
+}
+playBtn.addEventListener('click', () => setPlaying(!playing));
+scrub.addEventListener('input', () => { now = +scrub.value; draw(); });
+document.addEventListener('keydown', (ev) => {
+  if (ev.code === 'Space') {
+    if (ev.target.closest('button')) return;
+    ev.preventDefault(); setPlaying(!playing);
+  } else if (ev.target !== scrub && (ev.code === 'ArrowRight' || ev.code === 'ArrowLeft')) {
+    now = Math.max(0, Math.min(DURATION, now + (ev.code === 'ArrowRight' ? 2 : -2))); draw();
+  }
+});
+
+if (location.hash === '#render') {
+  document.body.classList.add('render');
+  fit();
+  renderAt(0);
+} else if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  now = at('j5', 8); setPlaying(false);
+} else {
+  setPlaying(true);
+}
+})();
+</script>
