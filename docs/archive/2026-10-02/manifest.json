@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-02",
+  "files": [
+    {
+      "original": "docs/Context Layer Architecture.md",
+      "archived": "docs/archive/2026-10-02/docs/Context Layer Architecture.md",
+      "sha256": "a402df731adb58d8677861712c768310d87f3b5828592de442ff8773c4bd232b"
+    },
+    {
+      "original": "docs/CONVERSATION_COMPARISON.md",
+      "archived": "docs/archive/2026-10-02/docs/CONVERSATION_COMPARISON.md",
+      "sha256": "e9dc918a5448674650ca0b6eb32d7338892e669d51a2543ac7219b58d6754fbc"
+    },
+    {
+      "original": "docs/CONVERSE_INTEGRATION.md",
+      "archived": "docs/archive/2026-10-02/docs/CONVERSE_INTEGRATION.md",
+      "sha256": "579cc7a4cc67217ae3fc2d66452835e70f9611182559b359bbee46a30439cd51"
+    },
+    {
+      "original": "docs/DEVELOPMENT_ROADMAP.md",
+      "archived": "docs/archive/2026-10-02/docs/DEVELOPMENT_ROADMAP.md",
+      "sha256": "a507b95871813542a927cb229265d5c6544b1685085f7f05b0753b25895a60cc"
+    },
+    {
+      "original": "docs/IMPLEMENTATION_STATUS.md",
+      "archived": "docs/archive/2026-10-02/docs/IMPLEMENTATION_STATUS.md",
+      "sha256": "c96e31fe315364dd3e1f973038e6b4302758b265d797ce30d662a8c377990afa"
+    },
+    {
+      "original": "docs/JEV_INTEGRATION.md",
+      "archived": "docs/archive/2026-10-02/docs/JEV_INTEGRATION.md",
+      "sha256": "ce72c05f1d30d0404f779fc701e2756971bff586f03765a18f66b9e550d9d02a"
+    },
+    {
+      "original": "docs/LONG_CONVERSATION_FINDINGS.md",
+      "archived": "docs/archive/2026-10-02/docs/LONG_CONVERSATION_FINDINGS.md",
+      "sha256": "d57761935f33e2c78d37f464e35fcf584c135eaa2d0844986adbf9421a717b7d"
+    },
+    {
+      "original": "docs/MODEL_COSTS_2026-10-02.md",
+      "archived": "docs/archive/2026-10-02/docs/MODEL_COSTS_2026-10-02.md",
+      "sha256": "dfaa9371657c03498869ce178aa77f8881ab07212008092b22424124d56d57a4"
+    },
+    {
+      "original": "docs/MVP_ROADMAP.md",
+      "archived": "docs/archive/2026-10-02/docs/MVP_ROADMAP.md",
+      "sha256": "99323548bc7124ada897a2ebb2abc2b0186e1b84803d71b32c24c8d529405f36"
+    },
+    {
+      "original": "docs/Next steps.md",
+      "archived": "docs/archive/2026-10-02/docs/Next steps.md",
+      "sha256": "02e5132302c2c68317c83018f5f627359951e86ee484a410a2e5b890c054e8e0"
+    },
+    {
+      "original": "docs/NEXT_ITERATION_2026-10-02.md",
+      "archived": "docs/archive/2026-10-02/docs/NEXT_ITERATION_2026-10-02.md",
+      "sha256": "20804c344d33311ab1c7f1e2fb1675e328313957c165f9bfac7ce3c2734d11b7"
+    },
+    {
+      "original": "docs/REORIENTATION.md",
+      "archived": "docs/archive/2026-10-02/docs/REORIENTATION.md",
+      "sha256": "ea25aa305805c6d84d181d3e91bb1ce7b89bb490ab2546c06f266c2149233a81"
+    },
+    {
+      "original": "external references/clm_repo_link.md",
+      "archived": "docs/archive/2026-10-02/external references/clm_repo_link.md",
+      "sha256": "c4508ed79e4e08c3ed0fe86b98fbaaaff098c4dd09c0037ca5c64df90d02908e"
+    },
+    {
+      "original": "external references/CLP path.md",
+      "archived": "docs/archive/2026-10-02/external references/CLP path.md",
+      "sha256": "ce5d5072a44964ae94bbc1e39e9ba82cea728c63b69c83a97e87257ae7fe4fc4"
+    },
+    {
+      "original": "external references/jev_docs_link.md",
+      "archived": "docs/archive/2026-10-02/external references/jev_docs_link.md",
+      "sha256": "517007a5576bfa0bd5103332b8cb1b235cd0efd99e31b28af2da4a9ccf06dc9e"
+    },
+    {
+      "original": "external references/MEMORY_AND_CONTEXT_PATTERNS.md",
+      "archived": "docs/archive/2026-10-02/external references/MEMORY_AND_CONTEXT_PATTERNS.md",
+      "sha256": "2a2a1aa636b0ff153970a4efe577105850069be370c970d75dae194d9b7aa146"
+    }
+  ]
+}
