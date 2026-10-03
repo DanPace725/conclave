@@ -24,6 +24,8 @@ Source: CLP v0.2, Daniel Pace, 2025-09-18, at `E:\Coding\e2-core-framework\E2Cor
 | Complete Conclave suite | 152 passed, 1 optional historical-export replay skipped, 0 failed (153 tests). |
 | Syntax and patch whitespace | Pass. |
 
+The committed engine `2020ecda8176a07bedde58d229f96afe8f8f1474` was migrated into Converse. All 62 managed files match; Converse syntax checks and 157 backend tests passed, with one live Neon test skipped and zero failures. The added Converse checks exercise the complete CLP model-tool turn and oversized receipt projection. [Integration report](../../../../../converse/docs/archive/2026-10-03/clp-broker.md)
+
 The checks use synthetic sources and fixture model responses. They establish the implemented broker behavior, not claim accuracy, editorial independence, statistical confidence, wall-time budgets, production database behavior or retrieval quality on general workloads.
 
 ## Remaining CLP work
