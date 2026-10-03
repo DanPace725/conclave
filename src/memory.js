@@ -1,7 +1,7 @@
 import { hash, id } from './store.js';
 import { removedSources } from './documents.js';
 import { sourceIdentityIndex } from './identity.js';
-import { explicitCommitment, extractExplicit, canonicalKey, MEMORY_POLICY } from './memory-extractor.js';
+import { extractExplicit, canonicalKey, MEMORY_POLICY } from './memory-extractor.js';
 
 export const MEMORY_VERSION = 'memory-record-v1';
 const conflict = message => Object.assign(Error(message), { status: 409 });
@@ -147,7 +147,8 @@ export function gateStateAuthority(store, conversation, current, updates) {
     const sources = (u.source_event_ids || []).map(ref => store.source(conversation, ref));
     const human = sources.filter(e => e.kind === 'user' && e.actor === 'human');
     const exact = human.some(e => e.content.includes(u.content) && !suppressedMemorySources(store, conversation).has(e.id));
-    const explicit = exact && human.some(e => e.metadata.purpose?.startsWith('manual-') || explicitCommitment(u.content));
+    const explicit = exact && human.some(e => e.content.includes(u.content) && (e.metadata.purpose?.startsWith('manual-')
+      || extractExplicit(e).some(r => r.kind === 'commitment' && r.content === u.content)));
     const old = current.segments.find(s => s.state_key === u.key);
     const targets = [old, ...(u.supersedes || []).map(ref => current.segments.find(s => s.id === ref || s.state_key === ref.replace(/^state:/, '')))].filter(Boolean);
     if (targets.some(s => ['constraint', 'decision'].includes(s.type) && s.status === 'active' && s.attribution?.some(a => a.kind === 'user' && a.actor === 'human')

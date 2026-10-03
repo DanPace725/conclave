@@ -82,7 +82,9 @@ export async function captureMemory(h, event) {
       h.memoryCalls = (h.memoryCalls || 0) + 1;
       const previous = h.lastRequestId;
       try {
-        const response = await h.call(extractionPayload(event, view.entries, h.options.model), 'memory-extraction', { budget: 12000, output: 600, signal: AbortSignal.timeout(15000) });
+        const heads = view.entries.filter(r => ['retained', 'candidate'].includes(r.lifecycle)
+          && (!r.scope.objective_id || event.metadata.purpose === 'agent-objective' && r.scope.objective_id === event.id));
+        const response = await h.call(extractionPayload(event, heads, h.options.model), 'memory-extraction', { budget: 12000, output: 600, signal: AbortSignal.timeout(15000) });
         const data = JSON.parse(responseText(response));
         if (!data || Object.keys(data).length !== 1 || !Array.isArray(data.records) || data.records.length > 8
           || data.records.some(r => !r || Object.keys(r).sort().join(',') !== 'kind,span_end,span_start' || !['preference', 'claim', 'question'].includes(r.kind))) throw Error('Invalid candidate extraction schema');

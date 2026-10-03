@@ -165,6 +165,9 @@ test('model state writer cannot replace user budget with arithmetic or promote a
     h.toolResult('update_state', { expected_revision: s.context(id).revision, updates: [{ ...update, key: 'recommendation', type: 'decision', source_event_ids: [assistant.id] }] });
     assert.equal(s.context(id).segments.find(r => r.state_key === 'recommendation').status, 'unresolved');
     assert.equal(records(s, id)[0].content, source.content);
+    const quoted = user(h, 'The article says "Keep it below $900."');
+    h.toolResult('update_state', { expected_revision: s.context(id).revision, updates: [{ ...update, key: 'quoted', content: 'Keep it below $900.', source_event_ids: [quoted.id] }] });
+    assert.equal(s.context(id).segments.find(r => r.state_key === 'quoted').status, 'unresolved', 'Quoted imperatives cannot bypass the ledger gate through named state');
   } finally { s.close(); }
 });
 
@@ -198,7 +201,11 @@ test('bounded model capture records usage/failure, persists source first, reject
     assert.equal(seen, 1); assert.ok(flushes.length >= 3);
     assert.equal(records(s, id)[0].authority, 'user_reported'); assert.equal(records(s, id)[0].binding, false);
     assert.ok(s.events(id).some(e => e.kind === 'inference_request' && e.content === 'memory-extraction'));
-    h.provider.respond = async () => reply(JSON.stringify({ records: [{ kind: 'commitment', span_start: 0, span_end: 5 }] }));
+    changeMemory(s, id, records(s, id)[0].memory_id, 'suppress', memoryView(s, id).revision);
+    h.provider.respond = async payload => {
+      assert.equal(JSON.parse(payload.input[0].content).related_heads.length, 0, 'Suppressed heads must also be excluded from the extraction model');
+      return reply(JSON.stringify({ records: [{ kind: 'commitment', span_start: 0, span_end: 5 }] }));
+    };
     h.memoryCalls = 0; // A new authorized turn has its own allowance.
     await capture(h, 'Another tentative budget perhaps.');
     assert.equal(memoryView(s, id).capture.status, 'failed'); assert.equal(records(s, id).length, 1);
