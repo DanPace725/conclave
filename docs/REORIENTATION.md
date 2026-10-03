@@ -1,5 +1,7 @@
 # Conclave reorientation
 
+> **Superseded for direction, gates and working rules by [DIRECTION_2026-10-03.md](DIRECTION_2026-10-03.md).** The MVP gates are considered met. The analysis below still stands as the record of the cost findings.
+
 2026-10-02. This document resets the project's direction after a review of 11 Converse conversations exported to `converse/docs/conversations/` and analyzed with `E:\Coding\converse\conclave_report.py`. It takes precedence over the sequencing in [DEVELOPMENT_ROADMAP.md](<E:/Coding/converse/CLA/conclave/docs/DEVELOPMENT_ROADMAP.md>) and the Converse [roadmap](<E:/Coding/converse/converse/docs/roadmap.md>) until its gates are met. Earlier documents remain the record of what was built and why.
 
 ## Summary
