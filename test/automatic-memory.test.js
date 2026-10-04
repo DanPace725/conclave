@@ -114,10 +114,10 @@ test('unresolved competing quantities and ambiguous corrections carry both passa
     await capture(h, 'Keep it below 500 euros if adults attend.');
     assert.equal(records(s, id)[2].resolution, 'reported');
     await capture(h, 'Actually, the limit should be 800.');
-    const selected = selectMemory(s, id, 'Continue the plan.').records;
-    assert.ok(selected.some(r => r.content === 'Actually, the limit should be 800.'));
+    const selected = selectMemory(s, id, 'Continue the plan; inspect the limit.').records;
+    assert.ok(selected.some(r => r.content === 'the limit should be 800.'));
     assert.equal(selected.filter(r => r.binding).length, 3);
-    assert.ok(selected.filter(r => r.binding).every(r => r.resolution === 'contested'));
+    assert.equal(records(s, id)[2].resolution, 'reported', 'A vague correction cannot contest a different unit/condition');
   } finally { s.close(); }
 });
 
