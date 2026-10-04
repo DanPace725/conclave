@@ -64,7 +64,7 @@ Each answer comes back as a probability distribution with a confidence.
 
 17
 00:02:40,300 --> 00:02:55,550
-Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. Escalated and retained bundles stay protected for the rest of this turn.
+Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. That advice holds for this pass, and unchanged context reuses the decision.
 
 18
 00:02:55,800 --> 00:03:09,050
