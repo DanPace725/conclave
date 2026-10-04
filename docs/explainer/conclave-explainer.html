@@ -265,7 +265,7 @@ const NARRATION = [
   ['jev', 'j2', 'Jev receives the task and at most six candidates. Each is a short excerpt with its type, its status, and whether a pointer would make it smaller. Protected bundles are never sent.'],
   ['jev', 'j3', 'For every candidate, Jev answers two typed questions. Which action: retain, offload, compact or escalate. And how important it is, on a scale from 0 to 4.'],
   ['jev', 'j4', 'Each answer comes back as a probability distribution with a confidence.'],
-  ['jev', 'j5', 'Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. Escalated and retained bundles stay protected for the rest of this turn.'],
+  ['jev', 'j5', 'Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. That advice holds for this pass, and unchanged context reuses the decision.'],
   ['jev', 'j6', "Jev only chooses. It can't write summaries, invent bundle IDs or delete sources. If its answer is malformed, fails, or refers to a stale revision, Conclave falls back to its own ranking."],
   ['compact', 'k1', 'Now the plan is applied. The site survey becomes a small pointer to its original in the log. That alone leaves the request at 77%, so Conclave keeps going.'],
   ['compact', 'k2', 'The two older assistant turns are compacted. The main model rewrites them into one summary that cites both sources.'],

@@ -1,6 +1,6 @@
 # Conclave project context
 
-Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
+Updated 2026-10-04. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
 
 ## Current capabilities
 
@@ -19,6 +19,7 @@ Updated 2026-10-03. Mutable project state. [CLI usage](README.md) · [Developmen
 - Versioned workspace text files, uploads, exact patches, removal/restoration, current-file authority/readback checks, arithmetic/formulas, native web search, and public HTTP page retrieval with preserved canonical sources.
 - Settled context ordering, compact tool receipts, action-specific next-request cost estimates in shadow mode, purpose/provider usage, local token-count coverage, preflight counts, audit/replay, full-request comparisons on a like-for-like tool baseline, and per-part request breakdowns with the unexplained reported remainder. Timing checks do not call models; pressure tries routine source pointers before paid selection. Summary requests are priced on first use; unknown cache/recovery/tier coverage remains explicit.
 - Cache-prefix/age tracing, request-linked reported input-cost reconciliation, cached bounded local forecasts with fail-open estimator errors, and an isolated previous-policy/current live trial runner with call/time/spend guards. [Implementation and live evidence](docs/archive/2026-10-03/context-cost-controller-v3.md)
+- Code-level walkthrough of the turn pipeline, retention plan, `compact()` ladder, shadow cost controller and automatic memory (capture, commit, selection, suppression, named-state gate), with probe results. [Context and memory algorithms](docs/CONTEXT_AND_MEMORY_ALGORITHMS.md) · [Animated explainer and narration](docs/explainer/NARRATION.md)
 - CLI context and complete service operations, local/hosted HTTP API, and library exports. Converse supplies the browser UI; its engine modules and managed integration wrappers match this source.
 
 ## Demonstrated results

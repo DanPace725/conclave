@@ -2,7 +2,7 @@
 
 Persistent trajectory, mutable context. This repository owns the complete Conclave engine used by Converse. SQLite or PostgreSQL stores the trajectory; a versioned working projection supplies the next model request. Offloaded details remain retrievable.
 
-[Project context](PROJECT_CONTEXT.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Testing](TESTING_GUIDE.md) · [Jev setup](docs/JEV_INTEGRATION.md) · [Converse integration](docs/CONVERSE_INTEGRATION.md)
+[Project context](PROJECT_CONTEXT.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Testing](TESTING_GUIDE.md) · [Context and memory algorithms](docs/CONTEXT_AND_MEMORY_ALGORITHMS.md) · [Jev setup](docs/JEV_INTEGRATION.md) · [Converse integration](docs/CONVERSE_INTEGRATION.md)
 
 The opt-in [CLP evidence broker](docs/CLP_BROKER.md) adds versioned frames, source provenance, independent-support floors, and deterministic query explanations. Run `node scripts/clp-demo.js` for the six-bundle offline example. The CLI/API exposes registration, attestation, record, link, and query operations; thin/refuted/unmeasured claims remain unresolved.
 
