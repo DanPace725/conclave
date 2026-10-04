@@ -41,6 +41,12 @@ test('standalone hosted API persists streamed replies and workspace sources acro
     assert.equal(record.messages.at(-1).content, 'Saved from standalone.');
     assert.ok(record.context_layer.events.some(event => event.kind === 'document' && event.content === 'Canonical workspace source.'));
     assert.ok(record.context_layer.snapshots.length);
+    const transcriptResponse = await fetch(`${url}?action=transcript&conversation=${id}`);
+    assert.equal(transcriptResponse.headers.get('cache-control'), 'no-store');
+    const transcript = await transcriptResponse.json();
+    assert.equal(transcript.view_kind, 'transcript');
+    assert.deepEqual(transcript.messages, record.messages);
+    assert.equal(transcript.model_input, undefined);
     // Each HTTP operation creates a fresh PostgreSQL repository/service. CLP
     // registries and provenance must hydrate from the same append-only events.
     const clp = async (action, input = {}) => {

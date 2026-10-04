@@ -43,6 +43,7 @@ test('standalone HTTP server runs the shared authenticated API with a supplied s
     server = await startServer({ port: 0, service });
     const url = `http://127.0.0.1:${server.address().port}`;
     assert.equal((await fetch(url + '/api/conclave?action=status')).status, 401);
+    assert.equal((await fetch(url + '/api/conclave?action=transcript&conversation=conv_private')).status, 401);
     const unlocked = await fetch(url + '/api/session', { method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ password: 'standalone-fixture' }) });
     assert.equal(unlocked.status, 200);
@@ -56,6 +57,9 @@ test('standalone HTTP server runs the shared authenticated API with a supplied s
     assert.equal(uploaded.status, 200);
     const viewed = await (await fetch(url + `/api/conclave?conversation=${created.conversation_id}`, { headers })).json();
     assert.equal(viewed.workspace[0].content, 'Exact source');
+    const transcript = await (await fetch(url + `/api/conclave?action=transcript&conversation=${created.conversation_id}`, { headers })).json();
+    assert.equal(transcript.view_kind, 'transcript');
+    assert.deepEqual(transcript.messages, viewed.messages);
     const clp = async (action, input) => {
       const response = await fetch(url + '/api/conclave', { method: 'POST', headers, body: JSON.stringify({
         action, conversation_id: created.conversation_id, ...input,

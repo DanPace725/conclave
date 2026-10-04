@@ -37,8 +37,17 @@ try {
     samples.push({ mode, ...metrics, total_ms: performance.now() - start,
       response_bytes: Buffer.byteLength(JSON.stringify(view)), messages: view.messages.length, model_input_calls: modelInputCalls });
   }
+  const transcript_samples = [];
+  for (let n = 0; n < 3; n++) {
+    let metrics;
+    const reader = new ContextRepository(db, { onLoad: m => { metrics = m; } });
+    reader.service = () => { throw Error('Transcript instantiated the engine'); };
+    const start = performance.now();
+    const view = await reader.transcript(id);
+    transcript_samples.push({ ...metrics, total_ms: performance.now() - start, messages: view.messages.length });
+  }
   const result = { recorded_at: new Date().toISOString(), environment: 'offline PGlite; no Neon/Vercel network or production timings',
-    turns: 12, samples, limitations: ['Small synthetic fixture', 'Warm caches are process-local', 'Database timings include local WASM execution, not network latency'] };
+    turns: 12, samples, transcript_samples, limitations: ['Small synthetic fixture', 'Warm caches are process-local', 'Database timings include local WASM execution, not network latency'] };
   const at = process.argv.indexOf('--out');
   if (at >= 0) {
     if (!process.argv[at + 1]) throw Error('--out requires a file');
