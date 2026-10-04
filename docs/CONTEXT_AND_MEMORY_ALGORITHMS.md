@@ -11,6 +11,8 @@
 | `41dfe2d` | Quoted and suppressed sources stay behind memory authority gates |
 | `68ebfb5` | Memory correction targeting; named-state retirement; lifecycle receipts |
 
+The later embedding increment adds hybrid history retrieval and semantic candidate-memory activation without changing the capture/correction authority rules described below. Its current contract, code pointers, migration and live/offline evidence are in [Embedding retrieval](EMBEDDINGS.md). Saved-conversation loading diagnostics and the hosting work sequence are in [the Converse hosting plan](../../../converse/docs/HOSTING_PLAN.md).
+
 Main files: `src/harness.js`, `src/attention.js`, `src/economics.js`, `src/cache-trace.js`, `src/memory.js`, `src/memory-extractor.js`, `src/memory-controller.js`, `src/state.js`.
 
 **How this was checked.** Every rule below was read from the source. The five related test files (`automatic-memory`, `memory-priority`, `converse-economic-actions`, `shadow-reconciliation`, `context-cost-trial`) pass: 49 tests, no failures. A short probe script also ran sample messages through `captureMemory` to confirm the capture rules. Its results are in [Observations](#observations-from-running-the-code), including two places where the code differs from `docs/AUTOMATIC_MEMORY.md`.

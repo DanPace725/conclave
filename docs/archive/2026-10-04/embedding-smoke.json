@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-04T16:16:53.238Z",
+  "provider": "openai",
+  "model": "text-embedding-3-small",
+  "environment": "live OpenAI embeddings; disposable in-memory SQLite, no answer/reranker calls",
+  "lexical_matches": 0,
+  "history_recovered_target": true,
+  "memory_activated_target": true,
+  "results": [
+    {
+      "content": "The recurring deployment fee is capped at twenty-five dollars.",
+      "semantic_similarity": 0.36534910179403096
+    }
+  ],
+  "usage": {
+    "calls": 1,
+    "input_tokens": 42,
+    "usage_complete": true,
+    "reserved_unknown_tokens": 0,
+    "provider": "openai",
+    "model": "text-embedding-3-small"
+  },
+  "limitations": [
+    "One small synthetic query, not a general retrieval-quality benchmark"
+  ]
+}

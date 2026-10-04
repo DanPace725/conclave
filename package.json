@@ -17,14 +17,15 @@
     "db:migrate": "node --env-file-if-exists=.env scripts/migrate.js"
   },
   "dependencies": {
+    "@vercel/functions": "^3.9.9",
+    "drizzle-orm": "^0.45.3",
     "gpt-tokenizer": "^4.0.0",
     "htmlparser2": "^12.0.0",
-    "drizzle-orm": "^0.45.3",
-    "pg": "^8.23.1",
-    "@vercel/functions": "^3.9.9"
+    "pg": "^8.23.1"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.5.8"
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-pgvector": "^0.0.9"
   },
   "main": "./src/index.js",
   "exports": {

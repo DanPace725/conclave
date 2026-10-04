@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { PGlite } from '@electric-sql/pglite';
+import { vector } from '@electric-sql/pglite-pgvector';
 import { drizzle } from 'drizzle-orm/pglite';
 import * as schema from '../src/db-schema.js';
 import { Store } from '../src/store.js';
@@ -259,7 +260,7 @@ test('a failed capture retries on subsequent Context activity within one paid-ca
 });
 
 test('PostgreSQL ledger survives fresh repository instances, user edits, suppression, stale fences and export', async () => {
-  const client = new PGlite();
+  const client = new PGlite({ extensions: { vector } });
   try {
     for (const file of readdirSync('drizzle').filter(f => f.endsWith('.sql')).sort()) await client.exec(readFileSync(join('drizzle', file), 'utf8'));
     const db = drizzle(client, { schema });

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
+import { vector } from '@electric-sql/pglite-pgvector';
 import { drizzle } from 'drizzle-orm/pglite';
 import * as schema from '../src/db-schema.js';
 import { ContextRepository } from '../src/context-repository.js';
@@ -13,7 +14,7 @@ const call = (name, args, phase) => response([{ type: 'function_call', call_id: 
 const final = response([{ type: 'message', content: [{ type: 'output_text', text: 'Budget memories suppressed; two changes verified in plan.md.' }] }]);
 
 for (const [provider, mode] of [['openai', 'context'], ['anthropic', 'agent']]) test(`hosted ${provider} ${mode} reads/suppresses both stores and applies/verifies an atomic patch across restarts`, async () => {
-  const client = new PGlite();
+  const client = new PGlite({ extensions: { vector } });
   let liveStore, id, phase = 0, snapshot, file;
   try {
     for (const name of readdirSync('drizzle').filter(f => f.endsWith('.sql')).sort()) await client.exec(readFileSync('drizzle/' + name, 'utf8'));

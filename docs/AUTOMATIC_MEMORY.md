@@ -38,6 +38,10 @@ Suppression immediately refreshes frozen and signed continuations, including Age
 
 HTTP mutations are `memory_save` (`memory_id`, `kind`, `content`, `expected_memory_revision`) and `memory_lifecycle` (`memory_id`, `operation: suppress|restore`, `expected_memory_revision`). The service view/export includes `memory.records`, current `entries`, independent `revision`, and latest capture status. SQLite and PostgreSQL persist generic memory events through the existing event envelope and hosted sequence/revision/lease fence; no database migration is required. Public library functions are exported from `src/index.js`.
 
+## Embedding-assisted activation
+
+The service can add semantically relevant non-binding records to activation alongside keyword matches. Binding/dependency/conflict closure, lifecycle, objective scope and source authority remain canonical. Scores never create commitments or identify correction targets. Similarity and query provenance persist in activation records, allowing fresh services to reconstruct the selection without another embedding call. See [embedding contracts and setup](EMBEDDINGS.md) for pgvector migration, bounds, usage and fallback behavior.
+
 ## Current limits
 
 A `dormant` lifecycle is excluded from selection but is not assigned anywhere yet. See [Context and memory management](CONTEXT_AND_MEMORY_ALGORITHMS.md) for a code-level walkthrough of capture, commit, selection and the named-state authority gate.
