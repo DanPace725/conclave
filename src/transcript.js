@@ -5,6 +5,10 @@ import { stopDetail } from './agent-diagnostics.js';
 // This display view deliberately has no context segments, workspace, request
 // estimates or audit. Mutations and exports still use the complete engine view.
 export function transcriptView(events, conversation, { revision, state, checkpoint, title, createdAt, busy = false }) {
+  const files = new Map();
+  for (const event of events) if (event.kind === 'document' && event.metadata.workspace_path)
+    files.set(event.metadata.workspace_path, { path: event.metadata.workspace_path, source_event_id: event.id });
+  const removed = removedSources(events);
   let agent = null;
   if (state) {
     const { pending, protected_ids, continuation, ...visible } = state;
@@ -17,7 +21,8 @@ export function transcriptView(events, conversation, { revision, state, checkpoi
     title: title ?? events.findLast(e => e.kind === 'conversation_title')?.content ?? events[0]?.content,
     created_at: createdAt ?? events[0]?.timestamp ?? null,
     title_generated: events.some(e => e.kind === 'conversation_title'),
-    ...transcriptFields(events, conversation), context: { revision }, agent, busy };
+    ...transcriptFields(events, conversation), context: { revision }, agent, busy,
+    workspace: [...files.values()].filter(file => !removed.has(file.source_event_id)) };
 }
 
 export const conversationDefaults = { provider: 'openai', model: 'gpt-6-luna', reasoning: 'low', budget: 256000, output: 16384, jev: true, freezeProjection: true };

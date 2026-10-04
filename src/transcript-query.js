@@ -26,14 +26,16 @@ const response = sql`jsonb_strip_nulls(jsonb_build_object(
   'response_id', ${metadata}->'response_id', 'usage', ${metadata}->'usage', 'status', ${metadata}->'status',
   'output', ${output(sql`${metadata}->'output'`)}, 'content', ${output(sql`${metadata}->'content'`)}))`;
 
-export const displayEvent = sql`(${events.data} - 'metadata') || jsonb_build_object('metadata',
+export const displayEvent = sql`(CASE WHEN ${events.data}->>'kind' = 'document' AND NOT (${metadata} ? 'attachment_id')
+    THEN (${events.data} - 'metadata' - 'content') || jsonb_build_object('content', '')
+    ELSE ${events.data} - 'metadata' END) || jsonb_build_object('metadata',
   CASE ${events.data}->>'kind'
     WHEN 'inference_request' THEN ${request}
     WHEN 'inference_response' THEN ${response}
     ELSE ${metadata} END)`;
 export const displayKinds = sql`(${events.data}->>'kind' IN ('conversation', 'conversation_title', 'turn_complete', 'turn_failure', 'reasoning', 'document_lifecycle')
   OR (${events.data}->>'kind' IN ('user', 'assistant') AND COALESCE(${metadata}->>'purpose', '') NOT LIKE 'manual-%')
-  OR (${events.data}->>'kind' = 'document' AND ${metadata} ? 'attachment_id')
+  OR (${events.data}->>'kind' = 'document' AND (${metadata} ? 'attachment_id' OR ${metadata} ? 'workspace_path'))
   OR (${events.data}->>'kind' IN ('inference_request', 'inference_response') AND ${events.data}->>'content' = 'answer'))`;
 export const checkpointEvent = sql`(${events.data} - 'metadata') || jsonb_build_object('metadata', jsonb_build_object('state',
   (${metadata}->'state') - 'pending' - 'protected_ids' - 'continuation'))`;

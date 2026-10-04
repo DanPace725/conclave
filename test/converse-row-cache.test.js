@@ -77,6 +77,7 @@ test('direct transcript matches complete messages without rebuilding the engine 
     service.store.append(id, 'turn_failure', 'Provider unavailable', { user_event_id: service.store.events(id).find(e => e.kind === 'user').id });
     service.store.append(id, 'user', 'Correction', { client_message_id: 'second', revises_message_id: 'first', web_settings: { provider: 'anthropic', model: 'claude-fixture', reasoning: 'default' } }, 'human');
     service.store.append(id, 'inference_response', 'answer', { request_id: request.id, output: null });
+    await service.saveDocument(id, { path: 'large.md', content: 'file-text-private '.repeat(5000), expected_source_event_id: null });
   });
   const full = await repository.run(id, false, service => service.view(id));
   repository.service = () => { throw Error('Transcript must not instantiate the engine'); };
@@ -87,8 +88,9 @@ test('direct transcript matches complete messages without rebuilding the engine 
   assert.equal(metrics.hydrate_ms, 0);
   assert.equal(metrics.snapshot_rows, 0);
   assert.equal(light.model_input, undefined);
+  assert.deepEqual(light.workspace, full.workspace.map(file => ({ path: file.path, source_event_id: file.source_event_id })));
   assert.ok(metrics.result_bytes < 15000);
-  assert.doesNotMatch(JSON.stringify(light), /opaque-secret|signed-secret|private tool args/);
+  assert.doesNotMatch(JSON.stringify(light), /opaque-secret|signed-secret|private tool args|file-text-private/);
   await assert.rejects(repository.transcript('bad'), { status: 400 });
   await assert.rejects(repository.transcript('conv_missing'), { status: 404 });
   // An uncached reader sees newly appended messages and the authoritative seq.
