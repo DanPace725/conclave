@@ -55,7 +55,7 @@ test('revision cues and fenced memory displays never disable unrelated constrain
     await capture(h, 'The article says \'Actually, keep the budget under $900. Never charge a fee.\'');
     const records = memoryView(store, id).records;
     assert.equal(records.length, 3); assert.ok(records.slice(0,2).every(r => r.resolution === 'reported' && r.lifecycle === 'retained'));
-    assert.equal(records[2].binding, false); assert.doesNotMatch(JSON.stringify(records), /```|900|Never charge/);
+    assert.equal(records[2].binding, false); assert.doesNotMatch(records.map(r => r.content).join('\n'), /```|900|Never charge/);
   } finally { store.close(); }
 });
 

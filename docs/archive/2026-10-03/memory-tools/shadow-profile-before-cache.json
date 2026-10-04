@@ -1,0 +1,403 @@
+{
+  "version": "shadow-profile-replay-v1",
+  "recorded_requests": 63,
+  "sampled_requests": 3,
+  "scope": "Offline current-policy evaluation on evenly sampled recorded prefixes; 256000-byte guard. Tool definitions/projection policy may differ from the original. No provider calls, answer quality or cost savings measured. Sequential stages and synchronous tokenizers may overrun cooperative allowances.",
+  "rows": [
+    {
+      "request_id": "evt_88f53ff6-ab83-44fb-94c8-4121287f4acb",
+      "request_seq": 8,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "revision": 1,
+      "bounded": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 24.21780000000001,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 0.15589999999997417
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 5.390199999999993
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.169399999999996
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.43070000000000164
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.4893999999999892
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 5.4121000000000095
+            },
+            "working_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 10.923399999999958
+            },
+            "pricing": {
+              "calls": 1,
+              "elapsed_ms": 0.4814000000000078
+            },
+            "prefix_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 0.1582000000000221
+            }
+          },
+          "last_stage": "prefix_tokenization",
+          "failed_stage": null,
+          "native_input_bytes": 20909,
+          "event_count": 7,
+          "segment_count": 1,
+          "candidate_count": 0
+        }
+      },
+      "expanded": {
+        "processing_budget_ms": 2000,
+        "elapsed_ms": 2.6433000000000106,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": true,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 0.1634999999999991
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 2.088200000000029
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.1127999999999929
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.08659999999997581
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.11060000000003356
+            }
+          },
+          "last_stage": "fingerprint",
+          "failed_stage": null,
+          "native_input_bytes": 20909,
+          "event_count": 8,
+          "segment_count": 1,
+          "candidate_count": 0
+        }
+      },
+      "repeated": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 2.580000000000041,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": true,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 0.16079999999999472
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 2.0504999999999995
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.10009999999999764
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.08150000000000546
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.10770000000002256
+            }
+          },
+          "last_stage": "fingerprint",
+          "failed_stage": null,
+          "native_input_bytes": 20909,
+          "event_count": 9,
+          "segment_count": 1,
+          "candidate_count": 0
+        }
+      }
+    },
+    {
+      "request_id": "evt_d91f64e4-b100-47b6-9219-4c2b07de3147",
+      "request_seq": 318,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "revision": 32,
+      "bounded": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 297.5692,
+        "status": "unavailable",
+        "reason": "Shadow processing budget reached",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 18.96580000000006
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 277.47300000000007
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.44269999999994525
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.5195999999999685
+            }
+          },
+          "last_stage": "cache_trace",
+          "failed_stage": "cache_trace",
+          "native_input_bytes": 77520,
+          "event_count": 317,
+          "segment_count": null,
+          "candidate_count": 0
+        }
+      },
+      "expanded": {
+        "processing_budget_ms": 2000,
+        "elapsed_ms": 2030.9345,
+        "status": "unavailable",
+        "reason": "Shadow processing budget reached",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 15.844699999999989
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 237.05910000000006
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.4030999999999949
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.6519000000000688
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.503099999999904
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 465.91419999999994
+            },
+            "candidate_payload": {
+              "calls": 5,
+              "elapsed_ms": 1104.2614999999998
+            },
+            "candidate_tokenization": {
+              "calls": 5,
+              "elapsed_ms": 38.79330000000027
+            },
+            "recovery_tokenization": {
+              "calls": 5,
+              "elapsed_ms": 163.61269999999945
+            }
+          },
+          "last_stage": "recovery_tokenization",
+          "failed_stage": "recovery_tokenization",
+          "native_input_bytes": 77520,
+          "event_count": 318,
+          "segment_count": 34,
+          "candidate_count": 0
+        }
+      },
+      "repeated": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 237.42280000000028,
+        "status": "unavailable",
+        "reason": "Shadow processing budget reached",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 14.132399999999961
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 222.23509999999987
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.42790000000013606
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.4658999999996922
+            }
+          },
+          "last_stage": "cache_trace",
+          "failed_stage": "cache_trace",
+          "native_input_bytes": 77520,
+          "event_count": 319,
+          "segment_count": null,
+          "candidate_count": 0
+        }
+      }
+    },
+    {
+      "request_id": "evt_94588fd4-55ee-4574-adb3-1d5cf92c790d",
+      "request_seq": 614,
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "revision": 67,
+      "bounded": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 797.3127000000004,
+        "status": "unavailable",
+        "reason": "Shadow processing budget reached",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 47.396600000000035
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 745.5135
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.8625000000001819
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 3.422599999999875
+            }
+          },
+          "last_stage": "cache_trace",
+          "failed_stage": "cache_trace",
+          "native_input_bytes": 105059,
+          "event_count": 613,
+          "segment_count": null,
+          "candidate_count": 0
+        }
+      },
+      "expanded": {
+        "processing_budget_ms": 2000,
+        "elapsed_ms": 2528.5626,
+        "status": "unavailable",
+        "reason": "Shadow processing budget reached",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 37.24200000000019
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 605.7481000000007
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.5775000000003274
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.8514999999997599
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.6412000000000262
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 1202.4811999999993
+            },
+            "candidate_payload": {
+              "calls": 1,
+              "elapsed_ms": 571.1917000000003
+            },
+            "candidate_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 16.335699999999633
+            },
+            "recovery_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 91.09490000000005
+            }
+          },
+          "last_stage": "recovery_tokenization",
+          "failed_stage": "recovery_tokenization",
+          "native_input_bytes": 105059,
+          "event_count": 614,
+          "segment_count": 58,
+          "candidate_count": 0
+        }
+      },
+      "repeated": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 703.4791000000005,
+        "status": "unavailable",
+        "reason": "Shadow processing budget reached",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 46.038399999999456
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 655.9512999999997
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.5641999999998006
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.8245000000006257
+            }
+          },
+          "last_stage": "cache_trace",
+          "failed_stage": "cache_trace",
+          "native_input_bytes": 105059,
+          "event_count": 615,
+          "segment_count": null,
+          "candidate_count": 0
+        }
+      }
+    }
+  ]
+}

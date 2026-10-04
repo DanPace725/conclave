@@ -160,6 +160,7 @@ The evaluation also has guards and caching:
 
 - **Guards.** If the native request is over 512,000 bytes, or the evaluation passes 200 ms at a cooperative checkpoint, the result is logged as `unavailable` with `fallback_action: keep`. One synchronous tokenizer call can still run over. Errors never block the answer.
 - **Caching.** An earlier complete `context_economics` result is reused when the request fingerprint, segments, protections, reserve, revision, budget, output, recent window, mode, previous request and TTL phase all match.
+- **Profiling.** Each evaluation records calls/time for history loading, payload construction, candidate selection, tokenization, cache tracing and pricing, with the last/failing stage and native-input size. A read cache exists only inside that evaluation, is invalidated by writes, and is discarded on exit. `read_telemetry.shadow_performance` aggregates the last 30 instrumented evaluations. `scripts/profile-shadow.js` replays a bounded sample of export prefixes locally without provider calls. One synchronous stage can still overrun the cooperative limit.
 
 **Cache trace** (`cache-trace.js`). This splits the native request into logical units (settings, instructions or system blocks, messages or content blocks) and compares them with the previous answer request for the same provider and model. It records:
 
@@ -373,6 +374,12 @@ Two service operations change memory.
 3. Re-activates memory.
 
 **`memoryLifecycle`** (Don't use this / Use this again) toggles `suppressed` against the record's previous lifecycle. Both operations require the current memory revision.
+
+### 2.9 Model inspection and authorized suppression
+
+`read_memory` pages a unified JSON inspection of automatic and named records, with both independent revisions checked across pages. Unavailable entries retain identifying metadata but omit content. `suppress_memory` checks 1–8 targets against both revisions and the latest human removal request, then atomically suppresses automatic heads and retires named state. It cannot grant authority, rewrite or restore automatic records. Pins/verbatim state remain human-controlled.
+
+Suppression appends a lifecycle audit, refreshes the frozen projection and native continuation, and replaces the caller's retained pending exchanges with a bounded handoff. Earlier inspection/history/file-read receipts cannot be replayed via model retrieval. Named source exclusion persists across working-snapshot restores until a later human named-state edit. The source history and human exports remain complete. See [automatic-memory tool contract](AUTOMATIC_MEMORY.md#inspect-and-edit).
 
 ---
 

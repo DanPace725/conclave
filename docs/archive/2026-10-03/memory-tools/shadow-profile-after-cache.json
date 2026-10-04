@@ -1,0 +1,467 @@
+{
+  "version": "shadow-profile-replay-v1",
+  "recorded_requests": 63,
+  "sampled_requests": 3,
+  "scope": "Offline current-policy evaluation on evenly sampled recorded prefixes; 256000-byte guard. Tool definitions/projection policy may differ from the original. No provider calls, answer quality or cost savings measured. Sequential stages and synchronous tokenizers may overrun cooperative allowances.",
+  "rows": [
+    {
+      "request_id": "evt_88f53ff6-ab83-44fb-94c8-4121287f4acb",
+      "request_seq": 8,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "revision": 1,
+      "bounded": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 15.623899999999992,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 0.13589999999999236
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 3.321199999999976
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.165300000000002
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.32389999999998054
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.3657000000000039
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 2.000599999999963
+            },
+            "working_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 8.157700000000034
+            },
+            "pricing": {
+              "calls": 1,
+              "elapsed_ms": 0.4270000000000209
+            },
+            "prefix_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 0.13290000000000646
+            }
+          },
+          "last_stage": "prefix_tokenization",
+          "failed_stage": null,
+          "native_input_bytes": 20909,
+          "event_count": 7,
+          "segment_count": 1,
+          "candidate_count": 0
+        }
+      },
+      "expanded": {
+        "processing_budget_ms": 2000,
+        "elapsed_ms": 0.9558999999999855,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": true,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 0.14690000000001646
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 0.473700000000008
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.08749999999997726
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.07479999999998199
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.10090000000002419
+            }
+          },
+          "last_stage": "fingerprint",
+          "failed_stage": null,
+          "native_input_bytes": 20909,
+          "event_count": 8,
+          "segment_count": 1,
+          "candidate_count": 0
+        }
+      },
+      "repeated": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 0.8378999999999905,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": true,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 0.14079999999995607
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 0.3743999999999801
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.08670000000000755
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.07450000000000045
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.09600000000000364
+            }
+          },
+          "last_stage": "fingerprint",
+          "failed_stage": null,
+          "native_input_bytes": 20909,
+          "event_count": 9,
+          "segment_count": 1,
+          "candidate_count": 0
+        }
+      }
+    },
+    {
+      "request_id": "evt_d91f64e4-b100-47b6-9219-4c2b07de3147",
+      "request_seq": 318,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "revision": 32,
+      "bounded": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 154.38390000000004,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 16.15379999999999
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 12.270800000000008
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.39229999999997744
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.47939999999999827
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.45839999999998327
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 12.609300000000019
+            },
+            "candidate_payload": {
+              "calls": 7,
+              "elapsed_ms": 25.67259999999993
+            },
+            "candidate_tokenization": {
+              "calls": 7,
+              "elapsed_ms": 45.056899999999985
+            },
+            "recovery_tokenization": {
+              "calls": 7,
+              "elapsed_ms": 17.23509999999976
+            },
+            "summary_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 5.1428999999999405
+            },
+            "working_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 9.90039999999999
+            },
+            "pricing": {
+              "calls": 1,
+              "elapsed_ms": 0.5995000000000346
+            },
+            "prefix_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 0.6337999999999511
+            }
+          },
+          "last_stage": "prefix_tokenization",
+          "failed_stage": null,
+          "native_input_bytes": 77520,
+          "event_count": 317,
+          "segment_count": 34,
+          "candidate_count": 7
+        }
+      },
+      "expanded": {
+        "processing_budget_ms": 2000,
+        "elapsed_ms": 21.969400000000064,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": true,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 14.522199999999998
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 5.9103999999999814
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.3601000000001022
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.4433999999999969
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.4695000000000391
+            }
+          },
+          "last_stage": "fingerprint",
+          "failed_stage": null,
+          "native_input_bytes": 77520,
+          "event_count": 318,
+          "segment_count": 34,
+          "candidate_count": 7
+        }
+      },
+      "repeated": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 21.06280000000004,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": true,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 14.180799999999977
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 5.410099999999943
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.3574999999999591
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.4132999999999356
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.44479999999998654
+            }
+          },
+          "last_stage": "fingerprint",
+          "failed_stage": null,
+          "native_input_bytes": 77520,
+          "event_count": 319,
+          "segment_count": 34,
+          "candidate_count": 7
+        }
+      }
+    },
+    {
+      "request_id": "evt_94588fd4-55ee-4574-adb3-1d5cf92c790d",
+      "request_seq": 614,
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "revision": 67,
+      "bounded": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 207.54830000000004,
+        "status": "unavailable",
+        "reason": "Shadow processing budget reached",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 46.2029
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 33.13810000000001
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.8717000000000326
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 1.042699999999968
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.6384000000000469
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 18.48389999999995
+            },
+            "candidate_payload": {
+              "calls": 6,
+              "elapsed_ms": 40.28860000000009
+            },
+            "candidate_tokenization": {
+              "calls": 6,
+              "elapsed_ms": 51.5415000000005
+            },
+            "recovery_tokenization": {
+              "calls": 6,
+              "elapsed_ms": 9.584999999999695
+            }
+          },
+          "last_stage": "recovery_tokenization",
+          "failed_stage": "recovery_tokenization",
+          "native_input_bytes": 105059,
+          "event_count": 613,
+          "segment_count": 58,
+          "candidate_count": 0
+        }
+      },
+      "expanded": {
+        "processing_budget_ms": 2000,
+        "elapsed_ms": 193.64620000000014,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": false,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 43.137699999999995
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 7.0009000000000015
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.480199999999968
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.7474999999999454
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.5791999999999007
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 17.947000000000116
+            },
+            "candidate_payload": {
+              "calls": 8,
+              "elapsed_ms": 48.77359999999976
+            },
+            "candidate_tokenization": {
+              "calls": 8,
+              "elapsed_ms": 15.216800000000148
+            },
+            "recovery_tokenization": {
+              "calls": 8,
+              "elapsed_ms": 23.309000000000196
+            },
+            "summary_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 9.709400000000187
+            },
+            "working_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 13.726000000000113
+            },
+            "pricing": {
+              "calls": 1,
+              "elapsed_ms": 0.38619999999991705
+            },
+            "prefix_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 0.7741000000000895
+            }
+          },
+          "last_stage": "prefix_tokenization",
+          "failed_stage": null,
+          "native_input_bytes": 105059,
+          "event_count": 614,
+          "segment_count": 58,
+          "candidate_count": 8
+        }
+      },
+      "repeated": {
+        "processing_budget_ms": 200,
+        "elapsed_ms": 54.0927999999999,
+        "status": "complete",
+        "reason": "No candidate beats keep across supplied bounds; wait",
+        "cache_hit": true,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 40.733600000000024
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 11.224399999999832
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.4714999999998781
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 0.7066999999999553
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.5682000000001608
+            }
+          },
+          "last_stage": "fingerprint",
+          "failed_stage": null,
+          "native_input_bytes": 105059,
+          "event_count": 615,
+          "segment_count": 58,
+          "candidate_count": 8
+        }
+      }
+    }
+  ]
+}

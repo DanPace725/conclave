@@ -23,9 +23,41 @@ test('unchanged local evaluation reuses its forecast without rebuilding candidat
     const first = h.evaluateShadow(); assert.equal(first.cache_hit, false);
     h.contextCostCandidates = () => { throw Error('Should reuse'); };
     const second = h.evaluateShadow(); assert.equal(second.cache_hit, true);
+    assert.ok(first.profile.stages.working_tokenization.calls > 0);
+    assert.equal(second.profile.stages.working_tokenization, undefined, 'A cached evaluation profiles only work performed now');
     assert.deepEqual(second.candidates, first.candidates);
     assert.equal(store.events(id).filter(e => e.kind === 'inference_request').length, 0);
     h.options.output++; assert.equal(h.evaluateShadow().evaluation_status, 'unavailable', 'Output allowance invalidates cache');
+  } finally { store.close(); }
+});
+
+test('shadow profiling records the failing stage, cache hits, and bounded performance summaries without model calls', () => {
+  const { store, id, h } = fixture();
+  try {
+    const complete = h.evaluateShadow();
+    assert.equal(complete.profile.version, 'shadow-profile-v1'); assert.ok(complete.profile.native_input_bytes > 0);
+    h.evaluateShadow();
+    h.options.output++; h.contextCostCandidates = () => { throw Error('Fixture stage failure'); };
+    const failed = h.evaluateShadow(); assert.equal(failed.evaluation_status, 'unavailable'); assert.ok(failed.profile.failed_stage);
+    const summary = h.toolResult('read_telemetry', {}).shadow_performance;
+    assert.equal(summary.sample_count, 3); assert.equal(summary.cache_hits, 1); assert.equal(summary.unavailable, 1);
+    assert.ok(summary.p95_ms >= summary.p50_ms);
+    assert.equal(store.events(id).filter(e => e.kind === 'inference_request').length, 0);
+  } finally { store.close(); }
+});
+
+test('evaluation-scoped history reads are reused and invalidated by writes or rollback', () => {
+  const { store, id, h } = fixture();
+  try {
+    store.withReadCache(() => {
+      const first = store.events(id); assert.equal(store.events(id), first);
+      store.append(id, 'inspection_fixture', 'Invalidate reads');
+      assert.notEqual(store.events(id), first);
+      assert.throws(() => store.atomic(() => { store.append(id, 'rolled_back', 'Discard'); store.references(id); throw Error('Rollback'); }), /Rollback/);
+      assert.equal(store.events(id).some(e => e.kind === 'rolled_back'), false);
+    });
+    assert.equal(store.readCache, null);
+    h.evaluateShadow(); assert.equal(store.readCache, null, 'The cache cannot outlive the evaluation');
   } finally { store.close(); }
 });
 
