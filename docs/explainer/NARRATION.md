@@ -8,6 +8,8 @@ To change the wording, edit the `NARRATION` list in `conclave-explainer.html`; t
 node scripts/render-explainer.mjs captions docs/explainer/narration
 ```
 
+The explainer follows the engine as of 2026-10-02. It does not yet show three later additions: under pressure, routine material is turned into pointers before Jev is called; action costs are estimated in shadow mode; and automatic conversation memory. See [Context and memory management](../CONTEXT_AND_MEMORY_ALGORITHMS.md).
+
 The conversation, byte counts and Jev probabilities are illustrative. The order of steps follows `src/harness.js` (`ask`, `compact`, `selectionPlan`) and `src/jev.js`.
 
 ## Recording notes
@@ -74,7 +76,7 @@ The conversation, byte counts and Jev probabilities are illustrative. The order 
 >
 > **2:35** Each answer comes back as a probability distribution with a confidence.
 >
-> **2:40** Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. Escalated and retained bundles stay protected for the rest of this turn.
+> **2:40** Then code checks every answer. The vendor quotes came back at 58% confidence, below the 65% floor, so they are escalated instead. That advice holds for this pass, and unchanged context reuses the decision.
 >
 > **2:55** Jev only chooses. It can't write summaries, invent bundle IDs or delete sources. If its answer is malformed, fails, or refers to a stale revision, Conclave falls back to its own ranking.
 

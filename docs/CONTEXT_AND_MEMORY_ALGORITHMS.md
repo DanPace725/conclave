@@ -392,13 +392,13 @@ A probe sent short sequences of messages through `captureMemory` with the determ
 
 Points worth flagging:
 
-1. **Plain "I prefer …" is binding.** `docs/AUTOMATIC_MEMORY.md` says tentative preferences stay unresolved. In the code, `prefer` is in the directive pattern, so "I prefer X" becomes a binding user commitment. The non-binding preference path only applies when a tentative word disqualifies the binding path first, as in "Maybe I prefer …". If preferences are meant to stay soft, `prefer` should be removed from that pattern.
-2. **An ambiguous correction contests every candidate.** The doc describes the non-binding conflict candidate. It doesn't mention that every original head it matched also becomes `contested`.
+1. **Plain "I prefer …" is binding.** `docs/AUTOMATIC_MEMORY.md` previously said tentative preferences stay unresolved; it now describes this behaviour. In the code, `prefer` is in the directive pattern, so "I prefer X" becomes a binding user commitment. The non-binding preference path only applies when a tentative word disqualifies the binding path first, as in "Maybe I prefer …". If preferences are meant to stay soft, `prefer` should be removed from that pattern.
+2. **An ambiguous correction contests every candidate.** Besides the non-binding conflict candidate, every original head it matched becomes `contested`. `docs/AUTOMATIC_MEMORY.md` now says so.
 3. **`dormant` is filtered but never assigned.** It looks reserved for future decay or consolidation.
 4. **Cost choices are logged, never acted on.** `economics.due` is hard-coded `false`, and the review's "due" flag only controls whether a `context_review` event is logged.
 5. **The lossless pointer step ends `compact()` early.** It returns even when the request is still above 75%. Further reduction waits for the next review, or for answer-time budget recovery. With the Converse default `freezeProjection: true` there's one review per turn.
-6. **The extraction cue list has one extra word.** The doc lists budget, preference, constraint, requirement, remember, correction and decision; the code also includes "decided".
-7. **Jev's retain/escalate protection now lasts only one `compact()` call.** `ask()` no longer adds `decision_retained_bundle_ids` to the turn's protected IDs; the system prompt calls these recommendations advisory. `docs/JEV_INTEGRATION.md` still says they protect bundles for the rest of the answer turn, and so does the explainer narration (cue `j5`). In practice an unchanged context reuses the cached proposal, which retains the same bundles again.
+6. **The extraction cue list includes "decided".** `docs/AUTOMATIC_MEMORY.md` now lists it.
+7. **Jev's retain/escalate protection now lasts only one `compact()` call.** `ask()` no longer adds `decision_retained_bundle_ids` to the turn's protected IDs; the system prompt calls these recommendations advisory. `docs/JEV_INTEGRATION.md` and the app guide already describe them as advisory. The explainer narration (cue `j5`) said they lasted for the rest of the turn; it has been corrected. In practice an unchanged context reuses the cached proposal, which retains the same bundles again.
 
 ## Limits (from the code)
 
