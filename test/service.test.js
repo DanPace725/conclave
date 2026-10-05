@@ -5,6 +5,36 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Store } from '../src/store.js';
 import { ConclaveService } from '../src/service.js';
+import { downloadRecord } from '../src/context-repository.js';
+
+test('canonical downloads decode history once, reuse inspection and release their cache', () => {
+  const store = new Store(undefined, { memory: true });
+  try {
+    const service = new ConclaveService(store, { availability: () => ({ openai: true, jev: false }),
+      providerFactory: () => { throw Error('Export must not call a provider'); } });
+    const id = store.create('Long audit');
+    const h = service.harness(id);
+    h.addMessage('user', 'Keep the full source.');
+    store.append(id, 'inference_request', 'answer', { provider: 'openai', payload: { model: 'fixture', input: [{ role: 'user', content: 'café 🌱 '.repeat(10000) }] } });
+    const original = store.events(id);
+    let inspections = 0, decodes = 0;
+    const view = service.view.bind(service), events = store.events.bind(store);
+    service.view = cid => { inspections++; return view(cid); };
+    store.events = cid => { if (!store.readCache?.has(cid)) decodes++; return events(cid); };
+    const record = downloadRecord(service, id);
+    assert.equal(inspections, 1);
+    assert.equal(decodes, 1);
+    assert.deepEqual(record.context_layer.events, original);
+    assert.equal(record.context_layer.snapshots.length, record.context_layer.context.revision);
+    assert.equal(record.context_layer.model_input.next.encoding, 'o200k_base');
+    assert.equal(store.readCache, null);
+    h.addMessage('user', 'A later source.');
+    assert.equal(service.export(id).events.at(-2).content, 'A later source.');
+    service.view = () => { throw Error('Inspection failed'); };
+    assert.throws(() => downloadRecord(service, id), /Inspection failed/);
+    assert.equal(store.readCache, null, 'failed export must not retain stale reads');
+  } finally { store.close(); }
+});
 
 test('local chat resumes from SQLite and exports complete sources, revisions, state and provider receipts', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'conclave-service-'));

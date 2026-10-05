@@ -4,6 +4,8 @@ Updated 2026-10-04. Mutable project state. [CLI usage](README.md) · [Developmen
 
 ## Current capabilities
 
+- Canonical export builds use a scoped history cache and one inspection view; compact HTTP downloads preserve all events, snapshots and native payloads. Offline large-export replay improved 28.424 → 1.468 seconds; production latency is unmeasured. [Evidence](docs/archive/2026-10-05/export-performance.md)
+
 - Hosted transcript reads query display events and the latest Agent checkpoint directly in PostgreSQL, with authoritative sequence/revision and consistent reads. No SQLite replay, snapshot transfer, request-input payloads, next-request tokenization or model calls. Complete engine views, workspace inspection/mutations and canonical exports remain separate. No schema migration required; pagination/materialized reads remain planned. [Contract and local evidence](docs/HOSTED_READS.md)
 
 - Embedding-assisted history and automatic-memory activation: conversation-local OpenAI vectors, persistent PostgreSQL pgvector or rebuildable local SQLite, keyword/semantic fusion, bounded lazy backfill and request-local query reuse. Source/version/removal/suppression/authority rules remain canonical; semantic scores do not correct memories. Inference only; opening/saving documents makes no embedding calls. Native smoke recovered both targets with zero keyword matches in one call/42 reported input tokens. Live Neon migration remains blocked by rejected disposable-branch credentials. [Usage and rollout](docs/EMBEDDINGS.md)
