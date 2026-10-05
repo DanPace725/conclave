@@ -1,0 +1,304 @@
+{
+  "source": "E:/Coding/converse/converse/docs/conversations/Timeline for Mapping the Human Brain_2026-10-05T17-15-21-185Z.json",
+  "events": [
+    {
+      "event_id": "evt_199d1d1b-68e5-42eb-8325-45b9eba2dbe9",
+      "source_kind": "user",
+      "chars": 166,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+      "source_kind": "assistant",
+      "chars": 2374,
+      "offered": 8,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_614d512c-9c72-4743-b4ae-1b37bb5bf2fa",
+      "source_kind": "user",
+      "chars": 104,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_50a8494e-38a1-4373-a740-cafe5ca589e5",
+      "source_kind": "assistant",
+      "chars": 2666,
+      "offered": 4,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 186,
+          "chars": 867,
+          "content": "**What the reports say**\n- Google Research and HHMI's Janelia Research Campus released a connectome of a male fruit fly's brain and nerve cord. It's called \"male CNS version 1\" or \"MaleCNS\". One secondary source dates the release to about September 3, 2026, so it fits \"last month\". Treat that date with caution.\n- The reported size is about 166,700 neurons and about 125 million synaptic connections. That is larger than the 2024 FlyWire brain (about 139,000 neurons), which I mentioned earlier. It also includes the optic lobes and the ventral nerve cord, which is the fly's equivalent of a spinal cord.\n- The \"open source\" part reportedly means raw image volumes, connectivity tables and the Neuroglancer web viewer. I couldn't confirm the licence for the official dataset.\n- Sources say it was published alongside companion papers in *Cell*. I didn't verify this."
+        },
+        {
+          "reason": "masked",
+          "start": 1055,
+          "chars": 390,
+          "content": "**What I don't think is accurate**\nSome headlines say Google \"open-sourced a brain.\" The more careful summaries say it's a static wiring diagram, not a working brain model. Developers then built demos on top of it, and these reportedly ran characters in Minecraft, Doom and Beat Saber. Those demos are approximations. They aren't evidence that the fly's brain has been simulated faithfully."
+        },
+        {
+          "reason": "masked",
+          "start": 1447,
+          "chars": 457,
+          "content": "**A related but separate result**\nI also fetched a GEN article dated June 9, 2026. It covers a *Nature* paper from Harvard Medical School and Princeton, \"Distributed control circuits across a brain-and-cord connectome.\" That is a different project: a complete fly central nervous system, brain plus nerve cord, with the data made accessible online. It doesn't mention Google. The two efforts are easy to confuse, so check which one a given article is about."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_bf4aeeb3-48b5-4f9f-9f62-4af3131c3165",
+      "source_kind": "user",
+      "chars": 84,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+      "source_kind": "assistant",
+      "chars": 4944,
+      "offered": 5,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 959,
+          "chars": 1732,
+          "content": "**How it's being received**\n- **Status of the proof.** I found no report that the math has been refuted. It hasn't been through peer review yet. The Clay Mathematics Institute said on September 11 that the problem \"has apparently been settled\". It also said its verification and credit process is \"deliberately unhurried\". The problem's status on its site is now \"active\". OpenAI says it won't claim the $1M prize.\n- **The priority dispute.**\n  - NYU mathematician Tristan Buckmaster and Levent Alpöge had worked in secret for about a year on closely related problems. They announced smooth-forced blow-up results for the Euler, porous-medium and Boussinesq equations about 12 hours before OpenAI.\n  - Terence Tao called their work \"a remarkable achievement\". He also said nothing in principle seemed to stop their methods from extending to full Navier–Stokes.\n  - Buckmaster says OpenAI followed the research program he and Alpöge were pursuing. He also raised concerns that his Codex usage data could have fed into OpenAI's model training.\n  - OpenAI denies this. Its position changed over several days. It first said it \"cannot rule out\" that de-identified data helped. It later said no user inputs after July 3 could have influenced the system.\n  - The article notes that OpenAI has not commented on Codex use before July 3.\n  - Buckmaster also says OpenAI proposed that he rewrite its proof, and that Alpöge be left off as an author. Bubeck disputes parts of this account.\n- **Wider reaction.** 28 Fields Medalists signed a letter, \"A Severe Misalignment of AI in Mathematics\". It warns about AI companies treating open problems as benchmarks. Tao also criticized announcing results through press releases instead of preprints."
+        },
+        {
+          "reason": "cut_by_prefix",
+          "start": 3066,
+          "chars": 1048,
+          "content": "The search summary reports steady expansion of the AlphaFold Database in 2026. I haven't checked any of this against the full pages.\n- **March:** homodimers (two-protein complexes) were added.\n- **May:** about 80,000 high-confidence heterodimer predictions were added, plus 8.1 million lower-confidence ones for bulk download.\n- **September:** predicted complexes for more than 2,800 viruses were added, timed to a UN pandemic-preparedness meeting. The summary cites a Nature report of more than 8,000 virus protein dimers on September 24. These are predictions and don't establish viral behavior or the effects of mutations.\n- **October:** AI-derived annotations from the scientific literature were added.\n- **Scale:** the database now holds more than 260 million predictions.\n- **Isomorphic Labs:** it announced a proprietary drug-design engine in February 2026. The summary says it doubled AlphaFold 3's performance on one benchmark. That figure comes from Wikipedia as quoted in the summary, and some scientists reportedly questioned the claim."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4116,
+          "chars": 44,
+          "content": "## Connecting this to your original question"
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4162,
+          "chars": 254,
+          "content": "Both stories fit the same pattern: AI is speeding up the analysis and interpretation steps. In connectomics, though, the bottleneck is still physical, meaning imaging and preserving real tissue. That's why I'd keep my human-connectome estimate unchanged."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4418,
+          "chars": 145,
+          "content": "I can try the Nature, Clay or OpenAI pages through other routes, or look at the Euler-equation results from Buckmaster and Alpöge in more detail."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4565,
+          "chars": 379,
+          "content": "Sources:\n- https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy\n- https://www.cnbc.com/2026/09/09/openai-navier-stokes-math-problem-solved.html\n- https://www.nature.com/articles/d41586-026-03022-1\n- https://phys.org/news/2026-09-alphafold-database-viral-protein-complexes.html\n- https://www.embl.org/news/science-technology/first-complexes-alphafold-database/"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_5f1ba4da-5990-4c5b-8e71-80a4211ecfd3",
+      "source_kind": "user",
+      "chars": 165,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_153b78b2-3a23-4851-8e03-ee38231db4d2",
+      "source_kind": "assistant",
+      "chars": 2891,
+      "offered": 6,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_51f51224-5874-445d-9c48-644052faf8e4",
+      "source_kind": "user",
+      "chars": 89,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_49ab92bd-e31d-41f8-9047-c09ef72467f1",
+      "source_kind": "assistant",
+      "chars": 4716,
+      "offered": 18,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 301,
+          "chars": 364,
+          "content": "First, a correction to the previous response: **a human brain is roughly 1.2 million mm³, not 1.2 billion.** Using the earlier study’s 1.4 petabytes per mm³ gives a naive extrapolation of about **1.7 zettabytes**, not yottabytes. Still enormous—but the earlier figure was off by a factor of 1,000. Also, “AI doesn’t make those machines faster” was too categorical."
+        },
+        {
+          "reason": "cut_by_prefix",
+          "start": 3703,
+          "chars": 347,
+          "content": "1. **Large mammalian samples reconstructed with little manual proofreading**, with accuracy independently assessed.\n2. **A major reduction in imaging cost and time per unit of tissue**, without sacrificing connection-level detail.\n3. **Reliable scaling from small samples to whole brains**, including tracing long-range connections across regions."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4052,
+          "chars": 242,
+          "content": "The strongest scenario is several improvements multiplying together: better preparation, faster acquisition, less redundant data, and largely autonomous reconstruction. That could be much more consequential than a single better tracing model."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4296,
+          "chars": 420,
+          "content": "**So I agree with your underlying intuition:** “there are physical bottlenecks” isn’t a reason to assume slow progress, because AI-assisted science could change those bottlenecks. But substantially shortening the timeline requires demonstrated advances in *measurement and verification*, not just smarter interpretation. I’d treat the earlier 15–40 or 20–50-year ranges as speculative guesses, not established forecasts."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_5450f48e-1847-4a62-b000-fc797121d5c7",
+      "source_kind": "user",
+      "chars": 39,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_93d01774-5e72-4789-a710-dadbf32ca78b",
+      "source_kind": "assistant",
+      "chars": 4037,
+      "offered": 10,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 977,
+          "chars": 621,
+          "content": "1. **The microscope might change completely.** Most of the discussion assumes electron microscopy plus better AI. The more disruptive possibility is mapping with light microscopy instead. You physically expand the tissue and give neurons molecular \"barcodes,\" so each cell can be identified by its labels rather than traced through millions of images. Several groups are pursuing this. If it works at scale, it attacks the data-volume problem directly. This is where I'd most expect AI-assisted lab work to pay off: designing labels and optimizing protocols is a search problem with lots of quick, measurable experiments."
+        },
+        {
+          "reason": "masked",
+          "start": 2082,
+          "chars": 466,
+          "content": "3. **The timeline may depend more on money and will than on technology.** The Human Genome Project finished because governments decided to fund a multi-billion-dollar push to a defined finish line. A whole human connectome would probably need something similar, and it's not obvious anyone will fund it, given how much could be learned from mouse brains and sampled human regions. So \"when is it possible?\" and \"when will it happen?\" could be a decade or more apart."
+        },
+        {
+          "reason": "cut_by_prefix",
+          "start": 3883,
+          "chars": 154,
+          "content": "If you'd like, I can check the current state of the mouse projects and the light-microscopy methods. That would let us replace my memory with actual data."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_a75e61d9-fea9-4b75-954d-6e406bd7339b",
+      "source_kind": "user",
+      "chars": 31,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+      "source_kind": "assistant",
+      "chars": 5758,
+      "offered": 6,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 435,
+          "chars": 1446,
+          "content": "- **No full synapse-level map of a mouse brain exists yet.** A February 2026 review in *Nature Reviews Neuroscience* calls whole rodent and primate brains \"the next major target.\"\n- **The current record is about 1 mm³.** The MICrONS project, published in 2025, mapped about 1 mm³ of mouse cortex, which produced more than a petabyte of data. A whole mouse brain is about 500 mm³.\n- **The next projects map about 10 mm³ each, roughly 2–3% of a mouse brain.**\n  - An Allen Institute project uses two 91-beam electron microscopes.\n  - A Harvard/Google project on the hippocampus is listed as running 2023–2028. It was reportedly affected by changes in NIH funding priorities in early 2025, though the work seems to be continuing.\n  - Allen also announced new mouse and macaque mapping projects around April 2026. I didn't get any details on them.\n- **Targets and costs:**\n  - The NIH's $150M BRAIN CONNECTS program reportedly aims to scan about 1/30 of a mouse brain by 2028. It also aims to have the infrastructure for a full mouse map by **2033**. Those dates come from a secondary source, Asimov Press, and I couldn't confirm them with the NIH.\n  - One estimate says that finishing a whole mouse brain in 5 years with current methods would take **40–50 of these microscopes running in parallel**.\n  - Asimov Press estimates the first mouse map would cost in the low hundreds of millions of dollars, assuming proofreading becomes mostly automated."
+        },
+        {
+          "reason": "masked",
+          "start": 2218,
+          "chars": 936,
+          "content": "- **LICONN** (ISTA and Google, *Nature*, May 2025) expands brain tissue and images it on standard light microscopes. It reached single-synapse resolution in mouse tissue. Google says it performs as well as electron microscopy in validation. A *Nature Methods* commentary was more careful and said it was \"approaching\" electron-microscopy resolution.\n- **PRISM** (E11 Bio, preprint from about October 2025) labels neurons with protein barcodes so they can be identified by their labels. It reported **8× better automatic tracing accuracy** and could reconnect broken branches across gaps of hundreds of microns. Press coverage mentions costs falling by \"up to 100-fold,\" but that's a projection. The paper itself was a small pilot.\n- **Connectome-seq** (*Nature Methods*, March 2026) reads connections with RNA barcodes and sequencing instead of imaging. It mapped thousands of mouse neurons, according to the university's press release."
+        },
+        {
+          "reason": "cut_by_prefix",
+          "start": 3172,
+          "chars": 1061,
+          "content": "- **One estimate puts it at 25–50 years.** A 2025 *Cell Reports Methods* paper (Collins, Huffman and Koene) says an electron-microscopy map of a human brain is \"unlikely to occur for a very long time.\" It puts a light-microscopy approach at **~25–50 years**, assuming further advances, and calls that \"highly uncertain.\"\n- **Imaging speed is the gap.** A 2024 review projected that imaging would need about a **1,600-fold speedup over 20 years** to make a whole human brain feasible.\n- **Cost:** for a project of about $1B, mapping would have to cost about **$0.01 per neuron**.\n- **Preservation is less of an obstacle than I said.** A 2026 study used expansion microscopy on eight banked brains with postmortem delays of 40 minutes to 91 hours. Synapses were \"well visualized in all\" of them, though artifacts increased with longer delays. Other work shows synapses can be traced in some banked tissue. Preservation is still a real constraint, especially for tracing long connections through a whole brain. But it isn't as fundamental a blocker as I suggested."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4235,
+          "chars": 15,
+          "content": "## Updated view"
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4252,
+          "chars": 776,
+          "content": "- **The forecasts in this thread hold up.** GPT's 20–50 years and Sonnet's 15–40 years are both broadly consistent with the published 25–50-year estimate.\n- **My 2040s scenario was too optimistic.** I now think a human map in the 2040s would need light-microscopy methods like LICONN or PRISM to scale up roughly 1,000-fold, plus a large dedicated funding push. **The 2050s or later** looks like the more realistic central case.\n- **AI's role is mostly in the physical pipeline, not just tracing.** The PRISM tracing gain came from better *labels* making the AI's job easier. That's the kind of lab-method iteration where AI-assisted discovery could pay off most.\n- **Funding now looks like a demonstrated risk.** One flagship mouse project was hit by funding changes in 2025."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 5030,
+          "chars": 173,
+          "content": "The leading indicators to watch are whether either 10 mm³ project finishes by about 2028, and whether E11 or the LICONN group shows barcoding working on much larger volumes."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 5205,
+          "chars": 553,
+          "content": "Main sources: [Collins et al. 2025 review](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11955263/), [Helmstaedter 2026](https://pubmed.ncbi.nlm.nih.gov/41354710/), [LICONN in *Nature*](https://www.nature.com/articles/s41586-025-08985-1), [Google's LICONN blog post](https://research.google/blog/a-new-light-on-neural-connections/), [Asimov Press](https://press.asimov.com/articles/brains), [State of Brain Emulation Report 2025](https://arxiv.org/pdf/2510.15745). Next, I could open the Collins paper or the E11 preprint directly to check these figures."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_597241d2-1f00-4fd1-96dc-0e47ed4cfbe1",
+      "source_kind": "user",
+      "chars": 100,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_04f6ada5-40f1-40bf-8274-fa3c70b4914c",
+      "source_kind": "assistant",
+      "chars": 3197,
+      "offered": 5,
+      "excluded": [
+        {
+          "reason": "over_2000",
+          "start": 156,
+          "chars": 2194,
+          "content": "**What I saved as background facts**\n1. **Your main question:** how long until we have a human brain map like the fruit-fly one, and whether AI could shorten that wait.\n2. **The fruit-fly maps:**\n   - The 2024 FlyWire brain map: about 139,000 neurons.\n   - Google and Janelia's open release of a male fly's brain and nerve cord, around September 2026: about 167,000 neurons and 125 million connections. This one comes from secondary sources only.\n   - A separate Harvard/Princeton map that's easy to confuse with the Google one.\n3. **The corrected size math.** A human brain is about 1.2 million mm³. Sonnet first said 1.2 billion, and GPT corrected it. At the data rate from the human cortex sample, the whole brain works out to about 1.7 zettabytes, not yottabytes. That's huge but not impossible to store.\n4. **Mouse progress:** no whole mouse brain has been mapped yet. The largest maps so far cover about 1 mm³, and the next projects aim for about 10 mm³. One flagship project was hit by funding changes in 2025. The goal of being ready for a full mouse map by 2033 comes from a secondary source and isn't confirmed.\n5. **New mapping methods that use ordinary light microscopes instead of electron microscopes:**\n   - LICONN expands the tissue and images it.\n   - PRISM tags each neuron with a protein \"barcode.\"\n   - Connectome-seq reads connections using RNA barcodes and sequencing.\n6. **Human feasibility:** a 2025 paper estimates about 25–50 years, and calls that highly uncertain. Imaging would need to get about 1,600 times faster. A 2026 study suggests preserving donated brains is less of a hard barrier than I said earlier.\n7. **How AI could help:** the biggest gains would come from improving the lab and imaging process, not just tracing neurons faster. Funding is a real risk. I also saved the signs worth watching, like whether the 10 mm³ mouse projects finish by about 2028.\n8. **The related AI news:** OpenAI's Navier–Stokes claim, which isn't peer-reviewed and is in a credit dispute. I kept the note that Alpöge, one of the mathematicians in the dispute, works at Anthropic. I also saved the AlphaFold database updates, which I haven't checked against the original pages."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_80d6fd3f-1df5-43be-a732-8dc5b2b569f0",
+      "source_kind": "user",
+      "chars": 35,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "source_kind": "assistant",
+      "chars": 4413,
+      "offered": 22,
+      "excluded": [
+        {
+          "reason": "cut_by_prefix",
+          "start": 3937,
+          "chars": 206,
+          "content": "For the *whole-brain mapping* timeline, the benefit is more indirect: organoids could accelerate discovery and validation of better methods, but they don’t remove the need to measure the actual adult brain."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4145,
+          "chars": 268,
+          "content": "So yes—**organoid research is a meaningful part of the acceleration story we hadn’t discussed.** Its strongest contribution may be turning human neuroscience into a more experimentally iterative science, rather than providing a shortcut to a complete human connectome."
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "events": 18,
+    "offered": 93,
+    "beyond_prefix": 11,
+    "cut_by_prefix": 5,
+    "over_2000": 1,
+    "masked": 9,
+    "chars": 35809,
+    "chars_offered": 20049
+  }
+}

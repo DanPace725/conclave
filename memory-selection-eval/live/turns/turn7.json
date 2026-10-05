@@ -1,0 +1,10 @@
+{
+  "message_id": "pr3live_t7",
+  "content": "Thanks. What are the top open questions I should take to an installer?",
+  "settings": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "reasoning": "low",
+    "jev": true
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "scope": "Labeled selection agreement only; not factual accuracy, answer quality or whole-task savings.",
+  "labels": "memory-selection-eval/labels-all.json",
+  "labeled_items": 106,
+  "selectors": {
+    "llm:anthropic:claude-sonnet-5-5": {
+      "events": 106,
+      "failed_events": 0,
+      "labeled_passages": 402,
+      "unlabeled_passages": 0,
+      "required": 155,
+      "selected_labeled": 185,
+      "true_positive": 137,
+      "false_positive": 26,
+      "false_negative": 18,
+      "optional_selected": 22,
+      "kind_graded": 111,
+      "kind_correct": 108,
+      "misses": [
+        {
+          "event_id": "evt_a7bbb968-8e8c-4dcc-a028-8af9e81c272d",
+          "passage_id": 0,
+          "label": "preference"
+        },
+        {
+          "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+          "passage_id": 8,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_e28643d3-4028-4120-872d-5880c8880b85",
+          "passage_id": 4,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "passage_id": 14,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+          "passage_id": 7,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+          "passage_id": 10,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+          "passage_id": 4,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+          "passage_id": 16,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_28e805f5-4736-467d-bfa5-c5a33f97bddc",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_0970a792-c3e0-442b-b500-dbbb57f6b61a",
+          "passage_id": 0,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_6d4ded17-6a52-457e-bdcd-d38cc1c73a9b",
+          "passage_id": 0,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_93d6bba9-63b0-4ab5-b6c6-89a2ed7fa1e0",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+          "passage_id": 0,
+          "label": "keep"
+        }
+      ],
+      "false_positives": [
+        {
+          "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+          "passage_id": 2,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 6,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 15,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 16,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+          "passage_id": 4,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+          "passage_id": 7,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "passage_id": 13,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "passage_id": 19,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_5abfb804-26b0-43c0-b514-9c4013842f8d",
+          "passage_id": 1,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_5abfb804-26b0-43c0-b514-9c4013842f8d",
+          "passage_id": 3,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_199d1d1b-68e5-42eb-8325-45b9eba2dbe9",
+          "passage_id": 0,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+          "passage_id": 6,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_614d512c-9c72-4743-b4ae-1b37bb5bf2fa",
+          "passage_id": 0,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_50a8494e-38a1-4373-a740-cafe5ca589e5",
+          "passage_id": 3,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_5f1ba4da-5990-4c5b-8e71-80a4211ecfd3",
+          "passage_id": 0,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_153b78b2-3a23-4851-8e03-ee38231db4d2",
+          "passage_id": 5,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_51f51224-5874-445d-9c48-644052faf8e4",
+          "passage_id": 0,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+          "passage_id": 4,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+          "passage_id": 9,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+          "passage_id": 12,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+          "passage_id": 17,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+          "passage_id": 19,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+          "passage_id": 10,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+          "passage_id": 2,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_6534df15-1f39-4234-bf01-c6b78e665bf5",
+          "passage_id": 1,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+          "passage_id": 0,
+          "kind": "question"
+        }
+      ],
+      "kind_errors": [
+        {
+          "event_id": "evt_7568b5cb-9719-4810-a026-54f50453acac",
+          "passage_id": 0,
+          "label": "preference",
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_36ab300b-c281-42b0-9798-b2a98cdb6d12",
+          "passage_id": 6,
+          "label": "question",
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_895b002b-955f-49a7-ba59-87cfae78af35",
+          "passage_id": 0,
+          "label": "preference",
+          "kind": "claim"
+        }
+      ],
+      "precision": 0.8404907975460123,
+      "recall": 0.8838709677419355,
+      "f1": 0.8616352201257862,
+      "kind_accuracy": 0.972972972972973,
+      "usage": {
+        "calls": 106,
+        "input_tokens": 94443,
+        "output_tokens": 4707,
+        "unknown_usage_calls": 0,
+        "elapsed_ms_total": 234014,
+        "elapsed_ms_median": 1890
+      },
+      "usd": 0.2359559999999999,
+      "errors": []
+    }
+  }
+}

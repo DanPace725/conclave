@@ -1,0 +1,99 @@
+{
+  "scope": "Labeled selection agreement only; not factual accuracy, answer quality or whole-task savings.",
+  "labels": "memory-selection-eval/labels-live.json",
+  "labeled_items": 16,
+  "selectors": {
+    "recorded_llm": {
+      "events": 6,
+      "failed_events": 0,
+      "labeled_passages": 17,
+      "unlabeled_passages": 0,
+      "required": 11,
+      "selected_labeled": 8,
+      "true_positive": 8,
+      "false_positive": 0,
+      "false_negative": 3,
+      "optional_selected": 0,
+      "kind_graded": 8,
+      "kind_correct": 8,
+      "misses": [
+        {
+          "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+          "passage_id": 0,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_895b002b-955f-49a7-ba59-87cfae78af35",
+          "passage_id": 0,
+          "label": "preference"
+        }
+      ],
+      "false_positives": [],
+      "kind_errors": [],
+      "precision": 1,
+      "recall": 0.7272727272727273,
+      "f1": 0.8421052631578948,
+      "kind_accuracy": 1
+    },
+    "recorded_jev": {
+      "events": 6,
+      "failed_events": 0,
+      "labeled_passages": 17,
+      "unlabeled_passages": 0,
+      "required": 11,
+      "selected_labeled": 8,
+      "true_positive": 8,
+      "false_positive": 0,
+      "false_negative": 3,
+      "optional_selected": 0,
+      "kind_graded": 7,
+      "kind_correct": 5,
+      "misses": [
+        {
+          "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_71022912-6b90-4f8c-8324-d2f5e759fe82",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_8b1b1eb4-01d5-4a81-8a71-ac7dc5b51e48",
+          "passage_id": 0,
+          "label": "preference"
+        }
+      ],
+      "false_positives": [],
+      "kind_errors": [
+        {
+          "event_id": "evt_7568b5cb-9719-4810-a026-54f50453acac",
+          "passage_id": 0,
+          "label": "preference",
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_895b002b-955f-49a7-ba59-87cfae78af35",
+          "passage_id": 0,
+          "label": "preference",
+          "kind": "claim"
+        }
+      ],
+      "precision": 1,
+      "recall": 0.7272727272727273,
+      "f1": 0.8421052631578948,
+      "kind_accuracy": 0.7142857142857143,
+      "fallback": {
+        "events": 6,
+        "needing_fallback": 3,
+        "uncertain_passages": 3
+      }
+    }
+  }
+}

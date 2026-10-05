@@ -1,0 +1,10 @@
+{
+  "message_id": "pr3live_t1",
+  "content": "I am trying to understand how well cold-climate air-source heat pumps actually perform in very cold weather, for a 1,900 sq ft house in northern Minnesota that currently heats with a propane boiler. Please research this properly: search, then open and read at least four primary sources in full with web_fetch (for example the NEEP cold-climate specification, the DOE Cold Climate Heat Pump Challenge, a field study from Minnesota CEE or NREL, and the current federal incentive rules). Report specific numbers: capacity retention and COP at 5F and below, typical installed costs, and which incentives exist right now. Flag anything the sources disagree on or leave open.",
+  "settings": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "reasoning": "low",
+    "jev": true
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "scope": "Labeled selection agreement only; not factual accuracy, answer quality or whole-task savings.",
+  "labels": "memory-selection-eval/step1/tiny.json",
+  "labeled_items": 2,
+  "selectors": {
+    "jev": {
+      "events": 2,
+      "failed_events": 0,
+      "labeled_passages": 8,
+      "unlabeled_passages": 0,
+      "required": 4,
+      "selected_labeled": 4,
+      "true_positive": 4,
+      "false_positive": 0,
+      "false_negative": 0,
+      "optional_selected": 0,
+      "kind_graded": 4,
+      "kind_correct": 3,
+      "misses": [],
+      "false_positives": [],
+      "kind_errors": [
+        {
+          "event_id": "tiny_user_1",
+          "passage_id": 3,
+          "label": "preference",
+          "kind": "claim"
+        }
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "kind_accuracy": 0.75,
+      "usage": {
+        "calls": 2,
+        "input_tokens": 2183,
+        "output_tokens": 384,
+        "unknown_usage_calls": 0,
+        "elapsed_ms_total": 493,
+        "elapsed_ms_median": 421
+      },
+      "usd": 0.000091686,
+      "errors": [],
+      "fallback": {
+        "events": 2,
+        "needing_fallback": 0,
+        "uncertain_passages": 0
+      }
+    }
+  }
+}

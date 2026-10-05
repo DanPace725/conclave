@@ -1,0 +1,27 @@
+{
+  "version": "memory-labels-v1",
+  "source": "hand-built synthetic paragraphs for the Step 1 live request-format check",
+  "labeler": "agent",
+  "items": [
+    {
+      "event_id": "tiny_user_1",
+      "source_kind": "user",
+      "passages": [
+        { "passage_id": 0, "content": "Hi, thanks for the help so far.", "label": "skip" },
+        { "passage_id": 1, "content": "I decided the workshop budget must stay under $450, and I prefer weekend sessions over weekday evenings.", "label": "preference" },
+        { "passage_id": 2, "content": "Can you look into venues next?", "label": "skip" },
+        { "passage_id": 3, "content": "One constraint: every volunteer who works with children needs a completed background check before the first session.", "label": "preference" }
+      ]
+    },
+    {
+      "event_id": "tiny_assistant_1",
+      "source_kind": "assistant",
+      "passages": [
+        { "passage_id": 0, "content": "## Venue research summary", "label": "skip" },
+        { "passage_id": 1, "content": "The Riverside Community Hall rents for $120 per half day on weekends and seats 40; the booking page says a refundable $50 deposit is required 14 days ahead.", "label": "claim" },
+        { "passage_id": 2, "content": "It is still unclear whether the hall's insurance covers events with minors; the booking page does not say, and this needs to be confirmed with the manager.", "label": "question" },
+        { "passage_id": 3, "content": "Overall, there are several good options and the right choice depends on your priorities.", "label": "skip" }
+      ]
+    }
+  ]
+}

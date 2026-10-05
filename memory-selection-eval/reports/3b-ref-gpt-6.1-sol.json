@@ -1,0 +1,283 @@
+{
+  "scope": "Labeled selection agreement only; not factual accuracy, answer quality or whole-task savings.",
+  "labels": "memory-selection-eval/labels-all.json",
+  "labeled_items": 106,
+  "selectors": {
+    "llm:openai:gpt-6.1-sol": {
+      "events": 106,
+      "failed_events": 0,
+      "labeled_passages": 402,
+      "unlabeled_passages": 0,
+      "required": 155,
+      "selected_labeled": 163,
+      "true_positive": 126,
+      "false_positive": 17,
+      "false_negative": 29,
+      "optional_selected": 20,
+      "kind_graded": 101,
+      "kind_correct": 99,
+      "misses": [
+        {
+          "event_id": "evt_a7bbb968-8e8c-4dcc-a028-8af9e81c272d",
+          "passage_id": 0,
+          "label": "preference"
+        },
+        {
+          "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+          "passage_id": 8,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "passage_id": 3,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "passage_id": 6,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_50a8494e-38a1-4373-a740-cafe5ca589e5",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+          "passage_id": 3,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+          "passage_id": 21,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+          "passage_id": 19,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_8999df1f-e0e8-4361-92e1-f8f036ce2447",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+          "passage_id": 5,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+          "passage_id": 10,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+          "passage_id": 22,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_24f99ba6-60a7-4639-a481-55718e4ac61a",
+          "passage_id": 1,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_28e805f5-4736-467d-bfa5-c5a33f97bddc",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_0970a792-c3e0-442b-b500-dbbb57f6b61a",
+          "passage_id": 0,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+          "passage_id": 0,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+          "passage_id": 2,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_87b82d7e-77ad-4056-9d6a-e73f5701f507",
+          "passage_id": 1,
+          "label": "claim"
+        },
+        {
+          "event_id": "evt_6d4ded17-6a52-457e-bdcd-d38cc1c73a9b",
+          "passage_id": 0,
+          "label": "keep"
+        },
+        {
+          "event_id": "evt_93d6bba9-63b0-4ab5-b6c6-89a2ed7fa1e0",
+          "passage_id": 1,
+          "label": "keep"
+        }
+      ],
+      "false_positives": [
+        {
+          "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+          "passage_id": 4,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 2,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 6,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 15,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+          "passage_id": 16,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "passage_id": 19,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_199d1d1b-68e5-42eb-8325-45b9eba2dbe9",
+          "passage_id": 0,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+          "passage_id": 6,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_5f1ba4da-5990-4c5b-8e71-80a4211ecfd3",
+          "passage_id": 0,
+          "kind": "question"
+        },
+        {
+          "event_id": "evt_49ab92bd-e31d-41f8-9047-c09ef72467f1",
+          "passage_id": 12,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+          "passage_id": 17,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+          "passage_id": 3,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+          "passage_id": 2,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_6534df15-1f39-4234-bf01-c6b78e665bf5",
+          "passage_id": 1,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_6534df15-1f39-4234-bf01-c6b78e665bf5",
+          "passage_id": 2,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_578a8fd8-7b7f-42d5-9337-ddafbcc934c2",
+          "passage_id": 1,
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+          "passage_id": 0,
+          "kind": "question"
+        }
+      ],
+      "kind_errors": [
+        {
+          "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+          "passage_id": 13,
+          "label": "question",
+          "kind": "claim"
+        },
+        {
+          "event_id": "evt_895b002b-955f-49a7-ba59-87cfae78af35",
+          "passage_id": 0,
+          "label": "preference",
+          "kind": "claim"
+        }
+      ],
+      "precision": 0.8811188811188811,
+      "recall": 0.8129032258064516,
+      "f1": 0.8456375838926175,
+      "kind_accuracy": 0.9801980198019802,
+      "usage": {
+        "calls": 106,
+        "input_tokens": 43986,
+        "output_tokens": 4407,
+        "unknown_usage_calls": 0,
+        "elapsed_ms_total": 249584,
+        "elapsed_ms_median": 2128
+      },
+      "usd": 0.13204199999999996,
+      "errors": []
+    }
+  }
+}

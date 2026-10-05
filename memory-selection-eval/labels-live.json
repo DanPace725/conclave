@@ -1,0 +1,320 @@
+{
+  "version": "memory-labels-v1",
+  "source": "memory-selection-eval/exports/live-heat-pump.json",
+  "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700",
+  "labeler": "agent",
+  "instructions": "Set each passage label to one of: skip, optional, keep, preference, claim, question. \"keep\" grades selection without kind; \"optional\" is neither a miss nor a false positive. Label before opening the recorded file.",
+  "items": [
+    {
+      "event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "I am trying to understand how well cold-climate air-source heat pumps actually perform in very cold weather, for a 1,900 sq ft house in northern Minnesota that currently heats with a propane boiler. Please research this properly: search, then open and read at least four primary sources in full with web_fetch (for example the NEEP cold-climate specification, the DOE Cold Climate Heat Pump Challenge, a field study from Minnesota CEE or NREL, and the current federal incentive rules). Report specific numbers: capacity retention and COP at 5F and below, typical installed costs, and which incentives exist right now. Flag anything the sources disagree on or leave open.",
+          "label": "keep"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "## Bottom line",
+          "label": "skip"
+        },
+        {
+          "passage_id": 1,
+          "content": "**Important research limitation:** I searched for the requested materials, but the fetch tool could not open several key PDFs: the NEEP specification and DOE Challenge documents were rejected as PDF content, and the PNNL report returned HTTP 403. I successfully opened and read three HTML sources in full: NEEP’s Version 4.0 announcement, a CEE Minnesota field-study page, and the IRS incentive page. That is **one fewer than the four full primary sources you requested**, and I can’t represent the PDF search snippets below as full-source verification.",
+          "label": "claim"
+        },
+        {
+          "passage_id": 2,
+          "content": "## Cold-weather performance: what the available figures do—and don’t—say",
+          "label": "skip"
+        },
+        {
+          "passage_id": 3,
+          "content": "- **NEEP:** A search result for NEEP’s older Version 2.0 specification reported a minimum **COP above 1.75 at 5°F**, at maximum capacity. It also said manufacturers report capacity and COP at 47°F, 17°F, and 5°F. This is a specification threshold, **not a typical performance result**. NEEP’s full Version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or COP figure for all listed equipment.  \n  Sources: [NEEP Version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older Version 2.0 specification PDF](https://neep.org/sites/default/files/resources/Cold%20Climate%20Air-source%20Heat%20Pump%20Specification-Version%202.0_0.pdf) (not readable through the fetch tool).",
+          "label": "claim"
+        },
+        {
+          "passage_id": 4,
+          "content": "- **DOE Challenge:** Search results described a 5°F lab target of **100% of 47°F capacity**, with minimum COP targets of **2.1 or 2.4 depending on unit size**. Those are Challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. The DOE PDFs could not be opened directly here.  \n  Sources: [DOE Challenge specification PDF](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [DOE fact sheet PDF](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf).",
+          "label": "claim"
+        },
+        {
+          "passage_id": 5,
+          "content": "- **Field performance:** A search result for a PNNL validation report described a **median COP of 1.9 in the 0–5°F temperature bin**. It also cautioned that the reported field COP excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data below 0°F. I could not fetch that report, so treat these as **search-result figures, not independently checked report text**. They are not directly comparable to a lab rating or a whole-system seasonal result.  \n  Source: [PNNL field-validation report PDF](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-37127.pdf) (fetch returned HTTP 403).",
+          "label": "claim"
+        },
+        {
+          "passage_id": 6,
+          "content": "## Minnesota field experience and cost",
+          "label": "skip"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "Thanks. Which of those field results came from houses most like mine, and how much did they still lean on backup heat on the coldest days?",
+          "label": "skip"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "**The closest match is CEE’s Minnesota field study**, but it is only a partial match. It monitored six occupied Minnesota homes where natural gas was unavailable; **four used propane furnaces for backup**, and two used electric-resistance baseboards. That makes the propane-heated homes more relevant to your fuel situation than the broader field results—but they had **propane furnaces, not propane boilers**, and the source details available here don’t establish that any home was close to your 1,900 sq ft size. So I can’t call them close matches in house size or heating distribution. [CEE field-study page](https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed)",
+          "label": "claim"
+        },
+        {
+          "passage_id": 1,
+          "content": "On **backup use during the coldest weather**, I can’t give a reliable amount—such as a percentage of heat or hours—from the accessible study material. CEE’s page says a system may need backup to meet the load below **10°F** down to design conditions; it recommends prioritizing the heat pump so backup is used only when needed. That is guidance, not a report of how much backup those particular homes actually used on the coldest days. The earlier field figures about reduced propane use are seasonal study comparisons, not a coldest-day backup breakdown.",
+          "label": "claim"
+        },
+        {
+          "passage_id": 2,
+          "content": "The PNNL result mentioned earlier is less useful for your specific question: its reported COP was a field-performance measure, not a measure of backup reliance, and the report could not be opened for verification. **Bottom line:** the CEE propane-backup homes are the most relevant comparison we have, but the available evidence does not quantify their backup use on the coldest days. For your boiler-based house, ask an installer to model the proposed heat pump against a documented house heat-loss calculation, show its capacity at local winter design temperature, and explain exactly when the existing boiler would take over.",
+          "label": "keep"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_7568b5cb-9719-4810-a026-54f50453acac",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "Some context for the next step: our budget is roughly $22,000 before incentives, and one requirement from my partner is that the house stays heated at -25F even if the grid is strained. We also decided last week to keep the propane boiler as backup rather than remove it. With that in mind, what system layout would you suggest?",
+          "label": "preference"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "I’d treat this as a **hybrid system**, not ask the heat pump to guarantee the house stays warm at −25°F.",
+          "label": "keep"
+        },
+        {
+          "passage_id": 1,
+          "content": "A roughly **$22,000 pre-incentive budget** is a useful bid constraint, but I can’t say this layout will fit it: the earlier research did not verify current installed costs or Minnesota/utility incentives. Request itemized bids that preserve the boiler and specify equipment, electrical work, controls, and any distribution changes. Compare each bid against the same heat-loss calculation and ask what the system does at −25°F—and during a power outage.",
+          "label": "keep"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_3df8a5f2-a39f-4e7f-a192-89c5830b163b",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "Please save the key findings from that to memory.",
+          "label": "skip"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_284f614b-1f9f-4cf4-a6e3-432f0698b89a",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "Saved the key findings as named memory entries:",
+          "label": "skip"
+        },
+        {
+          "passage_id": 1,
+          "content": "- Your roughly **$22,000 pre-incentive budget** and the **−25°F / strained-grid heating requirement**.\n- Your reported decision to **keep the propane boiler as backup**.\n- The proposed hybrid layout—heat pump plus boiler backup and automatic controls—as an **unapproved recommendation**, not a settled design.\n- The CEE Minnesota comparison and the limitation that available evidence **doesn’t quantify coldest-day backup use**.",
+          "label": "optional"
+        },
+        {
+          "passage_id": 2,
+          "content": "The saved notes also flag what remains unverified: the house’s heat loss, the equipment’s performance at −25°F, whether the requirement includes a power outage, and whether the layout fits the budget.",
+          "label": "question"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_a37ebc3e-2353-4e51-85da-d537470c3781",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "Now look at the electrical side. Read at least three sources in full with web_fetch about whether a 100-amp service can support a whole-house cold-climate heat pump, what a panel or service upgrade typically costs, and how dual-fuel switchover temperatures are usually set. Give me the specific numbers and say where the sources conflict.",
+          "label": "optional"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_71022912-6b90-4f8c-8324-d2f5e759fe82",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "## Electrical-side takeaway",
+          "label": "skip"
+        },
+        {
+          "passage_id": 1,
+          "content": "A **100-amp service is not automatically too small—or automatically adequate—for a whole-house cold-climate heat pump**. Whether yours can support it depends on the home’s calculated electrical load and the specific heat pump’s electrical requirements. For your proposed **heat-pump-plus-propane-boiler** setup, the electrician should use the heat pump’s nameplate data and include any other major loads. They should also verify whether the design uses electric resistance backup heat; that can materially change the load.",
+          "label": "claim"
+        },
+        {
+          "passage_id": 2,
+          "content": "### What the sources say",
+          "label": "skip"
+        },
+        {
+          "passage_id": 3,
+          "content": "### What conflicts—and what doesn’t",
+          "label": "skip"
+        },
+        {
+          "passage_id": 4,
+          "content": "The cost sources don’t provide directly comparable estimates: the local contractor gives specific metro-area prices for defined job types, while CUB’s consumer guidance does not quote a price. So the **$7,700–$9,500** figure is useful as a local budgeting reference, but not a guaranteed quote or general Minnesota average. It is also important to distinguish **replacing a panel** from upgrading the **service**; a panel replacement alone does not necessarily increase available service capacity.",
+          "label": "claim"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_8b1b1eb4-01d5-4a81-8a71-ac7dc5b51e48",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "A couple of things have firmed up on our side: my partner has a strong preference for a ducted system over wall-mounted heads because of how the bedrooms are laid out, and there is a constraint that the outdoor unit cannot go on the north wall where the snow drifts. Still unresolved: we have not decided whether to add solar in the same project. What does that change?",
+          "label": "preference"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_9969c7a8-a5d4-4049-86f3-9774354c07f3",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "This makes the layout more specific: **price a ducted cold-climate heat pump with the propane boiler retained for backup**, but treat duct suitability and the outdoor-unit location as early feasibility checks—not details to leave until installation.",
+          "label": "keep"
+        },
+        {
+          "passage_id": 1,
+          "content": "The key next step is a site visit that checks both the duct system and possible non-north-wall locations, followed by an itemized bid and electrical load calculation. The −25°F requirement still needs to be addressed explicitly in the proposal: ask how the heat pump and boiler will maintain heat at that temperature, and what happens if grid power is unavailable.",
+          "label": "optional"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_4a4e933e-013c-43f1-ade4-7bbd03f78f5f",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "Thanks. What are the top open questions I should take to an installer?",
+          "label": "skip"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_36ab300b-c281-42b0-9798-b2a98cdb6d12",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "Take these questions to the installer, roughly in this order:",
+          "label": "skip"
+        },
+        {
+          "passage_id": 1,
+          "content": "1. **Can our existing ducts support a ducted heat pump?**  \n   Please inspect their condition, leakage, capacity, and ability to deliver heat to the bedrooms. What duct changes, zoning, or airflow adjustments would be needed, and how would those affect cost?",
+          "label": "question"
+        },
+        {
+          "passage_id": 2,
+          "content": "2. **How will the system keep the house heated at −25°F?**  \n   Show the house heat-loss calculation and the proposed heat pump’s capacity and operating limits at 5°F, 0°F, and −25°F. Explain when the retained propane boiler would take over and confirm that the boiler and hydronic system can meet the remaining load.",
+          "label": "question"
+        },
+        {
+          "passage_id": 3,
+          "content": "4. **Where can the outdoor unit go besides the north wall?**  \n   Identify a feasible location and check manufacturer clearances, service access, airflow, snow accumulation and drifting, and line-set routing.",
+          "label": "question"
+        },
+        {
+          "passage_id": 4,
+          "content": "5. **Will our 100-amp service support the proposed equipment?**  \n   Have an electrician do a load calculation using the actual equipment nameplate data and other major household loads. Ask whether the design includes electric resistance backup and whether any panel, service, or wiring work is needed.",
+          "label": "question"
+        },
+        {
+          "passage_id": 5,
+          "content": "6. **How will you set the heat-pump/boiler switchover?**  \n   Ask for both the temperature where the heat pump can no longer meet the calculated load and the temperature where boiler heat becomes less expensive, based on the proposed equipment’s performance and your electricity and propane rates. What setting do they recommend, and why?",
+          "label": "question"
+        },
+        {
+          "passage_id": 6,
+          "content": "7. **What exactly is included in the price, and does it fit our roughly $22,000 pre-incentive budget?**  \n   Request an itemized bid for the heat pump, duct work, boiler integration and controls, electrical work, permits, and any service upgrade. Treat the previously mentioned **$7,700–$9,500** service-and-panel upgrade figure only as a local budgeting reference—not a prediction that you’ll need one. Ask which current incentives, if any, apply; they have not yet been verified.",
+          "label": "question"
+        },
+        {
+          "passage_id": 7,
+          "content": "8. **What changes if we add solar?**  \n   Since solar is undecided, ask for separate heat-pump pricing with and without solar, and have the electrician explain any effects on service capacity, interconnection, and project cost. If outage operation matters, ask what equipment—such as islanding capability and storage—would actually be required; solar panels alone do not necessarily power the house during an outage.",
+          "label": "question"
+        },
+        {
+          "passage_id": 8,
+          "content": "Ask each bidder to show the assumptions and equipment data behind their answers, so you can compare proposals on the same basis.",
+          "label": "skip"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_895b002b-955f-49a7-ba59-87cfae78af35",
+      "source_kind": "user",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "One correction on the budget constraint: with the utility rebate we now have closer to $26,000 to work with, and the installer requirement is that work finishes before November. Does that change your suggested layout?",
+          "label": "preference"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_64f9bf36-51a2-4e52-8bab-04b40b91caf8",
+      "source_kind": "assistant",
+      "passages": [
+        {
+          "passage_id": 0,
+          "content": "It changes the **budget and schedule**, but not the basic layout: I’d still price a **ducted cold-climate heat pump, retain the propane boiler as backup, and rule out the north wall for the outdoor unit**. Keep solar as a separate, optional scope unless you decide it is essential; the heat-pump/boiler project should be priced on its own first.",
+          "label": "keep"
+        },
+        {
+          "passage_id": 1,
+          "content": "With about **$26,000 including the utility rebate**, ask bidders to show the rebate’s eligibility, amount, and timing in writing, and distinguish the **gross installed price** from your expected out-of-pocket cost. The earlier $7,700–$9,500 service-upgrade figure was only a local reference—not a prediction that you need one—so get a load calculation and itemize any electrical work. Don’t assume the revised budget guarantees the project will fit.",
+          "label": "optional"
+        },
+        {
+          "passage_id": 2,
+          "content": "The **before-November completion requirement** makes schedule a feasibility check now, not something to resolve after choosing equipment. Ask each installer to confirm in writing that the proposed equipment, duct changes, electrical work, permits, utility coordination, and commissioning can all be completed before your deadline. If a service upgrade or substantial duct work is needed, ask whether that could affect the schedule. Compare bids on the same scope and timing.",
+          "label": "optional"
+        },
+        {
+          "passage_id": 3,
+          "content": "I would not relax the −25°F requirement to meet the deadline: require the proposal to explain how the retained boiler covers any heat-pump shortfall at −25°F, and whether the requirement includes a power outage or only a strained grid. The heat-loss calculation, heat-pump capacity at −25°F, boiler capacity, 100-amp load calculation, duct suitability, and viable non-north-wall location still need installer verification. No current incentive beyond the user-reported utility rebate has been verified here.",
+          "label": "question"
+        }
+      ]
+    }
+  ]
+}
