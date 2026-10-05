@@ -46,7 +46,7 @@ test('Jev memory selection judges whole paragraphs, batches on the byte guard an
   assert.ok(!result.records.some(r => r.passage_id === 1 || r.passage_id === 7));
   assert.equal(result.calls.length, fake.payloads.length);
 
-  const unsure = jevFake(wrap(text => text.startsWith('Open') ? answer('question', 0.4) : 'claim'));
+  const unsure = jevFake(wrap(text => text.startsWith('Open') ? { ...answer('question', 0.4), probabilities: { skip: 0.5, question: 0.4, claim: 0.05, preference: 0.05 } } : 'claim'));
   const hesitant = await new JevDecisionAdapter(unsure.provider).selectMemory(passages(['Finding A.', 'Open B?']), {}, (p, _, l) => l.provider.respond(p));
   assert.deepEqual(hesitant.records, [{ passage_id: 0, kind: 'claim' }]);
   assert.equal(hesitant.decisions[1].uncertain, true, 'uncertain answers are left for a fallback, not saved');
@@ -147,6 +147,6 @@ test('labeled scoring separates misses, false positives, optional passages, kind
   assert.deepEqual(prepared[0].passages.map(p => p.content), ['First.', 'Second.']);
   assert.ok(prepared.every(i => i.passages.every(p => p.label === null)));
   assert.throws(() => parseExtraction(JSON.stringify({ records: [{ kind: 'commitment', passage_id: 0 }] }), [{}]), /schema/);
-  assert.deepEqual(parseExtraction(JSON.stringify({ records: [{ kind: 'claim', passage_id: 0 }, { kind: 'claim', passage_id: 0 }, { kind: 'claim', passage_id: 9 }] }), [{}]),
+  assert.deepEqual(parseExtraction(JSON.stringify({ records: [{ kind: 'claim', passage_id: 0 }, { kind: 'claim', passage_id: 0 }, { kind: 'claim', passage_id: 9 }] }), [{ passage_id: 0 }]),
     { records: [{ passage_id: 0, kind: 'claim' }], invalid: 2 });
 });

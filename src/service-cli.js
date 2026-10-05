@@ -5,20 +5,21 @@ import { randomUUID } from 'node:crypto';
 import { Store } from './store.js';
 import { ConclaveService } from './service.js';
 import { downloadRecord } from './context-repository.js';
+import { sanitizeExport } from './export-sanitizer.js';
 import { redact } from './provider.js';
 
 export const serviceCommands = new Set(['call', 'view', 'workspace-list', 'workspace-read', 'workspace-upload',
   'agent-start', 'agent-step', 'agent-stop', 'agent-status', 'count-tokens', 'activity', 'audit', 'download']);
 const methods = new Set(['status', 'list', 'create', 'view', 'ask', 'remember', 'name', 'sourceEvent',
   'contextBundle', 'workspaceFile', 'saveDocument', 'uploadDocument', 'changeDocument', 'countTokens',
-  'saveContext', 'saveState', 'saveMemory', 'memoryLifecycle', 'agentStart', 'agentStep', 'agentStop', 'activity', 'audit', 'export', 'modelInput',
+  'saveContext', 'saveState', 'saveMemory', 'memoryLifecycle', 'agentStart', 'agentStep', 'agentStop', 'activity', 'audit', 'export', 'shareableExport', 'modelInput',
   'clpFrames', 'clpBundle', 'clpRegisterFrame', 'clpAttest', 'clpRecord', 'clpLink', 'clpQuery']);
 
 export async function serviceCommand(argv, { service: suppliedService, write = text => console.log(text) } = {}) {
   const { values, positionals } = parseArgs({ args: argv, allowPositionals: true, options: {
     conversation: { type: 'string' }, data: { type: 'string', default: '.conclave' },
     input: { type: 'string' }, provider: { type: 'string', default: 'openai' }, model: { type: 'string' },
-    reasoning: { type: 'string' }, 'no-jev': { type: 'boolean' }, stream: { type: 'boolean' },
+    reasoning: { type: 'string' }, 'no-jev': { type: 'boolean' }, sanitize: { type: 'boolean' }, stream: { type: 'boolean' },
     'max-steps': { type: 'string' }, 'duration-seconds': { type: 'string' }, 'max-tokens': { type: 'string' },
   } });
   const [command, ...args] = positionals;
@@ -70,7 +71,7 @@ export async function serviceCommand(argv, { service: suppliedService, write = t
       else if (command === 'activity' || command === 'audit') result = service[command](id, input);
       else if (command === 'download') {
         if (!args[0]) throw Error('Download path is required');
-        writeFileSync(resolve(args[0]), JSON.stringify(downloadRecord(service, id), null, 2));
+        writeFileSync(resolve(args[0]), JSON.stringify(values.sanitize ? sanitizeExport(downloadRecord(service, id)) : downloadRecord(service, id), null, 2));
         result = { path: resolve(args[0]) };
       } else result = service.view(id);
     }

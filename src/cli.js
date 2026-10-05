@@ -34,7 +34,7 @@ const help = `Conclave — local persistent history / mutable context
   node src/cli.js remember KEY TYPE "text" --conversation ID
   node src/cli.js decide [task keywords] --decision-model MODEL --conversation ID
   node src/cli.js decide [task keywords] --decision-provider jev --conversation ID
-  node src/cli.js export PATH --conversation ID
+  node src/cli.js export PATH --conversation ID [--sanitize]
   node src/cli.js reindex
   node src/cli.js models
   node src/cli.js agent-start "task" --conversation ID [--provider anthropic --model claude-sonnet-5-5]
@@ -81,6 +81,7 @@ try {
     'decision-output': { type: 'string', default: '600' }, 'decision-candidates': { type: 'string', default: '6' },
     'decision-provider': { type: 'string', default: 'openai' }, 'jev-confidence': { type: 'string', default: '0.65' },
     'jev-key-env': { type: 'string', default: 'TYPESAFE_API_KEY' },
+    sanitize: { type: 'boolean' },
   } });
   const [command = 'help', ...rest] = positionals;
   if (!['openai', 'jev'].includes(values['decision-provider'])) throw Error('--decision-provider must be openai or jev');
@@ -170,7 +171,7 @@ try {
       else if (command === 'decide') console.log(JSON.stringify(await propose(argument), null, 2));
       else if (command === 'export') {
         if (!argument) throw Error('Export path required');
-        writeFileSync(resolve(argument), JSON.stringify(new ConclaveService(store).export(conversation), null, 2));
+        writeFileSync(resolve(argument), JSON.stringify(new ConclaveService(store)[values.sanitize ? 'shareableExport' : 'export'](conversation), null, 2));
         console.log(`Exported ${resolve(argument)}`);
       } else if (command === 'ask') {
         console.log(`Conversation: ${conversation}`);

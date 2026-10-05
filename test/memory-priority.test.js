@@ -108,7 +108,7 @@ test('model extraction uses compatible reasoning settings and cannot return quot
   } finally { store.close(); }
 });
 
-test('memory passage selection preserves paragraph qualifications and Unicode offsets, excludes cut tails and quoted data', async () => {
+test('memory passage selection preserves paragraph qualifications and Unicode offsets, including complete assistant quotations and later text', async () => {
   const { store, id, h } = fixture({ memoryModel: true });
   try {
     const content = '😀 Findings are preliminary. They apply only if support remains available.\n\n'
@@ -116,7 +116,7 @@ test('memory passage selection preserves paragraph qualifications and Unicode of
     const event = h.addMessage('assistant', content).event;
     store.append(id, 'turn_complete', '', { assistant_event_id: event.id });
     const passages = memoryPassages(event);
-    assert.equal(passages.length, 1);
+    assert.equal(passages.length, 3);
     assert.equal(passages[0].content, '😀 Findings are preliminary. They apply only if support remains available.');
     assert.equal(event.content.slice(passages[0].span_start, passages[0].span_end), passages[0].content);
     h.provider.respond = async () => reply(JSON.stringify({ records: [

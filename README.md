@@ -6,6 +6,10 @@ Persistent trajectory, mutable context. This repository owns the complete Concla
 
 The opt-in [CLP evidence broker](docs/CLP_BROKER.md) adds versioned frames, source provenance, independent-support floors, and deterministic query explanations. Run `node scripts/clp-demo.js` for the six-bundle offline example. The CLI/API exposes registration, attestation, record, link, and query operations; thin/refuted/unmeasured claims remain unresolved.
 
+## Shareable exports
+
+Use `export PATH --conversation ID --sanitize` or `download PATH --conversation ID --sanitize` for publication copies. HTTP export/download also accept `sanitize=1`; `action=shareable_export` exposes the sanitized service export. Copies redact recognizable credentials and carry a receipt explaining that original hashes/offsets are not replay-valid. Canonical exports remain private exact audit data. Scan fixtures before committing with `node scripts/sanitize-artifacts.js --check FILE_OR_FOLDER`; use `--write` to redact them. Labeled-evaluation outputs are sanitized automatically. [Details and limits](docs/archive/2026-10-05/jev-plumbing/README.md)
+
 ## Start
 
 Requires Node.js 22.13+. Use OPENAI_API_KEY for OpenAI or ANTHROPIC_API_KEY for Claude. Credentials are read from the process or Windows User/Machine environment; offline controls need no key.

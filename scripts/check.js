@@ -1,4 +1,4 @@
-import { readdirSync } from 'node:fs';
+import { readdirSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 function check(directory) {
@@ -12,4 +12,8 @@ function check(directory) {
   }
 }
 for (const directory of ['src', 'scripts', 'test', 'integrations']) check(directory);
-console.log('Syntax checks passed');
+if (existsSync('memory-selection-eval')) {
+  const result = spawnSync(process.execPath, ['scripts/sanitize-artifacts.js','--check','memory-selection-eval'], {stdio:'inherit'});
+  if (result.status) process.exit(result.status);
+}
+console.log('Syntax and evaluation credential checks passed');

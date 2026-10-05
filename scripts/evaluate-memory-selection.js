@@ -5,16 +5,19 @@
 //   node scripts/evaluate-memory-selection.js score labels.json [--recorded labels.recorded.json]
 //        [--jev] [--llm openai:gpt-6-luna] [--confidence 0.65] [--out report.json]
 import { readFileSync, writeFileSync } from 'node:fs';
-import { memoryPassages, extractionPayload, parseExtraction } from '../src/memory-extractor.js';
+import { memoryPassages } from '../src/memory-extractor.js';
 import { MEMORY_LABELS_VERSION, LABELS, labelItems, scoreSelections, compareSelections } from '../src/memory-evaluation.js';
 import { JevDecisionAdapter } from '../src/jev.js';
-import { JevProvider, taskProvider, responseText, redact } from '../src/provider.js';
+import { JevProvider, taskProvider, redact } from '../src/provider.js';
+import { extractPassages } from '../src/memory-selection.js';
+import { sanitizeExport } from '../src/export-sanitizer.js';
 import { priceUsage } from '../src/costs.js';
 
 const [command, input, ...rest] = process.argv.slice(2);
 const flag = name => rest.includes(name);
 const option = name => { const i = rest.indexOf(name); return i >= 0 ? rest[i + 1] : undefined; };
 const readJson = path => JSON.parse(readFileSync(path, 'utf8'));
+const writeJson = (path, data) => writeFileSync(path, JSON.stringify(sanitizeExport(data), null, 2));
 const costs = readJson(new URL('../src/resources/model-costs-2026-10-02.json', import.meta.url));
 // Shared pricing, so cache reads and writes are valued at their own rates.
 const price = (calls, provider, model) => {
@@ -28,10 +31,10 @@ function prepare() {
   if (!Array.isArray(events)) throw Error('Expected a canonical export with events');
   const items = labelItems(events, memoryPassages, { includeUser: !flag('--no-user') });
   const out = option('--out') || 'memory-labels.json';
-  writeFileSync(out, JSON.stringify({ version: MEMORY_LABELS_VERSION, source: input,
+  writeJson(out, { version: MEMORY_LABELS_VERSION, source: input,
     conversation_id: record.conversation_id || record.context_layer?.conversation_id || null,
     instructions: `Set each passage label to one of: ${LABELS.join(', ')}. "keep" grades selection without kind; "optional" is neither a miss nor a false positive. Label before opening the recorded file.`,
-    items }, null, 2));
+    items });
   // Recorded shadow selections are kept apart so labeling stays blind.
   const shadows = events.filter(e => e.kind === 'memory_shadow');
   const recorded = { llm: {}, jev: {}, jev_decisions: {} };
@@ -41,7 +44,7 @@ function prepare() {
     if (e.metadata.jev) recorded.jev_decisions[e.metadata.source_event_id] = e.metadata.jev.decisions;
   }
   const recordedPath = out.replace(/\.json$/, '') + '.recorded.json';
-  if (shadows.length) writeFileSync(recordedPath, JSON.stringify(recorded, null, 2));
+  if (shadows.length) writeJson(recordedPath, recorded);
   console.log(JSON.stringify({ labels: out, items: items.length, passages: items.reduce((n, i) => n + i.passages.length, 0),
     recorded: shadows.length ? recordedPath : null, recorded_events: shadows.length }, null, 2));
 }
@@ -67,16 +70,13 @@ async function runLlm(items, spec) {
   const selections = {}, calls = [], errors = [];
   for (const item of items) {
     const event = { id: item.event_id, kind: item.source_kind, content: '', metadata: {} };
-    const started = Date.now();
     try {
-      // Offline payload over the labeled passages exactly as numbered.
-      const payload = extractionPayload(event, item.related || [], model, name);
-      const body = JSON.parse(payload.input[0].content);
-      body.passages = item.passages.map(({ passage_id, content }) => ({ passage_id, content }));
-      payload.input[0].content = JSON.stringify(body);
-      const response = await provider.respond(payload, { signal: AbortSignal.timeout(15000) });
-      calls.push({ passages: item.passages.length, elapsed_ms: Date.now() - started, usage: response.usage || null, model: response.model || model });
-      selections[item.event_id] = parseExtraction(responseText(response), item.passages).records;
+      const h = { options: {model}, provider, call: async (payload, purpose, limits) => {
+        const began = Date.now(), response = await provider.respond(payload, {signal:limits.signal});
+        calls.push({passages:JSON.parse(payload.input[0].content).passages.length,elapsed_ms:Date.now()-began,usage:response.usage || null,model:response.model || model});
+        return response;
+      }};
+      selections[item.event_id] = (await extractPassages(h,event,item.related || [],item.passages)).records;
     } catch (e) { selections[item.event_id] = null; errors.push({ event_id: item.event_id, error: redact(e) }); }
   }
   return { selections, calls, errors, usd: price(calls, name, model), provider: name, model };
@@ -92,7 +92,7 @@ function summarize(calls) {
 // Events where Jev left any passage uncertain would need an LLM fallback call.
 function fallbackNeed(decisions) {
   const events = Object.values(decisions);
-  return { events: events.length, needing_fallback: events.filter(d => d.some(x => x.uncertain)).length,
+  return { scope: 'event has any escalated passage; only those passages require fallback', events: events.length, needing_fallback: events.filter(d => d.some(x => x.uncertain)).length,
     uncertain_passages: events.reduce((n, d) => n + d.filter(x => x.uncertain).length, 0) };
 }
 
@@ -126,7 +126,7 @@ async function score() {
   }
   if (!Object.keys(report.selectors).length) throw Error('Nothing to score: pass --recorded, --jev and/or --llm');
   const out = option('--out');
-  if (out) writeFileSync(out, JSON.stringify(report, null, 2));
+  if (out) writeJson(out, report);
   const brief = Object.fromEntries(Object.entries(report.selectors).map(([name, s]) => [name, {
     precision: s.precision, recall: s.recall, f1: s.f1, kind_accuracy: s.kind_accuracy, events: s.events,
     failed_events: s.failed_events, usd: s.usd ?? null, calls: s.usage?.calls ?? null, fallback: s.fallback ?? null }]));

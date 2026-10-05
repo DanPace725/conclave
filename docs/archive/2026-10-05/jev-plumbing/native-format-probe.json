@@ -1,0 +1,66 @@
+{
+  "scope": "One synthetic format probe; not a quality evaluation or cost comparison.",
+  "records": [
+    {
+      "passage_id": 0,
+      "kind": "preference"
+    },
+    {
+      "passage_id": 2,
+      "kind": "claim"
+    }
+  ],
+  "decisions": [
+    {
+      "passage_id": 0,
+      "choice": "preference",
+      "kind": "preference",
+      "model": "jev-1.13.0",
+      "confidence": 0.77,
+      "kind_uncertain": false,
+      "keep_probability": 0.99,
+      "selection_confidence": 0.99,
+      "uncertain": false,
+      "duplicate": false
+    },
+    {
+      "passage_id": 1,
+      "choice": "skip",
+      "kind": "question",
+      "model": "jev-1.13.0",
+      "confidence": 0.93,
+      "kind_uncertain": false,
+      "keep_probability": 0.050000000000000044,
+      "selection_confidence": 0.95,
+      "uncertain": false,
+      "duplicate": false
+    },
+    {
+      "passage_id": 2,
+      "choice": "claim",
+      "kind": "claim",
+      "model": "jev-1.13.0",
+      "confidence": 0.98,
+      "kind_uncertain": false,
+      "keep_probability": 0.99,
+      "selection_confidence": 0.99,
+      "uncertain": false,
+      "duplicate": false
+    }
+  ],
+  "oversized": [],
+  "calls": [
+    {
+      "passages": 3,
+      "elapsed_ms": 254,
+      "usage": {
+        "input_tokens": 802,
+        "output_tokens": 146
+      },
+      "model": "jev-1.13.0"
+    }
+  ],
+  "threshold": 0.65,
+  "confidence_target": "keep-or-skip",
+  "decision_version": "jev-memory-v2"
+}
