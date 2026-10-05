@@ -1,0 +1,2200 @@
+{
+  "schema_version": 1,
+  "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700",
+  "created_at": "2026-10-05T22:14:18.274Z",
+  "title": "PR3 live test: cold-climate heat pumps",
+  "title_generated": false,
+  "messages": [
+    {
+      "message_id": "pr3live_t1",
+      "source_event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+      "timestamp": "2026-10-05T22:14:19.547Z",
+      "participant_id": "human",
+      "role": "user",
+      "content": "I am trying to understand how well cold-climate air-source heat pumps actually perform in very cold weather, for a 1,900 sq ft house in northern Minnesota that currently heats with a propane boiler. Please research this properly: search, then open and read at least four primary sources in full with web_fetch (for example the NEEP cold-climate specification, the DOE Cold Climate Heat Pump Challenge, a field study from Minnesota CEE or NREL, and the current federal incentive rules). Report specific numbers: capacity retention and COP at 5F and below, typical installed costs, and which incentives exist right now. Flag anything the sources disagree on or leave open.",
+      "reply_to": null,
+      "mentions": [],
+      "attachment_ids": [],
+      "status": "complete",
+      "reasoning": [
+        {
+          "provider": "openai",
+          "text": "",
+          "summaries": [],
+          "opaque_available": true,
+          "label": "Provider reasoning summary",
+          "status": "completed",
+          "request_id": "evt_4e73566d-2b72-4482-972c-eb580d87149a",
+          "response_event_id": "evt_454887b6-6708-48ed-83f0-15929f6892ed",
+          "user_event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+          "run_id": null,
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        },
+        {
+          "provider": "openai",
+          "text": "",
+          "summaries": [],
+          "opaque_available": true,
+          "label": "Provider reasoning summary",
+          "status": "completed",
+          "request_id": "evt_421f69d6-1756-42fe-9f08-cfffd1d757d0",
+          "response_event_id": "evt_3b9f567d-d92e-4552-9f62-de1616ff0ce2",
+          "user_event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+          "run_id": null,
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        },
+        {
+          "provider": "openai",
+          "text": "**Considering user request**\n\nI see the user requested three primary sources for their needs, but it looks like there are some limitations in terms of content, especially with the NEEP blog lacking actual spec metrics. Also, costs data isn’t verified, so I need to tread carefully here. I'll cite direct links, include a search-derived disclaimer, and ensure the answer is useful. The date runtime is weird since it goes to October 2026, and I can't assert anything about MN incentives.",
+          "summaries": [
+            {
+              "index": 0,
+              "item_id": "rs_0f3dd7f0bbaee4d3016ac4217aa04087d08d64d94115e78f84",
+              "summary_index": 0,
+              "text": "**Considering user request**\n\nI see the user requested three primary sources for their needs, but it looks like there are some limitations in terms of content, especially with the NEEP blog lacking actual spec metrics. Also, costs data isn’t verified, so I need to tread carefully here. I'll cite direct links, include a search-derived disclaimer, and ensure the answer is useful. The date runtime is weird since it goes to October 2026, and I can't assert anything about MN incentives."
+            }
+          ],
+          "opaque_available": true,
+          "label": "Provider reasoning summary",
+          "status": "completed",
+          "request_id": "evt_1624c474-2242-4610-b2e5-d70d5432746a",
+          "response_event_id": "evt_3778eefe-9580-4834-9162-5f541849ac6e",
+          "user_event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+          "run_id": null,
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    {
+      "message_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+      "source_event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+      "timestamp": "2026-10-05T22:15:35.180Z",
+      "participant_id": "gpt",
+      "role": "assistant",
+      "content": "## Bottom line\n\nA cold-climate air-source heat pump can provide useful heat in a northern Minnesota winter, but “cold-climate” does not mean its capacity and efficiency stay constant as temperatures fall. The evidence I could verify supports treating it as a system to size for the house’s heat loss, with a deliberate plan for backup heat—not assuming any one advertised rating guarantees performance in prolonged extreme cold.\n\n**Important research limitation:** I searched for the requested materials, but the fetch tool could not open several key PDFs: the NEEP specification and DOE Challenge documents were rejected as PDF content, and the PNNL report returned HTTP 403. I successfully opened and read three HTML sources in full: NEEP’s Version 4.0 announcement, a CEE Minnesota field-study page, and the IRS incentive page. That is **one fewer than the four full primary sources you requested**, and I can’t represent the PDF search snippets below as full-source verification.\n\n## Cold-weather performance: what the available figures do—and don’t—say\n\n- **NEEP:** A search result for NEEP’s older Version 2.0 specification reported a minimum **COP above 1.75 at 5°F**, at maximum capacity. It also said manufacturers report capacity and COP at 47°F, 17°F, and 5°F. This is a specification threshold, **not a typical performance result**. NEEP’s full Version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or COP figure for all listed equipment.  \n  Sources: [NEEP Version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older Version 2.0 specification PDF](https://neep.org/sites/default/files/resources/Cold%20Climate%20Air-source%20Heat%20Pump%20Specification-Version%202.0_0.pdf) (not readable through the fetch tool).\n\n- **DOE Challenge:** Search results described a 5°F lab target of **100% of 47°F capacity**, with minimum COP targets of **2.1 or 2.4 depending on unit size**. Those are Challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. The DOE PDFs could not be opened directly here.  \n  Sources: [DOE Challenge specification PDF](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [DOE fact sheet PDF](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf).\n\n- **Field performance:** A search result for a PNNL validation report described a **median COP of 1.9 in the 0–5°F temperature bin**. It also cautioned that the reported field COP excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data below 0°F. I could not fetch that report, so treat these as **search-result figures, not independently checked report text**. They are not directly comparable to a lab rating or a whole-system seasonal result.  \n  Source: [PNNL field-validation report PDF](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-37127.pdf) (fetch returned HTTP 403).\n\nThese figures do **not** establish a single “typical capacity retention at 5°F and below.” The NEEP table asks for model-specific capacity data, and the reported field COP is not a capacity-retention measurement. Ask contractors for the exact proposed outdoor unit’s capacity and COP at **5°F, 0°F, and the local design temperature**, and compare those with a room-by-room or otherwise documented heat-loss calculation for your house.\n\n## Minnesota field experience and cost\n\nCEE’s Minnesota field work is relevant, but it involved a small number of homes and different system configurations. Its project page describes six monitored homes, with a later update covering seven sites; the studies included propane-backup arrangements. The search result for the original study reported **26–40% lower annual energy costs** and **55–67% lower propane use** in certain ducted comparisons. Those are study-specific outcomes, not a guarantee for a 1,900-square-foot house or for today’s fuel and electricity prices.  \nSource: [CEE field-assessment page](https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed) (read in full); [original report PDF](https://www.mncee.org/sites/default/files/report-files/cold-climate_0.pdf) (PDF not accessible through the fetch tool).\n\nA search result reported an average around **$14,000** for a small set of ducted installations, often including a new furnace. I could not verify that figure in the underlying report here, and it should **not** be treated as a current installed-cost estimate for your house. Installed cost depends substantially on equipment, ductwork, electrical work, backup integration, and whether the boiler remains. Get itemized bids that state what is included; don’t compare a heat-pump-only quote with one that includes backup or distribution-system work.\n\n## Incentives right now\n\nThe IRS page I read says the federal **Energy Efficient Home Improvement Credit (Section 25C) is unavailable for qualifying property placed in service after December 31, 2025**. A search result likewise reported that 2026 installations do not qualify under the current federal rule; the earlier 2025 credit was generally 30% of eligible cost, up to $2,000 for a qualifying heat pump. The prior-year amount is not an incentive for a 2026 installation.  \nSource: [IRS: How to claim the residential energy-property credit](https://www.irs.gov/credits-deductions/how-to-claim-an-energy-efficient-home-improvement-tax-credit-residential-energy-property) (read in full); [IRS instructions](https://www.irs.gov/instructions/i5695).\n\nI did **not** verify current Minnesota, utility, or local incentives, so I can’t tell you which of those may be available for your home today.\n\n## What remains uncertain for your house\n\nThe sources available in this run don’t settle the actual capacity coverage, operating cost, or backup requirement for your specific house. Those depend on the house’s heat loss, the proposed equipment’s low-temperature performance, the boiler’s role, and current propane and electricity prices. The main disagreement in the numbers above is not necessarily a contradiction: **NEEP and DOE figures are equipment qualification targets; the PNNL number is a limited field result using a different measurement basis.**",
+      "reply_to": "pr3live_t1",
+      "mentions": [],
+      "attachment_ids": [],
+      "status": "complete",
+      "provider": "GPT",
+      "model": "gpt-6-luna",
+      "usage": {
+        "input_tokens": 8121,
+        "input_tokens_details": {
+          "cache_write_tokens": 438,
+          "cached_tokens": 7680
+        },
+        "output_tokens": 1475,
+        "output_tokens_details": {
+          "reasoning_tokens": 76
+        },
+        "total_tokens": 9596
+      },
+      "pricing": null,
+      "estimated_cost_usd": null,
+      "invocation": {
+        "engine": "conclave",
+        "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700",
+        "request_event_id": "evt_1624c474-2242-4610-b2e5-d70d5432746a",
+        "response_event_id": "evt_3778eefe-9580-4834-9162-5f541849ac6e",
+        "context_revision": 8,
+        "requested_model": "gpt-6-luna",
+        "reported_model": "gpt-6-luna",
+        "response_id": "resp_0f3dd7f0bbaee4d3016ac4217a0b2487d0a9792d94f0ceef21",
+        "generation_settings": {
+          "max_output_tokens": 16384,
+          "reasoning": {
+            "effort": "low",
+            "summary": "auto"
+          }
+        },
+        "context_message_ids": null,
+        "provenance_note": "Full transformed inputs, tool exchanges and source IDs are in context_layer.events."
+      }
+    },
+    {
+      "message_id": "pr3live_t2",
+      "source_event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+      "timestamp": "2026-10-05T22:15:37.237Z",
+      "participant_id": "human",
+      "role": "user",
+      "content": "Thanks. Which of those field results came from houses most like mine, and how much did they still lean on backup heat on the coldest days?",
+      "reply_to": null,
+      "mentions": [],
+      "attachment_ids": [],
+      "status": "complete",
+      "reasoning": [
+        {
+          "provider": "openai",
+          "text": "**Searching for source details**\n\nI'm thinking about how I need to retrieve the exact details from the CEE source, and I might also want to search for the PNNL report. I need to look into existing history for data on event E13 and prior records related to the coldest days globally. This sounds like a solid plan to ensure I have the right information! Let’s dig deeper into those sources and get everything organized.",
+          "summaries": [
+            {
+              "index": 0,
+              "item_id": "rs_0342c249ed8f8c8a016ac4218d02d087d0b573641e1587d805",
+              "summary_index": 0,
+              "text": "**Searching for source details**\n\nI'm thinking about how I need to retrieve the exact details from the CEE source, and I might also want to search for the PNNL report. I need to look into existing history for data on event E13 and prior records related to the coldest days globally. This sounds like a solid plan to ensure I have the right information! Let’s dig deeper into those sources and get everything organized."
+            }
+          ],
+          "opaque_available": true,
+          "label": "Provider reasoning summary",
+          "status": "completed",
+          "request_id": "evt_0c57e1c1-9377-4302-82e4-5cbc420fc1e3",
+          "response_event_id": "evt_9785c7fb-f5ff-45f1-aeb3-0cda4baa187d",
+          "user_event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+          "run_id": null,
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        },
+        {
+          "provider": "openai",
+          "text": "",
+          "summaries": [],
+          "opaque_available": true,
+          "label": "Provider reasoning summary",
+          "status": "completed",
+          "request_id": "evt_0ee109e6-e50e-4c6a-a371-5fc18060e1ee",
+          "response_event_id": "evt_3659b49f-28f4-4d28-8994-46b844ad3d22",
+          "user_event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+          "run_id": null,
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        },
+        {
+          "provider": "openai",
+          "text": "**Searching for field comparisons**\n\nI'm noting that the user wants to know which field has results similar to theirs and how they handle the coldest days. They mentioned CEE homes without natural gas, using propane for backup, but their setup isn't the equivalent of a boiler. Also, I noticed the house area wasn't specified. It seems like I can retrieve a field study page for later updates, but I should start searching for sources regarding extremes right now.",
+          "summaries": [
+            {
+              "index": 0,
+              "item_id": "rs_0342c249ed8f8c8a016ac4219334a887d09dd179351003b45f",
+              "summary_index": 0,
+              "text": "**Searching for field comparisons**\n\nI'm noting that the user wants to know which field has results similar to theirs and how they handle the coldest days. They mentioned CEE homes without natural gas, using propane for backup, but their setup isn't the equivalent of a boiler. Also, I noticed the house area wasn't specified. It seems like I can retrieve a field study page for later updates, but I should start searching for sources regarding extremes right now."
+            }
+          ],
+          "opaque_available": true,
+          "label": "Provider reasoning summary",
+          "status": "completed",
+          "request_id": "evt_7326539c-54f8-41b6-8e65-5120d65f0c95",
+          "response_event_id": "evt_8bc3c25b-c866-424f-bdee-8106d0e7a771",
+          "user_event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+          "run_id": null,
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        },
+        {
+          "provider": "openai",
+          "text": "**Evaluating data transparency**\n\nI think I should ensure that my summary is transparent and doesn’t just present cold data without context. I’m wondering if PNNL data field sites could offer more comparable insights? It might help to look into the history of the data report to see how it all aligns. This way, I can provide a more meaningful answer to the user's query. Let's keep focused on what matters!",
+          "summaries": [
+            {
+              "index": 0,
+              "item_id": "rs_0342c249ed8f8c8a016ac42196147887d0ba18960944fdba7c",
+              "summary_index": 0,
+              "text": "**Evaluating data transparency**\n\nI think I should ensure that my summary is transparent and doesn’t just present cold data without context. I’m wondering if PNNL data field sites could offer more comparable insights? It might help to look into the history of the data report to see how it all aligns. This way, I can provide a more meaningful answer to the user's query. Let's keep focused on what matters!"
+            }
+          ],
+          "opaque_available": true,
+          "label": "Provider reasoning summary",
+          "status": "completed",
+          "request_id": "evt_e510862e-6795-47df-8945-96897a391c82",
+          "response_event_id": "evt_2db9645b-419b-4b4d-a44d-583c79de83fc",
+          "user_event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+          "run_id": null,
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    {
+      "message_id": "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0",
+      "source_event_id": "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0",
+      "timestamp": "2026-10-05T22:15:57.496Z",
+      "participant_id": "gpt",
+      "role": "assistant",
+      "content": "**The closest match is CEE’s Minnesota field study**, but it is only a partial match. It monitored six occupied Minnesota homes where natural gas was unavailable; **four used propane furnaces for backup**, and two used electric-resistance baseboards. That makes the propane-heated homes more relevant to your fuel situation than the broader field results—but they had **propane furnaces, not propane boilers**, and the source details available here don’t establish that any home was close to your 1,900 sq ft size. So I can’t call them close matches in house size or heating distribution. [CEE field-study page](https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed)\n\nOn **backup use during the coldest weather**, I can’t give a reliable amount—such as a percentage of heat or hours—from the accessible study material. CEE’s page says a system may need backup to meet the load below **10°F** down to design conditions; it recommends prioritizing the heat pump so backup is used only when needed. That is guidance, not a report of how much backup those particular homes actually used on the coldest days. The earlier field figures about reduced propane use are seasonal study comparisons, not a coldest-day backup breakdown.\n\nThe PNNL result mentioned earlier is less useful for your specific question: its reported COP was a field-performance measure, not a measure of backup reliance, and the report could not be opened for verification. **Bottom line:** the CEE propane-backup homes are the most relevant comparison we have, but the available evidence does not quantify their backup use on the coldest days. For your boiler-based house, ask an installer to model the proposed heat pump against a documented house heat-loss calculation, show its capacity at local winter design temperature, and explain exactly when the existing boiler would take over.",
+      "reply_to": "pr3live_t2",
+      "mentions": [],
+      "attachment_ids": [],
+      "status": "complete",
+      "provider": "GPT",
+      "model": "gpt-6-luna",
+      "usage": {
+        "input_tokens": 12864,
+        "input_tokens_details": {
+          "cache_write_tokens": 1296,
+          "cached_tokens": 11565
+        },
+        "output_tokens": 385,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13249
+      },
+      "pricing": null,
+      "estimated_cost_usd": null,
+      "invocation": {
+        "engine": "conclave",
+        "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700",
+        "request_event_id": "evt_bea35351-b26d-442b-bce0-63b036e8b434",
+        "response_event_id": "evt_a8c13cc2-7401-4eed-8359-0d0061cf4b53",
+        "context_revision": 10,
+        "requested_model": "gpt-6-luna",
+        "reported_model": "gpt-6-luna",
+        "response_id": "resp_0342c249ed8f8c8a016ac421982bf487d0a4467fa56369a8f6",
+        "generation_settings": {
+          "max_output_tokens": 16384,
+          "reasoning": {
+            "effort": "low",
+            "summary": "auto"
+          }
+        },
+        "context_message_ids": null,
+        "provenance_note": "Full transformed inputs, tool exchanges and source IDs are in context_layer.events."
+      }
+    }
+  ],
+  "attachments": [],
+  "settings": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "reasoning": "low",
+    "budget": 256000,
+    "output": 16384,
+    "jev": true,
+    "freezeProjection": true
+  },
+  "jev": {
+    "enabled": true,
+    "available": true,
+    "revision": 195,
+    "summary": {
+      "attempts": 1,
+      "completed": 1,
+      "inferred_completed": 0,
+      "failed": 0,
+      "missing_responses": 0,
+      "known_input_tokens": 2252,
+      "known_output_tokens": 332,
+      "unknown_usage_calls": 0,
+      "known_elapsed_ms": 136,
+      "unknown_latency_calls": 0,
+      "retrieval_decisions": 4,
+      "changed_selections": 0,
+      "confirmed_baselines": 0,
+      "fallbacks": 0,
+      "cache_hits": 0,
+      "skipped": 4,
+      "memory_shadows": 1,
+      "memory_shadow_failures": 0,
+      "memory_shadow_mean_jaccard": 1
+    },
+    "records": [
+      {
+        "event_id": "evt_0ef2dd52-cdb0-4fe5-9478-e39c19e6470d",
+        "seq": 187,
+        "timestamp": "2026-10-05T22:15:51.980Z",
+        "kind": "retrieval_decision",
+        "purpose": "retrieval",
+        "query": "field study coldest day backup heat propane heating below 0°F 22 sites PNNL house characteristics heat pump field validation",
+        "outcome": "skipped",
+        "reason": "distinctive lexical match",
+        "error": null,
+        "selection_source": "hybrid-embedding",
+        "cache_hit": false,
+        "request_id": null,
+        "baseline": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68",
+          "evt_548259bf-07e2-4cf5-899a-bdf674782a3a",
+          "evt_b5901ed4-6ef2-4f13-b212-15b117d2303b"
+        ],
+        "selected": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68",
+          "evt_548259bf-07e2-4cf5-899a-bdf674782a3a",
+          "evt_b5901ed4-6ef2-4f13-b212-15b117d2303b"
+        ],
+        "candidates": [
+          {
+            "id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "kind": "assistant",
+            "excerpt": "ose with a room-by-room or otherwise documented heat-loss calculation for your house.\n\n## Minnesota field experience and cost\n\nCEE’s Minnesota field work is relevant, but it involved a small number of homes and different system configurations. Its project page describes six monitored homes, with a later update covering seven sites; the studies included propane-backup arrangements. The search result for the original study reported **26–40% lower annual energy costs** and **55–67% lower propane use** in certain ducted comparisons. Those are study-specific outcomes, not a guarantee for a 1,900-square-foot house or for today’s fuel and electricity prices.  \nSource: [CEE field-assessment page](https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed) (read in full); [orig",
+            "source": {
+              "sourceRef": "E24",
+              "title": "",
+              "url": "",
+              "offset": 3413,
+              "end_offset": 4213,
+              "scope": "partial source text; relevance is not truth"
+            }
+          },
+          {
+            "id": "evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68",
+            "kind": "source",
+            "excerpt": "trategic Energy Management\n<https://neep.org/grid-interactive-homes-and-buildings/strategic-energy-management>\n\nPublic Policy and Programs\n<https://neep.org/our-work/state-and-local-policy-tracking-analysis-and-technical-assistance>\n\nRegional Roundup\n<https://neep.org/public-policy-and-programs/regional-roundup>\n\nLegislative and Codes Tracking\n<https://neep.org/public-policy-and-programs/legislative-and-codes-tracking>\n\nFederal Policy Resources\n<https://neep.org/public-policy-and-programs/federal-policy-resources>\n\nEnergy Efficiency Plus Beneficial Electrification\n<https://neep.org/public-policy-and-programs/energy-efficiency-plus-beneficial-electrification>\n\nWhole Building Decarbonization\n<https://neep.org/public-policy-and-programs/whole-building-decarbonization>\n\nCentering Equity with M",
+            "source": {
+              "sourceRef": "E15",
+              "title": "NEEP Finalizes Version 4.0 of the Cold Climate Air Source Heat Pump Specification | Northeast Energy Efficiency Partnerships",
+              "url": "",
+              "offset": 4320,
+              "end_offset": 5120,
+              "scope": "partial source text; relevance is not truth"
+            }
+          },
+          {
+            "id": "evt_548259bf-07e2-4cf5-899a-bdf674782a3a",
+            "kind": "source",
+            "excerpt": "es and boilers with a thermal efficiency rating of at least 75% qualify for a credit.\n\nQualified improvements include new:\n\nElectric or natural gas heat pumps\n\nElectric or natural gas heat pump water heaters\n\nBiomass stoves and boilers\n\nCosts may include labor for installation.\n\nStep 2: Buy and install the energy property\n\nPurchase, install and use your qualified energy property.\n\nStep 3: Get documentation\n\nWhile documentation is not required to be filed with your tax return, it may be required if your tax return is audited. The IRS strongly recommends you retain your purchase receipts and installation records as well as any Energy Star and/or National Fenestration Rating Council labels. These documents will also be needed to substantiate your adjusted basis if the property is eventually s",
+            "source": {
+              "sourceRef": "E20",
+              "title": "How to claim an energy efficient home improvement tax credit – residential energy property | Internal Revenue Service",
+              "url": "",
+              "offset": 17280,
+              "end_offset": 18080,
+              "scope": "partial source text; relevance is not truth"
+            }
+          },
+          {
+            "id": "evt_b5901ed4-6ef2-4f13-b212-15b117d2303b",
+            "kind": "document",
+            "excerpt": "Web search-derived summary; not independently verified page text.\nProvider: openai; model: gpt-6-luna\nRetrieved at: 2026-10-05T22:14:59.120Z\nQuery: Minnesota CEE cold climate heat pump field study performance costs installed propane\nLimitations: Provider-generated search findings; no independently verified full-page text is stored.\n\n## CEE Minnesota cold-climate heat-pump field study\n\nCEE monitored **six Minnesota homes** over the 2015–16 and 2016–17 heating seasons; four used propane furnaces as backup. A later update reported results from **seven sites**. These are small field studies, so results vary by home, equipment, and comparison system. [www.mncee.org](<https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed>)\n\n**Performance and propane use**\n- The monitore",
+            "source": {
+              "sourceRef": "E8",
+              "title": "Web: Minnesota CEE cold climate heat pump field study performance costs installed propane",
+              "url": "",
+              "offset": 0,
+              "end_offset": 800,
+              "scope": "partial source text; relevance is not truth"
+            }
+          },
+          {
+            "id": "evt_9fdf7365-396f-4e4a-b69c-f9bbd06b9b37",
+            "kind": "reasoning",
+            "excerpt": "**Searching for field comparisons**\n\nI'm noting that the user wants to know which field has results similar to theirs and how they handle the coldest days. They mentioned CEE homes without natural gas, using propane for backup, but their setup isn't the equivalent of a boiler. Also, I noticed the house area wasn't specified. It seems like I can retrieve a field study page for later updates, but I should start searching for sources regarding extremes right now.",
+            "source": {
+              "sourceRef": "E30",
+              "title": "",
+              "url": "",
+              "offset": 0,
+              "end_offset": 464,
+              "scope": "partial source text; relevance is not truth"
+            }
+          },
+          {
+            "id": "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282",
+            "kind": "document",
+            "excerpt": " found that the efficiency and capacity of older ASHPs drops significantly for outdoor temperatures below 40°F. However, the newest generation of ASHPs can operate down to 0°F to -13°F. The efficiency of these technologies in moderate climates is also two to three times more efficient than standard electric heating systems. Research project staff monitored field performance tests to help confirm the operation of newer generation ASHP technologies to support their use in Minnesota's utility Conservation Improvement Program (CIP).\n\nMethodology\n\nASHPs were installed in six occupied Minnesota homes where natural gas was unavailable. Propane furnaces were used for back-up at four sites and the existing electric resistance baseboards were used for back-up in two homes. Staff alternated between f",
+            "source": {
+              "sourceRef": "E13",
+              "title": "Cold Climate Air Source Heat Pump Field Assessment (CLOSED) | Center for Energy and Environment",
+              "url": "",
+              "offset": 4617,
+              "end_offset": 5417,
+              "scope": "partial source text; relevance is not truth"
+            }
+          }
+        ],
+        "assessment": null,
+        "entries": [],
+        "economics": {
+          "allowed": false,
+          "reason": "Conservative local estimate; no measured savings claim",
+          "comparison": "Delegated judgment versus an extra task-model judgment; deterministic selection has no inference cost",
+          "estimated_saving_usd": 0.00016,
+          "overhead_usd": 0.000336,
+          "pricing_date": "2026-10-02"
+        },
+        "revision": null,
+        "applied_revision": null,
+        "economics_basis": "estimated avoided read; no measured token or cost savings"
+      },
+      {
+        "event_id": "evt_de90fe4b-edf7-43eb-915a-17ecd5d5eea1",
+        "seq": 176,
+        "timestamp": "2026-10-05T22:15:49.249Z",
+        "kind": "retrieval_decision",
+        "purpose": "retrieval",
+        "query": "backup heating energy below 0 coldest outdoor temperatures heat pump operated propane furnace",
+        "outcome": "skipped",
+        "reason": "explicit source; no reranking needed",
+        "error": null,
+        "selection_source": "deterministic",
+        "cache_hit": false,
+        "request_id": null,
+        "baseline": [
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282"
+        ],
+        "selected": [
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282"
+        ],
+        "candidates": [],
+        "assessment": null,
+        "entries": [],
+        "economics": null,
+        "revision": null,
+        "applied_revision": null,
+        "economics_basis": "estimate; no measured savings"
+      },
+      {
+        "event_id": "evt_653523a9-e13c-4fe5-a2bc-1515a46473b2",
+        "seq": 164,
+        "timestamp": "2026-10-05T22:15:44.828Z",
+        "kind": "retrieval_decision",
+        "purpose": "retrieval",
+        "query": "six homes propane backup results site descriptions ducted coldest day auxiliary heat percentage",
+        "outcome": "skipped",
+        "reason": "explicit source; no reranking needed",
+        "error": null,
+        "selection_source": "deterministic",
+        "cache_hit": false,
+        "request_id": null,
+        "baseline": [
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282"
+        ],
+        "selected": [
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282"
+        ],
+        "candidates": [],
+        "assessment": null,
+        "entries": [],
+        "economics": null,
+        "revision": null,
+        "applied_revision": null,
+        "economics_basis": "estimate; no measured savings"
+      },
+      {
+        "event_id": "evt_921b400d-6333-407a-b456-7c2257afe38a",
+        "seq": 158,
+        "timestamp": "2026-10-05T22:15:43.072Z",
+        "kind": "retrieval_decision",
+        "purpose": "retrieval",
+        "query": "backup propane coldest temperature below 0°F runtime heat pump homes propane backup Minnesota field study",
+        "outcome": "skipped",
+        "reason": "explicit source; no reranking needed",
+        "error": null,
+        "selection_source": "deterministic",
+        "cache_hit": false,
+        "request_id": null,
+        "baseline": [
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282"
+        ],
+        "selected": [
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282"
+        ],
+        "candidates": [],
+        "assessment": null,
+        "entries": [],
+        "economics": null,
+        "revision": null,
+        "applied_revision": null,
+        "economics_basis": "estimate; no measured savings"
+      },
+      {
+        "event_id": "evt_a01443db-5061-4f35-81e9-1ab587f01ec9",
+        "seq": 144,
+        "timestamp": "2026-10-05T22:15:38.990Z",
+        "kind": "memory_shadow",
+        "purpose": "memory_shadow",
+        "query": null,
+        "outcome": "shadow recorded; not applied (4 Jev / 4 task-model selections)",
+        "reason": null,
+        "error": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "request_id": null,
+        "baseline": [],
+        "selected": [],
+        "candidates": [],
+        "assessment": null,
+        "entries": [],
+        "economics": null,
+        "revision": null,
+        "applied_revision": null,
+        "source_event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+        "comparison": {
+          "both": 4,
+          "first_only": [],
+          "second_only": [],
+          "kind_matches": 4,
+          "jaccard": 1
+        },
+        "jev_selection": [
+          {
+            "passage_id": 1,
+            "kind": "claim"
+          },
+          {
+            "passage_id": 3,
+            "kind": "claim"
+          },
+          {
+            "passage_id": 4,
+            "kind": "claim"
+          },
+          {
+            "passage_id": 5,
+            "kind": "claim"
+          }
+        ],
+        "llm_selection": [
+          {
+            "passage_id": 1,
+            "kind": "claim"
+          },
+          {
+            "passage_id": 3,
+            "kind": "claim"
+          },
+          {
+            "passage_id": 4,
+            "kind": "claim"
+          },
+          {
+            "passage_id": 5,
+            "kind": "claim"
+          }
+        ],
+        "economics_basis": "estimate; no measured savings"
+      },
+      {
+        "event_id": "evt_d01755fd-416b-4504-a5a2-ab1f0c9dd67e",
+        "seq": 142,
+        "timestamp": "2026-10-05T22:15:38.851Z",
+        "kind": "call",
+        "purpose": "memory-selection",
+        "provider": "typesafe",
+        "model": "jev-1.13.0",
+        "request_id": "evt_d01755fd-416b-4504-a5a2-ab1f0c9dd67e",
+        "outcome": "completed",
+        "error": null,
+        "usage": {
+          "input_tokens": 2252,
+          "output_tokens": 332
+        },
+        "elapsed_ms": 136,
+        "answers": {
+          "passage_0": {
+            "type": "choice",
+            "choice": "skip",
+            "confidence": 1,
+            "probabilities": {
+              "preference": 0,
+              "skip": 1,
+              "claim": 0,
+              "question": 0
+            }
+          },
+          "passage_1": {
+            "type": "choice",
+            "choice": "claim",
+            "confidence": 0.72,
+            "probabilities": {
+              "preference": 0,
+              "skip": 0.01,
+              "question": 0.2,
+              "claim": 0.79
+            }
+          },
+          "passage_2": {
+            "type": "choice",
+            "choice": "skip",
+            "confidence": 0.98,
+            "probabilities": {
+              "preference": 0,
+              "skip": 0.98,
+              "question": 0.02,
+              "claim": 0
+            }
+          },
+          "passage_3": {
+            "type": "choice",
+            "choice": "claim",
+            "confidence": 0.93,
+            "probabilities": {
+              "preference": 0,
+              "skip": 0.01,
+              "question": 0.05,
+              "claim": 0.94
+            }
+          },
+          "passage_4": {
+            "type": "choice",
+            "choice": "claim",
+            "confidence": 0.91,
+            "probabilities": {
+              "preference": 0,
+              "skip": 0.02,
+              "claim": 0.93,
+              "question": 0.05
+            }
+          },
+          "passage_5": {
+            "type": "choice",
+            "choice": "claim",
+            "confidence": 0.92,
+            "probabilities": {
+              "preference": 0,
+              "skip": 0.02,
+              "claim": 0.94,
+              "question": 0.04
+            }
+          },
+          "passage_6": {
+            "type": "choice",
+            "choice": "skip",
+            "confidence": 0.98,
+            "probabilities": {
+              "preference": 0,
+              "skip": 0.98,
+              "claim": 0.02,
+              "question": 0
+            }
+          }
+        },
+        "supplied_candidates": [
+          {
+            "source_kind": "assistant",
+            "passage": "## Bottom line"
+          },
+          {
+            "source_kind": "assistant",
+            "passage": "**Important research limitation:** I searched for the requested materials, but the fetch tool could not open several key PDFs: the NEEP specification and DOE Challenge documents were rejected as PDF content, and the PNNL report returned HTTP 403. I successfully opened and read three HTML sources in full: NEEP’s Version 4.0 announcement, a CEE Minnesota field-study page, and the IRS incentive page. That is **one fewer than the four full primary sources you requested**, and I can’t represent the PDF search snippets below as full-source verification."
+          },
+          {
+            "source_kind": "assistant",
+            "passage": "## Cold-weather performance: what the available figures do—and don’t—say"
+          },
+          {
+            "source_kind": "assistant",
+            "passage": "- **NEEP:** A search result for NEEP’s older Version 2.0 specification reported a minimum **COP above 1.75 at 5°F**, at maximum capacity. It also said manufacturers report capacity and COP at 47°F, 17°F, and 5°F. This is a specification threshold, **not a typical performance result**. NEEP’s full Version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or COP figure for all listed equipment.  \n  Sources: [NEEP Version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older Version 2.0 specification PDF](https://neep.org/sites/default/files/resources/Cold%20Climate%20Air-source%20Heat%20Pump%20Specification-Version%202.0_0.pdf) (not readable through the fetch tool)."
+          },
+          {
+            "source_kind": "assistant",
+            "passage": "- **DOE Challenge:** Search results described a 5°F lab target of **100% of 47°F capacity**, with minimum COP targets of **2.1 or 2.4 depending on unit size**. Those are Challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. The DOE PDFs could not be opened directly here.  \n  Sources: [DOE Challenge specification PDF](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [DOE fact sheet PDF](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf)."
+          },
+          {
+            "source_kind": "assistant",
+            "passage": "- **Field performance:** A search result for a PNNL validation report described a **median COP of 1.9 in the 0–5°F temperature bin**. It also cautioned that the reported field COP excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data below 0°F. I could not fetch that report, so treat these as **search-result figures, not independently checked report text**. They are not directly comparable to a lab rating or a whole-system seasonal result.  \n  Source: [PNNL field-validation report PDF](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-37127.pdf) (fetch returned HTTP 403)."
+          },
+          {
+            "source_kind": "assistant",
+            "passage": "## Minnesota field experience and cost"
+          }
+        ]
+      }
+    ],
+    "before_cursor": 142,
+    "has_more": false,
+    "scope": "conversation; provider-reported usage; selection changes are not proof of answer quality or savings"
+  },
+  "embedding_health": {
+    "enabled": true,
+    "status": "indexed",
+    "provider": "openai",
+    "model": "text-embedding-3-small",
+    "indexed": 0,
+    "pending": 46,
+    "policy": "source-chunks-v1",
+    "scope": "conversation",
+    "elapsed_ms": 244,
+    "event_id": "evt_9ca7d7f7-886d-460c-adc1-c41d4fd32ff0"
+  },
+  "context": {
+    "revision": 11,
+    "segments": [
+      {
+        "id": "cb_0e424142-0351-46f4-bfa4-3b943d3ae788",
+        "type": "user",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "I am trying to understand how well cold-climate air-source heat pumps actually perform in very cold weather, for a 1,900 sq ft house in northern Minnesota that currently heats with a propane boiler. Please research this properly: search, then open and read at least four primary sources in full with web_fetch (for example the NEEP cold-climate specification, the DOE Cold Climate Heat Pump Challenge, a field study from Minnesota CEE or NREL, and the current federal incentive rules). Report specific numbers: capacity retention and COP at 5F and below, typical installed costs, and which incentives exist right now. Flag anything the sources disagree on or leave open.",
+        "source_event_ids": [
+          "evt_795895dd-0cbd-44ac-b816-f1a3c4722477"
+        ],
+        "content_hash": "e4d5387a2e9f7b018cd2612dfe930590541215dd88f5a0adab7a35c02932570e",
+        "segmentRef": "S1",
+        "sourceRefs": [
+          {
+            "id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+            "sourceRef": "E1"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_0e424142-0351-46f4-bfa4-3b943d3ae788",
+          "protected": false,
+          "reasons": [],
+          "can_edit": true,
+          "can_offload": true,
+          "segmentRef": "S1",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_08df044b-a82e-4ea5-9560-5dbd4c4df8d9",
+        "type": "evidence",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Untrusted search-derived summary; source evt_7bf99173-91db-4b95-9276-17a732fcebc7; 2026-10-05T22:14:31.397Z\nNEEP cold climate air source heat pump specification low temperature capacity COP 5F PDF\nThe NEEP PDF matching your search is **“Cold Climate Air-Source Heat Pump Specification, Version 2.0.”** It sets a minimum **COP greater than 1.75 at 5°F, operating at maximum capacity**. It also requires variable-capacity equipment and HSPF greater than 10. [neep.org](<https://neep.org/sites/default/files/resources/Co\nhttps://neep.org/sites/default/files/resources/Cold%20Climate%20Air-source%20Heat%20Pump%20Specification-Version%202.0_0.pdf\nhttps://www.bpa.gov/-/media/Aep/energy-efficiency/emerging-technologies/2026-hphchp-finalreport_web.pdf\nhttps://neep.org/sites/default/files/media-files/residential_ccashp_building_electrification_study_cadmus_final_031022_public.pdf\nRetrieve the saved source for complete findings, source URLs and limitations.",
+        "source_event_ids": [
+          "evt_7bf99173-91db-4b95-9276-17a732fcebc7"
+        ],
+        "content_hash": "0fb35e9bb4be7dd14ebef4588fcde3296dcb1d6324945fd459e580d8d6c281d1",
+        "segmentRef": "S2",
+        "sourceRefs": [
+          {
+            "id": "evt_7bf99173-91db-4b95-9276-17a732fcebc7",
+            "sourceRef": "E2"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_08df044b-a82e-4ea5-9560-5dbd4c4df8d9",
+          "protected": false,
+          "reasons": [],
+          "can_edit": true,
+          "can_offload": true,
+          "segmentRef": "S2",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_98bfb034-29aa-47b4-b71b-13863e2434ea",
+        "type": "evidence",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Untrusted search-derived summary; source evt_4b62c05c-4293-4a32-8dd1-1e91e597095a; 2026-10-05T22:14:45.737Z\nDOE Cold Climate Heat Pump Challenge field performance 5°F COP capacity\n**DOE Cold Climate Heat Pump Challenge—field performance at 5°F**\n\n- **Challenge target (laboratory specification):** at 5°F, units had to retain **100% of their 47°F heating capacity** and meet a minimum COP of **2.1 or 2.4**, depending on unit size. These are qualification targets—not the average measured in homes. [\nhttps://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf\nhttps://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf\nhttps://heatpumpdata.energy.gov/system/files/files/cchp-2024-09/Winkler%20Ramaraj%20-%202023%20-%20Field%20Validation%20of%20Air-Source%20Heat%20Pumps%20for%20Cold%20Climates.pdf\nRetrieve the saved source for complete findings, source URLs and limitations.",
+        "source_event_ids": [
+          "evt_4b62c05c-4293-4a32-8dd1-1e91e597095a"
+        ],
+        "content_hash": "b9474f31b60e04fb9d94b74a0ec027effe2e6918e8d4d10f4b718cf8894e79a2",
+        "segmentRef": "S3",
+        "sourceRefs": [
+          {
+            "id": "evt_4b62c05c-4293-4a32-8dd1-1e91e597095a",
+            "sourceRef": "E5"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_98bfb034-29aa-47b4-b71b-13863e2434ea",
+          "protected": false,
+          "reasons": [],
+          "can_edit": true,
+          "can_offload": true,
+          "segmentRef": "S3",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_48bc222e-0930-4cfd-b1c0-e3edebef56b7",
+        "type": "evidence",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Untrusted search-derived summary; source evt_b5901ed4-6ef2-4f13-b212-15b117d2303b; 2026-10-05T22:14:59.120Z\nMinnesota CEE cold climate heat pump field study performance costs installed propane\n## CEE Minnesota cold-climate heat-pump field study\n\nCEE monitored **six Minnesota homes** over the 2015–16 and 2016–17 heating seasons; four used propane furnaces as backup. A later update reported results from **seven sites**. These are small field studies, so results vary by home, equipment, and comparison system. [\nhttps://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed\nhttps://www.mncee.org/field-assessment-ducted-and-ductless-cold-climate-air-source-heat-pumps\nhttps://www.mncee.org/cold-climate-air-source-heat-pumps\nRetrieve the saved source for complete findings, source URLs and limitations.",
+        "source_event_ids": [
+          "evt_b5901ed4-6ef2-4f13-b212-15b117d2303b"
+        ],
+        "content_hash": "8281149aed5ccd988b5fe02aacc373d58e2db83e1d9468c22c9d76be55d8c55d",
+        "segmentRef": "S4",
+        "sourceRefs": [
+          {
+            "id": "evt_b5901ed4-6ef2-4f13-b212-15b117d2303b",
+            "sourceRef": "E8"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_48bc222e-0930-4cfd-b1c0-e3edebef56b7",
+          "protected": false,
+          "reasons": [],
+          "can_edit": true,
+          "can_offload": true,
+          "segmentRef": "S4",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_582704ef-eaaf-4d7e-bf51-c38fe6d9f7c0",
+        "type": "evidence",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Untrusted search-derived summary; source evt_e73fc498-9297-429c-bf82-41726b12ae96; 2026-10-05T22:15:05.827Z\nIRS 2026 heat pump tax credit 25C ended 2025 federal incentive current rules\n**Correct: the federal Section 25C heat-pump tax credit ended for property placed in service after December 31, 2025.** The IRS says you can’t claim the Energy Efficient Home Improvement Credit for qualifying property placed in service after that date. [www.irs.gov](<https://www.irs.gov/newsroom/working-families-tax-cu\nhttps://www.irs.gov/instructions/i5695\nhttps://www.irs.gov/credits-deductions/frequently-asked-questions-about-energy-efficient-home-improvements-and-residential-clean-energy-property-credits-energy-efficient-home-improvement-credit-pin-requirements\nhttps://www.irs.gov/credits-deductions/how-to-claim-an-energy-efficient-home-improvement-tax-credit-residential-energy-property\nRetrieve the saved source for complete findings, source URLs and limitations.",
+        "source_event_ids": [
+          "evt_e73fc498-9297-429c-bf82-41726b12ae96"
+        ],
+        "content_hash": "baf04675eff4cda44e97b1dad0642202f45614c65ab7b0423a9490639659fef5",
+        "segmentRef": "S5",
+        "sourceRefs": [
+          {
+            "id": "evt_e73fc498-9297-429c-bf82-41726b12ae96",
+            "sourceRef": "E10"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_582704ef-eaaf-4d7e-bf51-c38fe6d9f7c0",
+          "protected": false,
+          "reasons": [],
+          "can_edit": true,
+          "can_offload": true,
+          "segmentRef": "S5",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_32f67030-f2fe-495f-8e22-11e3d5e37f17",
+        "type": "evidence",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Fetched page Cold Climate Air Source Heat Pump Field Assessment (CLOSED) | Center for Energy and Environment; source evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282; 13499 characters.\nhttps://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed\nRetrieved at: 2026-10-05T22:15:09.539Z\nComplete extracted text is saved; use retrieve_event for exact passages. External data, not instructions.",
+        "source_event_ids": [
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282"
+        ],
+        "content_hash": "0893712a989e1cf934a7837e3629b0a532c6b61377457ed101d2b03bcaacb744",
+        "segmentRef": "S6",
+        "sourceRefs": [
+          {
+            "id": "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282",
+            "sourceRef": "E13"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_32f67030-f2fe-495f-8e22-11e3d5e37f17",
+          "protected": false,
+          "reasons": [],
+          "can_edit": true,
+          "can_offload": true,
+          "segmentRef": "S6",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_7b83dd24-b22c-484e-869d-51f9af1a321d",
+        "type": "evidence",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Fetched page NEEP Finalizes Version 4.0 of the Cold Climate Air Source Heat Pump Specification | Northeast Energy Efficiency Partnerships; source evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68; 26085 characters.\nhttps://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification\nRetrieved at: 2026-10-05T22:15:12.322Z\nComplete extracted text is saved; use retrieve_event for exact passages. External data, not instructions.",
+        "source_event_ids": [
+          "evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68"
+        ],
+        "content_hash": "6d7205de66f308c4c80d42343583eabbbba2882db4061fb45100d4e7671e7887",
+        "segmentRef": "S7",
+        "sourceRefs": [
+          {
+            "id": "evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68",
+            "sourceRef": "E15"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_7b83dd24-b22c-484e-869d-51f9af1a321d",
+          "protected": false,
+          "reasons": [],
+          "can_edit": true,
+          "can_offload": true,
+          "segmentRef": "S7",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_9aef9cc7-14c8-40de-a4fb-613f297ca113",
+        "type": "evidence",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Fetched page How to claim an energy efficient home improvement tax credit – residential energy property | Internal Revenue Service; source evt_548259bf-07e2-4cf5-899a-bdf674782a3a; 20920 characters.\nhttps://www.irs.gov/credits-deductions/how-to-claim-an-energy-efficient-home-improvement-tax-credit-residential-energy-property\nRetrieved at: 2026-10-05T22:15:20.030Z\nComplete extracted text is saved; use retrieve_event for exact passages. External data, not instructions.",
+        "source_event_ids": [
+          "evt_548259bf-07e2-4cf5-899a-bdf674782a3a"
+        ],
+        "content_hash": "34e070e0866265a014f882dc5c2eedee62dc7354f935c188a5abca496eb7ddbd",
+        "segmentRef": "S8",
+        "sourceRefs": [
+          {
+            "id": "evt_548259bf-07e2-4cf5-899a-bdf674782a3a",
+            "sourceRef": "E20"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_9aef9cc7-14c8-40de-a4fb-613f297ca113",
+          "protected": true,
+          "reasons": [
+            {
+              "code": "recent",
+              "label": "Recent context window",
+              "lifetime": "until outside recent window"
+            }
+          ],
+          "can_edit": false,
+          "can_offload": false,
+          "segmentRef": "S8",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_fe999e9a-4e67-42da-b95e-71689e8c8d97",
+        "type": "assistant",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "## Bottom line\n\nA cold-climate air-source heat pump can provide useful heat in a northern Minnesota winter, but “cold-climate” does not mean its capacity and efficiency stay constant as temperatures fall. The evidence I could verify supports treating it as a system to size for the house’s heat loss, with a deliberate plan for backup heat—not assuming any one advertised rating guarantees performance in prolonged extreme cold.\n\n**Important research limitation:** I searched for the requested materials, but the fetch tool could not open several key PDFs: the NEEP specification and DOE Challenge documents were rejected as PDF content, and the PNNL report returned HTTP 403. I successfully opened and read three HTML sources in full: NEEP’s Version 4.0 announcement, a CEE Minnesota field-study page, and the IRS incentive page. That is **one fewer than the four full primary sources you requested**, and I can’t represent the PDF search snippets below as full-source verification.\n\n## Cold-weather performance: what the available figures do—and don’t—say\n\n- **NEEP:** A search result for NEEP’s older Version 2.0 specification reported a minimum **COP above 1.75 at 5°F**, at maximum capacity. It also said manufacturers report capacity and COP at 47°F, 17°F, and 5°F. This is a specification threshold, **not a typical performance result**. NEEP’s full Version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or COP figure for all listed equipment.  \n  Sources: [NEEP Version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older Version 2.0 specification PDF](https://neep.org/sites/default/files/resources/Cold%20Climate%20Air-source%20Heat%20Pump%20Specification-Version%202.0_0.pdf) (not readable through the fetch tool).\n\n- **DOE Challenge:** Search results described a 5°F lab target of **100% of 47°F capacity**, with minimum COP targets of **2.1 or 2.4 depending on unit size**. Those are Challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. The DOE PDFs could not be opened directly here.  \n  Sources: [DOE Challenge specification PDF](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [DOE fact sheet PDF](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf).\n\n- **Field performance:** A search result for a PNNL validation report described a **median COP of 1.9 in the 0–5°F temperature bin**. It also cautioned that the reported field COP excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data below 0°F. I could not fetch that report, so treat these as **search-result figures, not independently checked report text**. They are not directly comparable to a lab rating or a whole-system seasonal result.  \n  Source: [PNNL field-validation report PDF](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-37127.pdf) (fetch returned HTTP 403).\n\nThese figures do **not** establish a single “typical capacity retention at 5°F and below.” The NEEP table asks for model-specific capacity data, and the reported field COP is not a capacity-retention measurement. Ask contractors for the exact proposed outdoor unit’s capacity and COP at **5°F, 0°F, and the local design temperature**, and compare those with a room-by-room or otherwise documented heat-loss calculation for your house.\n\n## Minnesota field experience and cost\n\nCEE’s Minnesota field work is relevant, but it involved a small number of homes and different system configurations. Its project page describes six monitored homes, with a later update covering seven sites; the studies included propane-backup arrangements. The search result for the original study reported **26–40% lower annual energy costs** and **55–67% lower propane use** in certain ducted comparisons. Those are study-specific outcomes, not a guarantee for a 1,900-square-foot house or for today’s fuel and electricity prices.  \nSource: [CEE field-assessment page](https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed) (read in full); [original report PDF](https://www.mncee.org/sites/default/files/report-files/cold-climate_0.pdf) (PDF not accessible through the fetch tool).\n\nA search result reported an average around **$14,000** for a small set of ducted installations, often including a new furnace. I could not verify that figure in the underlying report here, and it should **not** be treated as a current installed-cost estimate for your house. Installed cost depends substantially on equipment, ductwork, electrical work, backup integration, and whether the boiler remains. Get itemized bids that state what is included; don’t compare a heat-pump-only quote with one that includes backup or distribution-system work.\n\n## Incentives right now\n\nThe IRS page I read says the federal **Energy Efficient Home Improvement Credit (Section 25C) is unavailable for qualifying property placed in service after December 31, 2025**. A search result likewise reported that 2026 installations do not qualify under the current federal rule; the earlier 2025 credit was generally 30% of eligible cost, up to $2,000 for a qualifying heat pump. The prior-year amount is not an incentive for a 2026 installation.  \nSource: [IRS: How to claim the residential energy-property credit](https://www.irs.gov/credits-deductions/how-to-claim-an-energy-efficient-home-improvement-tax-credit-residential-energy-property) (read in full); [IRS instructions](https://www.irs.gov/instructions/i5695).\n\nI did **not** verify current Minnesota, utility, or local incentives, so I can’t tell you which of those may be available for your home today.\n\n## What remains uncertain for your house\n\nThe sources available in this run don’t settle the actual capacity coverage, operating cost, or backup requirement for your specific house. Those depend on the house’s heat loss, the proposed equipment’s low-temperature performance, the boiler’s role, and current propane and electricity prices. The main disagreement in the numbers above is not necessarily a contradiction: **NEEP and DOE figures are equipment qualification targets; the PNNL number is a limited field result using a different measurement basis.**",
+        "source_event_ids": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+        "segmentRef": "S9",
+        "sourceRefs": [
+          {
+            "id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "sourceRef": "E24"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_fe999e9a-4e67-42da-b95e-71689e8c8d97",
+          "protected": true,
+          "reasons": [
+            {
+              "code": "recent",
+              "label": "Recent context window",
+              "lifetime": "until outside recent window"
+            }
+          ],
+          "can_edit": false,
+          "can_offload": false,
+          "segmentRef": "S9",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_4da6cd3a-4cf6-4bff-9623-721860aa8655",
+        "type": "user",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "Thanks. Which of those field results came from houses most like mine, and how much did they still lean on backup heat on the coldest days?",
+        "source_event_ids": [
+          "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b"
+        ],
+        "content_hash": "5258608442d7736ea8a87898c34fb8025747e7aff8c5ca0109a9fe4703a1b931",
+        "segmentRef": "S10",
+        "sourceRefs": [
+          {
+            "id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+            "sourceRef": "E25"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_4da6cd3a-4cf6-4bff-9623-721860aa8655",
+          "protected": true,
+          "reasons": [
+            {
+              "code": "current_request",
+              "label": "Current user request",
+              "lifetime": "current turn"
+            },
+            {
+              "code": "recent",
+              "label": "Recent context window",
+              "lifetime": "until outside recent window"
+            }
+          ],
+          "can_edit": false,
+          "can_offload": false,
+          "segmentRef": "S10",
+          "advisory": null
+        }
+      },
+      {
+        "id": "cb_a197434b-fa78-4910-9351-918f3fa8a6bb",
+        "type": "assistant",
+        "status": "active",
+        "pinned": false,
+        "verbatim_required": false,
+        "parent_bundle_ids": [],
+        "content": "**The closest match is CEE’s Minnesota field study**, but it is only a partial match. It monitored six occupied Minnesota homes where natural gas was unavailable; **four used propane furnaces for backup**, and two used electric-resistance baseboards. That makes the propane-heated homes more relevant to your fuel situation than the broader field results—but they had **propane furnaces, not propane boilers**, and the source details available here don’t establish that any home was close to your 1,900 sq ft size. So I can’t call them close matches in house size or heating distribution. [CEE field-study page](https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed)\n\nOn **backup use during the coldest weather**, I can’t give a reliable amount—such as a percentage of heat or hours—from the accessible study material. CEE’s page says a system may need backup to meet the load below **10°F** down to design conditions; it recommends prioritizing the heat pump so backup is used only when needed. That is guidance, not a report of how much backup those particular homes actually used on the coldest days. The earlier field figures about reduced propane use are seasonal study comparisons, not a coldest-day backup breakdown.\n\nThe PNNL result mentioned earlier is less useful for your specific question: its reported COP was a field-performance measure, not a measure of backup reliance, and the report could not be opened for verification. **Bottom line:** the CEE propane-backup homes are the most relevant comparison we have, but the available evidence does not quantify their backup use on the coldest days. For your boiler-based house, ask an installer to model the proposed heat pump against a documented house heat-loss calculation, show its capacity at local winter design temperature, and explain exactly when the existing boiler would take over.",
+        "source_event_ids": [
+          "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0"
+        ],
+        "content_hash": "6e968cfebf48d495fc80a60575d8ab3bc97d4bd162baa660a1d4c235e42d8e04",
+        "segmentRef": "S11",
+        "sourceRefs": [
+          {
+            "id": "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0",
+            "sourceRef": "E34"
+          }
+        ],
+        "parentRefs": [],
+        "referenceRef": null,
+        "protection": {
+          "id": "cb_a197434b-fa78-4910-9351-918f3fa8a6bb",
+          "protected": true,
+          "reasons": [
+            {
+              "code": "recent",
+              "label": "Recent context window",
+              "lifetime": "until outside recent window"
+            }
+          ],
+          "can_edit": false,
+          "can_offload": false,
+          "segmentRef": "S11",
+          "advisory": null
+        }
+      }
+    ],
+    "receipt_id": "evt_53f75d89-ab66-482e-b924-40e8e475ea2e"
+  },
+  "segment_refs": {
+    "cb_0e424142-0351-46f4-bfa4-3b943d3ae788": "S1",
+    "cb_08df044b-a82e-4ea5-9560-5dbd4c4df8d9": "S2",
+    "cb_98bfb034-29aa-47b4-b71b-13863e2434ea": "S3",
+    "cb_48bc222e-0930-4cfd-b1c0-e3edebef56b7": "S4",
+    "cb_582704ef-eaaf-4d7e-bf51-c38fe6d9f7c0": "S5",
+    "cb_32f67030-f2fe-495f-8e22-11e3d5e37f17": "S6",
+    "cb_7b83dd24-b22c-484e-869d-51f9af1a321d": "S7",
+    "cb_9aef9cc7-14c8-40de-a4fb-613f297ca113": "S8",
+    "cb_fe999e9a-4e67-42da-b95e-71689e8c8d97": "S9",
+    "cb_4da6cd3a-4cf6-4bff-9623-721860aa8655": "S10",
+    "cb_a197434b-fa78-4910-9351-918f3fa8a6bb": "S11"
+  },
+  "source_refs": {
+    "evt_795895dd-0cbd-44ac-b816-f1a3c4722477": "E1",
+    "evt_7bf99173-91db-4b95-9276-17a732fcebc7": "E2",
+    "evt_aef9c332-008e-49fa-89e1-fe54806d6641": "E3",
+    "evt_a8a958c2-fb9e-47a5-816f-648dcf5bed52": "E4",
+    "evt_4b62c05c-4293-4a32-8dd1-1e91e597095a": "E5",
+    "evt_a268be0d-7cea-4a88-8eaa-870ca5b023cd": "E6",
+    "evt_7b07af0c-8a2e-4738-ae97-904736501415": "E7",
+    "evt_b5901ed4-6ef2-4f13-b212-15b117d2303b": "E8",
+    "evt_32e7d217-f0a0-4853-b3b0-44c19134d20b": "E9",
+    "evt_e73fc498-9297-429c-bf82-41726b12ae96": "E10",
+    "evt_23949400-4e18-4c3a-87e4-4516ecacbc9a": "E11",
+    "evt_91be7387-a953-4887-a163-8e0376d10ce6": "E12",
+    "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282": "E13",
+    "evt_2fd0a161-4465-4955-96ef-6d185b36985a": "E14",
+    "evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68": "E15",
+    "evt_69d9a8a5-9600-4634-83e7-efbf28abea76": "E16",
+    "evt_52163ad3-cddb-4aa8-8314-244b140f59fa": "E17",
+    "evt_8f3078cd-d551-47c8-a73b-d686f5e23c41": "E18",
+    "evt_9fef38f3-5727-448d-8fe6-f82d969a9de3": "E19",
+    "evt_548259bf-07e2-4cf5-899a-bdf674782a3a": "E20",
+    "evt_0aac039b-6439-436d-8975-5a83b16ce5be": "E21",
+    "evt_d55ce18a-524f-46c4-99d2-d272439d6c1b": "E22",
+    "evt_d49d0168-5742-4589-9903-3d91d606c7e0": "E23",
+    "evt_1f61a5a3-3bb6-454d-abce-94732ed268df": "E24",
+    "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b": "E25",
+    "evt_8fab8e96-ffc4-4c1b-86c8-06335b02956b": "E26",
+    "evt_792ba4c4-2a2f-4265-8275-8abdbb2796f0": "E27",
+    "evt_c1568ba9-69c5-4013-bdd6-23ff1cd67ced": "E28",
+    "evt_63b71e0b-f020-44e1-9e06-c33dc2bc3574": "E29",
+    "evt_9fdf7365-396f-4e4a-b69c-f9bbd06b9b37": "E30",
+    "evt_1cb843f0-97e7-4b31-82bd-b6feee600fc0": "E31",
+    "evt_08aab2d6-0d51-4c5e-ac6d-1298adb060bf": "E32",
+    "evt_3980d966-81de-412b-8822-faf291a6e706": "E33",
+    "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0": "E34"
+  },
+  "reference_scope": "conversation",
+  "removed_documents": [],
+  "context_audit": {
+    "records": [
+      {
+        "id": "evt_3389a182-2896-4ec1-9dbc-e9e792007af3",
+        "seq": 111,
+        "timestamp": "2026-10-05T22:15:19.516Z",
+        "type": "context",
+        "kind": "tool_call",
+        "actor": "openai",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_ab195a77-15eb-45c8-931f-f7dffbdf168a",
+        "label": "web_fetch",
+        "revision": 7,
+        "previous_revision": null,
+        "expected_revision": null,
+        "outcome": "requested",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "web_fetch",
+        "error": null
+      },
+      {
+        "id": "evt_5ee4a64a-8519-4a3b-aff3-cbbf15ad5a75",
+        "seq": 115,
+        "timestamp": "2026-10-05T22:15:20.041Z",
+        "type": "context",
+        "kind": "context_transform",
+        "actor": "system",
+        "provider": null,
+        "model": null,
+        "request_id": null,
+        "label": "web page source pointer after full retrieval",
+        "revision": 8,
+        "previous_revision": 7,
+        "expected_revision": null,
+        "outcome": "applied",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": 1369,
+        "after_context_text_tokens": 1487,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [
+          "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+          "evt_7bf99173-91db-4b95-9276-17a732fcebc7",
+          "evt_4b62c05c-4293-4a32-8dd1-1e91e597095a",
+          "evt_b5901ed4-6ef2-4f13-b212-15b117d2303b",
+          "evt_e73fc498-9297-429c-bf82-41726b12ae96",
+          "evt_cb5a9f6c-9ea9-4ebe-843e-f9f0b5c19282",
+          "evt_31a5cb0f-1557-4db4-bc25-a4c7e510ee68",
+          "evt_548259bf-07e2-4cf5-899a-bdf674782a3a"
+        ],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": null,
+        "error": null
+      },
+      {
+        "id": "evt_0aac039b-6439-436d-8975-5a83b16ce5be",
+        "seq": 117,
+        "timestamp": "2026-10-05T22:15:20.045Z",
+        "type": "context",
+        "kind": "tool_result",
+        "actor": "system",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_ab195a77-15eb-45c8-931f-f7dffbdf168a",
+        "label": "tool result",
+        "revision": 8,
+        "previous_revision": 7,
+        "expected_revision": null,
+        "outcome": "recorded",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [
+          "evt_548259bf-07e2-4cf5-899a-bdf674782a3a"
+        ],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "web_fetch",
+        "error": null
+      },
+      {
+        "id": "evt_78d23b1d-c0ae-4f95-ae94-625d1ed8c3fd",
+        "seq": 123,
+        "timestamp": "2026-10-05T22:15:21.691Z",
+        "type": "context",
+        "kind": "tool_call",
+        "actor": "openai",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_421f69d6-1756-42fe-9f08-cfffd1d757d0",
+        "label": "web_fetch",
+        "revision": 8,
+        "previous_revision": null,
+        "expected_revision": null,
+        "outcome": "requested",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "web_fetch",
+        "error": null
+      },
+      {
+        "id": "evt_d55ce18a-524f-46c4-99d2-d272439d6c1b",
+        "seq": 126,
+        "timestamp": "2026-10-05T22:15:21.908Z",
+        "type": "context",
+        "kind": "tool_result",
+        "actor": "system",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_421f69d6-1756-42fe-9f08-cfffd1d757d0",
+        "label": "tool result",
+        "revision": 8,
+        "previous_revision": 8,
+        "expected_revision": null,
+        "outcome": "failed",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "web_fetch",
+        "error": "Page retrieval failed: HTTP 404"
+      },
+      {
+        "id": "evt_33f01d17-9da1-4c1a-af1f-a1527a7be419",
+        "seq": 152,
+        "timestamp": "2026-10-05T22:15:40.125Z",
+        "type": "context",
+        "kind": "context_review",
+        "actor": "system",
+        "provider": null,
+        "model": null,
+        "request_id": null,
+        "label": "Local periodic context review",
+        "revision": 10,
+        "previous_revision": null,
+        "expected_revision": null,
+        "outcome": "not_needed",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": null,
+        "error": null
+      },
+      {
+        "id": "evt_2530e26e-da19-4b15-820a-6f6772a48ebd",
+        "seq": 157,
+        "timestamp": "2026-10-05T22:15:43.027Z",
+        "type": "context",
+        "kind": "tool_call",
+        "actor": "openai",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_0c57e1c1-9377-4302-82e4-5cbc420fc1e3",
+        "label": "search_source",
+        "revision": 10,
+        "previous_revision": null,
+        "expected_revision": null,
+        "outcome": "requested",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "search_source",
+        "error": null
+      },
+      {
+        "id": "evt_792ba4c4-2a2f-4265-8275-8abdbb2796f0",
+        "seq": 159,
+        "timestamp": "2026-10-05T22:15:43.079Z",
+        "type": "context",
+        "kind": "tool_result",
+        "actor": "system",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_0c57e1c1-9377-4302-82e4-5cbc420fc1e3",
+        "label": "tool result",
+        "revision": 10,
+        "previous_revision": 10,
+        "expected_revision": null,
+        "outcome": "recorded",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "search_source",
+        "error": null
+      },
+      {
+        "id": "evt_88954648-c09a-48bc-91d9-b54c2041748a",
+        "seq": 163,
+        "timestamp": "2026-10-05T22:15:44.784Z",
+        "type": "context",
+        "kind": "tool_call",
+        "actor": "openai",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_0ee109e6-e50e-4c6a-a371-5fc18060e1ee",
+        "label": "search_source",
+        "revision": 10,
+        "previous_revision": null,
+        "expected_revision": null,
+        "outcome": "requested",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "search_source",
+        "error": null
+      },
+      {
+        "id": "evt_c1568ba9-69c5-4013-bdd6-23ff1cd67ced",
+        "seq": 165,
+        "timestamp": "2026-10-05T22:15:44.834Z",
+        "type": "context",
+        "kind": "tool_result",
+        "actor": "system",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_0ee109e6-e50e-4c6a-a371-5fc18060e1ee",
+        "label": "tool result",
+        "revision": 10,
+        "previous_revision": 10,
+        "expected_revision": null,
+        "outcome": "recorded",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "search_source",
+        "error": null
+      },
+      {
+        "id": "evt_311e8515-9a0a-41eb-a156-b8262d92bee8",
+        "seq": 175,
+        "timestamp": "2026-10-05T22:15:49.204Z",
+        "type": "context",
+        "kind": "tool_call",
+        "actor": "openai",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_7326539c-54f8-41b6-8e65-5120d65f0c95",
+        "label": "search_source",
+        "revision": 10,
+        "previous_revision": null,
+        "expected_revision": null,
+        "outcome": "requested",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "search_source",
+        "error": null
+      },
+      {
+        "id": "evt_1cb843f0-97e7-4b31-82bd-b6feee600fc0",
+        "seq": 177,
+        "timestamp": "2026-10-05T22:15:49.256Z",
+        "type": "context",
+        "kind": "tool_result",
+        "actor": "system",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "request_id": "evt_7326539c-54f8-41b6-8e65-5120d65f0c95",
+        "label": "tool result",
+        "revision": 10,
+        "previous_revision": 10,
+        "expected_revision": null,
+        "outcome": "recorded",
+        "trigger": null,
+        "selection_source": null,
+        "cache_hit": false,
+        "reason": null,
+        "selection_outcome": null,
+        "byte_guard": null,
+        "request_bytes_and_reserve": null,
+        "before_context_text_tokens": null,
+        "after_context_text_tokens": null,
+        "token_method": "o200k_base; context text only; not full provider input",
+        "usage": null,
+        "source_ids": [],
+        "selected_ids": [],
+        "offloaded_ids": [],
+        "retained_ids": [],
+        "removed_ids": [],
+        "entries": [],
+        "entry_count": 0,
+        "entries_omitted": 0,
+        "blocked": [],
+        "path": null,
+        "tool": "search_source",
+        "error": null
+      }
+    ],
+    "cursor": 177,
+    "before_cursor": 111,
+    "has_more": true,
+    "direction": "backward",
+    "scope": "bounded audit metadata; canonical export retains historical detail"
+  },
+  "state": {
+    "revision": 11,
+    "state_version": "task-state-v1",
+    "entries": [],
+    "conflicts": [],
+    "confidence_note": "Source-attributed reports; confidence is unknown, not independently verified."
+  },
+  "memory": {
+    "schema_version": "memory-record-v1",
+    "revision": 1,
+    "scope": {
+      "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+    },
+    "records": [
+      {
+        "memory_id": "mem_e58737ae-2598-48e5-a4f0-7b7b941a3674",
+        "version": 1,
+        "canonical_key": "**important research limitation:** i searched for the requested materials, but the fetch tool could not open several key pdfs: the neep specification and doe challenge documents were rejected as pdf content, and the pnnl report returned http 403. i successfully opened and read three html sources in full: neep’s version 4.0 announcement, a cee minnesota field-study page, and the irs incentive page. that is **one fewer than the four full primary sources you requested**, and i can’t represent the pdf search snippets limit as full-source verification",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "**Important research limitation:** I searched for the requested materials, but the fetch tool could not open several key PDFs: the NEEP specification and DOE Challenge documents were rejected as PDF content, and the PNNL report returned HTTP 403. I successfully opened and read three HTML sources in full: NEEP’s Version 4.0 announcement, a CEE Minnesota field-study page, and the IRS incentive page. That is **one fewer than the four full primary sources you requested**, and I can’t represent the PDF search snippets below as full-source verification.",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "86ceecf11a9d30d26b12212fdad7fe734abdfc3765d59ce201c4dc3c3e68cccc",
+            "span_start": 430,
+            "span_end": 983,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "e0664a23e59cccc928380410c88102a4a73c4b37cd4bad30978b3f9db960c28b",
+        "active": true
+      },
+      {
+        "memory_id": "mem_795a2b28-1512-4dae-a084-cfad49fcf27c",
+        "version": 1,
+        "canonical_key": "- **neep:** a search result for neep’s older version 2.0 specification reported a minimum **cop above 1.75 at 5°f**, at maximum capacity. it also said manufacturers report capacity and cop at 47°f, 17°f, and 5°f. this is a specification threshold, **not a typical performance result**. neep’s full version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or cop figure for all listed equipment. sources: [neep version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older version 2.0 specification pdf](https://neep.org/sites/default/files/resources/cold%20climate%20air-source%20heat%20pump%20specification-version%202.0_0.pdf) (not readable through the fetch tool)",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "- **NEEP:** A search result for NEEP’s older Version 2.0 specification reported a minimum **COP above 1.75 at 5°F**, at maximum capacity. It also said manufacturers report capacity and COP at 47°F, 17°F, and 5°F. This is a specification threshold, **not a typical performance result**. NEEP’s full Version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or COP figure for all listed equipment.  \n  Sources: [NEEP Version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older Version 2.0 specification PDF](https://neep.org/sites/default/files/resources/Cold%20Climate%20Air-source%20Heat%20Pump%20Specification-Version%202.0_0.pdf) (not readable through the fetch tool).",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "b756751b92ae6f85a830dc10b1676c636567957bf421ddf53cb3d8b924ba6f56",
+            "span_start": 1059,
+            "span_end": 1839,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "aad1ecde0b2597b174beabee060a67a84a88921e14f869b58b02b278703d3407",
+        "active": true
+      },
+      {
+        "memory_id": "mem_099f1f7c-6bfc-4af5-8c90-424daf151d25",
+        "version": 1,
+        "canonical_key": "- **doe challenge:** search results described a 5°f lab target of **100% of 47°f capacity**, with minimum cop targets of **2.1 or 2.4 depending on unit size**. those are challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. the doe pdfs could not be opened directly here. sources: [doe challenge specification pdf](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [doe fact sheet pdf](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf)",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "- **DOE Challenge:** Search results described a 5°F lab target of **100% of 47°F capacity**, with minimum COP targets of **2.1 or 2.4 depending on unit size**. Those are Challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. The DOE PDFs could not be opened directly here.  \n  Sources: [DOE Challenge specification PDF](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [DOE fact sheet PDF](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf).",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "06b64f395c2c74c95152a8b93a27320db1069c1ff9342946840fbd6be9bc3ac8",
+            "span_start": 1841,
+            "span_end": 2413,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "afb2801c5b5e1891aae4be4bef247a939bd795093ff83229c17009765965ce52",
+        "active": true
+      },
+      {
+        "memory_id": "mem_38b6bd43-c352-4236-813c-23ab2ea26203",
+        "version": 1,
+        "canonical_key": "- **field performance:** a search result for a pnnl validation report described a **median cop of 1.9 in the 0–5°f temperature bin**. it also cautioned that the reported field cop excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data limit 0°f. i could not fetch that report, so treat these as **search-result figures, not independently checked report text**. they are not directly comparable to a lab rating or a whole-system seasonal result. source: [pnnl field-validation report pdf](https://www.pnnl.gov/main/publications/external/technical_reports/pnnl-37127.pdf) (fetch returned http 403)",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "- **Field performance:** A search result for a PNNL validation report described a **median COP of 1.9 in the 0–5°F temperature bin**. It also cautioned that the reported field COP excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data below 0°F. I could not fetch that report, so treat these as **search-result figures, not independently checked report text**. They are not directly comparable to a lab rating or a whole-system seasonal result.  \n  Source: [PNNL field-validation report PDF](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-37127.pdf) (fetch returned HTTP 403).",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "a9184ef8476b5b4f5d35126d0b044d46dc30e29580e890efe9975fca43a6c18a",
+            "span_start": 2415,
+            "span_end": 3062,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "c815ba546c136bf97ad386b91365d6b2b9f87f27980de54f016955451034d0f5",
+        "active": true
+      }
+    ],
+    "entries": [
+      {
+        "memory_id": "mem_e58737ae-2598-48e5-a4f0-7b7b941a3674",
+        "version": 1,
+        "canonical_key": "**important research limitation:** i searched for the requested materials, but the fetch tool could not open several key pdfs: the neep specification and doe challenge documents were rejected as pdf content, and the pnnl report returned http 403. i successfully opened and read three html sources in full: neep’s version 4.0 announcement, a cee minnesota field-study page, and the irs incentive page. that is **one fewer than the four full primary sources you requested**, and i can’t represent the pdf search snippets limit as full-source verification",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "**Important research limitation:** I searched for the requested materials, but the fetch tool could not open several key PDFs: the NEEP specification and DOE Challenge documents were rejected as PDF content, and the PNNL report returned HTTP 403. I successfully opened and read three HTML sources in full: NEEP’s Version 4.0 announcement, a CEE Minnesota field-study page, and the IRS incentive page. That is **one fewer than the four full primary sources you requested**, and I can’t represent the PDF search snippets below as full-source verification.",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "86ceecf11a9d30d26b12212fdad7fe734abdfc3765d59ce201c4dc3c3e68cccc",
+            "span_start": 430,
+            "span_end": 983,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "e0664a23e59cccc928380410c88102a4a73c4b37cd4bad30978b3f9db960c28b",
+        "active": true
+      },
+      {
+        "memory_id": "mem_795a2b28-1512-4dae-a084-cfad49fcf27c",
+        "version": 1,
+        "canonical_key": "- **neep:** a search result for neep’s older version 2.0 specification reported a minimum **cop above 1.75 at 5°f**, at maximum capacity. it also said manufacturers report capacity and cop at 47°f, 17°f, and 5°f. this is a specification threshold, **not a typical performance result**. neep’s full version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or cop figure for all listed equipment. sources: [neep version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older version 2.0 specification pdf](https://neep.org/sites/default/files/resources/cold%20climate%20air-source%20heat%20pump%20specification-version%202.0_0.pdf) (not readable through the fetch tool)",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "- **NEEP:** A search result for NEEP’s older Version 2.0 specification reported a minimum **COP above 1.75 at 5°F**, at maximum capacity. It also said manufacturers report capacity and COP at 47°F, 17°F, and 5°F. This is a specification threshold, **not a typical performance result**. NEEP’s full Version 4.0 announcement was accessible, but it does not itself establish one capacity-retention or COP figure for all listed equipment.  \n  Sources: [NEEP Version 4.0 announcement](https://neep.org/blog/neep-finalizes-version-40-cold-climate-air-source-heat-pump-specification); [older Version 2.0 specification PDF](https://neep.org/sites/default/files/resources/Cold%20Climate%20Air-source%20Heat%20Pump%20Specification-Version%202.0_0.pdf) (not readable through the fetch tool).",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "b756751b92ae6f85a830dc10b1676c636567957bf421ddf53cb3d8b924ba6f56",
+            "span_start": 1059,
+            "span_end": 1839,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "aad1ecde0b2597b174beabee060a67a84a88921e14f869b58b02b278703d3407",
+        "active": true
+      },
+      {
+        "memory_id": "mem_099f1f7c-6bfc-4af5-8c90-424daf151d25",
+        "version": 1,
+        "canonical_key": "- **doe challenge:** search results described a 5°f lab target of **100% of 47°f capacity**, with minimum cop targets of **2.1 or 2.4 depending on unit size**. those are challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. the doe pdfs could not be opened directly here. sources: [doe challenge specification pdf](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [doe fact sheet pdf](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf)",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "- **DOE Challenge:** Search results described a 5°F lab target of **100% of 47°F capacity**, with minimum COP targets of **2.1 or 2.4 depending on unit size**. Those are Challenge qualification targets, not a finding that all installed cold-climate systems achieve those figures. The DOE PDFs could not be opened directly here.  \n  Sources: [DOE Challenge specification PDF](https://www.energy.gov/sites/default/files/2021-10/bto-cchp-tech-challenge-spec-102521.pdf); [DOE fact sheet PDF](https://www.energy.gov/sites/default/files/2021-11/bto-cchp-fact-sheet-102821.pdf).",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "06b64f395c2c74c95152a8b93a27320db1069c1ff9342946840fbd6be9bc3ac8",
+            "span_start": 1841,
+            "span_end": 2413,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "afb2801c5b5e1891aae4be4bef247a939bd795093ff83229c17009765965ce52",
+        "active": true
+      },
+      {
+        "memory_id": "mem_38b6bd43-c352-4236-813c-23ab2ea26203",
+        "version": 1,
+        "canonical_key": "- **field performance:** a search result for a pnnl validation report described a **median cop of 1.9 in the 0–5°f temperature bin**. it also cautioned that the reported field cop excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data limit 0°f. i could not fetch that report, so treat these as **search-result figures, not independently checked report text**. they are not directly comparable to a lab rating or a whole-system seasonal result. source: [pnnl field-validation report pdf](https://www.pnnl.gov/main/publications/external/technical_reports/pnnl-37127.pdf) (fetch returned http 403)",
+        "schema_version": "memory-record-v1",
+        "kind": "claim",
+        "content": "- **Field performance:** A search result for a PNNL validation report described a **median COP of 1.9 in the 0–5°F temperature bin**. It also cautioned that the reported field COP excluded auxiliary-heat and defrost periods; only 8 of 22 sites had at least 10 hours of heating data below 0°F. I could not fetch that report, so treat these as **search-result figures, not independently checked report text**. They are not directly comparable to a lab rating or a whole-system seasonal result.  \n  Source: [PNNL field-validation report PDF](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-37127.pdf) (fetch returned HTTP 403).",
+        "scope": {
+          "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700"
+        },
+        "source_refs": [
+          {
+            "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+            "content_hash": "e153ab51705dc46fcb86c46f7703b3e051dfaf252e8351a345574e9066885421",
+            "span_hash": "a9184ef8476b5b4f5d35126d0b044d46dc30e29580e890efe9975fca43a6c18a",
+            "span_start": 2415,
+            "span_end": 3062,
+            "source_version": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+          }
+        ],
+        "attribution": {
+          "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+          "kind": "assistant",
+          "actor": "openai",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna",
+          "reported_model": "gpt-6-luna"
+        },
+        "authority": "model_proposed",
+        "resolution": "unresolved",
+        "confidence": null,
+        "limitations": [
+          "Source span validated; semantic entailment and external facts are not independently verified."
+        ],
+        "lifecycle": "candidate",
+        "binding": false,
+        "conflicts_with": [],
+        "supersedes": [],
+        "depends_on": [],
+        "origin_groups": [
+          "evt_1f61a5a3-3bb6-454d-abce-94732ed268df"
+        ],
+        "created_at": "2026-10-05T22:15:35.180Z",
+        "extraction_model": "gpt-6-luna",
+        "controller_policy_version": "conversation-memory-v4",
+        "idempotency_key": "c815ba546c136bf97ad386b91365d6b2b9f87f27980de54f016955451034d0f5",
+        "active": true
+      }
+    ],
+    "capture": {
+      "source_event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+      "status": "completed",
+      "error": null,
+      "revision": 1,
+      "source_kind": "user",
+      "reason": "no eligible commitment or research candidate",
+      "paid_extraction": false,
+      "invalid_selection_count": 0,
+      "admitted_count": 0,
+      "revision_changed": false,
+      "elapsed_ms": 1790,
+      "policy": "conversation-memory-v4",
+      "retry_on_activity": false,
+      "retry_disposition": "none"
+    },
+    "capture_summary": {
+      "checked_sources": 3,
+      "admitted": 4,
+      "completed_empty": 2,
+      "unknown_counts": 0
+    },
+    "capture_issues": [],
+    "capture_issue_count": 0,
+    "confidence_note": "Source reports and user instructions; confidence unknown. Priority is not factual confidence."
+  },
+  "metrics": {
+    "conversation_id": "conv_f77c634f-593a-4311-9338-d2ea3e378700",
+    "mode": "layered",
+    "revision": 11,
+    "calls": 25,
+    "compaction_calls": 0,
+    "usage_by_provider": {
+      "openai": {
+        "calls": 24,
+        "responses": 24,
+        "input_tokens": 239976,
+        "output_tokens": 4830,
+        "usage_complete": true,
+        "models": [
+          "gpt-6-luna"
+        ]
+      },
+      "typesafe": {
+        "calls": 1,
+        "responses": 1,
+        "input_tokens": 2252,
+        "output_tokens": 332,
+        "usage_complete": true,
+        "models": [
+          "jev-1.13.0"
+        ]
+      }
+    },
+    "usage_by_purpose": {
+      "answer": {
+        "calls": 19,
+        "responses": 19,
+        "input_tokens": 170631,
+        "output_tokens": 2814
+      },
+      "web-search": {
+        "calls": 4,
+        "responses": 4,
+        "input_tokens": 68418,
+        "output_tokens": 1963
+      },
+      "memory-extraction": {
+        "calls": 1,
+        "responses": 1,
+        "input_tokens": 927,
+        "output_tokens": 53
+      },
+      "memory-selection": {
+        "calls": 1,
+        "responses": 1,
+        "input_tokens": 2252,
+        "output_tokens": 332
+      }
+    },
+    "next_request_input": {
+      "bytes": 48507,
+      "estimated_tokens": 11101,
+      "tokenizer_tokens": 11101,
+      "encoding": "o200k_base",
+      "method": "local-o200k_base-serialized-input",
+      "scope": "complete serialized native input; local framing estimate",
+      "fingerprint": "b9ff677bd2399cea6dab0aee4cf1ecd8137215d9a4e88bf8abbe0fb8bf7887b2",
+      "provider_count": null,
+      "measured_at": null,
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "calibration_request_id": null,
+      "continuation_included": false
+    },
+    "cumulative_local_tokenizer_tokens": 218715,
+    "local_tokenizer_counted_requests": 25,
+    "local_tokenizer_counts_complete": true,
+    "workspace_readbacks": 0,
+    "completion_corrections": 0,
+    "decision_calls": 0,
+    "decision_input_tokens": 0,
+    "decision_output_tokens": 0,
+    "decision_fallbacks": 0,
+    "state_updates": 0,
+    "peak_estimated_input_units": 67387,
+    "cumulative_estimated_input_units": 900251,
+    "input_tokens": 242228,
+    "output_tokens": 5162,
+    "cached_input_tokens": null,
+    "usage_complete": true,
+    "latency_ms": 89835,
+    "retrievals": 2,
+    "attention_decisions": 0,
+    "offloads": 0,
+    "failures": 0,
+    "search_backend": "hybrid-embedding-lexical",
+    "embeddings": {
+      "calls": 2,
+      "input_tokens": 10652,
+      "usage_complete": true,
+      "reserved_unknown_tokens": 0,
+      "provider": "openai",
+      "model": "text-embedding-3-small"
+    },
+    "budget_recoveries": 0,
+    "tool_projections": 14,
+    "history_search_backend": "lexical-fallback"
+  },
+  "model_input": {
+    "next": {
+      "bytes": 48507,
+      "estimated_tokens": 11101,
+      "tokenizer_tokens": 11101,
+      "encoding": "o200k_base",
+      "method": "local-o200k_base-serialized-input",
+      "scope": "complete serialized native input; local framing estimate",
+      "fingerprint": "b9ff677bd2399cea6dab0aee4cf1ecd8137215d9a4e88bf8abbe0fb8bf7887b2",
+      "provider_count": null,
+      "measured_at": null,
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "calibration_request_id": null,
+      "continuation_included": false
+    },
+    "latest": {
+      "request_id": "evt_bea35351-b26d-442b-bce0-63b036e8b434",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "revision": 10,
+      "input_tokens": 12864,
+      "output_tokens": 385,
+      "timestamp": "2026-10-05T22:15:52.052Z",
+      "continuation_included": true,
+      "bytes": 67305,
+      "estimated_tokens": 18555,
+      "tokenizer_tokens": 18555,
+      "encoding": "o200k_base",
+      "method": "local-o200k_base-serialized-input",
+      "scope": "complete serialized native input; local framing estimate",
+      "fingerprint": "cfe24a6efed07f09203a682ef471bc71ed30d9d78c8f6eeb277968c42c595e37",
+      "provider_count": null,
+      "measured_at": null,
+      "calibration_request_id": null
+    },
+    "byte_guard": 256000,
+    "output_reserve": 16384,
+    "review_interval_tokens": 10000
+  },
+  "busy": false,
+  "agent": null,
+  "workspace": [],
+  "backup_warning": null
+}

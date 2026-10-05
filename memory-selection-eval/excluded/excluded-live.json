@@ -1,0 +1,222 @@
+{
+  "source": "memory-selection-eval/exports/live-heat-pump.json",
+  "events": [
+    {
+      "event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+      "source_kind": "user",
+      "chars": 670,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_1f61a5a3-3bb6-454d-abce-94732ed268df",
+      "source_kind": "assistant",
+      "chars": 6352,
+      "offered": 7,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 16,
+          "chars": 412,
+          "content": "A cold-climate air-source heat pump can provide useful heat in a northern Minnesota winter, but “cold-climate” does not mean its capacity and efficiency stay constant as temperatures fall. The evidence I could verify supports treating it as a system to size for the house’s heat loss, with a deliberate plan for backup heat—not assuming any one advertised rating guarantees performance in prolonged extreme cold."
+        },
+        {
+          "reason": "masked",
+          "start": 3064,
+          "chars": 434,
+          "content": "These figures do **not** establish a single “typical capacity retention at 5°F and below.” The NEEP table asks for model-specific capacity data, and the reported field COP is not a capacity-retention measurement. Ask contractors for the exact proposed outdoor unit’s capacity and COP at **5°F, 0°F, and the local design temperature**, and compare those with a room-by-room or otherwise documented heat-loss calculation for your house."
+        },
+        {
+          "reason": "cut_by_prefix",
+          "start": 3540,
+          "chars": 809,
+          "content": "CEE’s Minnesota field work is relevant, but it involved a small number of homes and different system configurations. Its project page describes six monitored homes, with a later update covering seven sites; the studies included propane-backup arrangements. The search result for the original study reported **26–40% lower annual energy costs** and **55–67% lower propane use** in certain ducted comparisons. Those are study-specific outcomes, not a guarantee for a 1,900-square-foot house or for today’s fuel and electricity prices.  \nSource: [CEE field-assessment page](https://www.mncee.org/cold-climate-air-source-heat-pump-field-assessment-closed) (read in full); [original report PDF](https://www.mncee.org/sites/default/files/report-files/cold-climate_0.pdf) (PDF not accessible through the fetch tool)."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4351,
+          "chars": 547,
+          "content": "A search result reported an average around **$14,000** for a small set of ducted installations, often including a new furnace. I could not verify that figure in the underlying report here, and it should **not** be treated as a current installed-cost estimate for your house. Installed cost depends substantially on equipment, ductwork, electrical work, backup integration, and whether the boiler remains. Get itemized bids that state what is included; don’t compare a heat-pump-only quote with one that includes backup or distribution-system work."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4900,
+          "chars": 23,
+          "content": "## Incentives right now"
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 4925,
+          "chars": 724,
+          "content": "The IRS page I read says the federal **Energy Efficient Home Improvement Credit (Section 25C) is unavailable for qualifying property placed in service after December 31, 2025**. A search result likewise reported that 2026 installations do not qualify under the current federal rule; the earlier 2025 credit was generally 30% of eligible cost, up to $2,000 for a qualifying heat pump. The prior-year amount is not an incentive for a 2026 installation.  \nSource: [IRS: How to claim the residential energy-property credit](https://www.irs.gov/credits-deductions/how-to-claim-an-energy-efficient-home-improvement-tax-credit-residential-energy-property) (read in full); [IRS instructions](https://www.irs.gov/instructions/i5695)."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 5651,
+          "chars": 142,
+          "content": "I did **not** verify current Minnesota, utility, or local incentives, so I can’t tell you which of those may be available for your home today."
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 5795,
+          "chars": 40,
+          "content": "## What remains uncertain for your house"
+        },
+        {
+          "reason": "beyond_prefix",
+          "start": 5837,
+          "chars": 515,
+          "content": "The sources available in this run don’t settle the actual capacity coverage, operating cost, or backup requirement for your specific house. Those depend on the house’s heat loss, the proposed equipment’s low-temperature performance, the boiler’s role, and current propane and electricity prices. The main disagreement in the numbers above is not necessarily a contradiction: **NEEP and DOE figures are equipment qualification targets; the PNNL number is a limited field result using a different measurement basis.**"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+      "source_kind": "user",
+      "chars": 138,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0",
+      "source_kind": "assistant",
+      "chars": 1879,
+      "offered": 3,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_7568b5cb-9719-4810-a026-54f50453acac",
+      "source_kind": "user",
+      "chars": 328,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+      "source_kind": "assistant",
+      "chars": 2051,
+      "offered": 2,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 106,
+          "chars": 1491,
+          "content": "- **Keep the propane boiler** and its existing hydronic distribution as the dependable cold-weather backup. Have the installer verify the boiler and distribution can meet the house’s heat loss at your local design temperature.\n- **Add a cold-climate air-source heat pump** sized from a documented heat-loss calculation. If the house has suitable ducts, a ducted system may distribute heat broadly; without ducts, a strategically placed ductless system can provide heat to its zones, while the boiler continues serving the rest of the house. The best choice depends on the layout—not just the 1,900-square-foot area.\n- Use **automatic controls** that favor the heat pump when it can meet the load, then bring on the boiler as the heat pump’s capacity falls or electricity becomes expensive. Have the contractor show the proposed unit’s capacity and operating limits at 5°F, 0°F, and −25°F; the earlier research did not establish typical capacity or COP at −25°F. I would not choose a switchover temperature without those equipment data and your propane/electricity prices.\n- Treat **“grid strained” separately from “power outage.”** A hybrid system can reduce electric heating load by shifting heat to propane, but the boiler may still need electricity for its controls, ignition, and circulator pumps. If your requirement includes staying warm through an outage, ask about a properly sized generator or other backup power for those components, and confirm how the system will operate safely."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_3df8a5f2-a39f-4e7f-a192-89c5830b163b",
+      "source_kind": "user",
+      "chars": 49,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_284f614b-1f9f-4cf4-a6e3-432f0698b89a",
+      "source_kind": "assistant",
+      "chars": 679,
+      "offered": 3,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_a37ebc3e-2353-4e51-85da-d537470c3781",
+      "source_kind": "user",
+      "chars": 338,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_71022912-6b90-4f8c-8324-d2f5e759fe82",
+      "source_kind": "assistant",
+      "chars": 4391,
+      "offered": 5,
+      "excluded": [
+        {
+          "reason": "over_2000",
+          "start": 579,
+          "chars": 2097,
+          "content": "- **Electrical capacity:** The U.S. Department of Energy’s Building America Solution Center electrical-panel calculator evaluates added loads, including a heat pump, using an NEC load-calculation approach. It is a planning tool—not a substitute for an electrician’s calculation and local-code review. A 100A service rating alone cannot settle the question. [DOE Building America Solution Center: Electrical Panel Calculator](https://basc.pnnl.gov/hpwh_installation_tool/electrical_calculator) — fetched and read in full.\n- **Upgrade cost:** A Minnesota electrical contractor reports Twin Cities installed prices of about **$7,700 for a like-for-like 100A panel replacement**, **$7,700–$9,500 for a 100A-to-200A service/panel upgrade**, and **up to about $12,500** for a full service replacement or relocation. These are the contractor’s own completed-job figures, not an independent statewide survey; scope and site conditions matter. [3 Rivers Electric: Electrical Panel Upgrade Cost in Minnesota](https://3riverselectricmn.com/electrical-panel-upgrade-cost-minnesota/) — fetched and read in full.\n- **Switchover temperature:** Minnesota CUB describes switchover as the temperature at which the system changes from the heat pump to backup heat. It says heat-pump operating cost depends on the backup fuel and changing utility prices; it notes that heat pumps can be more affordable at lower temperatures with propane than with natural gas, while shoulder-season operation may be most favorable. This supports a **fuel-price-dependent setting**, not a universal cutoff. [Citizens Utility Board of Minnesota: Air Source Heat Pumps](https://cubminnesota.org/air-source-heat-pumps-0) — fetched and read in full. CUB’s discussion is general guidance, not a model-specific setting for your boiler and heat pump.\n- **A separate Minnesota cost perspective:** CUB’s consumer page says added electric equipment may require more panel or service capacity, but does not give a universal upgrade price. [CUB: Replacements & Upgrades](https://cubminnesota.org/replacements-upgrades) — fetched and read in full."
+        },
+        {
+          "reason": "masked",
+          "start": 3214,
+          "chars": 663,
+          "content": "I found no authoritative source establishing one “usual” dual-fuel switchover temperature for all homes. A temperature like **35°F** appears in CUB’s example comparing operating costs for natural gas; it is not a general recommendation for a propane-boiler system. The appropriate setting depends on the proposed heat pump’s capacity and efficiency at outdoor temperatures, the home’s heat loss, and current propane and electricity prices. For your house, the installer should document both the capacity-based point (when the heat pump can no longer meet the load) and the cost-based point (when boiler heat is cheaper), then explain which setting they recommend."
+        },
+        {
+          "reason": "cut_by_prefix",
+          "start": 3879,
+          "chars": 512,
+          "content": "**Practical next step:** Ask for an electrician’s load calculation using the actual equipment submittal, and itemized quotes separating panel-only work, service-upgrade work, utility/meter work, permits, and any wiring. Given your roughly **$22,000 pre-incentive budget**, a service upgrade at the contractor’s reported prices could be a substantial addition; neither the earlier research nor these sources establish whether your particular system will need one or whether total project cost will fit the budget."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_8b1b1eb4-01d5-4a81-8a71-ac7dc5b51e48",
+      "source_kind": "user",
+      "chars": 369,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_9969c7a8-a5d4-4049-86f3-9774354c07f3",
+      "source_kind": "assistant",
+      "chars": 2634,
+      "offered": 2,
+      "excluded": [
+        {
+          "reason": "over_2000",
+          "start": 251,
+          "chars": 2017,
+          "content": "- **Ducted system:** Have the contractor inspect the existing ducts for capacity, condition, leakage, and whether they can deliver heat to the bedrooms. If they aren’t suitable, duct modifications could materially affect cost; don’t assume a ducted system will simply reuse them. Ask how the heat pump and boiler will be controlled together, and whether the design relies on electric resistance backup. Resistance heat could significantly increase the electrical load.\n- **Outdoor unit:** Exclude the north wall from the site plan. Have the installer propose another location and confirm it meets the manufacturer’s clearances and service requirements, while accounting for snow accumulation, drifting, and airflow. The alternate location may affect line-set routing and installation cost.\n- **Solar:** Since adding it is still undecided, ask for the heat-pump project to be priced **with and without solar**, or at least get a separate solar bid. Solar could affect electrical design, interconnection, and budget, but it does not by itself provide power during an outage; that generally requires suitable islanding equipment and storage. Whether that matters depends on what “grid strained” means for your requirement.\n- **Electrical service:** Get a load calculation using the proposed heat pump’s actual nameplate data and all major household loads. The prior Minnesota contractor estimate of **$7,700–$9,500** for a 100A-to-200A service-and-panel upgrade is only a local budgeting reference, not a prediction that you’ll need an upgrade. A solar addition could change the electrical scope, so have the electrician review both configurations.\n- **Budget:** Keep the roughly **$22,000 before incentives** in view when comparing bids. The earlier research did not establish whether this combined scope—or even the heat-pump project alone—will fit that budget, and current applicable incentives remain unverified. Request itemized pricing for the heat pump, duct work, electrical work, boiler controls, and any solar."
+        }
+      ]
+    },
+    {
+      "event_id": "evt_4a4e933e-013c-43f1-ade4-7bbd03f78f5f",
+      "source_kind": "user",
+      "chars": 70,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_36ab300b-c281-42b0-9798-b2a98cdb6d12",
+      "source_kind": "assistant",
+      "chars": 2843,
+      "offered": 9,
+      "excluded": [
+        {
+          "reason": "masked",
+          "start": 642,
+          "chars": 316,
+          "content": "3. **What does “even if the grid is strained” mean for the design?**  \n   Can the system shift to the propane boiler to reduce electrical demand? If you also mean a power outage, what electricity do the boiler controls, ignition, and pumps require, and what backup-power arrangement would keep them operating safely?"
+        }
+      ]
+    },
+    {
+      "event_id": "evt_895b002b-955f-49a7-ba59-87cfae78af35",
+      "source_kind": "user",
+      "chars": 217,
+      "offered": 1,
+      "excluded": []
+    },
+    {
+      "event_id": "evt_64f9bf36-51a2-4e52-8bab-04b40b91caf8",
+      "source_kind": "assistant",
+      "chars": 1781,
+      "offered": 4,
+      "excluded": []
+    }
+  ],
+  "totals": {
+    "events": 16,
+    "offered": 43,
+    "beyond_prefix": 6,
+    "cut_by_prefix": 2,
+    "over_2000": 2,
+    "masked": 5,
+    "chars": 24789,
+    "chars_offered": 13963
+  }
+}

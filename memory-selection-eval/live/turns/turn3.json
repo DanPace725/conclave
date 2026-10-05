@@ -1,0 +1,10 @@
+{
+  "message_id": "pr3live_t3",
+  "content": "Some context for the next step: our budget is roughly $22,000 before incentives, and one requirement from my partner is that the house stays heated at -25F even if the grid is strained. We also decided last week to keep the propane boiler as backup rather than remove it. With that in mind, what system layout would you suggest?",
+  "settings": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "reasoning": "low",
+    "jev": true
+  }
+}

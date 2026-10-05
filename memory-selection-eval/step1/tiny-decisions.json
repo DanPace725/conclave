@@ -1,0 +1,248 @@
+[
+  {
+    "event_id": "tiny_user_1",
+    "source_kind": "user",
+    "records": [
+      {
+        "passage_id": 1,
+        "kind": "preference"
+      },
+      {
+        "passage_id": 3,
+        "kind": "claim"
+      }
+    ],
+    "decisions": [
+      {
+        "passage_id": 0,
+        "choice": "skip",
+        "confidence": 1,
+        "keep_probability": 0,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 1,
+        "choice": "preference",
+        "confidence": 0.66,
+        "keep_probability": 0.99,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 2,
+        "choice": "skip",
+        "confidence": 0.62,
+        "keep_probability": 0.28,
+        "uncertain": true,
+        "duplicate": false
+      },
+      {
+        "passage_id": 3,
+        "choice": "claim",
+        "confidence": 0.95,
+        "keep_probability": 0.99,
+        "uncertain": false,
+        "duplicate": false
+      }
+    ],
+    "oversized": [],
+    "calls": [
+      {
+        "passages": 4,
+        "elapsed_ms": 173,
+        "usage": {
+          "input_tokens": 1073,
+          "output_tokens": 193
+        },
+        "model": "jev-1.13.0"
+      }
+    ],
+    "threshold": 0.65,
+    "decision_version": "jev-memory-v1",
+    "raw": [
+      {
+        "response_keys": [
+          "answers",
+          "model",
+          "status",
+          "usage"
+        ],
+        "usage": {
+          "input_tokens": 1073,
+          "output_tokens": 193
+        },
+        "model": "jev-1.13.0",
+        "answers": {
+          "passage_0": {
+            "type": "choice",
+            "choice": "skip",
+            "confidence": 1,
+            "probabilities": {
+              "skip": 1,
+              "question": 0,
+              "preference": 0,
+              "claim": 0
+            }
+          },
+          "passage_1": {
+            "type": "choice",
+            "choice": "preference",
+            "confidence": 0.66,
+            "probabilities": {
+              "skip": 0.01,
+              "question": 0,
+              "preference": 0.74,
+              "claim": 0.25
+            }
+          },
+          "passage_2": {
+            "type": "choice",
+            "choice": "skip",
+            "confidence": 0.62,
+            "probabilities": {
+              "skip": 0.72,
+              "question": 0.22,
+              "preference": 0.06,
+              "claim": 0
+            }
+          },
+          "passage_3": {
+            "type": "choice",
+            "choice": "claim",
+            "confidence": 0.95,
+            "probabilities": {
+              "skip": 0.01,
+              "preference": 0.02,
+              "question": 0,
+              "claim": 0.97
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "event_id": "tiny_assistant_1",
+    "source_kind": "assistant",
+    "records": [
+      {
+        "passage_id": 1,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 2,
+        "kind": "question"
+      }
+    ],
+    "decisions": [
+      {
+        "passage_id": 0,
+        "choice": "skip",
+        "confidence": 1,
+        "keep_probability": 0,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 1,
+        "choice": "claim",
+        "confidence": 0.98,
+        "keep_probability": 0.98,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 2,
+        "choice": "question",
+        "confidence": 1,
+        "keep_probability": 1,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 3,
+        "choice": "skip",
+        "confidence": 1,
+        "keep_probability": 0,
+        "uncertain": false,
+        "duplicate": false
+      }
+    ],
+    "oversized": [],
+    "calls": [
+      {
+        "passages": 4,
+        "elapsed_ms": 71,
+        "usage": {
+          "input_tokens": 1110,
+          "output_tokens": 191
+        },
+        "model": "jev-1.13.0"
+      }
+    ],
+    "threshold": 0.65,
+    "decision_version": "jev-memory-v1",
+    "raw": [
+      {
+        "response_keys": [
+          "answers",
+          "model",
+          "status",
+          "usage"
+        ],
+        "usage": {
+          "input_tokens": 1110,
+          "output_tokens": 191
+        },
+        "model": "jev-1.13.0",
+        "answers": {
+          "passage_0": {
+            "type": "choice",
+            "choice": "skip",
+            "confidence": 1,
+            "probabilities": {
+              "skip": 1,
+              "preference": 0,
+              "question": 0,
+              "claim": 0
+            }
+          },
+          "passage_1": {
+            "type": "choice",
+            "choice": "claim",
+            "confidence": 0.98,
+            "probabilities": {
+              "skip": 0.02,
+              "preference": 0,
+              "question": 0,
+              "claim": 0.98
+            }
+          },
+          "passage_2": {
+            "type": "choice",
+            "choice": "question",
+            "confidence": 1,
+            "probabilities": {
+              "skip": 0,
+              "question": 1,
+              "preference": 0,
+              "claim": 0
+            }
+          },
+          "passage_3": {
+            "type": "choice",
+            "choice": "skip",
+            "confidence": 1,
+            "probabilities": {
+              "skip": 1,
+              "preference": 0,
+              "question": 0,
+              "claim": 0
+            }
+          }
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "message_id": "pr3live_t2",
+  "content": "Thanks. Which of those field results came from houses most like mine, and how much did they still lean on backup heat on the coldest days?",
+  "settings": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "reasoning": "low",
+    "jev": true
+  }
+}

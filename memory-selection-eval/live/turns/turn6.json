@@ -1,0 +1,10 @@
+{
+  "message_id": "pr3live_t6",
+  "content": "A couple of things have firmed up on our side: my partner has a strong preference for a ducted system over wall-mounted heads because of how the bedrooms are laid out, and there is a constraint that the outdoor unit cannot go on the north wall where the snow drifts. Still unresolved: we have not decided whether to add solar in the same project. What does that change?",
+  "settings": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "reasoning": "low",
+    "jev": true
+  }
+}

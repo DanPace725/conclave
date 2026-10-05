@@ -1,0 +1,10 @@
+{
+  "message_id": "pr3live_t5",
+  "content": "Now look at the electrical side. Read at least three sources in full with web_fetch about whether a 100-amp service can support a whole-house cold-climate heat pump, what a panel or service upgrade typically costs, and how dual-fuel switchover temperatures are usually set. Give me the specific numbers and say where the sources conflict.",
+  "settings": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "reasoning": "low",
+    "jev": true
+  }
+}

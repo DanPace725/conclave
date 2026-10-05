@@ -1,0 +1,241 @@
+{
+  "llm": {
+    "evt_1f61a5a3-3bb6-454d-abce-94732ed268df": [
+      {
+        "passage_id": 1,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 3,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 4,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 5,
+        "kind": "claim"
+      }
+    ],
+    "evt_7568b5cb-9719-4810-a026-54f50453acac": [
+      {
+        "passage_id": 0,
+        "kind": "preference"
+      }
+    ],
+    "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd": [],
+    "evt_71022912-6b90-4f8c-8324-d2f5e759fe82": [
+      {
+        "passage_id": 1,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 4,
+        "kind": "claim"
+      }
+    ],
+    "evt_8b1b1eb4-01d5-4a81-8a71-ac7dc5b51e48": [
+      {
+        "passage_id": 0,
+        "kind": "preference"
+      }
+    ],
+    "evt_895b002b-955f-49a7-ba59-87cfae78af35": []
+  },
+  "jev": {
+    "evt_1f61a5a3-3bb6-454d-abce-94732ed268df": [
+      {
+        "passage_id": 1,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 3,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 4,
+        "kind": "claim"
+      },
+      {
+        "passage_id": 5,
+        "kind": "claim"
+      }
+    ],
+    "evt_7568b5cb-9719-4810-a026-54f50453acac": [
+      {
+        "passage_id": 0,
+        "kind": "claim"
+      }
+    ],
+    "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd": [
+      {
+        "passage_id": 0,
+        "kind": "preference"
+      }
+    ],
+    "evt_71022912-6b90-4f8c-8324-d2f5e759fe82": [
+      {
+        "passage_id": 4,
+        "kind": "claim"
+      }
+    ],
+    "evt_8b1b1eb4-01d5-4a81-8a71-ac7dc5b51e48": [],
+    "evt_895b002b-955f-49a7-ba59-87cfae78af35": [
+      {
+        "passage_id": 0,
+        "kind": "claim"
+      }
+    ]
+  },
+  "jev_decisions": {
+    "evt_1f61a5a3-3bb6-454d-abce-94732ed268df": [
+      {
+        "passage_id": 0,
+        "choice": "skip",
+        "confidence": 1,
+        "keep_probability": 0,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 1,
+        "choice": "claim",
+        "confidence": 0.72,
+        "keep_probability": 0.99,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 2,
+        "choice": "skip",
+        "confidence": 0.98,
+        "keep_probability": 0.020000000000000018,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 3,
+        "choice": "claim",
+        "confidence": 0.93,
+        "keep_probability": 0.99,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 4,
+        "choice": "claim",
+        "confidence": 0.91,
+        "keep_probability": 0.98,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 5,
+        "choice": "claim",
+        "confidence": 0.92,
+        "keep_probability": 0.98,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 6,
+        "choice": "skip",
+        "confidence": 0.98,
+        "keep_probability": 0.020000000000000018,
+        "uncertain": false,
+        "duplicate": false
+      }
+    ],
+    "evt_7568b5cb-9719-4810-a026-54f50453acac": [
+      {
+        "passage_id": 0,
+        "choice": "claim",
+        "confidence": 0.97,
+        "keep_probability": 1,
+        "uncertain": false,
+        "duplicate": false
+      }
+    ],
+    "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd": [
+      {
+        "passage_id": 0,
+        "choice": "preference",
+        "confidence": 0.73,
+        "keep_probability": 0.95,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 1,
+        "choice": "claim",
+        "confidence": 0.44,
+        "keep_probability": 0.99,
+        "uncertain": true,
+        "duplicate": false
+      }
+    ],
+    "evt_71022912-6b90-4f8c-8324-d2f5e759fe82": [
+      {
+        "passage_id": 0,
+        "choice": "skip",
+        "confidence": 1,
+        "keep_probability": 0,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 1,
+        "choice": "claim",
+        "confidence": 0.49,
+        "keep_probability": 0.92,
+        "uncertain": true,
+        "duplicate": false
+      },
+      {
+        "passage_id": 2,
+        "choice": "skip",
+        "confidence": 1,
+        "keep_probability": 0,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 3,
+        "choice": "skip",
+        "confidence": 1,
+        "keep_probability": 0,
+        "uncertain": false,
+        "duplicate": false
+      },
+      {
+        "passage_id": 4,
+        "choice": "claim",
+        "confidence": 0.99,
+        "keep_probability": 0.99,
+        "uncertain": false,
+        "duplicate": false
+      }
+    ],
+    "evt_8b1b1eb4-01d5-4a81-8a71-ac7dc5b51e48": [
+      {
+        "passage_id": 0,
+        "choice": "claim",
+        "confidence": 0.27,
+        "keep_probability": 0.99,
+        "uncertain": true,
+        "duplicate": false
+      }
+    ],
+    "evt_895b002b-955f-49a7-ba59-87cfae78af35": [
+      {
+        "passage_id": 0,
+        "choice": "claim",
+        "confidence": 0.93,
+        "keep_probability": 1,
+        "uncertain": false,
+        "duplicate": false
+      }
+    ]
+  }
+}

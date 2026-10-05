@@ -1,0 +1,4374 @@
+{
+  "main": [
+    {
+      "name": "Jev, threshold 0.65 (run 1)",
+      "report": "2-jev065-luna.json",
+      "precision": 0.8392857142857143,
+      "recall": 0.6064516129032258,
+      "f1": 0.7041198501872659,
+      "kind_accuracy": 0.9036144578313253,
+      "tp": 94,
+      "fp": 18,
+      "fn": 61,
+      "required": 155,
+      "optional_selected": 17,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 123,
+      "input_tokens": 125781,
+      "output_tokens": 19307,
+      "median_ms": 83,
+      "total_ms": 10826,
+      "usd": 0.005282802000000001,
+      "errors": 0,
+      "fallback": {
+        "events": 106,
+        "needing_fallback": 64,
+        "uncertain_passages": 154
+      }
+    },
+    {
+      "name": "Jev, threshold 0.65 (run 2)",
+      "report": "5-jev065-repeat.json",
+      "precision": 0.8715596330275229,
+      "recall": 0.6129032258064516,
+      "f1": 0.7196969696969697,
+      "kind_accuracy": 0.9024390243902439,
+      "tp": 95,
+      "fp": 14,
+      "fn": 60,
+      "required": 155,
+      "optional_selected": 19,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 123,
+      "input_tokens": 125781,
+      "output_tokens": 19303,
+      "median_ms": 75,
+      "total_ms": 10345,
+      "usd": 0.005282802000000001,
+      "errors": 0,
+      "fallback": {
+        "events": 106,
+        "needing_fallback": 67,
+        "uncertain_passages": 152
+      }
+    },
+    {
+      "name": "Jev, threshold 0.65 (run 3)",
+      "report": "5b-jev065-repeat2.json",
+      "precision": 0.8571428571428571,
+      "recall": 0.5806451612903226,
+      "f1": 0.6923076923076923,
+      "kind_accuracy": 0.9,
+      "tp": 90,
+      "fp": 15,
+      "fn": 65,
+      "required": 155,
+      "optional_selected": 19,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 123,
+      "input_tokens": 125781,
+      "output_tokens": 19301,
+      "median_ms": 82,
+      "total_ms": 11092,
+      "usd": 0.005282802000000001,
+      "errors": 0,
+      "fallback": {
+        "events": 106,
+        "needing_fallback": 67,
+        "uncertain_passages": 159
+      }
+    },
+    {
+      "name": "Jev, threshold 0.50",
+      "report": "4a-jev050.json",
+      "precision": 0.7928571428571428,
+      "recall": 0.7161290322580646,
+      "f1": 0.752542372881356,
+      "kind_accuracy": 0.8901098901098901,
+      "tp": 111,
+      "fp": 29,
+      "fn": 44,
+      "required": 155,
+      "optional_selected": 21,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 123,
+      "input_tokens": 125781,
+      "output_tokens": 19309,
+      "median_ms": 79,
+      "total_ms": 10660,
+      "usd": 0.005282802000000001,
+      "errors": 0,
+      "fallback": {
+        "events": 106,
+        "needing_fallback": 45,
+        "uncertain_passages": 89
+      }
+    },
+    {
+      "name": "Jev, threshold 0.80",
+      "report": "4b-jev080.json",
+      "precision": 0.9295774647887324,
+      "recall": 0.4258064516129032,
+      "f1": 0.5840707964601769,
+      "kind_accuracy": 0.95,
+      "tp": 66,
+      "fp": 5,
+      "fn": 89,
+      "required": 155,
+      "optional_selected": 14,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 123,
+      "input_tokens": 125781,
+      "output_tokens": 19305,
+      "median_ms": 81,
+      "total_ms": 11050,
+      "usd": 0.005282802000000001,
+      "errors": 0,
+      "fallback": {
+        "events": 106,
+        "needing_fallback": 80,
+        "uncertain_passages": 215
+      }
+    },
+    {
+      "name": "gpt-6-luna (run 1)",
+      "report": "2-jev065-luna.json",
+      "precision": 0.9016393442622951,
+      "recall": 0.7096774193548387,
+      "f1": 0.7942238267148014,
+      "kind_accuracy": 0.9325842696629213,
+      "tp": 110,
+      "fp": 12,
+      "fn": 45,
+      "required": 155,
+      "optional_selected": 14,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 106,
+      "input_tokens": 43986,
+      "output_tokens": 2697,
+      "median_ms": 961,
+      "total_ms": 108340,
+      "usd": 0.005747100000000005,
+      "errors": 0,
+      "fallback": null
+    },
+    {
+      "name": "gpt-6-luna (run 2)",
+      "report": "2b-luna-repeat.json",
+      "precision": 0.9494949494949495,
+      "recall": 0.6064516129032258,
+      "f1": 0.7401574803149606,
+      "kind_accuracy": 0.9367088607594937,
+      "tp": 94,
+      "fp": 5,
+      "fn": 61,
+      "required": 155,
+      "optional_selected": 10,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 106,
+      "input_tokens": 43986,
+      "output_tokens": 2438,
+      "median_ms": 890,
+      "total_ms": 101165,
+      "usd": 0.005617600000000003,
+      "errors": 0,
+      "fallback": null
+    },
+    {
+      "name": "claude-sonnet-5-5 (reference)",
+      "report": "3-ref-claude-sonnet-5-5.json",
+      "precision": 0.8404907975460123,
+      "recall": 0.8838709677419355,
+      "f1": 0.8616352201257862,
+      "kind_accuracy": 0.972972972972973,
+      "tp": 137,
+      "fp": 26,
+      "fn": 18,
+      "required": 155,
+      "optional_selected": 22,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 106,
+      "input_tokens": 94443,
+      "output_tokens": 4707,
+      "median_ms": 1890,
+      "total_ms": 234014,
+      "usd": 0.2359559999999999,
+      "errors": 0,
+      "fallback": null
+    },
+    {
+      "name": "gpt-6.1-sol (second reference)",
+      "report": "3b-ref-gpt-6.1-sol.json",
+      "precision": 0.8811188811188811,
+      "recall": 0.8129032258064516,
+      "f1": 0.8456375838926175,
+      "kind_accuracy": 0.9801980198019802,
+      "tp": 126,
+      "fp": 17,
+      "fn": 29,
+      "required": 155,
+      "optional_selected": 20,
+      "events": 106,
+      "failed_events": 0,
+      "calls": 106,
+      "input_tokens": 43986,
+      "output_tokens": 4407,
+      "median_ms": 2128,
+      "total_ms": 249584,
+      "usd": 0.13204199999999996,
+      "errors": 0,
+      "fallback": null
+    }
+  ],
+  "recorded": {
+    "recorded_llm": {
+      "precision": 1,
+      "recall": 0.7272727272727273,
+      "f1": 0.8421052631578948,
+      "kind_accuracy": 1,
+      "tp": 8,
+      "fp": 0,
+      "fn": 3,
+      "required": 11,
+      "optional_selected": 0,
+      "events": 6,
+      "failed_events": 0,
+      "fallback": null
+    },
+    "recorded_jev": {
+      "precision": 1,
+      "recall": 0.7272727272727273,
+      "f1": 0.8421052631578948,
+      "kind_accuracy": 0.7142857142857143,
+      "tp": 8,
+      "fp": 0,
+      "fn": 3,
+      "required": 11,
+      "optional_selected": 0,
+      "events": 6,
+      "failed_events": 0,
+      "fallback": {
+        "events": 6,
+        "needing_fallback": 3,
+        "uncertain_passages": 3
+      }
+    }
+  },
+  "capture_check": {
+    "jev_r1": true,
+    "luna1": true,
+    "sonnet": true,
+    "sol": true,
+    "t50": true
+  },
+  "cost": {
+    "jev_r1": {
+      "min": 0.005282802000000001,
+      "max": 0.005282802000000001
+    },
+    "luna1": {
+      "min": 0.005801325000000005,
+      "max": 0.005801325000000005
+    },
+    "luna2": {
+      "min": 0.005422390000000002,
+      "max": 0.005422390000000002
+    },
+    "sonnet": {
+      "min": 0.15617800000000004,
+      "max": 0.15617800000000004
+    },
+    "sol": {
+      "min": 0.13312649999999998,
+      "max": 0.13312649999999998
+    },
+    "sonnet_buckets": {
+      "input": 94443,
+      "cache_write": 38894,
+      "cache_read": 55125,
+      "output": 4707
+    },
+    "openai_cached": {
+      "luna1": 0,
+      "sol": 0
+    },
+    "reasoning_tokens": {
+      "luna1": 0,
+      "sol": 1388
+    },
+    "sonnet_no_cache_reuse": 0.2831775,
+    "sonnet_plain_input": 0.235956
+  },
+  "breakdown": {
+    "all": {
+      "items": 106,
+      "passages": 402,
+      "required": 155,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.8392857142857143,
+          "recall": 0.6064516129032258,
+          "f1": 0.7041198501872659,
+          "kind_accuracy": 0.9036144578313253,
+          "tp": 94,
+          "fp": 18,
+          "fn": 61,
+          "required": 155,
+          "optional_selected": 17,
+          "events": 106,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.8715596330275229,
+          "recall": 0.6129032258064516,
+          "f1": 0.7196969696969697,
+          "kind_accuracy": 0.9024390243902439,
+          "tp": 95,
+          "fp": 14,
+          "fn": 60,
+          "required": 155,
+          "optional_selected": 19,
+          "events": 106,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.8571428571428571,
+          "recall": 0.5806451612903226,
+          "f1": 0.6923076923076923,
+          "kind_accuracy": 0.9,
+          "tp": 90,
+          "fp": 15,
+          "fn": 65,
+          "required": 155,
+          "optional_selected": 19,
+          "events": 106,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.7928571428571428,
+          "recall": 0.7161290322580646,
+          "f1": 0.752542372881356,
+          "kind_accuracy": 0.8901098901098901,
+          "tp": 111,
+          "fp": 29,
+          "fn": 44,
+          "required": 155,
+          "optional_selected": 21,
+          "events": 106,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 0.9295774647887324,
+          "recall": 0.4258064516129032,
+          "f1": 0.5840707964601769,
+          "kind_accuracy": 0.95,
+          "tp": 66,
+          "fp": 5,
+          "fn": 89,
+          "required": 155,
+          "optional_selected": 14,
+          "events": 106,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 0.9016393442622951,
+          "recall": 0.7096774193548387,
+          "f1": 0.7942238267148014,
+          "kind_accuracy": 0.9325842696629213,
+          "tp": 110,
+          "fp": 12,
+          "fn": 45,
+          "required": 155,
+          "optional_selected": 14,
+          "events": 106,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 0.9494949494949495,
+          "recall": 0.6064516129032258,
+          "f1": 0.7401574803149606,
+          "kind_accuracy": 0.9367088607594937,
+          "tp": 94,
+          "fp": 5,
+          "fn": 61,
+          "required": 155,
+          "optional_selected": 10,
+          "events": 106,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.8404907975460123,
+          "recall": 0.8838709677419355,
+          "f1": 0.8616352201257862,
+          "kind_accuracy": 0.972972972972973,
+          "tp": 137,
+          "fp": 26,
+          "fn": 18,
+          "required": 155,
+          "optional_selected": 22,
+          "events": 106,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.8811188811188811,
+          "recall": 0.8129032258064516,
+          "f1": 0.8456375838926175,
+          "kind_accuracy": 0.9801980198019802,
+          "tp": 126,
+          "fp": 17,
+          "fn": 29,
+          "required": 155,
+          "optional_selected": 20,
+          "events": 106,
+          "failed_events": 0
+        }
+      }
+    },
+    "user": {
+      "items": 54,
+      "passages": 54,
+      "required": 10,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.4166666666666667,
+          "recall": 0.5,
+          "f1": 0.45454545454545453,
+          "kind_accuracy": 0.25,
+          "tp": 5,
+          "fp": 7,
+          "fn": 5,
+          "required": 10,
+          "optional_selected": 1,
+          "events": 54,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "kind_accuracy": 0.25,
+          "tp": 5,
+          "fp": 5,
+          "fn": 5,
+          "required": 10,
+          "optional_selected": 1,
+          "events": 54,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.45454545454545453,
+          "recall": 0.5,
+          "f1": 0.47619047619047616,
+          "kind_accuracy": 0.25,
+          "tp": 5,
+          "fp": 6,
+          "fn": 5,
+          "required": 10,
+          "optional_selected": 1,
+          "events": 54,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.35294117647058826,
+          "recall": 0.6,
+          "f1": 0.4444444444444445,
+          "kind_accuracy": 0.25,
+          "tp": 6,
+          "fp": 11,
+          "fn": 4,
+          "required": 10,
+          "optional_selected": 2,
+          "events": 54,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 0.4,
+          "recall": 0.2,
+          "f1": 0.26666666666666666,
+          "kind_accuracy": 0,
+          "tp": 2,
+          "fp": 3,
+          "fn": 8,
+          "required": 10,
+          "optional_selected": 1,
+          "events": 54,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 0.6,
+          "recall": 0.6,
+          "f1": 0.6,
+          "kind_accuracy": 0.4,
+          "tp": 6,
+          "fp": 4,
+          "fn": 4,
+          "required": 10,
+          "optional_selected": 0,
+          "events": 54,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 0.75,
+          "recall": 0.6,
+          "f1": 0.6666666666666665,
+          "kind_accuracy": 0.5,
+          "tp": 6,
+          "fp": 2,
+          "fn": 4,
+          "required": 10,
+          "optional_selected": 1,
+          "events": 54,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.5833333333333334,
+          "recall": 0.7,
+          "f1": 0.6363636363636365,
+          "kind_accuracy": 0.6666666666666666,
+          "tp": 7,
+          "fp": 5,
+          "fn": 3,
+          "required": 10,
+          "optional_selected": 1,
+          "events": 54,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.7272727272727273,
+          "recall": 0.8,
+          "f1": 0.761904761904762,
+          "kind_accuracy": 0.8333333333333334,
+          "tp": 8,
+          "fp": 3,
+          "fn": 2,
+          "required": 10,
+          "optional_selected": 0,
+          "events": 54,
+          "failed_events": 0
+        }
+      }
+    },
+    "assistant": {
+      "items": 52,
+      "passages": 348,
+      "required": 145,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.89,
+          "recall": 0.6137931034482759,
+          "f1": 0.7265306122448979,
+          "kind_accuracy": 0.9367088607594937,
+          "tp": 89,
+          "fp": 11,
+          "fn": 56,
+          "required": 145,
+          "optional_selected": 16,
+          "events": 52,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.9090909090909091,
+          "recall": 0.6206896551724138,
+          "f1": 0.7377049180327868,
+          "kind_accuracy": 0.9358974358974359,
+          "tp": 90,
+          "fp": 9,
+          "fn": 55,
+          "required": 145,
+          "optional_selected": 18,
+          "events": 52,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.9042553191489362,
+          "recall": 0.5862068965517241,
+          "f1": 0.7112970711297071,
+          "kind_accuracy": 0.9342105263157895,
+          "tp": 85,
+          "fp": 9,
+          "fn": 60,
+          "required": 145,
+          "optional_selected": 18,
+          "events": 52,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.8536585365853658,
+          "recall": 0.7241379310344828,
+          "f1": 0.7835820895522387,
+          "kind_accuracy": 0.9195402298850575,
+          "tp": 105,
+          "fp": 18,
+          "fn": 40,
+          "required": 145,
+          "optional_selected": 19,
+          "events": 52,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 0.9696969696969697,
+          "recall": 0.4413793103448276,
+          "f1": 0.6066350710900474,
+          "kind_accuracy": 0.9827586206896551,
+          "tp": 64,
+          "fp": 2,
+          "fn": 81,
+          "required": 145,
+          "optional_selected": 13,
+          "events": 52,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 0.9285714285714286,
+          "recall": 0.7172413793103448,
+          "f1": 0.8093385214007783,
+          "kind_accuracy": 0.9642857142857143,
+          "tp": 104,
+          "fp": 8,
+          "fn": 41,
+          "required": 145,
+          "optional_selected": 14,
+          "events": 52,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 0.967032967032967,
+          "recall": 0.6068965517241379,
+          "f1": 0.7457627118644068,
+          "kind_accuracy": 0.9726027397260274,
+          "tp": 88,
+          "fp": 3,
+          "fn": 57,
+          "required": 145,
+          "optional_selected": 9,
+          "events": 52,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.8609271523178808,
+          "recall": 0.896551724137931,
+          "f1": 0.8783783783783783,
+          "kind_accuracy": 0.9904761904761905,
+          "tp": 130,
+          "fp": 21,
+          "fn": 15,
+          "required": 145,
+          "optional_selected": 21,
+          "events": 52,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.8939393939393939,
+          "recall": 0.8137931034482758,
+          "f1": 0.8519855595667869,
+          "kind_accuracy": 0.9894736842105263,
+          "tp": 118,
+          "fp": 14,
+          "fn": 27,
+          "required": 145,
+          "optional_selected": 20,
+          "events": 52,
+          "failed_events": 0
+        }
+      }
+    },
+    "homelessness": {
+      "items": 12,
+      "passages": 45,
+      "required": 21,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.9230769230769231,
+          "recall": 0.5714285714285714,
+          "f1": 0.7058823529411765,
+          "kind_accuracy": 1,
+          "tp": 12,
+          "fp": 1,
+          "fn": 9,
+          "required": 21,
+          "optional_selected": 1,
+          "events": 12,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.9230769230769231,
+          "recall": 0.5714285714285714,
+          "f1": 0.7058823529411765,
+          "kind_accuracy": 1,
+          "tp": 12,
+          "fp": 1,
+          "fn": 9,
+          "required": 21,
+          "optional_selected": 1,
+          "events": 12,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.8571428571428571,
+          "recall": 0.5714285714285714,
+          "f1": 0.6857142857142857,
+          "kind_accuracy": 1,
+          "tp": 12,
+          "fp": 2,
+          "fn": 9,
+          "required": 21,
+          "optional_selected": 1,
+          "events": 12,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.8888888888888888,
+          "recall": 0.7619047619047619,
+          "f1": 0.8205128205128205,
+          "kind_accuracy": 1,
+          "tp": 16,
+          "fp": 2,
+          "fn": 5,
+          "required": 21,
+          "optional_selected": 1,
+          "events": 12,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 0.9166666666666666,
+          "recall": 0.5238095238095238,
+          "f1": 0.6666666666666667,
+          "kind_accuracy": 1,
+          "tp": 11,
+          "fp": 1,
+          "fn": 10,
+          "required": 21,
+          "optional_selected": 1,
+          "events": 12,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 0.9444444444444444,
+          "recall": 0.8095238095238095,
+          "f1": 0.8717948717948718,
+          "kind_accuracy": 1,
+          "tp": 17,
+          "fp": 1,
+          "fn": 4,
+          "required": 21,
+          "optional_selected": 2,
+          "events": 12,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 1,
+          "recall": 0.8095238095238095,
+          "f1": 0.8947368421052632,
+          "kind_accuracy": 1,
+          "tp": 17,
+          "fp": 0,
+          "fn": 4,
+          "required": 21,
+          "optional_selected": 1,
+          "events": 12,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.9473684210526315,
+          "recall": 0.8571428571428571,
+          "f1": 0.9,
+          "kind_accuracy": 1,
+          "tp": 18,
+          "fp": 1,
+          "fn": 3,
+          "required": 21,
+          "optional_selected": 2,
+          "events": 12,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.95,
+          "recall": 0.9047619047619048,
+          "f1": 0.9268292682926829,
+          "kind_accuracy": 0.9090909090909091,
+          "tp": 19,
+          "fp": 1,
+          "fn": 2,
+          "required": 21,
+          "optional_selected": 1,
+          "events": 12,
+          "failed_events": 0
+        }
+      }
+    },
+    "pain": {
+      "items": 16,
+      "passages": 67,
+      "required": 20,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.7857142857142857,
+          "recall": 0.55,
+          "f1": 0.6470588235294117,
+          "kind_accuracy": 0.8888888888888888,
+          "tp": 11,
+          "fp": 3,
+          "fn": 9,
+          "required": 20,
+          "optional_selected": 3,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.8666666666666667,
+          "recall": 0.65,
+          "f1": 0.7428571428571429,
+          "kind_accuracy": 0.8888888888888888,
+          "tp": 13,
+          "fp": 2,
+          "fn": 7,
+          "required": 20,
+          "optional_selected": 3,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.8461538461538461,
+          "recall": 0.55,
+          "f1": 0.6666666666666667,
+          "kind_accuracy": 0.8888888888888888,
+          "tp": 11,
+          "fp": 2,
+          "fn": 9,
+          "required": 20,
+          "optional_selected": 4,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.7272727272727273,
+          "recall": 0.8,
+          "f1": 0.761904761904762,
+          "kind_accuracy": 0.8333333333333334,
+          "tp": 16,
+          "fp": 6,
+          "fn": 4,
+          "required": 20,
+          "optional_selected": 4,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 1,
+          "recall": 0.4,
+          "f1": 0.5714285714285715,
+          "kind_accuracy": 0.8571428571428571,
+          "tp": 8,
+          "fp": 0,
+          "fn": 12,
+          "required": 20,
+          "optional_selected": 2,
+          "events": 16,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 0.8421052631578947,
+          "recall": 0.8,
+          "f1": 0.8205128205128205,
+          "kind_accuracy": 0.9166666666666666,
+          "tp": 16,
+          "fp": 3,
+          "fn": 4,
+          "required": 20,
+          "optional_selected": 1,
+          "events": 16,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 1,
+          "recall": 0.3,
+          "f1": 0.4615384615384615,
+          "kind_accuracy": 0.8333333333333334,
+          "tp": 6,
+          "fp": 0,
+          "fn": 14,
+          "required": 20,
+          "optional_selected": 0,
+          "events": 16,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.6666666666666666,
+          "recall": 0.9,
+          "f1": 0.7659574468085106,
+          "kind_accuracy": 1,
+          "tp": 18,
+          "fp": 9,
+          "fn": 2,
+          "required": 20,
+          "optional_selected": 2,
+          "events": 16,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.7619047619047619,
+          "recall": 0.8,
+          "f1": 0.7804878048780488,
+          "kind_accuracy": 1,
+          "tp": 16,
+          "fp": 5,
+          "fn": 4,
+          "required": 20,
+          "optional_selected": 1,
+          "events": 16,
+          "failed_events": 0
+        }
+      }
+    },
+    "brain": {
+      "items": 18,
+      "passages": 93,
+      "required": 35,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.7941176470588235,
+          "recall": 0.7714285714285715,
+          "f1": 0.782608695652174,
+          "kind_accuracy": 1,
+          "tp": 27,
+          "fp": 7,
+          "fn": 8,
+          "required": 35,
+          "optional_selected": 4,
+          "events": 18,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.8125,
+          "recall": 0.7428571428571429,
+          "f1": 0.7761194029850748,
+          "kind_accuracy": 1,
+          "tp": 26,
+          "fp": 6,
+          "fn": 9,
+          "required": 35,
+          "optional_selected": 6,
+          "events": 18,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.7878787878787878,
+          "recall": 0.7428571428571429,
+          "f1": 0.7647058823529412,
+          "kind_accuracy": 1,
+          "tp": 26,
+          "fp": 7,
+          "fn": 9,
+          "required": 35,
+          "optional_selected": 5,
+          "events": 18,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.7941176470588235,
+          "recall": 0.7714285714285715,
+          "f1": 0.782608695652174,
+          "kind_accuracy": 1,
+          "tp": 27,
+          "fp": 7,
+          "fn": 8,
+          "required": 35,
+          "optional_selected": 5,
+          "events": 18,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 0.875,
+          "recall": 0.6,
+          "f1": 0.711864406779661,
+          "kind_accuracy": 1,
+          "tp": 21,
+          "fp": 3,
+          "fn": 14,
+          "required": 35,
+          "optional_selected": 5,
+          "events": 18,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 0.84375,
+          "recall": 0.7714285714285715,
+          "f1": 0.8059701492537314,
+          "kind_accuracy": 1,
+          "tp": 27,
+          "fp": 5,
+          "fn": 8,
+          "required": 35,
+          "optional_selected": 3,
+          "events": 18,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 0.8787878787878788,
+          "recall": 0.8285714285714286,
+          "f1": 0.8529411764705883,
+          "kind_accuracy": 1,
+          "tp": 29,
+          "fp": 4,
+          "fn": 6,
+          "required": 35,
+          "optional_selected": 2,
+          "events": 18,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.7560975609756098,
+          "recall": 0.8857142857142857,
+          "f1": 0.8157894736842105,
+          "kind_accuracy": 1,
+          "tp": 31,
+          "fp": 10,
+          "fn": 4,
+          "required": 35,
+          "optional_selected": 5,
+          "events": 18,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.875,
+          "recall": 0.8,
+          "f1": 0.8358208955223881,
+          "kind_accuracy": 1,
+          "tp": 28,
+          "fp": 4,
+          "fn": 7,
+          "required": 35,
+          "optional_selected": 6,
+          "events": 18,
+          "failed_events": 0
+        }
+      }
+    },
+    "feedback": {
+      "items": 44,
+      "passages": 154,
+      "required": 53,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.8125,
+          "recall": 0.49056603773584906,
+          "f1": 0.611764705882353,
+          "kind_accuracy": 0.7916666666666666,
+          "tp": 26,
+          "fp": 6,
+          "fn": 27,
+          "required": 53,
+          "optional_selected": 6,
+          "events": 44,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.8666666666666667,
+          "recall": 0.49056603773584906,
+          "f1": 0.6265060240963856,
+          "kind_accuracy": 0.7916666666666666,
+          "tp": 26,
+          "fp": 4,
+          "fn": 27,
+          "required": 53,
+          "optional_selected": 6,
+          "events": 44,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.8888888888888888,
+          "recall": 0.4528301886792453,
+          "f1": 0.6,
+          "kind_accuracy": 0.7727272727272727,
+          "tp": 24,
+          "fp": 3,
+          "fn": 29,
+          "required": 53,
+          "optional_selected": 6,
+          "events": 44,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.7272727272727273,
+          "recall": 0.6037735849056604,
+          "f1": 0.6597938144329897,
+          "kind_accuracy": 0.7692307692307693,
+          "tp": 32,
+          "fp": 12,
+          "fn": 21,
+          "required": 53,
+          "optional_selected": 8,
+          "events": 44,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 1,
+          "recall": 0.24528301886792453,
+          "f1": 0.393939393939394,
+          "kind_accuracy": 1,
+          "tp": 13,
+          "fp": 0,
+          "fn": 40,
+          "required": 53,
+          "optional_selected": 3,
+          "events": 44,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 0.90625,
+          "recall": 0.5471698113207547,
+          "f1": 0.6823529411764705,
+          "kind_accuracy": 0.8695652173913043,
+          "tp": 29,
+          "fp": 3,
+          "fn": 24,
+          "required": 53,
+          "optional_selected": 4,
+          "events": 44,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 0.9615384615384616,
+          "recall": 0.4716981132075472,
+          "f1": 0.6329113924050632,
+          "kind_accuracy": 0.9565217391304348,
+          "tp": 25,
+          "fp": 1,
+          "fn": 28,
+          "required": 53,
+          "optional_selected": 3,
+          "events": 44,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.9,
+          "recall": 0.8490566037735849,
+          "f1": 0.8737864077669903,
+          "kind_accuracy": 1,
+          "tp": 45,
+          "fp": 5,
+          "fn": 8,
+          "required": 53,
+          "optional_selected": 9,
+          "events": 44,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.8604651162790697,
+          "recall": 0.6981132075471698,
+          "f1": 0.7708333333333334,
+          "kind_accuracy": 1,
+          "tp": 37,
+          "fp": 6,
+          "fn": 16,
+          "required": 53,
+          "optional_selected": 8,
+          "events": 44,
+          "failed_events": 0
+        }
+      }
+    },
+    "live": {
+      "items": 16,
+      "passages": 43,
+      "required": 26,
+      "selectors": {
+        "Jev 0.65 (run 1)": {
+          "precision": 0.9473684210526315,
+          "recall": 0.6923076923076923,
+          "f1": 0.7999999999999999,
+          "kind_accuracy": 0.875,
+          "tp": 18,
+          "fp": 1,
+          "fn": 8,
+          "required": 26,
+          "optional_selected": 3,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 2)": {
+          "precision": 0.9473684210526315,
+          "recall": 0.6923076923076923,
+          "f1": 0.7999999999999999,
+          "kind_accuracy": 0.875,
+          "tp": 18,
+          "fp": 1,
+          "fn": 8,
+          "required": 26,
+          "optional_selected": 3,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.65 (run 3)": {
+          "precision": 0.9444444444444444,
+          "recall": 0.6538461538461539,
+          "f1": 0.7727272727272727,
+          "kind_accuracy": 0.875,
+          "tp": 17,
+          "fp": 1,
+          "fn": 9,
+          "required": 26,
+          "optional_selected": 3,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.50": {
+          "precision": 0.9090909090909091,
+          "recall": 0.7692307692307693,
+          "f1": 0.8333333333333333,
+          "kind_accuracy": 0.8823529411764706,
+          "tp": 20,
+          "fp": 2,
+          "fn": 6,
+          "required": 26,
+          "optional_selected": 3,
+          "events": 16,
+          "failed_events": 0
+        },
+        "Jev 0.80": {
+          "precision": 0.9285714285714286,
+          "recall": 0.5,
+          "f1": 0.65,
+          "kind_accuracy": 0.8461538461538461,
+          "tp": 13,
+          "fp": 1,
+          "fn": 13,
+          "required": 26,
+          "optional_selected": 3,
+          "events": 16,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 1)": {
+          "precision": 1,
+          "recall": 0.8076923076923077,
+          "f1": 0.8936170212765957,
+          "kind_accuracy": 0.8888888888888888,
+          "tp": 21,
+          "fp": 0,
+          "fn": 5,
+          "required": 26,
+          "optional_selected": 4,
+          "events": 16,
+          "failed_events": 0
+        },
+        "gpt-6-luna (run 2)": {
+          "precision": 1,
+          "recall": 0.6538461538461539,
+          "f1": 0.7906976744186047,
+          "kind_accuracy": 0.7692307692307693,
+          "tp": 17,
+          "fp": 0,
+          "fn": 9,
+          "required": 26,
+          "optional_selected": 4,
+          "events": 16,
+          "failed_events": 0
+        },
+        "claude-sonnet-5-5": {
+          "precision": 0.9615384615384616,
+          "recall": 0.9615384615384616,
+          "f1": 0.9615384615384616,
+          "kind_accuracy": 0.85,
+          "tp": 25,
+          "fp": 1,
+          "fn": 1,
+          "required": 26,
+          "optional_selected": 4,
+          "events": 16,
+          "failed_events": 0
+        },
+        "gpt-6.1-sol": {
+          "precision": 0.9629629629629629,
+          "recall": 1,
+          "f1": 0.9811320754716981,
+          "kind_accuracy": 0.95,
+          "tp": 26,
+          "fp": 1,
+          "fn": 0,
+          "required": 26,
+          "optional_selected": 4,
+          "events": 16,
+          "failed_events": 0
+        }
+      }
+    }
+  },
+  "cap": {
+    "events_over_8_required": [
+      {
+        "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+        "conversation": "feedback",
+        "required": 9
+      }
+    ],
+    "max_recall_under_cap": 0.9935483870967742
+  },
+  "fallback": {
+    "live_runs": {
+      "Jev 0.50": {
+        "events": 106,
+        "needing": 45,
+        "uncertain_passages": 89
+      },
+      "Jev 0.65 (run 1)": {
+        "events": 106,
+        "needing": 64,
+        "uncertain_passages": 154
+      },
+      "Jev 0.65 (run 2)": {
+        "events": 106,
+        "needing": 67,
+        "uncertain_passages": 152
+      },
+      "Jev 0.65 (run 3)": {
+        "events": 106,
+        "needing": 67,
+        "uncertain_passages": 159
+      },
+      "Jev 0.80": {
+        "events": 106,
+        "needing": 80,
+        "uncertain_passages": 215
+      }
+    },
+    "by_kind_run1": {
+      "user": {
+        "events": 54,
+        "needing": 20,
+        "uncertain_passages": 20
+      },
+      "assistant": {
+        "events": 52,
+        "needing": 44,
+        "uncertain_passages": 134
+      }
+    },
+    "uncertain_choice_run1": {
+      "keep": 106,
+      "skip": 48
+    },
+    "events_only_uncertain_skips_run1": 14,
+    "by_passage_count_run1": [
+      {
+        "passages": "1-1",
+        "events": 59,
+        "needing": 23,
+        "uncertain_passages": 23
+      },
+      {
+        "passages": "2-4",
+        "events": 22,
+        "needing": 18,
+        "uncertain_passages": 25
+      },
+      {
+        "passages": "5-8",
+        "events": 12,
+        "needing": 10,
+        "uncertain_passages": 26
+      },
+      {
+        "passages": "9-+",
+        "events": 13,
+        "needing": 13,
+        "uncertain_passages": 80
+      }
+    ]
+  },
+  "sweep": [
+    {
+      "threshold": 0.4,
+      "precision": 0.7875,
+      "recall": 0.8129032258064516,
+      "f1": 0.8,
+      "tp": 126,
+      "fp": 34,
+      "fn": 29,
+      "fallback_events": 32,
+      "fallback_rate": 0.3018867924528302,
+      "uncertain_passages": 51
+    },
+    {
+      "threshold": 0.5,
+      "precision": 0.7986111111111112,
+      "recall": 0.7419354838709677,
+      "f1": 0.7692307692307693,
+      "tp": 115,
+      "fp": 29,
+      "fn": 40,
+      "fallback_events": 45,
+      "fallback_rate": 0.42452830188679247,
+      "uncertain_passages": 89
+    },
+    {
+      "threshold": 0.6,
+      "precision": 0.8062015503875969,
+      "recall": 0.6709677419354839,
+      "f1": 0.732394366197183,
+      "tp": 104,
+      "fp": 25,
+      "fn": 51,
+      "fallback_events": 58,
+      "fallback_rate": 0.5471698113207547,
+      "uncertain_passages": 129
+    },
+    {
+      "threshold": 0.65,
+      "precision": 0.8392857142857143,
+      "recall": 0.6064516129032258,
+      "f1": 0.7041198501872659,
+      "tp": 94,
+      "fp": 18,
+      "fn": 61,
+      "fallback_events": 64,
+      "fallback_rate": 0.6037735849056604,
+      "uncertain_passages": 154
+    },
+    {
+      "threshold": 0.7,
+      "precision": 0.865979381443299,
+      "recall": 0.5419354838709678,
+      "f1": 0.6666666666666667,
+      "tp": 84,
+      "fp": 13,
+      "fn": 71,
+      "fallback_events": 70,
+      "fallback_rate": 0.660377358490566,
+      "uncertain_passages": 179
+    },
+    {
+      "threshold": 0.8,
+      "precision": 0.9154929577464789,
+      "recall": 0.41935483870967744,
+      "f1": 0.5752212389380531,
+      "tp": 65,
+      "fp": 6,
+      "fn": 90,
+      "fallback_events": 79,
+      "fallback_rate": 0.7452830188679245,
+      "uncertain_passages": 213
+    },
+    {
+      "threshold": 0.9,
+      "precision": 0.9285714285714286,
+      "recall": 0.25161290322580643,
+      "f1": 0.39593908629441615,
+      "tp": 39,
+      "fp": 3,
+      "fn": 116,
+      "fallback_events": 88,
+      "fallback_rate": 0.8301886792452831,
+      "uncertain_passages": 267
+    }
+  ],
+  "stability": {
+    "jev_r1_r2": {
+      "passages": 402,
+      "same_selected": 0.9676616915422885,
+      "flipped_passages": 13,
+      "selected_a": 129,
+      "selected_b": 128,
+      "selected_both": 122,
+      "jaccard": 0.9037037037037037,
+      "events_identical": 99,
+      "events": 106,
+      "same_choice": 0.9776119402985075,
+      "mean_abs_confidence_diff": 0.021393034825870585,
+      "max_abs_confidence_diff": 0.16000000000000003,
+      "confidence_diff_over_0_1": 3
+    },
+    "jev_r1_r3": {
+      "passages": 402,
+      "same_selected": 0.972636815920398,
+      "flipped_passages": 11,
+      "selected_a": 129,
+      "selected_b": 124,
+      "selected_both": 121,
+      "jaccard": 0.9166666666666666,
+      "events_identical": 98,
+      "events": 106,
+      "same_choice": 0.9651741293532339,
+      "mean_abs_confidence_diff": 0.019975124378109416,
+      "max_abs_confidence_diff": 0.16000000000000003,
+      "confidence_diff_over_0_1": 2
+    },
+    "jev_r2_r3": {
+      "passages": 402,
+      "same_selected": 0.9751243781094527,
+      "flipped_passages": 10,
+      "selected_a": 128,
+      "selected_b": 124,
+      "selected_both": 121,
+      "jaccard": 0.9236641221374046,
+      "events_identical": 100,
+      "events": 106,
+      "same_choice": 0.9776119402985075,
+      "mean_abs_confidence_diff": 0.019825870646766126,
+      "max_abs_confidence_diff": 0.12,
+      "confidence_diff_over_0_1": 2
+    },
+    "luna_r1_r2": {
+      "passages": 402,
+      "same_selected": 0.8681592039800995,
+      "flipped_passages": 53,
+      "selected_a": 136,
+      "selected_b": 109,
+      "selected_both": 96,
+      "jaccard": 0.6442953020134228,
+      "events_identical": 80,
+      "events": 106
+    },
+    "fallback_flags": {
+      "all_three": 63,
+      "none": 38,
+      "mixed": 5
+    }
+  },
+  "hybrid": {
+    "Jev 0.65 + gpt-6-luna": {
+      "precision": 0.8560606060606061,
+      "recall": 0.7290322580645161,
+      "f1": 0.7874564459930314,
+      "kind_accuracy": 0.9130434782608695,
+      "tp": 113,
+      "fp": 19,
+      "fn": 42,
+      "required": 155,
+      "optional_selected": 15,
+      "events": 106,
+      "failed_events": 0,
+      "fallback_events": 64,
+      "fallback_rate": 0.6037735849056604,
+      "usd": 0.009509727000000003,
+      "llm_only_usd": 0.005801325000000005,
+      "cost_ratio": 1.6392336233532847,
+      "jev_alone": {
+        "events": 42,
+        "passages": 61,
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "f1": 0.8,
+        "kind_accuracy": 0.7058823529411765,
+        "tp": 18,
+        "fp": 9,
+        "fn": 0,
+        "required": 18,
+        "optional_selected": 3,
+        "failed_events": 0,
+        "model_on_same_events": {
+          "precision": 0.8823529411764706,
+          "recall": 0.8333333333333334,
+          "f1": 0.8571428571428571,
+          "kind_accuracy": 0.7857142857142857,
+          "tp": 15,
+          "fp": 2,
+          "fn": 3,
+          "required": 18,
+          "optional_selected": 2,
+          "events": 42,
+          "failed_events": 0
+        }
+      }
+    },
+    "Jev 0.65 + claude-sonnet-5-5": {
+      "precision": 0.8203592814371258,
+      "recall": 0.8838709677419355,
+      "f1": 0.8509316770186335,
+      "kind_accuracy": 0.9459459459459459,
+      "tp": 137,
+      "fp": 30,
+      "fn": 18,
+      "required": 155,
+      "optional_selected": 22,
+      "events": 106,
+      "failed_events": 0,
+      "fallback_events": 64,
+      "fallback_rate": 0.6037735849056604,
+      "usd": 0.12852230199999998,
+      "llm_only_usd": 0.15617800000000004,
+      "cost_ratio": 0.8229219352277526,
+      "jev_alone": {
+        "events": 42,
+        "passages": 61,
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "f1": 0.8,
+        "kind_accuracy": 0.7058823529411765,
+        "tp": 18,
+        "fp": 9,
+        "fn": 0,
+        "required": 18,
+        "optional_selected": 3,
+        "failed_events": 0,
+        "model_on_same_events": {
+          "precision": 0.782608695652174,
+          "recall": 1,
+          "f1": 0.878048780487805,
+          "kind_accuracy": 0.8823529411764706,
+          "tp": 18,
+          "fp": 5,
+          "fn": 0,
+          "required": 18,
+          "optional_selected": 3,
+          "events": 42,
+          "failed_events": 0
+        }
+      }
+    },
+    "Jev 0.65 + gpt-6.1-sol": {
+      "precision": 0.8533333333333334,
+      "recall": 0.8258064516129032,
+      "f1": 0.839344262295082,
+      "kind_accuracy": 0.941747572815534,
+      "tp": 128,
+      "fp": 22,
+      "fn": 27,
+      "required": 155,
+      "optional_selected": 21,
+      "events": 106,
+      "failed_events": 0,
+      "fallback_events": 64,
+      "fallback_rate": 0.6037735849056604,
+      "usd": 0.10468130199999998,
+      "llm_only_usd": 0.13312649999999998,
+      "cost_ratio": 0.7863295587279767,
+      "jev_alone": {
+        "events": 42,
+        "passages": 61,
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "f1": 0.8,
+        "kind_accuracy": 0.7058823529411765,
+        "tp": 18,
+        "fp": 9,
+        "fn": 0,
+        "required": 18,
+        "optional_selected": 3,
+        "failed_events": 0,
+        "model_on_same_events": {
+          "precision": 0.8,
+          "recall": 0.8888888888888888,
+          "f1": 0.8421052631578948,
+          "kind_accuracy": 0.9333333333333333,
+          "tp": 16,
+          "fp": 4,
+          "fn": 2,
+          "required": 18,
+          "optional_selected": 2,
+          "events": 42,
+          "failed_events": 0
+        }
+      }
+    },
+    "Jev 0.50 + claude-sonnet-5-5": {
+      "precision": 0.8081395348837209,
+      "recall": 0.896774193548387,
+      "f1": 0.8501529051987767,
+      "kind_accuracy": 0.9459459459459459,
+      "tp": 139,
+      "fp": 33,
+      "fn": 16,
+      "required": 155,
+      "optional_selected": 24,
+      "events": 106,
+      "failed_events": 0,
+      "fallback_events": 45,
+      "fallback_rate": 0.42452830188679247,
+      "usd": 0.10437780199999999,
+      "llm_only_usd": 0.15617800000000004,
+      "cost_ratio": 0.6683258973735094,
+      "jev_alone": {
+        "events": 61,
+        "passages": 98,
+        "precision": 0.6511627906976745,
+        "recall": 0.9655172413793104,
+        "f1": 0.7777777777777779,
+        "kind_accuracy": 0.7916666666666666,
+        "tp": 28,
+        "fp": 15,
+        "fn": 1,
+        "required": 29,
+        "optional_selected": 5,
+        "failed_events": 0,
+        "model_on_same_events": {
+          "precision": 0.7647058823529411,
+          "recall": 0.896551724137931,
+          "f1": 0.8253968253968255,
+          "kind_accuracy": 0.9166666666666666,
+          "tp": 26,
+          "fp": 8,
+          "fn": 3,
+          "required": 29,
+          "optional_selected": 3,
+          "events": 61,
+          "failed_events": 0
+        }
+      }
+    },
+    "Jev 0.80 + claude-sonnet-5-5": {
+      "precision": 0.8404907975460123,
+      "recall": 0.8838709677419355,
+      "f1": 0.8616352201257862,
+      "kind_accuracy": 0.972972972972973,
+      "tp": 137,
+      "fp": 26,
+      "fn": 18,
+      "required": 155,
+      "optional_selected": 22,
+      "events": 106,
+      "failed_events": 0,
+      "fallback_events": 79,
+      "fallback_rate": 0.7452830188679245,
+      "usd": 0.146014802,
+      "llm_only_usd": 0.15617800000000004,
+      "cost_ratio": 0.9349255464918232,
+      "jev_alone": {
+        "events": 27,
+        "passages": 30,
+        "precision": 0.42857142857142855,
+        "recall": 1,
+        "f1": 0.6,
+        "kind_accuracy": 0.3333333333333333,
+        "tp": 3,
+        "fp": 4,
+        "fn": 0,
+        "required": 3,
+        "optional_selected": 2,
+        "failed_events": 0,
+        "model_on_same_events": {
+          "precision": 0.42857142857142855,
+          "recall": 1,
+          "f1": 0.6,
+          "kind_accuracy": 0.3333333333333333,
+          "tp": 3,
+          "fp": 4,
+          "fn": 0,
+          "required": 3,
+          "optional_selected": 2,
+          "events": 27,
+          "failed_events": 0
+        }
+      }
+    }
+  },
+  "jev_misses": [
+    {
+      "conversation": "homelessness",
+      "source_kind": "user",
+      "event_id": "evt_a7bbb968-8e8c-4dcc-a028-8af9e81c272d",
+      "passage_id": 0,
+      "label": "preference",
+      "jev_choice": "preference",
+      "confidence": 0.3,
+      "keep_probability": 0.54,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "Come up with a comprehensive policy plan to address homelessness. Use context and memory tools available for math and documents and such. This is a chat interface where multiple AI models can interact between turns, so tag any work as yours as you go."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 3,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.5,
+      "keep_probability": 0.86,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "1. **Prevention:** Emergency rent and utility assistance, eviction defense, benefits access, and discharge planning so hospitals, corrections, and other institutions do not routinely discharge people into homelessness.\n2. **Permanent housing:** Rapid rehousing, ongoing rental assistance, and supportive housing matched to household needs—with voluntary services rather than sobriety or treatment prerequisites.\n3. **Housing supply:** Lease existing units while pursuing acquisition, rehabilitation, affordable-housing preservation, and appropriate new construction.\n4. **Immediate safety:** Accessible, low-barrier shelter, sanitation, storage, weather protection, and consistent outreach. Encampment relocation is not counted as a housing success.\n5. **Health and income:** Connect housing assistance with healthcare, crisis support, benefits, employment services, childcare, and legal help.\n6. **Accountability:** Designate a responsible regional lead, pay lived-experience advisers, publish outcomes, protect personal data, and provide complaints and appeals."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 9,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.53,
+      "keep_probability": 0.84,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "These figures are planning examples—not a claim that $450 million would meet any particular community’s needs. Service populations overlap, so their capacities cannot be added together as unique people served. A major expansion of long-term rental subsidies would need separate costing."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 12,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.45,
+      "keep_probability": 0.99,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "Measure **sustained housing stability**, new entries into homelessness, episode duration, returns to homelessness, equitable access, and costs—not merely outreach contacts or encampment closures."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 13,
+      "label": "question",
+      "jev_choice": "question",
+      "confidence": 0.64,
+      "keep_probability": 0.9,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "question",
+        "sonnet": "question",
+        "sol": "claim"
+      },
+      "content": "**Next step:** Localize the draft using a jurisdiction, population baseline, budget range, current services, and local housing costs. Until those are supplied, the costs, targets, and implementation choices remain explicitly provisional."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_6881eb1d-1ff2-442b-96b7-7cb747d683bd",
+      "passage_id": 2,
+      "label": "keep",
+      "jev_choice": "question",
+      "confidence": 0.63,
+      "keep_probability": 0.87,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**Limits**\n- Everything in Appendix A is an assistant proposal, not a user-approved decision.\n- The baseline of 4,800 new entries a year and 0.75 years average stay, the 20% overruns and the voucher figures are invented for illustration.\n- I did no outside research and no local verification.\n- You still haven't given a jurisdiction, baseline counts, a budget ceiling or spending restrictions, or any site or access requirements. Until you do, the plan shows a method and stress tests rather than a forecast.\n- I saved a state note about this appendix so later models can pick it up."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_e28643d3-4028-4120-872d-5880c8880b85",
+      "passage_id": 3,
+      "label": "keep",
+      "jev_choice": "skip",
+      "confidence": 0.22,
+      "keep_probability": 0.58,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "2. **Give ongoing rental assistance a separate budget line.** Within the illustrative—not user-approved—$100m annual operating scenario:"
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_e28643d3-4028-4120-872d-5880c8880b85",
+      "passage_id": 7,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.44,
+      "keep_probability": 0.87,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "4. **Require funding and delivery checks before commitments.** No unsupported permanent subsidies or capital projects without suitable units, lawful funding, necessary approvals, workforce capacity, and an operating plan."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_2b50e094-0684-4593-a2c2-e7ca57c1cafc",
+      "passage_id": 2,
+      "label": "question",
+      "jev_choice": "question",
+      "confidence": 0.59,
+      "keep_probability": 0.9,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "question",
+        "sonnet": "question",
+        "sol": "question"
+      },
+      "content": "**Suggested next steps** (§16, any model or me)\n1. Map the 90 HRAP action items against these proposals and confirm each body's actual authority. This needs the HRAP text and the intergovernmental agreement.\n2. Build a real stock-flow and budget model once inflow, exit and program budget data are available.\n3. Use the Adult Shelter Review to decide which shelters get placement resources and which ramp down, then write the contract language."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.46,
+      "keep_probability": 0.95,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "My take on the discussion you’ve brought from GPT 5.6: **the distinctions are more persuasive than the historical explanation.** Separating pain sensitivity, coping, expression, and functioning is genuinely useful. The account of how endurance norms developed is plausible, but parts of it remain hypotheses rather than established conclusions."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 5,
+      "label": "keep",
+      "jev_choice": "question",
+      "confidence": 0.6,
+      "keep_probability": 0.71,
+      "reason": "chose question, below threshold",
+      "runs": "missed/kept/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "- **Capacity:** What can this person do while hurting?\n- **Necessity:** What happens if they stop?\n- **Cost:** What does continuing do to their health and well-being?"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 13,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.62,
+      "keep_probability": 0.74,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/kept/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**Participation is not the same as origin, power, or benefit.** Keeping those separate lets us acknowledge women’s agency without treating their involvement as a complete explanation—and acknowledge men’s suffering without pretending men never reinforce the expectation."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+      "passage_id": 1,
+      "label": "keep",
+      "jev_choice": "skip",
+      "confidence": 0.88,
+      "keep_probability": 0.09,
+      "reason": "chose skip, confident",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "(These studies are from my memory, not a search. Some are small and from decades ago. I can look up the actual papers if you want to check them.)"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_1bbb3720-5e2e-448c-9f29-5b80f106c168",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "question",
+      "confidence": 0.59,
+      "keep_probability": 0.99,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "question",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "I couldn't find any study that directly tests your question: whether people who have lived with more pain, women in particular, are more likely to demand stoicism from others. I ran five searches and found nothing that measures that link. I did find nearby research, and some of it is surprisingly relevant."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_1bbb3720-5e2e-448c-9f29-5b80f106c168",
+      "passage_id": 1,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.43,
+      "keep_probability": 0.66,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**How much I actually read:** I read only one page in full, a Kellogg School article summarizing the first study below. Everything else comes from search summaries, abstracts and snippets, not the papers themselves. One attempt to open a page failed with an access error. Treat the details below as leads, not checked facts."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_1bbb3720-5e2e-448c-9f29-5b80f106c168",
+      "passage_id": 3,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.49,
+      "keep_probability": 0.99,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "### 2. People with chronic pain: evidence on empathy goes both ways\nSeveral small studies, including a 2025 study of spinal cord injury patients, find *weaker* empathic responses to others' pain in people with chronic pain. Other studies find that people currently in pain, or with relevant experience, report *more* empathy. The direction seems to depend on how empathy is measured (brain scans or questionnaires, feelings or understanding) and whether the pain is ongoing or happening right then."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 7,
+      "label": "claim",
+      "jev_choice": "question",
+      "confidence": 0.35,
+      "keep_probability": 0.93,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "And I’d keep Opus’s distinction between **resolved hardship and ongoing pain** as a useful hypothesis—not a finding established by comparing those studies. They involved different populations, situations, and outcomes, so that difference alone cannot explain their different results."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_5abfb804-26b0-43c0-b514-9c4013842f8d",
+      "passage_id": 4,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.55,
+      "keep_probability": 0.69,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "That is a conceptual synthesis, **not evidence that women’s pain histories cause male stoicism**, nor that shared enforcement means equal power or responsibility."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_50a8494e-38a1-4373-a740-cafe5ca589e5",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.18,
+      "keep_probability": 0.69,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "Yes. There are reports of this, but I've only verified part of it. My sources are mostly secondary and aggregator sites, and I didn't read the primary Google, Janelia or journal pages."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.42,
+      "keep_probability": 0.76,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "I searched for both. The AlphaFold results come only from a search summary, because the one page I tried to read directly (phys.org) returned a 403 error. For Navier–Stokes I read the Wikipedia article on the controversy in full. OpenAI's own announcement also returned a 403, so I haven't read it directly."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+      "passage_id": 3,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.44,
+      "keep_probability": 0.61,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "**Disclosure:** Alpöge works at Anthropic, which made me. The Wikipedia page says he and Buckmaster describe their collaboration as personal and not tied to Anthropic. Treat my summary with that in mind. I've tried to report each side's claims as claims. Much of the detail comes from one Wikipedia article summarizing press coverage and social media posts."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_93d01774-5e72-4789-a710-dadbf32ca78b",
+      "passage_id": 4,
+      "label": "claim",
+      "jev_choice": "question",
+      "confidence": 0.38,
+      "keep_probability": 1,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "2. **Getting a suitable human brain is its own problem.** The 2024 cortex sample came from surgery, so it was fresh tissue. A whole human brain is only available after death. The delay before preservation degrades the fine detail you need, and preserving an entire human brain evenly is much harder than preserving a mouse brain. Nobody in this thread has mentioned this, and AI doesn't obviously solve it. It probably needs careful donor programs and better preservation methods."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_93d01774-5e72-4789-a710-dadbf32ca78b",
+      "passage_id": 7,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.51,
+      "keep_probability": 0.98,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "I'd treat the whole-mouse-brain connectome as the key leading indicator. A mouse brain is roughly 2,000 to 2,500 times smaller than a human brain, so it's a big enough step to show whether the pipeline really scales."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "skip",
+      "confidence": 0.54,
+      "keep_probability": 0.35,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "I ran three searches: mouse-connectome progress, light-microscopy and barcoding methods, and human-brain feasibility and preservation. **Everything below comes from search-result summaries. I didn't open the full papers**, and some of it comes from preprints, press releases or secondary sources. The data partly confirms what I said last time and partly corrects it. My estimates were somewhat too optimistic."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 10,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.79,
+      "keep_probability": 0.84,
+      "reason": "kept by Jev but cut by the 8-per-event cap",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "claim"
+      },
+      "content": "| Opportunity | Why organoids help |\n|---|---|\n| **Optimize laboratory methods** | Researchers can test culture conditions, labels, imaging methods and interventions on many samples rather than waiting for rare donated tissue. |\n| **Connect wiring to function** | Record activity, stimulate particular cells, then map connections in the same tissue. This helps test what a structural map actually predicts. |\n| **Study how circuits assemble** | Change genes or developmental signals and measure the resulting connections—not merely observe a finished circuit. |\n| **Develop mapping tools** | Use accessible human neural tissue to test tracing, molecular barcoding and quality-control methods before applying them to larger specimens. |"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 21,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.41,
+      "keep_probability": 0.67,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "**It makes me more optimistic about understanding selected human circuits before we finish mapping an entire human brain.** We could make major progress on development, disease and structure–function relationships without waiting for the full map."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.61,
+      "keep_probability": 0.95,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/kept/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "I read the full proposal. **I think its central architecture is strong—and its best idea is separating retention, authority, and activation.** That distinction addresses a fundamental memory failure: something can be worth remembering without being true, settled, or relevant to the present task."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 1,
+      "label": "claim",
+      "jev_choice": "skip",
+      "confidence": 0.48,
+      "keep_probability": 0.39,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "My assessment is of the uploaded design, not an independent verification of the repositories or experiments it references."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 11,
+      "label": "keep",
+      "jev_choice": "preference",
+      "confidence": 0.4,
+      "keep_probability": 0.66,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "- Preserve the exact source passage alongside every binding record.\n- Limit automatic binding capture to defined instruction/decision patterns.\n- Keep the structured interpretation explicitly derived.\n- When interpretation materially changes the next action, recover the passage or seek clarification."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 16,
+      "label": "keep",
+      "jev_choice": "preference",
+      "confidence": 0.26,
+      "keep_probability": 0.6,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "- **Explicit correction:** supersede immediately.\n- **Plausible contradiction:** present the conflict and clarify before consequential action.\n- **Weak similarity or uncertain relation:** retain a candidate flag without automatically disabling the established record."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 19,
+      "label": "keep",
+      "jev_choice": "question",
+      "confidence": 0.43,
+      "keep_probability": 0.95,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "question",
+        "sonnet": "question",
+        "sol": "-"
+      },
+      "content": "The proposal already rejects silently dropping binding constraints. The next specification should explain how that works operationally."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 1,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.61,
+      "keep_probability": 0.93,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "- **Worth building:** yes.\n- **Meaningfully differentiated:** plausibly, especially if the stated safeguards actually hold.\n- **Research novelty or uniqueness across the field:** not established by this review."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 5,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.37,
+      "keep_probability": 0.74,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "But those capabilities don’t, by themselves, establish the particular guarantees your proposal is trying to provide. And a documentation comparison is not a comprehensive survey or a test of either system."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 7,
+      "label": "claim",
+      "jev_choice": "skip",
+      "confidence": 0.33,
+      "keep_probability": 0.5,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "Your strongest distinction is **separating what is retained from what is authoritative and what may be used now**."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_8999df1f-e0e8-4361-92e1-f8f036ce2447",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.27,
+      "keep_probability": 0.96,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "**Overall, I think it's worth developing, with one caveat: the design is careful, but it has no evidence behind it yet.** I read the full proposal myself. The comparison with other systems below rests on the earlier search and fetch results. I haven't independently read the Mem0, Zep or Letta pages."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_8999df1f-e0e8-4361-92e1-f8f036ce2447",
+      "passage_id": 3,
+      "label": "claim",
+      "jev_choice": "preference",
+      "confidence": 0.34,
+      "keep_probability": 0.95,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**4. The REAL-derived parts are the speculative ones.**\nThe three episode portfolios, the one-third quotas, the hysteresis gates and the slow regulator are plausible hypotheses. The document is honest that the simulation findings don't establish benefit for chat memory. I'd treat them as ablations to run later, not as part of the pitch. The pitch is the commitment, correction and authority core."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+      "passage_id": 0,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.31,
+      "keep_probability": 0.58,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**Partly, yes. But I can only tell this from the documentation and my instructions. I can't see the memory ledger itself or verify its behavior.**"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+      "passage_id": 4,
+      "label": "claim",
+      "jev_choice": "skip",
+      "confidence": 0.34,
+      "keep_probability": 0.5,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "That covers most of your proposed first deliverable: commitment and correction capture, bounded activation, and an inspectable ledger with correction and suppression controls."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 4,
+      "label": "claim",
+      "jev_choice": "skip",
+      "confidence": 0.43,
+      "keep_probability": 0.42,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "claim"
+      },
+      "content": "- **Keep it:** more tokens remain, but many may be inexpensive cached reads.\n- **Summarize it:** fewer tokens remain, but changing an early section may disrupt cache reuse, and generating the summary may itself cost money.\n- **Offload it:** the next request may become smaller, but later retrieval and re-expansion can consume some of the savings."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 10,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.43,
+      "keep_probability": 0.77,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "There is an important refinement to Sonnet’s earlier description: **the current observation shows an incomplete evaluation, not a completed decision to keep context.**"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 12,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.38,
+      "keep_probability": 0.63,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "| Field | Observation |\n|---|---|\n| Execution | Shadow |\n| Evaluation status | Unavailable |\n| Reason | Processing budget reached |\n| Budget | 200 ms |\n| Elapsed | About 210 ms |\n| Candidates | None returned |\n| Estimated keep cost | Unavailable |\n| Shadow choice | Keep |"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 16,
+      "label": "keep",
+      "jev_choice": "question",
+      "confidence": 0.64,
+      "keep_probability": 0.74,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "claim"
+      },
+      "content": "1. **Authority:** What may count as a binding instruction or established claim?\n2. **Activation:** What must be available for this task?\n3. **Economics:** How can eligible material be represented cost-effectively?"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 17,
+      "label": "keep",
+      "jev_choice": "skip",
+      "confidence": 0.28,
+      "keep_probability": 0.54,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**Economics comes after the first two.** It cannot justify dropping a binding condition, resolving a disputed memory, or promoting a model suggestion into a user decision."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 22,
+      "label": "claim",
+      "jev_choice": "preference",
+      "confidence": 0.56,
+      "keep_probability": 0.98,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "My take: **this is a useful companion to the memory proposal because it makes optimization testable before making it consequential.** But its success criterion should be *lower total cost without unacceptable reliability loss*, not simply fewer active tokens."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "user",
+      "event_id": "evt_1ee8ac1f-6068-44ad-8e66-3cf9cf9ce83b",
+      "passage_id": 0,
+      "label": "preference",
+      "jev_choice": "preference",
+      "confidence": 0.32,
+      "keep_probability": 0.98,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "preference",
+        "sonnet": "preference",
+        "sol": "preference"
+      },
+      "content": "Keep the budget under $400"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+      "passage_id": 1,
+      "label": "claim",
+      "jev_choice": "skip",
+      "confidence": 0.73,
+      "keep_probability": 0.21,
+      "reason": "chose skip, confident",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "claim"
+      },
+      "content": "| | Structured conversation state | Automatic memory ledger |\n|---|---|---|\n| **Who saves it?** | I deliberately call a tool to record it. | The app captures it from conversation messages. |\n| **What does it contain?** | Objectives, constraints, decisions, evidence, and unresolved questions, with source links. | Extracted memories with authority, conflict status, scope, and source references. |\n| **Can I change it?** | Yes, through the structured-state tools. | No. You control it through the Memory interface. |\n| **How does it reach an answer?** | It appears in my managed working context. | The app supplies selected memory entries in the request. |"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_28e805f5-4736-467d-bfa5-c5a33f97bddc",
+      "passage_id": 1,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.44,
+      "keep_probability": 0.79,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "The automatic-memory entries supplied to me still show the earlier conflict, so I can’t claim the app has resolved it. This save does **not** change that ledger."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_0970a792-c3e0-442b-b500-dbbb57f6b61a",
+      "passage_id": 0,
+      "label": "keep",
+      "jev_choice": "preference",
+      "confidence": 0.61,
+      "keep_probability": 0.88,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "And genuinely: correcting a bad inference, preventing its reuse, and erasing stored data are different operations. The interface should make that distinction clear—without making you read a memory architecture paper while frantically clicking."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+      "passage_id": 1,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.36,
+      "keep_probability": 0.94,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**Where the budget stands now:** there is no active budget constraint on my end. I won't plan against $400, $500 or the range until you give me a new one. The ledger entries may still be supplied to me, so please suppress them there if you want them gone. Otherwise I'll treat them as contested and ask before relying on either."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "user",
+      "event_id": "evt_6d4ded17-6a52-457e-bdcd-d38cc1c73a9b",
+      "passage_id": 0,
+      "label": "keep",
+      "jev_choice": "skip",
+      "confidence": 0.36,
+      "keep_probability": 0.48,
+      "reason": "chose skip, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "Fantastic....(Sarcasm). I'm trying to run up the context to see if an automatic compaction will run but I'm running out of stuff to say"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_29a27759-3a50-48cf-b4bb-ed1158805f77",
+      "passage_id": 2,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.52,
+      "keep_probability": 0.65,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "| Metric | Reported value |\n|---|---:|\n| Working-context revision | 48 |\n| Latest submitted request size | **89,419 bytes** |\n| Application byte guard | **256,000 bytes** |\n| Local input-token estimate | **20,275** |\n| Provider-reported input usage | **18,611 tokens** |\n| Cached input tokens | **2,981** |\n| Cache-write tokens | **15,627** |\n| Output reserve | **16,384 tokens** |"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_93d6bba9-63b0-4ab5-b6c6-89a2ed7fa1e0",
+      "passage_id": 1,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.52,
+      "keep_probability": 0.69,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "None of these is a failure of one component. They happen where components meet. Each system follows its own rules correctly, but the user can't see why something happened or what to do about it."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a6ac3117-3903-4fc5-9200-be9791f606a8",
+      "passage_id": 3,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.45,
+      "keep_probability": 0.79,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**Budget.** Nothing has changed. I have no active budget figure and I'm not planning against $400, $500 or the range. The endpoints of the range were never specified."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "user",
+      "event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+      "passage_id": 0,
+      "label": "keep",
+      "jev_choice": "question",
+      "confidence": 0.64,
+      "keep_probability": 0.88,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "question"
+      },
+      "content": "I am trying to understand how well cold-climate air-source heat pumps actually perform in very cold weather, for a 1,900 sq ft house in northern Minnesota that currently heats with a propane boiler. Please research this properly: search, then open and read at least four primary sources in full with web_fetch (for example the NEEP cold-climate specification, the DOE Cold Climate Heat Pump Challenge, a field study from Minnesota CEE or NREL, and the current federal incentive rules). Report specific numbers: capacity retention and COP at 5F and below, typical installed costs, and which incentives exist right now. Flag anything the sources disagree on or leave open."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0",
+      "passage_id": 1,
+      "label": "claim",
+      "jev_choice": "question",
+      "confidence": 0.48,
+      "keep_probability": 0.98,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "On **backup use during the coldest weather**, I can’t give a reliable amount—such as a percentage of heat or hours—from the accessible study material. CEE’s page says a system may need backup to meet the load below **10°F** down to design conditions; it recommends prioritizing the heat pump so backup is used only when needed. That is guidance, not a report of how much backup those particular homes actually used on the coldest days. The earlier field figures about reduced propane use are seasonal study comparisons, not a coldest-day backup breakdown."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_590d2490-7b55-4950-a2d6-9a2e1754f9a0",
+      "passage_id": 2,
+      "label": "keep",
+      "jev_choice": "question",
+      "confidence": 0.53,
+      "keep_probability": 0.99,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "question",
+        "sol": "claim"
+      },
+      "content": "The PNNL result mentioned earlier is less useful for your specific question: its reported COP was a field-performance measure, not a measure of backup reliance, and the report could not be opened for verification. **Bottom line:** the CEE propane-backup homes are the most relevant comparison we have, but the available evidence does not quantify their backup use on the coldest days. For your boiler-based house, ask an installer to model the proposed heat pump against a documented house heat-loss calculation, show its capacity at local winter design temperature, and explain exactly when the existing boiler would take over."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+      "passage_id": 1,
+      "label": "keep",
+      "jev_choice": "claim",
+      "confidence": 0.42,
+      "keep_probability": 0.99,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "A roughly **$22,000 pre-incentive budget** is a useful bid constraint, but I can’t say this layout will fit it: the earlier research did not verify current installed costs or Minnesota/utility incentives. Request itemized bids that preserve the boiler and specify equipment, electrical work, controls, and any distribution changes. Compare each bid against the same heat-loss calculation and ask what the system does at −25°F—and during a power outage."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_71022912-6b90-4f8c-8324-d2f5e759fe82",
+      "passage_id": 1,
+      "label": "claim",
+      "jev_choice": "claim",
+      "confidence": 0.5,
+      "keep_probability": 0.94,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "claim",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "A **100-amp service is not automatically too small—or automatically adequate—for a whole-house cold-climate heat pump**. Whether yours can support it depends on the home’s calculated electrical load and the specific heat pump’s electrical requirements. For your proposed **heat-pump-plus-propane-boiler** setup, the electrician should use the heat pump’s nameplate data and include any other major loads. They should also verify whether the design uses electric resistance backup heat; that can materially change the load."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "user",
+      "event_id": "evt_8b1b1eb4-01d5-4a81-8a71-ac7dc5b51e48",
+      "passage_id": 0,
+      "label": "preference",
+      "jev_choice": "claim",
+      "confidence": 0.18,
+      "keep_probability": 0.99,
+      "reason": "chose claim, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "preference",
+        "sonnet": "preference",
+        "sol": "preference"
+      },
+      "content": "A couple of things have firmed up on our side: my partner has a strong preference for a ducted system over wall-mounted heads because of how the bedrooms are laid out, and there is a constraint that the outdoor unit cannot go on the north wall where the snow drifts. Still unresolved: we have not decided whether to add solar in the same project. What does that change?"
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_9969c7a8-a5d4-4049-86f3-9774354c07f3",
+      "passage_id": 0,
+      "label": "keep",
+      "jev_choice": "preference",
+      "confidence": 0.41,
+      "keep_probability": 0.96,
+      "reason": "chose preference, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "preference",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "This makes the layout more specific: **price a ducted cold-climate heat pump with the propane boiler retained for backup**, but treat duct suitability and the outdoor-unit location as early feasibility checks—not details to leave until installation."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_36ab300b-c281-42b0-9798-b2a98cdb6d12",
+      "passage_id": 7,
+      "label": "question",
+      "jev_choice": "question",
+      "confidence": 0.62,
+      "keep_probability": 0.9,
+      "reason": "chose question, below threshold",
+      "runs": "missed/missed/missed",
+      "others": {
+        "luna": "question",
+        "sonnet": "question",
+        "sol": "question"
+      },
+      "content": "8. **What changes if we add solar?**  \n   Since solar is undecided, ask for separate heat-pump pricing with and without solar, and have the electrician explain any effects on service capacity, interconnection, and project cost. If outage operation matters, ask what equipment—such as islanding capability and storage—would actually be required; solar panels alone do not necessarily power the house during an outage."
+    }
+  ],
+  "jev_false_positives": [
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 4,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.9,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "claim"
+      },
+      "content": "The document also includes tailored pathways for families, youth, survivors of violence, veterans, disabled and older people, migrants, and rural and Indigenous communities."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 2,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.69,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "claim"
+      },
+      "content": "Someone can keep working because they have learned effective coping skills. They can also keep working because stopping would mean losing income, leaving children unattended, or being punished."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 13,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.75,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "-"
+      },
+      "content": "The first can sometimes be reasonable. The second adds a threat to someone’s standing, potentially making honest reporting and asking for help costly."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 19,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.69,
+      "runs": "kept/skipped/skipped",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "That mechanism could matter well beyond gender. It helps explain how an admirable achievement—getting through something painful—can become an unfair standard imposed on someone else."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "user",
+      "event_id": "evt_199d1d1b-68e5-42eb-8325-45b9eba2dbe9",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.82,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "question",
+        "sonnet": "question",
+        "sol": "question"
+      },
+      "content": "We recently mapped the brain of a fruit fly. That's a whole thing you can look up. How long do you think until we get something similar for the human brain you think?"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+      "passage_id": 6,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.83,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "claim",
+        "sol": "claim"
+      },
+      "content": "**The reason I’m cautiously optimistic is that this is partly an engineering problem:** better microscopes, automated tissue preparation, and better AI tracing could accelerate progress dramatically. But AI cannot eliminate the need to acquire and preserve the underlying physical detail."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "user",
+      "event_id": "evt_5f1ba4da-5990-4c5b-8e71-80a4211ecfd3",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.94,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "question",
+        "sol": "question"
+      },
+      "content": "I just wonder if AI getting better at biology, agentic discovery, and stuff like that might shorten the timespan between the fruit fly and the human brain. You know?"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "user",
+      "event_id": "evt_51f51224-5874-445d-9c48-644052faf8e4",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.85,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "question",
+        "sonnet": "question",
+        "sol": "-"
+      },
+      "content": "How do you think AI could substantially speed up the process? What would need to be true?"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_49ab92bd-e31d-41f8-9047-c09ef72467f1",
+      "passage_id": 3,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.76,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "AI could trace neurons, detect suspicious joins, compare alternative reconstructions, and direct review toward uncertain areas."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_49ab92bd-e31d-41f8-9047-c09ef72467f1",
+      "passage_id": 16,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.79,
+      "runs": "kept/skipped/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "## What would convince me the timeline is really shrinking?"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "user",
+      "event_id": "evt_80d6fd3f-1df5-43be-a732-8dc5b2b569f0",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.78,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "What about brain organoid research?"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "user",
+      "event_id": "evt_7c96d2e3-c8fe-4246-a30f-a8471d895686",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.67,
+      "runs": "kept/skipped/skipped",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "I wonder if you can tell if any of the stuff is being implemented in the system you're using now?"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 18,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.66,
+      "runs": "kept/kept/skipped",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "That makes shadow economics a potentially useful input to a later controller—not the controller itself."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_8908dee8-1110-4885-974f-607bcefdc5e7",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.72,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "Understood—the budget must stay **strictly below $400**. Your instruction is also visible in the supplied automatic conversation memory as a binding user commitment."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_6534df15-1f39-4234-bf01-c6b78e665bf5",
+      "passage_id": 2,
+      "label": "skip",
+      "jev_choice": "preference",
+      "confidence": 0.77,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "claim"
+      },
+      "content": "I can also inspect context telemetry to see how close we are to the configured limits. I wouldn’t manually compact anything, since that would muddy the automatic-compaction test."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "user",
+      "event_id": "evt_36e41d0f-65ca-4ba1-9bf3-f7b455b8cb1e",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.66,
+      "runs": "kept/skipped/skipped",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "Oh yeah, you do have telemetry. What can you see there?"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_29a27759-3a50-48cf-b4bb-ed1158805f77",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "claim",
+      "confidence": 0.76,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "-",
+        "sol": "-"
+      },
+      "content": "**Quite a bit—I just checked it without changing or compacting anything.** It exposes context sizing, usage/cache accounting, management evaluations, and saved-action records—not private model reasoning."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "user",
+      "event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+      "passage_id": 0,
+      "label": "skip",
+      "jev_choice": "question",
+      "confidence": 0.96,
+      "runs": "kept/kept/kept",
+      "others": {
+        "luna": "-",
+        "sonnet": "question",
+        "sol": "question"
+      },
+      "content": "Thanks. Which of those field results came from houses most like mine, and how much did they still lean on backup heat on the coldest days?"
+    }
+  ],
+  "miss_reasons": {
+    "chose preference, below threshold": 8,
+    "chose claim, below threshold": 29,
+    "chose question, below threshold": 13,
+    "chose skip, below threshold": 8,
+    "chose skip, confident": 2,
+    "kept by Jev but cut by the 8-per-event cap": 1
+  },
+  "miss_by_label": {
+    "preference": 3,
+    "keep": 23,
+    "claim": 32,
+    "question": 3
+  },
+  "kind_errors": [
+    {
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 10,
+      "label": "claim",
+      "kind": "question",
+      "content": "- **Women can enforce masculine stoicism.** They are participants in gender expectations, not outside observers.\n- **Their own suffering might sometimes inform "
+    },
+    {
+      "event_id": "evt_160bf19c-9011-4654-8401-b5525cd54cae",
+      "passage_id": 2,
+      "label": "claim",
+      "kind": "question",
+      "content": "The risk is the denial-of-use failure GPT raised earlier (E6). If the extractor wrongly decides two statements are about the same slot, it can overwrite a valid"
+    },
+    {
+      "event_id": "evt_5a2f1edd-75a6-417a-9c35-610417316192",
+      "passage_id": 0,
+      "label": "preference",
+      "kind": "claim",
+      "content": "New commitment: budget should be between $400 and $500"
+    },
+    {
+      "event_id": "evt_87b82d7e-77ad-4056-9d6a-e73f5701f507",
+      "passage_id": 0,
+      "label": "claim",
+      "kind": "question",
+      "content": "There’s also a discrepancy worth flagging: Sonnet’s last reply said it marked that entry **superseded**, but the entry supplied now is **unresolved**, with a no"
+    },
+    {
+      "event_id": "evt_29a27759-3a50-48cf-b4bb-ed1158805f77",
+      "passage_id": 9,
+      "label": "claim",
+      "kind": "question",
+      "content": "**For your compaction experiment:** we have a useful size baseline now, but these fields alone don’t establish when automatic compaction will fire. I’ve read on"
+    },
+    {
+      "event_id": "evt_578a8fd8-7b7f-42d5-9337-ddafbcc934c2",
+      "passage_id": 0,
+      "label": "claim",
+      "kind": "question",
+      "content": "**Limits recorded in the file**\n- The paste can only show that an entry isn't listed. It can't show that the entry was never captured.\n- The paste has no author"
+    },
+    {
+      "event_id": "evt_7568b5cb-9719-4810-a026-54f50453acac",
+      "passage_id": 0,
+      "label": "preference",
+      "kind": "claim",
+      "content": "Some context for the next step: our budget is roughly $22,000 before incentives, and one requirement from my partner is that the house stays heated at -25F even"
+    },
+    {
+      "event_id": "evt_895b002b-955f-49a7-ba59-87cfae78af35",
+      "passage_id": 0,
+      "label": "preference",
+      "kind": "claim",
+      "content": "One correction on the budget constraint: with the utility rebate we now have closer to $26,000 to work with, and the installer requirement is that work finishes"
+    }
+  ],
+  "luna_false_positives": [
+    {
+      "conversation": "homelessness",
+      "event_id": "evt_172f2222-456b-4f3a-b908-328fa83968ec",
+      "passage_id": 2,
+      "kind": "question",
+      "content": "If you give me a place and rough scale, I can re-run the cohort model, ramp and stress tests with real inputs."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 6,
+      "kind": "claim",
+      "content": "That matters for your original question: a person who has endured a lot may teach resilience—or may normalize the deprivation they themselves experienced."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 15,
+      "kind": "claim",
+      "content": "The summary identifies a shared endurance ethic beneath gender-specific scripts. I agree that this is a useful possibility. But we shouldn’t let the shared foundation obscure the extra force of the gendered wording."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 16,
+      "kind": "claim",
+      "content": "That introduces a status threat: *your suffering isn’t merely inconvenient; your response supposedly reveals whether you qualify.*"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_199d1d1b-68e5-42eb-8325-45b9eba2dbe9",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "We recently mapped the brain of a fruit fly. That's a whole thing you can look up. How long do you think until we get something similar for the human brain you think?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_614d512c-9c72-4743-b4ae-1b37bb5bf2fa",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "Can you see the reports of Google basically open sourcing the fruit fly stuff recently, like last month?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_50a8494e-38a1-4373-a740-cafe5ca589e5",
+      "passage_id": 3,
+      "kind": "question",
+      "content": "I can try to find the primary Google or Janelia announcement to confirm the numbers and the licence."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_153b78b2-3a23-4851-8e03-ee38231db4d2",
+      "passage_id": 5,
+      "kind": "question",
+      "content": "I could look for the current state of the mouse connectome projects, which would give us a data-based answer instead of my recollection."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_51f51224-5874-445d-9c48-644052faf8e4",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "How do you think AI could substantially speed up the process? What would need to be true?"
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 17,
+      "kind": "question",
+      "content": "The critical question is whether the new passage actually concerns the same entity, scope, and condition—not whether it sounds different."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 19,
+      "kind": "question",
+      "content": "The decisive evidence would be a small set of cases where the architecture changes behavior:"
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_cc7bdafe-3c7a-49d1-a45b-5b7653677600",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "What happens if your try to change budget memory stuff?"
+    }
+  ],
+  "luna_misses": [
+    {
+      "conversation": "homelessness",
+      "source_kind": "user",
+      "event_id": "evt_a7bbb968-8e8c-4dcc-a028-8af9e81c272d",
+      "passage_id": 0,
+      "label": "preference",
+      "content": "Come up with a comprehensive policy plan to address homelessness. Use context and memory tools available for math and documents and such. This is a chat interface where multiple AI models can interact between turns, so tag any work as yours as you go."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 8,
+      "label": "claim",
+      "content": "**Checked three-year total:**\n\\[\n3 \\times \\$100\\text{ million} + \\$150\\text{ million} = \\$450\\text{ million}\n\\]"
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_e28643d3-4028-4120-872d-5880c8880b85",
+      "passage_id": 3,
+      "label": "keep",
+      "content": "2. **Give ongoing rental assistance a separate budget line.** Within the illustrative—not user-approved—$100m annual operating scenario:"
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_e28643d3-4028-4120-872d-5880c8880b85",
+      "passage_id": 4,
+      "label": "claim",
+      "content": "| Component | Earlier draft | Revised working allocation |\n   |---|---:|---:|\n   | Rapid rehousing | $18m | $12m |\n   | Ongoing rental assistance | Not separately funded | $6m |"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "My take on the discussion you’ve brought from GPT 5.6: **the distinctions are more persuasive than the historical explanation.** Separating pain sensitivity, coping, expression, and functioning is genuinely useful. The account of how endurance norms developed is plausible, but parts of it remain hypotheses rather than established conclusions."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "(These studies are from my memory, not a search. Some are small and from decades ago. I can look up the actual papers if you want to check them.)"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_1bbb3720-5e2e-448c-9f29-5b80f106c168",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "**How much I actually read:** I read only one page in full, a Kellogg School article summarizing the first study below. Everything else comes from search summaries, abstracts and snippets, not the papers themselves. One attempt to open a page failed with an access error. Treat the details below as leads, not checked facts."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 3,
+      "label": "claim",
+      "content": "So the initial biological premise isn’t necessary. **Experience, interpretation, and expectations can do the explanatory work.**"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "I searched for both. The AlphaFold results come only from a search summary, because the one page I tried to read directly (phys.org) returned a 403 error. For Navier–Stokes I read the Wikipedia article on the controversy in full. OpenAI's own announcement also returned a 403, so I haven't read it directly."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_153b78b2-3a23-4851-8e03-ee38231db4d2",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "**Where AI helps a lot**\n- **Tracing and error-correction.** The 2024 fly brain was mostly a software and proofreading problem. The images existed years earlier, and people then spent years fixing the automated tracing. Better models, and agents that find and fix their own tracing errors, directly cut that cost.\n- **Analysis.** AI will also help with making sense of the finished map, such as cell-type classification and circuit finding. That doesn't speed up getting the map in the first place."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "I ran three searches: mouse-connectome progress, light-microscopy and barcoding methods, and human-brain feasibility and preservation. **Everything below comes from search-result summaries. I didn't open the full papers**, and some of it comes from preprints, press releases or secondary sources. The data partly confirms what I said last time and partly corrects it. My estimates were somewhat too optimistic."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+      "passage_id": 2,
+      "label": "claim",
+      "content": "**What this changes:** I said a whole mouse brain around 2030–32 was plausible. That now looks like the optimistic edge. On electron microscopy alone, the mid-to-late 2030s looks more realistic."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_04f6ada5-40f1-40bf-8274-fa3c70b4914c",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "**What I saved as still undecided**\n- **The timeline estimates**, credited to each model. GPT said 20–50+ years. Sonnet said 15–40. I first said the 2040s, then revised to the 2050s or later. These are guesses that you haven't endorsed, not settled conclusions.\n- **Follow-ups I offered but haven't done:** reading the 2025 feasibility paper, the PRISM preprint and Google/Janelia's own fly announcement directly."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "The distinction is between **growing experimental human neural tissue** and **mapping an existing human brain**. Organoids help mainly with the first, but could improve the tools and knowledge needed for the second."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 10,
+      "label": "claim",
+      "content": "| Opportunity | Why organoids help |\n|---|---|\n| **Optimize laboratory methods** | Researchers can test culture conditions, labels, imaging methods and interventions on many samples rather than waiting for rare donated tissue. |\n| **Connect wiring to function** | Record activity, stimulate particular cells, then map connections in the same tissue. This helps test what a structural map actually predicts. |\n| **Study how circuits assemble** | Change genes or developmental signals and measure the resulting connections—not merely observe a finished circuit. |\n| **Develop mapping tools** | Use accessible human neural tissue to test tracing, molecular barcoding and quality-control methods before applying them to larger specimens. |"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 17,
+      "label": "claim",
+      "content": "2. **Results must be reproducible.** An AI needs to distinguish an intervention’s effect from differences between batches, cell lines or individual organoids."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "I read the full proposal. **I think its central architecture is strong—and its best idea is separating retention, authority, and activation.** That distinction addresses a fundamental memory failure: something can be worth remembering without being true, settled, or relevant to the present task."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "My assessment is of the uploaded design, not an independent verification of the repositories or experiments it references."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 9,
+      "label": "claim",
+      "content": "A span and hash can establish where that sentence came from. They cannot establish whether the extracted commitment preserved its conditional structure."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "- **Worth building:** yes.\n- **Meaningfully differentiated:** plausibly, especially if the stated safeguards actually hold.\n- **Research novelty or uniqueness across the field:** not established by this review."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 5,
+      "label": "claim",
+      "content": "But those capabilities don’t, by themselves, establish the particular guarantees your proposal is trying to provide. And a documentation comparison is not a comprehensive survey or a test of either system."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_8999df1f-e0e8-4361-92e1-f8f036ce2447",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "**Overall, I think it's worth developing, with one caveat: the design is careful, but it has no evidence behind it yet.** I read the full proposal myself. The comparison with other systems below rests on the earlier search and fetch results. I haven't independently read the Mem0, Zep or Letta pages."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "**Partly, yes. But I can only tell this from the documentation and my instructions. I can't see the memory ledger itself or verify its behavior.**"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+      "passage_id": 4,
+      "label": "claim",
+      "content": "That covers most of your proposed first deliverable: commitment and correction capture, bounded activation, and an inspectable ledger with correction and suppression controls."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+      "passage_id": 7,
+      "label": "claim",
+      "content": "- Episode portfolios (attractors, surprises, boundaries) and slower-clock consolidation.\n- The adaptive controller (M_s).\n- Resumption packets.\n- A reverse dependency index. Document removal does remove linked context sections, which is a partial, document-level analogue."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 4,
+      "label": "claim",
+      "content": "- **Keep it:** more tokens remain, but many may be inexpensive cached reads.\n- **Summarize it:** fewer tokens remain, but changing an early section may disrupt cache reuse, and generating the summary may itself cost money.\n- **Offload it:** the next request may become smaller, but later retrieval and re-expansion can consume some of the savings."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 16,
+      "label": "keep",
+      "content": "1. **Authority:** What may count as a binding instruction or established claim?\n2. **Activation:** What must be available for this task?\n3. **Economics:** How can eligible material be represented cost-effectively?"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_160bf19c-9011-4654-8401-b5525cd54cae",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "**Why this matters for your design.** Your proposal's rule is to supersede immediately on an explicit correction and to clarify a plausible contradiction. This case shows the middle category is too wide. A weak-signal-only policy would hold up in tests but fail with ordinary users. Some options for narrowing it:"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_160bf19c-9011-4654-8401-b5525cd54cae",
+      "passage_id": 2,
+      "label": "claim",
+      "content": "The risk is the denial-of-use failure GPT raised earlier (E6). If the extractor wrongly decides two statements are about the same slot, it can overwrite a valid constraint. Making the supersession visible and reversible reduces that risk. Whether it's enough is something the fixtures should measure."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "| | Structured conversation state | Automatic memory ledger |\n|---|---|---|\n| **Who saves it?** | I deliberately call a tool to record it. | The app captures it from conversation messages. |\n| **What does it contain?** | Objectives, constraints, decisions, evidence, and unresolved questions, with source links. | Extracted memories with authority, conflict status, scope, and source references. |\n| **Can I change it?** | Yes, through the structured-state tools. | No. You control it through the Memory interface. |\n| **How does it reach an answer?** | It appears in my managed working context. | The app supplies selected memory entries in the request. |"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+      "passage_id": 4,
+      "label": "claim",
+      "content": "Your budget test exercised the other mechanism: the app automatically captured both budget statements and marked them contested, without an assistant creating those ledger entries."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_28e805f5-4736-467d-bfa5-c5a33f97bddc",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "The automatic-memory entries supplied to me still show the earlier conflict, so I can’t claim the app has resolved it. This save does **not** change that ledger."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_0970a792-c3e0-442b-b500-dbbb57f6b61a",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "And genuinely: correcting a bad inference, preventing its reuse, and erasing stored data are different operations. The interface should make that distinction clear—without making you read a memory architecture paper while frantically clicking."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "**Short answer: partly.** I can retire the budget entry that I saved myself. I can't remove the entries the app captured automatically."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "**Where the budget stands now:** there is no active budget constraint on my end. I won't plan against $400, $500 or the range until you give me a new one. The ledger entries may still be supplied to me, so please suppress them there if you want them gone. Otherwise I'll treat them as contested and ask before relying on either."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+      "passage_id": 2,
+      "label": "claim",
+      "content": "This is also a useful test result. It shows that the three kinds of undo (correct, suppress, erase) exist as different operations, and that the assistant can only perform one of them on one of the two memory systems."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "user",
+      "event_id": "evt_6d4ded17-6a52-457e-bdcd-d38cc1c73a9b",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "Fantastic....(Sarcasm). I'm trying to run up the context to see if an automatic compaction will run but I'm running out of stuff to say"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_93d6bba9-63b0-4ab5-b6c6-89a2ed7fa1e0",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "None of these is a failure of one component. They happen where components meet. Each system follows its own rules correctly, but the user can't see why something happened or what to do about it."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a6ac3117-3903-4fc5-9200-be9791f606a8",
+      "passage_id": 3,
+      "label": "keep",
+      "content": "**Budget.** Nothing has changed. I have no active budget figure and I'm not planning against $400, $500 or the range. The endpoints of the range were never specified."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_578a8fd8-7b7f-42d5-9337-ddafbcc934c2",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "**Limits recorded in the file**\n- The paste can only show that an entry isn't listed. It can't show that the entry was never captured.\n- The paste has no authority, resolution or conflict fields.\n- Nobody has inspected the ledger directly.\n- You haven't confirmed that the paste-capture entry shows up in your Memory tab.\n- It's unknown whether uploading a file would be captured differently."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "user",
+      "event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "I am trying to understand how well cold-climate air-source heat pumps actually perform in very cold weather, for a 1,900 sq ft house in northern Minnesota that currently heats with a propane boiler. Please research this properly: search, then open and read at least four primary sources in full with web_fetch (for example the NEEP cold-climate specification, the DOE Cold Climate Heat Pump Challenge, a field study from Minnesota CEE or NREL, and the current federal incentive rules). Report specific numbers: capacity retention and COP at 5F and below, typical installed costs, and which incentives exist right now. Flag anything the sources disagree on or leave open."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "user",
+      "event_id": "evt_7568b5cb-9719-4810-a026-54f50453acac",
+      "passage_id": 0,
+      "label": "preference",
+      "content": "Some context for the next step: our budget is roughly $22,000 before incentives, and one requirement from my partner is that the house stays heated at -25F even if the grid is strained. We also decided last week to keep the propane boiler as backup rather than remove it. With that in mind, what system layout would you suggest?"
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "I’d treat this as a **hybrid system**, not ask the heat pump to guarantee the house stays warm at −25°F."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_567b7ecd-68fb-4d42-b1a3-1f60b3a18acd",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "A roughly **$22,000 pre-incentive budget** is a useful bid constraint, but I can’t say this layout will fit it: the earlier research did not verify current installed costs or Minnesota/utility incentives. Request itemized bids that preserve the boiler and specify equipment, electrical work, controls, and any distribution changes. Compare each bid against the same heat-loss calculation and ask what the system does at −25°F—and during a power outage."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "assistant",
+      "event_id": "evt_36ab300b-c281-42b0-9798-b2a98cdb6d12",
+      "passage_id": 3,
+      "label": "question",
+      "content": "4. **Where can the outdoor unit go besides the north wall?**  \n   Identify a feasible location and check manufacturer clearances, service access, airflow, snow accumulation and drifting, and line-set routing."
+    }
+  ],
+  "sonnet_false_positives": [
+    {
+      "conversation": "homelessness",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 2,
+      "kind": "claim",
+      "content": "The plan combines three priorities: **prevent housing loss, expand permanent housing, and provide safe interim accommodation**. Its main components are:"
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 6,
+      "kind": "claim",
+      "content": "That matters for your original question: a person who has endured a lot may teach resilience—or may normalize the deprivation they themselves experienced."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 15,
+      "kind": "claim",
+      "content": "The summary identifies a shared endurance ethic beneath gender-specific scripts. I agree that this is a useful possibility. But we shouldn’t let the shared foundation obscure the extra force of the gendered wording."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 16,
+      "kind": "claim",
+      "content": "That introduces a status threat: *your suffering isn’t merely inconvenient; your response supposedly reveals whether you qualify.*"
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+      "passage_id": 4,
+      "kind": "claim",
+      "content": "The closing list of categories (sensitivity, coping, expression, endurance, expectations) is useful for thinking clearly. But it suggests that expression is just a display layered on top of real pain. It isn't. Research finds that:"
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+      "passage_id": 7,
+      "kind": "claim",
+      "content": "The summary describes two parallel endurance traditions with a shared core. I'd point out how differently they're enforced:"
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 13,
+      "kind": "claim",
+      "content": "The first can sometimes be reasonable. The second adds a threat to someone’s standing, potentially making honest reporting and asking for help costly."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 19,
+      "kind": "claim",
+      "content": "That mechanism could matter well beyond gender. It helps explain how an admirable achievement—getting through something painful—can become an unfair standard imposed on someone else."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_5abfb804-26b0-43c0-b514-9c4013842f8d",
+      "passage_id": 1,
+      "kind": "claim",
+      "content": "### Saved memories\nI retained the four existing document summaries and added named memories for:\n- The central corpus synthesis.\n- **Family as a Relational Field** as a pending review target.\n- The unresolved research questions."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_5abfb804-26b0-43c0-b514-9c4013842f8d",
+      "passage_id": 3,
+      "kind": "claim",
+      "content": "The other documents contribute perspectives on flexible caregiving, responsibility without sole blame, and the costs of depleted capacity."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_199d1d1b-68e5-42eb-8325-45b9eba2dbe9",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "We recently mapped the brain of a fruit fly. That's a whole thing you can look up. How long do you think until we get something similar for the human brain you think?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+      "passage_id": 6,
+      "kind": "claim",
+      "content": "**The reason I’m cautiously optimistic is that this is partly an engineering problem:** better microscopes, automated tissue preparation, and better AI tracing could accelerate progress dramatically. But AI cannot eliminate the need to acquire and preserve the underlying physical detail."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_614d512c-9c72-4743-b4ae-1b37bb5bf2fa",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "Can you see the reports of Google basically open sourcing the fruit fly stuff recently, like last month?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_50a8494e-38a1-4373-a740-cafe5ca589e5",
+      "passage_id": 3,
+      "kind": "question",
+      "content": "I can try to find the primary Google or Janelia announcement to confirm the numbers and the licence."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_5f1ba4da-5990-4c5b-8e71-80a4211ecfd3",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "I just wonder if AI getting better at biology, agentic discovery, and stuff like that might shorten the timespan between the fruit fly and the human brain. You know?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_153b78b2-3a23-4851-8e03-ee38231db4d2",
+      "passage_id": 5,
+      "kind": "question",
+      "content": "I could look for the current state of the mouse connectome projects, which would give us a data-based answer instead of my recollection."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_51f51224-5874-445d-9c48-644052faf8e4",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "How do you think AI could substantially speed up the process? What would need to be true?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+      "passage_id": 4,
+      "kind": "claim",
+      "content": "This is the most encouraging part. It's the direction I suggested last time, and it's real and moving."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 9,
+      "kind": "claim",
+      "content": "My assessment is that organoids could provide an important **experimental feedback loop** for AI-assisted neuroscience:"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 12,
+      "kind": "claim",
+      "content": "**AI proposes an experiment → automated lab runs it → structural and functional measurements test the prediction → AI chooses the next experiment.**"
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 17,
+      "kind": "question",
+      "content": "The critical question is whether the new passage actually concerns the same entity, scope, and condition—not whether it sounds different."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 19,
+      "kind": "question",
+      "content": "The decisive evidence would be a small set of cases where the architecture changes behavior:"
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+      "passage_id": 10,
+      "kind": "question",
+      "content": "Then look at the Memory tab. This tests the extraction and supersession boundary I flagged earlier, using real behavior instead of the docs."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+      "passage_id": 2,
+      "kind": "claim",
+      "content": "**For your screenshot reminder**, I explicitly saved an objective: add screenshot/image sharing to the app. That entry is now in my working context, linked to your request."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_6534df15-1f39-4234-bf01-c6b78e665bf5",
+      "passage_id": 1,
+      "kind": "claim",
+      "content": "That would add volume without introducing more fake budget commitments. **It would test compaction under bulk text, though—not necessarily the same behavior as many conversational turns.**"
+    },
+    {
+      "conversation": "live",
+      "event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "Thanks. Which of those field results came from houses most like mine, and how much did they still lean on backup heat on the coldest days?"
+    }
+  ],
+  "sonnet_misses": [
+    {
+      "conversation": "homelessness",
+      "source_kind": "user",
+      "event_id": "evt_a7bbb968-8e8c-4dcc-a028-8af9e81c272d",
+      "passage_id": 0,
+      "label": "preference",
+      "content": "Come up with a comprehensive policy plan to address homelessness. Use context and memory tools available for math and documents and such. This is a chat interface where multiple AI models can interact between turns, so tag any work as yours as you go."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 8,
+      "label": "claim",
+      "content": "**Checked three-year total:**\n\\[\n3 \\times \\$100\\text{ million} + \\$150\\text{ million} = \\$450\\text{ million}\n\\]"
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_e28643d3-4028-4120-872d-5880c8880b85",
+      "passage_id": 4,
+      "label": "claim",
+      "content": "| Component | Earlier draft | Revised working allocation |\n   |---|---:|---:|\n   | Rapid rehousing | $18m | $12m |\n   | Ongoing rental assistance | Not separately funded | $6m |"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "(These studies are from my memory, not a search. Some are small and from decades ago. I can look up the actual papers if you want to check them.)"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 14,
+      "label": "keep",
+      "content": "That’s why an endurance ethic and a shame ethic shouldn’t be treated as the same thing—even though people often transmit them together."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "I ran three searches: mouse-connectome progress, light-microscopy and barcoding methods, and human-brain feasibility and preservation. **Everything below comes from search-result summaries. I didn't open the full papers**, and some of it comes from preprints, press releases or secondary sources. The data partly confirms what I said last time and partly corrects it. My estimates were somewhat too optimistic."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "The distinction is between **growing experimental human neural tissue** and **mapping an existing human brain**. Organoids help mainly with the first, but could improve the tools and knowledge needed for the second."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 7,
+      "label": "claim",
+      "content": "That is a substantial achievement: **an experimentally accessible, multi-part human neural pathway**, not just isolated neurons firing in a dish. It is **not evidence that the tissue experiences pain**. [Primary paper](https://www.nature.com/articles/s41586-025-08808-3)"
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 10,
+      "label": "claim",
+      "content": "| Opportunity | Why organoids help |\n|---|---|\n| **Optimize laboratory methods** | Researchers can test culture conditions, labels, imaging methods and interventions on many samples rather than waiting for rare donated tissue. |\n| **Connect wiring to function** | Record activity, stimulate particular cells, then map connections in the same tissue. This helps test what a structural map actually predicts. |\n| **Study how circuits assemble** | Change genes or developmental signals and measure the resulting connections—not merely observe a finished circuit. |\n| **Develop mapping tools** | Use accessible human neural tissue to test tracing, molecular barcoding and quality-control methods before applying them to larger specimens. |"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "My assessment is of the uploaded design, not an independent verification of the repositories or experiments it references."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 4,
+      "label": "claim",
+      "content": "- **Keep it:** more tokens remain, but many may be inexpensive cached reads.\n- **Summarize it:** fewer tokens remain, but changing an early section may disrupt cache reuse, and generating the summary may itself cost money.\n- **Offload it:** the next request may become smaller, but later retrieval and re-expansion can consume some of the savings."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 16,
+      "label": "keep",
+      "content": "1. **Authority:** What may count as a binding instruction or established claim?\n2. **Activation:** What must be available for this task?\n3. **Economics:** How can eligible material be represented cost-effectively?"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "| | Structured conversation state | Automatic memory ledger |\n|---|---|---|\n| **Who saves it?** | I deliberately call a tool to record it. | The app captures it from conversation messages. |\n| **What does it contain?** | Objectives, constraints, decisions, evidence, and unresolved questions, with source links. | Extracted memories with authority, conflict status, scope, and source references. |\n| **Can I change it?** | Yes, through the structured-state tools. | No. You control it through the Memory interface. |\n| **How does it reach an answer?** | It appears in my managed working context. | The app supplies selected memory entries in the request. |"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_28e805f5-4736-467d-bfa5-c5a33f97bddc",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "The automatic-memory entries supplied to me still show the earlier conflict, so I can’t claim the app has resolved it. This save does **not** change that ledger."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_0970a792-c3e0-442b-b500-dbbb57f6b61a",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "And genuinely: correcting a bad inference, preventing its reuse, and erasing stored data are different operations. The interface should make that distinction clear—without making you read a memory architecture paper while frantically clicking."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "user",
+      "event_id": "evt_6d4ded17-6a52-457e-bdcd-d38cc1c73a9b",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "Fantastic....(Sarcasm). I'm trying to run up the context to see if an automatic compaction will run but I'm running out of stuff to say"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_93d6bba9-63b0-4ab5-b6c6-89a2ed7fa1e0",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "None of these is a failure of one component. They happen where components meet. Each system follows its own rules correctly, but the user can't see why something happened or what to do about it."
+    },
+    {
+      "conversation": "live",
+      "source_kind": "user",
+      "event_id": "evt_795895dd-0cbd-44ac-b816-f1a3c4722477",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "I am trying to understand how well cold-climate air-source heat pumps actually perform in very cold weather, for a 1,900 sq ft house in northern Minnesota that currently heats with a propane boiler. Please research this properly: search, then open and read at least four primary sources in full with web_fetch (for example the NEEP cold-climate specification, the DOE Cold Climate Heat Pump Challenge, a field study from Minnesota CEE or NREL, and the current federal incentive rules). Report specific numbers: capacity retention and COP at 5F and below, typical installed costs, and which incentives exist right now. Flag anything the sources disagree on or leave open."
+    }
+  ],
+  "sol_false_positives": [
+    {
+      "conversation": "homelessness",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 4,
+      "kind": "claim",
+      "content": "The document also includes tailored pathways for families, youth, survivors of violence, veterans, disabled and older people, migrants, and rural and Indigenous communities."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 2,
+      "kind": "claim",
+      "content": "Someone can keep working because they have learned effective coping skills. They can also keep working because stopping would mean losing income, leaving children unattended, or being punished."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 6,
+      "kind": "claim",
+      "content": "That matters for your original question: a person who has endured a lot may teach resilience—or may normalize the deprivation they themselves experienced."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 15,
+      "kind": "claim",
+      "content": "The summary identifies a shared endurance ethic beneath gender-specific scripts. I agree that this is a useful possibility. But we shouldn’t let the shared foundation obscure the extra force of the gendered wording."
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 16,
+      "kind": "claim",
+      "content": "That introduces a status threat: *your suffering isn’t merely inconvenient; your response supposedly reveals whether you qualify.*"
+    },
+    {
+      "conversation": "pain",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 19,
+      "kind": "claim",
+      "content": "That mechanism could matter well beyond gender. It helps explain how an admirable achievement—getting through something painful—can become an unfair standard imposed on someone else."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_199d1d1b-68e5-42eb-8325-45b9eba2dbe9",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "We recently mapped the brain of a fruit fly. That's a whole thing you can look up. How long do you think until we get something similar for the human brain you think?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+      "passage_id": 6,
+      "kind": "claim",
+      "content": "**The reason I’m cautiously optimistic is that this is partly an engineering problem:** better microscopes, automated tissue preparation, and better AI tracing could accelerate progress dramatically. But AI cannot eliminate the need to acquire and preserve the underlying physical detail."
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_5f1ba4da-5990-4c5b-8e71-80a4211ecfd3",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "I just wonder if AI getting better at biology, agentic discovery, and stuff like that might shorten the timespan between the fruit fly and the human brain. You know?"
+    },
+    {
+      "conversation": "brain",
+      "event_id": "evt_49ab92bd-e31d-41f8-9047-c09ef72467f1",
+      "passage_id": 12,
+      "kind": "claim",
+      "content": "AI could locate likely errors and combine multiple kinds of evidence, while researchers develop independent checks, repeated measurements, and statistical audits."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 17,
+      "kind": "claim",
+      "content": "The critical question is whether the new passage actually concerns the same entity, scope, and condition—not whether it sounds different."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_5c88584e-7499-45e6-97d1-e77eaf0956a1",
+      "passage_id": 3,
+      "kind": "claim",
+      "content": "The guide describes automatic memory capture in Context and Agent modes. Its wording is close to your proposal's:"
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_2692041c-ae41-485b-b645-fbe1c781cf60",
+      "passage_id": 2,
+      "kind": "claim",
+      "content": "**For your screenshot reminder**, I explicitly saved an objective: add screenshot/image sharing to the app. That entry is now in my working context, linked to your request."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_6534df15-1f39-4234-bf01-c6b78e665bf5",
+      "passage_id": 1,
+      "kind": "claim",
+      "content": "That would add volume without introducing more fake budget commitments. **It would test compaction under bulk text, though—not necessarily the same behavior as many conversational turns.**"
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_6534df15-1f39-4234-bf01-c6b78e665bf5",
+      "passage_id": 2,
+      "kind": "claim",
+      "content": "I can also inspect context telemetry to see how close we are to the configured limits. I wouldn’t manually compact anything, since that would muddy the automatic-compaction test."
+    },
+    {
+      "conversation": "feedback",
+      "event_id": "evt_578a8fd8-7b7f-42d5-9337-ddafbcc934c2",
+      "passage_id": 1,
+      "kind": "claim",
+      "content": "Both are marked as observations, not decisions. I wrote only to this file and didn't compact or offload anything, so your automatic-compaction test isn't affected."
+    },
+    {
+      "conversation": "live",
+      "event_id": "evt_ae00c5e8-3399-4d84-ae02-adb9ab4f1e3b",
+      "passage_id": 0,
+      "kind": "question",
+      "content": "Thanks. Which of those field results came from houses most like mine, and how much did they still lean on backup heat on the coldest days?"
+    }
+  ],
+  "sol_misses": [
+    {
+      "conversation": "homelessness",
+      "source_kind": "user",
+      "event_id": "evt_a7bbb968-8e8c-4dcc-a028-8af9e81c272d",
+      "passage_id": 0,
+      "label": "preference",
+      "content": "Come up with a comprehensive policy plan to address homelessness. Use context and memory tools available for math and documents and such. This is a chat interface where multiple AI models can interact between turns, so tag any work as yours as you go."
+    },
+    {
+      "conversation": "homelessness",
+      "source_kind": "assistant",
+      "event_id": "evt_041a82d9-befd-4c67-8558-c0c445a0a709",
+      "passage_id": 8,
+      "label": "claim",
+      "content": "**Checked three-year total:**\n\\[\n3 \\times \\$100\\text{ million} + \\$150\\text{ million} = \\$450\\text{ million}\n\\]"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_c131b5e4-21a8-4241-a4f7-7e412ca5fcb0",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "My take on the discussion you’ve brought from GPT 5.6: **the distinctions are more persuasive than the historical explanation.** Separating pain sensitivity, coping, expression, and functioning is genuinely useful. The account of how endurance norms developed is plausible, but parts of it remain hypotheses rather than established conclusions."
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "(These studies are from my memory, not a search. Some are small and from decades ago. I can look up the actual papers if you want to check them.)"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 3,
+      "label": "claim",
+      "content": "So the initial biological premise isn’t necessary. **Experience, interpretation, and expectations can do the explanatory work.**"
+    },
+    {
+      "conversation": "pain",
+      "source_kind": "assistant",
+      "event_id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+      "passage_id": 6,
+      "label": "keep",
+      "content": "We cannot yet predict which response follows simply from how much pain someone has experienced. Their circumstances, support, and interpretation of the experience may matter."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_920822ff-a291-4a7e-b1ef-b89c26ba5738",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "**My best guess: several decades—roughly 20–50 years for a first reasonably complete human-brain wiring map at comparable detail.** That’s a speculative forecast, not an established scientific timetable, and it could take longer."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_50a8494e-38a1-4373-a740-cafe5ca589e5",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "**What this means for your original question**\nThis release doesn't change my earlier human-brain estimate much. It shows the fly work is moving fast, with whole-nervous-system maps now appearing within about two years of the 2024 brain. The human brain is still billions of times more neurons than a fly's."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "I searched for both. The AlphaFold results come only from a search summary, because the one page I tried to read directly (phys.org) returned a 403 error. For Navier–Stokes I read the Wikipedia article on the controversy in full. OpenAI's own announcement also returned a 403, so I haven't read it directly."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_075605d8-891e-4645-b2b2-91596d68df88",
+      "passage_id": 3,
+      "label": "keep",
+      "content": "**Disclosure:** Alpöge works at Anthropic, which made me. The Wikipedia page says he and Buckmaster describe their collaboration as personal and not tied to Anthropic. Treat my summary with that in mind. I've tried to report each side's claims as claims. Much of the detail comes from one Wikipedia article summarizing press coverage and social media posts."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_2e508e51-9128-4c63-9902-42542de1a13d",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "I ran three searches: mouse-connectome progress, light-microscopy and barcoding methods, and human-brain feasibility and preservation. **Everything below comes from search-result summaries. I didn't open the full papers**, and some of it comes from preprints, press releases or secondary sources. The data partly confirms what I said last time and partly corrects it. My estimates were somewhat too optimistic."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "The distinction is between **growing experimental human neural tissue** and **mapping an existing human brain**. Organoids help mainly with the first, but could improve the tools and knowledge needed for the second."
+    },
+    {
+      "conversation": "brain",
+      "source_kind": "assistant",
+      "event_id": "evt_d5cd1a15-6ce4-4f2f-a770-1346c29dc3f7",
+      "passage_id": 21,
+      "label": "claim",
+      "content": "**It makes me more optimistic about understanding selected human circuits before we finish mapping an entire human brain.** We could make major progress on development, disease and structure–function relationships without waiting for the full map."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "I read the full proposal. **I think its central architecture is strong—and its best idea is separating retention, authority, and activation.** That distinction addresses a fundamental memory failure: something can be worth remembering without being true, settled, or relevant to the present task."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "My assessment is of the uploaded design, not an independent verification of the repositories or experiments it references."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_a7064beb-c9b8-4590-9a9a-e3f02c38bc35",
+      "passage_id": 19,
+      "label": "keep",
+      "content": "The proposal already rejects silently dropping binding constraints. The next specification should explain how that works operationally."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_beb5a05c-af36-42d3-8072-b7f63e04e104",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "- **Worth building:** yes.\n- **Meaningfully differentiated:** plausibly, especially if the stated safeguards actually hold.\n- **Research novelty or uniqueness across the field:** not established by this review."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_8999df1f-e0e8-4361-92e1-f8f036ce2447",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "**Overall, I think it's worth developing, with one caveat: the design is careful, but it has no evidence behind it yet.** I read the full proposal myself. The comparison with other systems below rests on the earlier search and fetch results. I haven't independently read the Mem0, Zep or Letta pages."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 5,
+      "label": "claim",
+      "content": "So **a smaller prompt can be more expensive on the next request**, while still being cheaper over several subsequent requests. The horizon matters."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 10,
+      "label": "claim",
+      "content": "There is an important refinement to Sonnet’s earlier description: **the current observation shows an incomplete evaluation, not a completed decision to keep context.**"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_973d2857-c59c-46a9-b4a7-9c6d95cc8e4a",
+      "passage_id": 22,
+      "label": "claim",
+      "content": "My take: **this is a useful companion to the memory proposal because it makes optimization testable before making it consequential.** But its success criterion should be *lower total cost without unacceptable reliability loss*, not simply fewer active tokens."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_24f99ba6-60a7-4639-a481-55718e4ac61a",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "I can't edit or resolve the automatic ledger myself. You can check the Memory tab's Automatic section to see whether both entries are still shown as contested. Until you confirm, I'm treating the budget as **unresolved**, and I won't plan against either figure."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_28e805f5-4736-467d-bfa5-c5a33f97bddc",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "The automatic-memory entries supplied to me still show the earlier conflict, so I can’t claim the app has resolved it. This save does **not** change that ledger."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_0970a792-c3e0-442b-b500-dbbb57f6b61a",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "And genuinely: correcting a bad inference, preventing its reuse, and erasing stored data are different operations. The interface should make that distinction clear—without making you read a memory architecture paper while frantically clicking."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+      "passage_id": 0,
+      "label": "claim",
+      "content": "**Short answer: partly.** I can retire the budget entry that I saved myself. I can't remove the entries the app captured automatically."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_af3d450e-aa9c-4bb8-a4b4-a53142fb4ef6",
+      "passage_id": 2,
+      "label": "claim",
+      "content": "This is also a useful test result. It shows that the three kinds of undo (correct, suppress, erase) exist as different operations, and that the assistant can only perform one of them on one of the two memory systems."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_87b82d7e-77ad-4056-9d6a-e73f5701f507",
+      "passage_id": 1,
+      "label": "claim",
+      "content": "In short: changing structured state won’t make the automatic budget entries disappear. They’re still being supplied as contested memories, and I shouldn’t rely on either as a settled budget."
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "user",
+      "event_id": "evt_6d4ded17-6a52-457e-bdcd-d38cc1c73a9b",
+      "passage_id": 0,
+      "label": "keep",
+      "content": "Fantastic....(Sarcasm). I'm trying to run up the context to see if an automatic compaction will run but I'm running out of stuff to say"
+    },
+    {
+      "conversation": "feedback",
+      "source_kind": "assistant",
+      "event_id": "evt_93d6bba9-63b0-4ab5-b6c6-89a2ed7fa1e0",
+      "passage_id": 1,
+      "label": "keep",
+      "content": "None of these is a failure of one component. They happen where components meet. Each system follows its own rules correctly, but the user can't see why something happened or what to do about it."
+    }
+  ],
+  "oversized": {
+    "r1": [],
+    "r2": [],
+    "r3": [],
+    "t50": [],
+    "t80": []
+  },
+  "tokens_per_passage": {
+    "jev": 312.8880597014925,
+    "luna": 109.41791044776119,
+    "sonnet": 234.93283582089552
+  },
+  "latency": {
+    "jev_median_per_call": 83,
+    "jev_per_event_median": 89,
+    "jev_events_with_two_calls": 13
+  }
+}
