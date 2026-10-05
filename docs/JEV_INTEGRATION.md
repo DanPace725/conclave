@@ -1,6 +1,6 @@
 # Jev selector setup
 
-Jev selects bounded retention actions and priorities, reranks lexical shortlists, and classifies document ingress. OpenAI or Anthropic supplies answers and semantic compaction.
+Jev selects bounded retention actions and priorities, reranks lexical shortlists, classifies document ingress, and shadows automatic memory selection (recorded, not applied; see [automatic memory](AUTOMATIC_MEMORY.md#jev-memory-selection-shadow)). OpenAI or Anthropic supplies answers and semantic compaction.
 
 Set `JEV_API_KEY` or `TYPESAFE_API_KEY` in the process or Windows environment.
 
