@@ -1,0 +1,196 @@
+{
+  "live": true,
+  "scope": "At most two historical decisions and one synthetic control. Selection is not evidence of answer quality or measured savings.",
+  "cases": [
+    {
+      "type": "saved retrieval",
+      "query": "catalog titles documents list stoicism endurance pain gender masculinity",
+      "decision_seq": 321,
+      "original_fallback": true,
+      "revised_fallback": false,
+      "baseline": [
+        "evt_395d3a66-2daf-49f1-8138-733b0373f1c9",
+        "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+        "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+        "evt_d83036b7-5d42-41e2-9a9d-6c391c66dbab"
+      ],
+      "selected": [
+        "evt_395d3a66-2daf-49f1-8138-733b0373f1c9",
+        "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+        "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+        "evt_d83036b7-5d42-41e2-9a9d-6c391c66dbab"
+      ],
+      "decisions": [
+        {
+          "id": "evt_395d3a66-2daf-49f1-8138-733b0373f1c9",
+          "category": "useful",
+          "confidence": 0.95,
+          "uncertain": false
+        },
+        {
+          "id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "category": "useful",
+          "confidence": 0.92,
+          "uncertain": false
+        },
+        {
+          "id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+          "category": "useful",
+          "confidence": 0.97,
+          "uncertain": false
+        },
+        {
+          "id": "evt_d83036b7-5d42-41e2-9a9d-6c391c66dbab",
+          "category": "useful",
+          "confidence": 0.98,
+          "uncertain": false
+        },
+        {
+          "id": "evt_b677f5da-cdbd-4c8f-b4d9-542154ed1bbd",
+          "category": "useful",
+          "confidence": 0.7,
+          "uncertain": false
+        },
+        {
+          "id": "evt_6ead5edd-2e5a-4f25-a68b-5b0c882a8614",
+          "category": "irrelevant",
+          "confidence": 0.5,
+          "uncertain": true
+        }
+      ],
+      "threshold": 0.65,
+      "version": "jev-selection-v4",
+      "usage": {
+        "input_tokens": 2352,
+        "output_tokens": 208
+      },
+      "elapsed_ms": 303.1396
+    },
+    {
+      "type": "saved retrieval",
+      "query": "masculinity stoicism male emotional suppression vulnerability pain endurance",
+      "decision_seq": 358,
+      "original_fallback": true,
+      "revised_fallback": false,
+      "baseline": [
+        "evt_9b6a4279-c6e9-48a1-9aeb-f14de1b771be",
+        "evt_d83036b7-5d42-41e2-9a9d-6c391c66dbab",
+        "evt_395d3a66-2daf-49f1-8138-733b0373f1c9",
+        "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5"
+      ],
+      "selected": [
+        "evt_9b6a4279-c6e9-48a1-9aeb-f14de1b771be",
+        "evt_d83036b7-5d42-41e2-9a9d-6c391c66dbab",
+        "evt_395d3a66-2daf-49f1-8138-733b0373f1c9",
+        "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5"
+      ],
+      "decisions": [
+        {
+          "id": "evt_9b6a4279-c6e9-48a1-9aeb-f14de1b771be",
+          "category": "useful",
+          "confidence": 0.99,
+          "uncertain": false
+        },
+        {
+          "id": "evt_d83036b7-5d42-41e2-9a9d-6c391c66dbab",
+          "category": "useful",
+          "confidence": 1,
+          "uncertain": false
+        },
+        {
+          "id": "evt_395d3a66-2daf-49f1-8138-733b0373f1c9",
+          "category": "useful",
+          "confidence": 0.99,
+          "uncertain": false
+        },
+        {
+          "id": "evt_4900e012-68cb-4bdb-94b6-7ffb2e8736e5",
+          "category": "useful",
+          "confidence": 1,
+          "uncertain": false
+        },
+        {
+          "id": "evt_f04fbc4e-9626-486a-bc06-958bad9d5cb4",
+          "category": "useful",
+          "confidence": 0.86,
+          "uncertain": false
+        },
+        {
+          "id": "evt_1292bff4-c4b1-4857-b891-aa5f41523490",
+          "category": "useful",
+          "confidence": 0.99,
+          "uncertain": false
+        }
+      ],
+      "threshold": 0.65,
+      "version": "jev-selection-v4",
+      "usage": {
+        "input_tokens": 2257,
+        "output_tokens": 207
+      },
+      "elapsed_ms": 84.67610000000002
+    },
+    {
+      "type": "synthetic positive control",
+      "query": "How many participants did the orbital archive study include?",
+      "revised_fallback": false,
+      "baseline": [
+        "distractor-0",
+        "distractor-1",
+        "distractor-2",
+        "distractor-3"
+      ],
+      "selected": [
+        "answer",
+        "distractor-0",
+        "distractor-1",
+        "distractor-2"
+      ],
+      "decisions": [
+        {
+          "id": "distractor-0",
+          "category": "irrelevant",
+          "confidence": 0.81,
+          "uncertain": false
+        },
+        {
+          "id": "distractor-1",
+          "category": "irrelevant",
+          "confidence": 0.83,
+          "uncertain": false
+        },
+        {
+          "id": "distractor-2",
+          "category": "irrelevant",
+          "confidence": 0.79,
+          "uncertain": false
+        },
+        {
+          "id": "distractor-3",
+          "category": "irrelevant",
+          "confidence": 0.73,
+          "uncertain": false
+        },
+        {
+          "id": "distractor-4",
+          "category": "irrelevant",
+          "confidence": 0.76,
+          "uncertain": false
+        },
+        {
+          "id": "answer",
+          "category": "useful",
+          "confidence": 0.99,
+          "uncertain": false
+        }
+      ],
+      "threshold": 0.65,
+      "version": "jev-selection-v4",
+      "usage": {
+        "input_tokens": 1180,
+        "output_tokens": 212
+      },
+      "elapsed_ms": 87.76609999999994
+    }
+  ]
+}

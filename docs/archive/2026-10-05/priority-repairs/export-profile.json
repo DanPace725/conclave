@@ -1,0 +1,170 @@
+[
+  {
+    "path": "E:\\Coding\\converse\\converse\\docs\\conversations\\Timeline for Mapping the Human Brain_2026-10-05T17-15-21-185Z.json",
+    "source_bytes": 12074104,
+    "download_bytes": 10460801,
+    "events": 350,
+    "snapshots": 35,
+    "history_reads": 167,
+    "history_decodes": 4,
+    "hydrate_ms": 180.52179999999998,
+    "build_ms": 141.1065000000001,
+    "serialize_ms": 38.90639999999996,
+    "total_ms": 360.53470000000004,
+    "fidelity": true,
+    "controller": {
+      "full_history_bytes": 9226005,
+      "controller_history_bytes": 4550688,
+      "evaluation_status": "complete",
+      "elapsed_ms": 128.24929999999995,
+      "profile": {
+        "version": "shadow-profile-v1",
+        "stages": {
+          "history": {
+            "calls": 1,
+            "elapsed_ms": 17.384000000000015
+          },
+          "working_payload": {
+            "calls": 1,
+            "elapsed_ms": 3.742300000000114
+          },
+          "native_serialization": {
+            "calls": 1,
+            "elapsed_ms": 0.6037999999998647
+          },
+          "cache_trace": {
+            "calls": 1,
+            "elapsed_ms": 1.24570000000017
+          },
+          "fingerprint": {
+            "calls": 1,
+            "elapsed_ms": 0.6035000000001673
+          },
+          "candidate_selection": {
+            "calls": 1,
+            "elapsed_ms": 9.572499999999991
+          },
+          "candidate_payload": {
+            "calls": 6,
+            "elapsed_ms": 16.13059999999973
+          },
+          "candidate_tokenization": {
+            "calls": 6,
+            "elapsed_ms": 43.7492000000002
+          },
+          "recovery_tokenization": {
+            "calls": 6,
+            "elapsed_ms": 12.21360000000027
+          },
+          "summary_tokenization": {
+            "calls": 1,
+            "elapsed_ms": 4.288199999999961
+          },
+          "working_tokenization": {
+            "calls": 1,
+            "elapsed_ms": 9.174800000000005
+          },
+          "pricing": {
+            "calls": 1,
+            "elapsed_ms": 0.7680000000000291
+          },
+          "prefix_tokenization": {
+            "calls": 1,
+            "elapsed_ms": 0.9157000000000153
+          }
+        },
+        "last_stage": "prefix_tokenization",
+        "failed_stage": null,
+        "native_input_bytes": 93048,
+        "event_count": 350,
+        "segment_count": 42,
+        "candidate_count": 6
+      },
+      "scope": "local controller projection bytes; not measured provider-token or cost savings"
+    }
+  },
+  {
+    "path": "E:\\Coding\\converse\\converse\\docs\\conversations\\Pain, Gender, and Cultural Endurance Norms_2026-10-05T17-14-57-731Z.json",
+    "source_bytes": 66994357,
+    "download_bytes": 60498300,
+    "events": 1283,
+    "snapshots": 38,
+    "history_reads": 197,
+    "history_decodes": 4,
+    "hydrate_ms": 924.8895000000002,
+    "build_ms": 323.89969999999994,
+    "serialize_ms": 190.40920000000006,
+    "total_ms": 1439.1984000000002,
+    "fidelity": true,
+    "controller": {
+      "full_history_bytes": 58747651,
+      "controller_history_bytes": 4699722,
+      "evaluation_status": "complete",
+      "elapsed_ms": 185.02520000000004,
+      "profile": {
+        "version": "shadow-profile-v1",
+        "stages": {
+          "history": {
+            "calls": 1,
+            "elapsed_ms": 58.68040000000019
+          },
+          "working_payload": {
+            "calls": 1,
+            "elapsed_ms": 7.09479999999985
+          },
+          "native_serialization": {
+            "calls": 1,
+            "elapsed_ms": 0.48289999999997235
+          },
+          "cache_trace": {
+            "calls": 1,
+            "elapsed_ms": 0.7373999999999796
+          },
+          "fingerprint": {
+            "calls": 1,
+            "elapsed_ms": 0.46390000000019427
+          },
+          "candidate_selection": {
+            "calls": 1,
+            "elapsed_ms": 13.700400000000172
+          },
+          "candidate_payload": {
+            "calls": 8,
+            "elapsed_ms": 24.376299999999446
+          },
+          "candidate_tokenization": {
+            "calls": 8,
+            "elapsed_ms": 52.199200000000474
+          },
+          "recovery_tokenization": {
+            "calls": 8,
+            "elapsed_ms": 11.02999999999929
+          },
+          "summary_tokenization": {
+            "calls": 1,
+            "elapsed_ms": 2.09270000000015
+          },
+          "working_tokenization": {
+            "calls": 1,
+            "elapsed_ms": 7.489700000000084
+          },
+          "pricing": {
+            "calls": 1,
+            "elapsed_ms": 0.2377000000001317
+          },
+          "prefix_tokenization": {
+            "calls": 1,
+            "elapsed_ms": 0.5498000000002321
+          }
+        },
+        "last_stage": "prefix_tokenization",
+        "failed_stage": null,
+        "native_input_bytes": 67894,
+        "event_count": 1283,
+        "segment_count": 44,
+        "candidate_count": 8
+      },
+      "scope": "local controller projection bytes; not measured provider-token or cost savings"
+    }
+  }
+]

@@ -37,6 +37,8 @@ The native smoke makes one bounded OpenAI call when the fixture passes. Set the 
 
 ## Recorded evidence and remaining work
 
+2026-10-05 repair: the database configured in Converse's `.env` was missing `conclave.embeddings`. Its existing migration completed successfully; a direct read verified the table and vector extension. This confirms that configured database's schema, not a hosted retrieval-quality result. Wrapped SQL schema/permission/authentication failures now record their SQLSTATE and use a two-minute conversation-local cooldown across harness reloads. Retrieval stays lexical during that interval and retries afterward; ordinary transient failures still retry on the next inference request.
+
 Eight focused fixtures cover response validation, paraphrased lookup, exact-source recovery, cache/restart reuse, memory authority and suppression, workspace versions/removal/restoration, isolation, backfill/call bounds, fallback/unknown usage, PostgreSQL persistence and Agent usage accounting. The native smoke recovered a source and memory with zero keyword matches in one call/42 reported input tokens. [Record](archive/2026-10-04/embedding-smoke.json).
 
 The PostgreSQL path passed with PGlite's real pgvector extension. A live migration attempt against the configured disposable Neon `converse-hosting-check` branch failed authentication before executing schema changes. Production migration and hosted live retrieval remain unverified. Broader retrieval-quality evaluation, durable indexing jobs, semantic correction targeting, named-state vector indexing, cross-chat ownership and approximate index tuning remain open.
