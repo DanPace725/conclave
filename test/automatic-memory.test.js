@@ -195,8 +195,8 @@ test('bounded model capture records usage/failure, persists source first, reject
     let seen = 0;
     h.provider = { name: 'openai', respond: async payload => {
       seen++; assert.equal(payload.max_output_tokens, 600); assert.equal(payload.tools, undefined);
-      const source = JSON.parse(payload.input[0].content).content;
-      return reply(JSON.stringify({ records: [{ kind: 'claim', span_start: 0, span_end: source.length }] }));
+      assert.ok(JSON.parse(payload.input[0].content).passages.length);
+      return reply(JSON.stringify({ records: [{ kind: 'claim', passage_id: 0 }] }));
     } };
     await capture(h, 'For this budget, perhaps $500 is sensible.');
     assert.equal(seen, 1); assert.ok(flushes.length >= 3);
@@ -205,7 +205,7 @@ test('bounded model capture records usage/failure, persists source first, reject
     changeMemory(s, id, records(s, id)[0].memory_id, 'suppress', memoryView(s, id).revision);
     h.provider.respond = async payload => {
       assert.equal(JSON.parse(payload.input[0].content).related_heads.length, 0, 'Suppressed heads must also be excluded from the extraction model');
-      return reply(JSON.stringify({ records: [{ kind: 'commitment', span_start: 0, span_end: 5 }] }));
+      return reply(JSON.stringify({ records: [{ kind: 'commitment', passage_id: 0 }] }));
     };
     h.memoryCalls = 0; // A new authorized turn has its own allowance.
     await capture(h, 'Another tentative budget perhaps.');
@@ -244,8 +244,7 @@ test('a failed capture retries on subsequent Context activity within one paid-ca
     if (payload.text?.format?.name === 'memory_candidates') {
       memoryCalls++;
       if (memoryCalls === 1) return reply('{malformed');
-      const content = JSON.parse(payload.input[0].content).content;
-      return reply(JSON.stringify({ records: [{ kind: 'claim', span_start: 0, span_end: content.length }] }));
+      return reply(JSON.stringify({ records: [{ kind: 'claim', passage_id: 0 }] }));
     }
     answerCalls++; return reply('Completed');
   } };

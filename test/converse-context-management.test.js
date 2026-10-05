@@ -10,6 +10,24 @@ import { observedCache, delegationCost } from '../src/economics.js';
 import { inputSize } from '../src/input-size.js';
 
 const toolCall = (name, n, args = {}) => ({ type: 'function_call', call_id: 'call_' + n, name, arguments: JSON.stringify(args) });
+test('history discovery excludes the pending question while retaining older human evidence and canonical source access', async () => {
+  const store = new Store(undefined, { memory: true }), id = store.create();
+  let calls = 0, current;
+  const h = new Harness(store, id, { name: 'openai', respond: async payload => {
+    calls++;
+    if (calls === 1) { current = store.events(id).findLast(e => e.kind === 'user'); return { status: 'completed', usage: { input_tokens: 10, output_tokens: 2 }, output: [toolCall('search_history', 1, { query: 'caregiving responsibility endurance' })] }; }
+    const results = JSON.parse(payload.input.find(i => i.type === 'function_call_output').output);
+    assert.ok(results.length); assert.ok(results.every(r => r.event_id !== current.id));
+    assert.ok(results.some(r => r.event_id === older.id));
+    return { status: 'completed', usage: { input_tokens: 10, output_tokens: 2 }, output: [{ type: 'message', content: [{ type: 'output_text', text: 'Done.' }] }] };
+  } }, { budget: 128000 });
+  const older = h.addMessage('user', 'Caregiving responsibility endurance in my family.').event;
+  for (let i = 0; i < 3; i++) h.ingestText(`evidence-${i}.md`, 'Caregiving responsibility endurance is a source theme.');
+  try {
+    await h.ask('Caregiving responsibility endurance: compare caregiving, responsibility and endurance.');
+    assert.equal(h.toolResult('retrieve_event', { event_id: current.id, offset: 0 }, []).content, current.content);
+  } finally { store.close(); }
+});
 function receipt(store, id, name, n, result) {
   const event = store.append(id, 'tool_result', JSON.stringify(result), { tool: name, call_id: 'call_' + n });
   return { event, item: { type: 'function_call_output', call_id: 'call_' + n, output: event.content } };

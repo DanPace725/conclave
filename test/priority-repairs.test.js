@@ -130,8 +130,8 @@ test('persistent SQL configuration failure is diagnosed once across fresh harnes
 test('completed research is captured once on the next turn as an exact unresolved assistant claim; save directive is not a commitment', async () => {
   const { store, id, h } = fixture({ memoryModel: true }); let calls = 0;
   h.provider.respond = async payload => {
-    calls++; const text = JSON.parse(payload.input[0].content).content;
-    return { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ records: [{ kind: 'claim', span_start: 0, span_end: text.length }] }) }] }] };
+    calls++;
+    return { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ records: [{ kind: 'claim', passage_id: 0 }] }) }] }] };
   };
   try {
     const user = h.addMessage('user', 'Research the archive.').event;
@@ -205,5 +205,17 @@ test('Jev telemetry distinguishes failed/missing usage, cached fallback, changed
     assert.equal(page.records.length, 2); assert.equal(page.has_more, true);
     const next = jevTelemetry(store.events(id), { before_seq: page.before_cursor, limit: 2 });
     assert.equal(next.records[0].request_id, request.id); assert.equal(next.records[0].usage, null);
+  } finally { store.close(); }
+});
+
+test('legacy Jev typed responses without native status are received rather than missing', () => {
+  const { store, id } = fixture();
+  try {
+    const request = store.append(id, 'inference_request', 'retrieval-reranking', { provider: 'typesafe', payload: { model: 'jev-latest' } });
+    store.append(id, 'inference_response', '', { request_id: request.id, answers: { item_0: { choice: 'useful' } }, usage: { input_tokens: 20, output_tokens: 2 } });
+    const page = jevTelemetry(store.events(id));
+    assert.equal(page.summary.completed, 1); assert.equal(page.summary.inferred_completed, 1);
+    assert.equal(page.summary.missing_responses, 0);
+    assert.match(page.records[0].outcome, /typed response received/);
   } finally { store.close(); }
 });

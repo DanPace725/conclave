@@ -1,0 +1,2097 @@
+{
+  "scope": "One cheap-model pair, frozen external evidence. Mechanism checks, not statistical quality or savings proof.",
+  "arms": [
+    {
+      "arm": "current",
+      "turns": [
+        {
+          "turn": 1,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 29.162000000000262,
+          "export_bytes": 123721
+        },
+        {
+          "turn": 2,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 22.279999999998836,
+          "export_bytes": 264314
+        },
+        {
+          "turn": 3,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 44.3179999999993,
+          "export_bytes": 938812
+        },
+        {
+          "turn": 4,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 38.767600000006496,
+          "export_bytes": 1124335
+        },
+        {
+          "turn": 5,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 43.452900000003865,
+          "export_bytes": 1483474
+        },
+        {
+          "turn": 6,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 85.04710000002524,
+          "export_bytes": 3197846
+        },
+        {
+          "turn": 7,
+          "status": "completed",
+          "agent_status": "completed",
+          "error": null,
+          "export_ms": 149.90849999996135,
+          "export_bytes": 10350795
+        },
+        {
+          "turn": 8,
+          "status": "failed",
+          "agent_status": "expired",
+          "error": null,
+          "export_ms": 250.234300000011,
+          "export_bytes": 16112028
+        },
+        {
+          "turn": 9,
+          "status": "failed",
+          "agent_status": "token_limit",
+          "error": null,
+          "export_ms": 281.7424999999348,
+          "export_bytes": 19425923
+        }
+      ],
+      "native_calls": 62,
+      "native_input_tokens": 1210071,
+      "native_output_tokens": 28055,
+      "priced_usd_min": 0.6084083799999999,
+      "priced_usd_max": 0.62071233,
+      "unknown_usage_calls": 0,
+      "memory": {
+        "total_records": 21,
+        "assistant_proposals": 20,
+        "split_word_proposals": 18,
+        "complete_paragraph_proposals": 0,
+        "invalid_authority_promotions": 0,
+        "paid_extraction_calls": 3,
+        "capture_failures": []
+      },
+      "jev": {
+        "attempts": 0,
+        "completed": 0,
+        "inferred_completed": 0,
+        "failed": 0,
+        "missing_responses": 0,
+        "known_input_tokens": 0,
+        "known_output_tokens": 0,
+        "unknown_usage_calls": 0,
+        "known_elapsed_ms": 0,
+        "unknown_latency_calls": 0,
+        "retrieval_decisions": 3,
+        "changed_selections": 0,
+        "confirmed_baselines": 0,
+        "fallbacks": 0,
+        "cache_hits": 0,
+        "skipped": 3
+      },
+      "embeddings": {
+        "requests": 12,
+        "completed": 12,
+        "failures": 0,
+        "skips": 0
+      },
+      "tools": {
+        "web_search": 3,
+        "web_fetch": 14,
+        "workspace_write": 2,
+        "workspace_read": 12,
+        "retrieve_event": 12,
+        "update_state": 4,
+        "read_memory": 1,
+        "search_history": 3,
+        "retrieve_range": 2,
+        "workspace_patch": 1
+      },
+      "frozen_page_fetch_failures": 12,
+      "continuation_restarts": 9,
+      "fresh_large_receipts": [
+        {
+          "event_id": "evt_29b67500-c10d-4e9f-9454-edbfbb140498",
+          "tool": "web_search",
+          "characters": 11298,
+          "next_request_id": "evt_bde6024b-3508-42b1-b2b9-d1236c70e277",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_535919f7-4426-425a-88fb-ec90be9d0574",
+          "tool": "web_search",
+          "characters": 10660,
+          "next_request_id": "evt_bde6024b-3508-42b1-b2b9-d1236c70e277",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_44e49f7f-48b6-40a5-82ee-d1508311771a",
+          "tool": "web_search",
+          "characters": 11298,
+          "next_request_id": "evt_d61f8976-5fd8-428f-98d7-86e6b9cac793",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_18d03ed8-3a67-4287-8adc-3ec8bba0f62c",
+          "tool": "workspace_read",
+          "characters": 7396,
+          "next_request_id": "evt_4427432a-ea0a-4c65-adc3-736e0c5956a6",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_e77ba752-400e-4b47-8ee4-61c90ca3beaf",
+          "tool": "web_fetch",
+          "characters": 1745,
+          "next_request_id": "evt_e74850cc-76d8-4bf1-b486-4cc5e8950928",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_c548d2af-5ae4-44d6-89f4-23052b9f1d98",
+          "tool": "web_fetch",
+          "characters": 85747,
+          "next_request_id": "evt_43d126f1-4cda-486a-81c7-d92bdffb27ae",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_fcb5154c-66f6-4ca7-913d-776519efc418",
+          "tool": "retrieve_event",
+          "characters": 18013,
+          "next_request_id": "evt_792597d0-6e53-4dc5-ac24-b1ccc68a7c33",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_cf8c461e-dd68-4bba-bc12-cec0f717d999",
+          "tool": "retrieve_event",
+          "characters": 18185,
+          "next_request_id": "evt_81c39ec4-27d3-4f78-b817-75fb2596b1c1",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_7a10b089-b70e-4c85-8c65-e06c940dfcfe",
+          "tool": "retrieve_event",
+          "characters": 18013,
+          "next_request_id": "evt_c5375dfe-8cbe-43eb-9ffa-0e967603a710",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_e57f45c9-7750-4953-a38b-e36fd6b9154c",
+          "tool": "retrieve_event",
+          "characters": 18013,
+          "next_request_id": "evt_a099a719-e815-4823-8a6b-f5f7d1cb4fe0",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_93d49b49-31ae-43b5-a21c-0d14b376e370",
+          "tool": "retrieve_event",
+          "characters": 18103,
+          "next_request_id": "evt_848b855e-2c39-4a7d-a5e5-7f28092d69df",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_d75b6653-a26b-40e9-9665-00fe88e14ac8",
+          "tool": "retrieve_event",
+          "characters": 18114,
+          "next_request_id": "evt_1af2394c-6533-4dc8-83d2-f7db1b56da3c",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_cbdb35c5-ed67-4587-92e0-009a5311b154",
+          "tool": "workspace_read",
+          "characters": 8739,
+          "next_request_id": "evt_babbff42-e12a-4938-9d4e-053a27dafcc0",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_1b293bc0-89f5-4a12-98f2-f3700cd7cc82",
+          "tool": "retrieve_event",
+          "characters": 18013,
+          "next_request_id": "evt_babbff42-e12a-4938-9d4e-053a27dafcc0",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_905325d1-54d8-4bb3-b1f1-3c94d0a08784",
+          "tool": "workspace_read",
+          "characters": 8739,
+          "next_request_id": "evt_08420d9a-8b1e-425d-bf66-4dd3c1a01076",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_57c5b734-f140-48e9-8bc6-10c684b9f414",
+          "tool": "workspace_read",
+          "characters": 8739,
+          "next_request_id": "evt_ec3c7780-c03c-41b3-8840-0933945e6e24",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_52e00da8-7ed8-4cae-8763-f3415fd5d294",
+          "tool": "retrieve_event",
+          "characters": 18013,
+          "next_request_id": "evt_ec3c7780-c03c-41b3-8840-0933945e6e24",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_d6377895-1dad-4a12-a202-1986a446c6b6",
+          "tool": "workspace_read",
+          "characters": 8739,
+          "next_request_id": "evt_c6f843bc-0c7f-4b97-9c5b-03dc0449b723",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_3e9dfa29-4789-4aa4-b95c-c497b30b59e4",
+          "tool": "retrieve_event",
+          "characters": 18013,
+          "next_request_id": "evt_c6f843bc-0c7f-4b97-9c5b-03dc0449b723",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_417d3c5e-ffff-4f3c-80cc-3f260d0f188f",
+          "tool": "workspace_read",
+          "characters": 8739,
+          "next_request_id": "evt_705cc13e-8d02-4cdb-ba19-1ace4429d77e",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_5166a047-9168-4ea1-a78d-726236ad9dd3",
+          "tool": "retrieve_event",
+          "characters": 18013,
+          "next_request_id": "evt_705cc13e-8d02-4cdb-ba19-1ace4429d77e",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_77a79f74-5dcb-44c0-b303-70796bf9847a",
+          "tool": "workspace_read",
+          "characters": 8739,
+          "next_request_id": "evt_4b36362a-d4af-40f3-ac9c-6a028ff26239",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_86caa687-9f6a-4038-a66a-597fa40c94c3",
+          "tool": "retrieve_event",
+          "characters": 18070,
+          "next_request_id": "evt_4b36362a-d4af-40f3-ac9c-6a028ff26239",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_386b8ca0-3e44-42c8-9bb5-f13aa04a2616",
+          "tool": "read_memory",
+          "characters": 8854,
+          "next_request_id": "evt_51fcb15b-ec58-4d98-a493-b2e6af6465ca",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_a747af2f-004f-4372-b2a3-d814ba58b76b",
+          "tool": "search_history",
+          "characters": 4127,
+          "next_request_id": "evt_287050c7-da8f-48b2-a71b-62e66e3127da",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_5c3ab7c6-15fd-4ec0-9375-e3e290036f38",
+          "tool": "search_history",
+          "characters": 4149,
+          "next_request_id": "evt_46429d37-900a-45cb-89cb-c9f0ade64803",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_e540b34a-9b63-4bd3-836c-b9cd622cdce2",
+          "tool": "retrieve_range",
+          "characters": 4009,
+          "next_request_id": "evt_693d6a51-9def-411e-9b6c-c81f0ba5f0cc",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_07a1d215-6654-4d6d-bc0a-2ddf46d93682",
+          "tool": "retrieve_range",
+          "characters": 3362,
+          "next_request_id": "evt_e61aed23-a320-48f5-92bd-73ec1e89ef62",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_d059b96e-0920-4999-8eaf-030a00bc8f94",
+          "tool": "workspace_read",
+          "characters": 8739,
+          "next_request_id": "evt_37590216-424d-4488-a19c-e33243386118",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_3d7a8a17-e360-4762-9f4a-adf77613919c",
+          "tool": "workspace_read",
+          "characters": 8727,
+          "next_request_id": "evt_d82cea33-8c24-494f-a5eb-f109f5c52042",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_6022ead6-07e9-415c-88de-54a55fd27952",
+          "tool": "workspace_read",
+          "characters": 4572,
+          "next_request_id": null,
+          "delivered_as_tool_exchange_or_fresh_handoff": null
+        }
+      ],
+      "source_ranges_supplied": 179,
+      "shadow": [
+        {
+          "status": "complete",
+          "reason": "No candidate beats keep across supplied bounds; wait",
+          "elapsed_ms": 35.25560000000041
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 9.062100000002829
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 22.8208999999988
+        },
+        {
+          "status": "complete",
+          "reason": "No candidate beats keep across supplied bounds; wait",
+          "elapsed_ms": 41.93280000000959
+        },
+        {
+          "status": "complete",
+          "reason": "No candidate beats keep across supplied bounds; wait",
+          "elapsed_ms": 47.54309999999532
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 55.2328999999736
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 64.95360000000801
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 81.87129999999888
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 61.836799999990035
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 99.20600000000559
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 109.4368999999715
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 189.03229999996256
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 146.07749999989755
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 142.91989999997895
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 141.7441000000108
+        },
+        {
+          "status": "complete",
+          "reason": "No candidate beats keep across supplied bounds; wait",
+          "elapsed_ms": 145.59139999991748
+        }
+      ],
+      "workspace_files": [
+        {
+          "path": "conversation-summary.md",
+          "characters": 6748,
+          "source_event_id": "evt_b7d4b645-b920-4182-9dd3-62ea1fa35f1c"
+        },
+        {
+          "path": "E2-framework-overlap-analysis.md",
+          "characters": 8867,
+          "source_event_id": "evt_c7bee684-746f-4c88-a4d9-7d66c6860d7f"
+        },
+        {
+          "path": "E2-framework-overlap-analysis.md",
+          "characters": 11960,
+          "source_event_id": "evt_716ea242-c70c-4ce1-bf6c-48f0a437accd"
+        }
+      ],
+      "stops": [
+        {
+          "status": "completed",
+          "steps": 11,
+          "stop": {
+            "code": "completed",
+            "message": "The model finished. Written files passed the readback check.",
+            "used_tokens": 314117
+          }
+        },
+        {
+          "status": "expired",
+          "steps": 8,
+          "stop": {
+            "code": "expired",
+            "message": "Reached the 180-second run deadline.",
+            "used_tokens": 262018
+          }
+        },
+        {
+          "status": "token_limit",
+          "steps": 12,
+          "stop": {
+            "code": "next_call_reserve",
+            "message": "Next answer call blocked: 373252 reported tokens + 49501 estimated input tokens + 8192 output reserve = 430945, above the 400000 allowance. Increase the total limit or choose Automatic testing.",
+            "used_tokens": 373252,
+            "purpose": "answer",
+            "estimated_input_units": 49501,
+            "estimated_input_tokens": 49501,
+            "input_bytes": 168890,
+            "output_reserve": 8192,
+            "required_tokens": 430945,
+            "limit_tokens": 400000,
+            "counter": "local-o200k_base-serialized-input"
+          }
+        }
+      ]
+    },
+    {
+      "arm": "baseline",
+      "turns": [
+        {
+          "turn": 1,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 18.657400000000052,
+          "export_bytes": 128287
+        },
+        {
+          "turn": 2,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 21.835400000003574,
+          "export_bytes": 277097
+        },
+        {
+          "turn": 3,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 53.38259999999718,
+          "export_bytes": 1347331
+        },
+        {
+          "turn": 4,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 36.66960000000836,
+          "export_bytes": 1511295
+        },
+        {
+          "turn": 5,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 48.62880000000587,
+          "export_bytes": 1883183
+        },
+        {
+          "turn": 6,
+          "status": "completed",
+          "agent_status": null,
+          "error": null,
+          "export_ms": 82.76789999997709,
+          "export_bytes": 2639220
+        },
+        {
+          "turn": 7,
+          "status": "completed",
+          "agent_status": "completed",
+          "error": null,
+          "export_ms": 184.5097999999998,
+          "export_bytes": 10444902
+        },
+        {
+          "turn": 8,
+          "status": "failed",
+          "agent_status": "expired",
+          "error": null,
+          "export_ms": 293.28350000001956,
+          "export_bytes": 19711652
+        },
+        {
+          "turn": 9,
+          "status": "failed",
+          "agent_status": "stopped",
+          "error": null,
+          "export_ms": 278.1761000000406,
+          "export_bytes": 20513895
+        }
+      ],
+      "native_calls": 57,
+      "native_input_tokens": 955269,
+      "native_output_tokens": 24047,
+      "priced_usd_min": 0.469562915,
+      "priced_usd_max": 0.47649538,
+      "unknown_usage_calls": 1,
+      "memory": {
+        "total_records": 1,
+        "assistant_proposals": 0,
+        "split_word_proposals": 0,
+        "complete_paragraph_proposals": 0,
+        "invalid_authority_promotions": 0,
+        "paid_extraction_calls": 0,
+        "capture_failures": []
+      },
+      "jev": {
+        "attempts": 0,
+        "completed": 0,
+        "inferred_completed": 0,
+        "failed": 0,
+        "missing_responses": 0,
+        "known_input_tokens": 0,
+        "known_output_tokens": 0,
+        "unknown_usage_calls": 0,
+        "known_elapsed_ms": 0,
+        "unknown_latency_calls": 0,
+        "retrieval_decisions": 2,
+        "changed_selections": 0,
+        "confirmed_baselines": 0,
+        "fallbacks": 0,
+        "cache_hits": 0,
+        "skipped": 0
+      },
+      "embeddings": {
+        "requests": 11,
+        "completed": 11,
+        "failures": 0,
+        "skips": 0
+      },
+      "tools": {
+        "web_search": 5,
+        "workspace_write": 2,
+        "workspace_read": 9,
+        "web_fetch": 8,
+        "retrieve_event": 13,
+        "read_memory": 4,
+        "update_state": 4,
+        "workspace_patch": 1,
+        "inspect_context": 1,
+        "search_history": 2,
+        "retrieve_range": 1
+      },
+      "frozen_page_fetch_failures": 4,
+      "continuation_restarts": 7,
+      "fresh_large_receipts": [
+        {
+          "event_id": "evt_014c79c6-0d7e-4808-97ee-e2f33d9e92e5",
+          "tool": "web_search",
+          "characters": 11724,
+          "next_request_id": "evt_aa90a795-96de-453a-9458-2a3acca7eea3",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_6627318d-0ff2-4df1-b888-076732ac4ced",
+          "tool": "web_search",
+          "characters": 11724,
+          "next_request_id": "evt_00fb8da3-462d-4c40-98d1-7a4c3b164397",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_68eeb917-fe4b-4464-b36c-e9933c213fd9",
+          "tool": "web_search",
+          "characters": 11724,
+          "next_request_id": "evt_052a39ec-8075-4032-8476-db6a52ff1f9e",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_230c714f-e06b-4d8b-8fc7-8dfd4059d07a",
+          "tool": "web_search",
+          "characters": 11724,
+          "next_request_id": "evt_af472656-4cd6-415e-9c5a-811c2bc9cdca",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_66b30791-f862-4038-a00e-c0463dcbb08b",
+          "tool": "web_search",
+          "characters": 11724,
+          "next_request_id": "evt_7ba81eab-db1f-4626-8b9b-a0f7391dd969",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_f5e0f274-d2a9-4dc2-9d27-78c2374de634",
+          "tool": "workspace_read",
+          "characters": 6577,
+          "next_request_id": "evt_23fedbc0-7074-41c2-88da-d28a80221649",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_0815c901-4edc-4d45-84c4-a25e4bbae15f",
+          "tool": "web_fetch",
+          "characters": 1745,
+          "next_request_id": "evt_56a936c5-3298-42c1-8eca-9b9e50af2b16",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_0ccf8d52-1f27-4837-a164-ff36b9a88fda",
+          "tool": "web_fetch",
+          "characters": 21253,
+          "next_request_id": "evt_298aa08a-66a3-4f44-b785-7db9774939b3",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_cc48ce1c-e27f-4c46-895b-55832c08e205",
+          "tool": "retrieve_event",
+          "characters": 16762,
+          "next_request_id": "evt_cb8db4a4-4c83-4e5c-b191-4142e5c2f92f",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_7d13deb7-0530-4291-9bf3-d6aecfb51953",
+          "tool": "retrieve_event",
+          "characters": 4870,
+          "next_request_id": "evt_1c396aa5-2238-4db7-bd75-e65b7faadb0f",
+          "delivered_as_tool_exchange_or_fresh_handoff": false
+        },
+        {
+          "event_id": "evt_12132450-b303-4238-a535-7b39982daa3d",
+          "tool": "retrieve_event",
+          "characters": 16762,
+          "next_request_id": "evt_4b1b5356-40bd-4ba5-bf85-0a536e3d72d3",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_3b4d6d8b-e2cf-41ea-8ca3-bbad0b26d213",
+          "tool": "retrieve_event",
+          "characters": 4870,
+          "next_request_id": "evt_b9a01c91-51c8-421c-a2e5-01d8fd7d0baa",
+          "delivered_as_tool_exchange_or_fresh_handoff": false
+        },
+        {
+          "event_id": "evt_c584f672-9ca2-4f38-8e0b-d1b8f6bb4efe",
+          "tool": "retrieve_event",
+          "characters": 16762,
+          "next_request_id": "evt_d7fd6475-8326-4470-9d75-6bb6c632c36b",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_10b6d0b1-134a-427c-8d48-f8d5f61bf4c2",
+          "tool": "retrieve_event",
+          "characters": 4870,
+          "next_request_id": "evt_3e022cd2-d953-4c2e-ab72-504e30366e8b",
+          "delivered_as_tool_exchange_or_fresh_handoff": false
+        },
+        {
+          "event_id": "evt_9d988479-5314-4f1f-9aae-d863b5f7a422",
+          "tool": "retrieve_event",
+          "characters": 16762,
+          "next_request_id": "evt_fe6a56b3-0989-4b07-a02c-aefd71d12cde",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_b8379e80-5904-48b5-94fc-5aa10995c40b",
+          "tool": "web_fetch",
+          "characters": 8018,
+          "next_request_id": "evt_fe6a56b3-0989-4b07-a02c-aefd71d12cde",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_fef62872-b72f-47ee-a0db-273bbe5d814b",
+          "tool": "web_fetch",
+          "characters": 13859,
+          "next_request_id": "evt_25e7ec9e-abf0-4cd2-a124-d236e03c30a6",
+          "delivered_as_tool_exchange_or_fresh_handoff": false
+        },
+        {
+          "event_id": "evt_b1ce1832-733d-472f-8b8f-722773fba6fb",
+          "tool": "retrieve_event",
+          "characters": 7819,
+          "next_request_id": "evt_4129cb27-a38f-4d3b-905f-b4cb49b4e3fd",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_56170ebe-05d6-416e-bce0-e8381a65b0d7",
+          "tool": "retrieve_event",
+          "characters": 13660,
+          "next_request_id": "evt_4129cb27-a38f-4d3b-905f-b4cb49b4e3fd",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_7a1d8257-318f-457c-870c-cc2f0794f30c",
+          "tool": "workspace_read",
+          "characters": 8754,
+          "next_request_id": "evt_e75cdc2e-5029-4718-a8c3-77935c8aced1",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_9945ab7a-8c54-4cc7-8a7a-5cefddb7749f",
+          "tool": "workspace_read",
+          "characters": 2896,
+          "next_request_id": "evt_e783331f-9c5f-4e19-8b6a-9fbdd01c7cf6",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_cd499b78-2ae4-481a-a434-e9c47712388c",
+          "tool": "workspace_read",
+          "characters": 8754,
+          "next_request_id": "evt_b5acf40f-ead3-41ff-808c-45f2eb9d7bb7",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_bea2e8cc-c03c-49ce-a28d-9b52cfb119f1",
+          "tool": "retrieve_event",
+          "characters": 7819,
+          "next_request_id": "evt_b5acf40f-ead3-41ff-808c-45f2eb9d7bb7",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_79d66f86-36d9-4b92-bcf6-1b8bb6fb9a5a",
+          "tool": "retrieve_event",
+          "characters": 13660,
+          "next_request_id": "evt_b5acf40f-ead3-41ff-808c-45f2eb9d7bb7",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_3dd04764-37c9-44e0-a439-f467886fa8cd",
+          "tool": "read_memory",
+          "characters": 2530,
+          "next_request_id": "evt_b5acf40f-ead3-41ff-808c-45f2eb9d7bb7",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_e4472780-e95a-4523-9607-18acce3e56cc",
+          "tool": "workspace_read",
+          "characters": 2896,
+          "next_request_id": "evt_6eb6c395-6cd5-45d3-b017-9dadfc960872",
+          "delivered_as_tool_exchange_or_fresh_handoff": false
+        },
+        {
+          "event_id": "evt_2590c8a2-b287-4c89-96b6-6d24a42a1e7e",
+          "tool": "workspace_read",
+          "characters": 8754,
+          "next_request_id": "evt_7428cfdb-3cb1-4f9a-bb4e-7f1e76093030",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_1340ad9e-d57d-4390-891d-050cd630d8dd",
+          "tool": "retrieve_event",
+          "characters": 7819,
+          "next_request_id": "evt_7428cfdb-3cb1-4f9a-bb4e-7f1e76093030",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_fc7fe68d-7c37-4eed-bd2f-d1fd7f53aa2b",
+          "tool": "retrieve_event",
+          "characters": 13660,
+          "next_request_id": "evt_7428cfdb-3cb1-4f9a-bb4e-7f1e76093030",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_81c9f38f-fd55-4ed0-8e9f-0a6a6727172a",
+          "tool": "workspace_read",
+          "characters": 8792,
+          "next_request_id": "evt_ea16acdc-6695-43d8-97f7-0358f8dcbf71",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_aacd62f2-73cc-4991-94fd-b3160c060bfa",
+          "tool": "read_memory",
+          "characters": 2530,
+          "next_request_id": "evt_efa77bbd-8c4b-4031-851a-a03e710c0c99",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_27f9ca2e-16b0-4da6-a869-be6d5a621beb",
+          "tool": "inspect_context",
+          "characters": 6400,
+          "next_request_id": "evt_776efa07-fb53-48fd-a269-3e75c35f5c63",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_504a4718-ab34-4ba4-a144-321088ca2bb3",
+          "tool": "workspace_read",
+          "characters": 8793,
+          "next_request_id": "evt_f67cda70-c85f-461b-8779-67a633e0465a",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_0a8fc135-53d5-403e-8346-04381cadddb0",
+          "tool": "workspace_read",
+          "characters": 6495,
+          "next_request_id": "evt_d8dd44b5-df53-42d1-bedb-74d8e0fa3375",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_360434af-e98c-4326-937a-4d12525e1013",
+          "tool": "read_memory",
+          "characters": 6864,
+          "next_request_id": "evt_31b2314a-6bb6-4778-89d1-f17a6e8642f7",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_1e00a33d-80d3-47f9-a66a-1fe8d74e824c",
+          "tool": "search_history",
+          "characters": 3437,
+          "next_request_id": "evt_bd4453eb-95d6-4add-a255-d82477e853c0",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_86ee2a49-5af9-4c26-a65f-bdd634036375",
+          "tool": "search_history",
+          "characters": 4181,
+          "next_request_id": "evt_d1487dc2-5393-45d2-9703-af9023c85d94",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        },
+        {
+          "event_id": "evt_3d05fe73-e124-47cc-8061-aa8c80b809f5",
+          "tool": "retrieve_range",
+          "characters": 3148,
+          "next_request_id": "evt_54e1b820-d34c-4d9b-bfca-a3646f701d10",
+          "delivered_as_tool_exchange_or_fresh_handoff": true
+        }
+      ],
+      "source_ranges_supplied": 55,
+      "shadow": [
+        {
+          "status": "complete",
+          "reason": "No candidate beats keep across supplied bounds; wait",
+          "elapsed_ms": 14.164600000000064
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 15.246399999999994
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 19.953300000001036
+        },
+        {
+          "status": "complete",
+          "reason": "No candidate beats keep across supplied bounds; wait",
+          "elapsed_ms": 53.02750000001106
+        },
+        {
+          "status": "complete",
+          "reason": "No candidate beats keep across supplied bounds; wait",
+          "elapsed_ms": 60.56579999999667
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 62.555400000012014
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 73.24379999999655
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 87.2615999999689
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 85.26409999997122
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 122.61200000002282
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 131.3686999999918
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 123.8572999999742
+        },
+        {
+          "status": "unavailable",
+          "reason": "Shadow processing budget reached",
+          "elapsed_ms": 210.40100000001257
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 171.33289999997942
+        },
+        {
+          "status": "complete",
+          "reason": "Exact model rates or input count unavailable; no economic trigger",
+          "elapsed_ms": 196.93470000004163
+        },
+        {
+          "status": "unavailable",
+          "reason": "Shadow processing budget reached",
+          "elapsed_ms": 219.03380000009201
+        }
+      ],
+      "workspace_files": [
+        {
+          "path": "conversation-summary.md",
+          "characters": 5932,
+          "source_event_id": "evt_923ec6ff-5893-4d6a-8aec-ea7f15fd8cea"
+        },
+        {
+          "path": "E2-Framework-Convergence.md",
+          "characters": 10275,
+          "source_event_id": "evt_f229588e-1757-43cf-9ead-052afd4dbdb2"
+        },
+        {
+          "path": "E2-Framework-Convergence.md",
+          "characters": 16499,
+          "source_event_id": "evt_df7ae95a-c484-4340-8140-06d442b49973"
+        }
+      ],
+      "stops": [
+        {
+          "status": "completed",
+          "steps": 13,
+          "stop": {
+            "code": "completed",
+            "message": "The model finished. Written files passed the readback check.",
+            "used_tokens": 296393
+          }
+        },
+        {
+          "status": "expired",
+          "steps": 13,
+          "stop": {
+            "code": "expired",
+            "message": "Reached the 180-second run deadline.",
+            "used_tokens": 378145
+          }
+        },
+        {
+          "status": "stopped",
+          "steps": 4,
+          "stop": {
+            "code": "stopped",
+            "message": "Stopped by you. Saved files and the audit remain available.",
+            "used_tokens": 78859
+          }
+        }
+      ]
+    }
+  ],
+  "all_attempts": {
+    "calls": 183,
+    "priced_calls": 181,
+    "unknown_usage_calls": 2,
+    "known_token_usd_min": 1.111464232,
+    "known_token_usd_max": 1.159943332,
+    "unpriced_pre_dispatch_reserve_usd": 0.07596549999999999
+  },
+  "memory_repair_probes": [
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "capture": {
+        "source_event_id": "evt_727cf539-e5b8-4f13-af33-24e251662a1c",
+        "status": "completed",
+        "error": null,
+        "revision": 1,
+        "source_kind": "assistant",
+        "reason": "completed research episode; unresolved model proposals",
+        "paid_extraction": true,
+        "invalid_selection_count": 0,
+        "admitted_count": 2,
+        "revision_changed": true,
+        "elapsed_ms": 1405,
+        "policy": "conversation-memory-v4",
+        "retry_on_activity": false,
+        "retry_disposition": "none"
+      },
+      "admitted": 2,
+      "exact_complete_paragraphs": true,
+      "authority_preserved": true
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "capture": {
+        "source_event_id": "evt_2241d6f1-ba13-47f9-823b-be476a875482",
+        "status": "completed",
+        "error": null,
+        "revision": 1,
+        "source_kind": "assistant",
+        "reason": "completed research episode; unresolved model proposals",
+        "paid_extraction": true,
+        "invalid_selection_count": 0,
+        "admitted_count": 5,
+        "revision_changed": true,
+        "elapsed_ms": 1320,
+        "policy": "conversation-memory-v4",
+        "retry_on_activity": false,
+        "retry_disposition": "none"
+      },
+      "admitted": 5,
+      "exact_complete_paragraphs": true,
+      "authority_preserved": true
+    }
+  ],
+  "final_corpus_probe": {
+    "status": "completed",
+    "jev": {
+      "enabled": true,
+      "available": true,
+      "revision": 81,
+      "summary": {
+        "attempts": 1,
+        "completed": 1,
+        "inferred_completed": 0,
+        "failed": 0,
+        "missing_responses": 0,
+        "known_input_tokens": 2532,
+        "known_output_tokens": 174,
+        "unknown_usage_calls": 0,
+        "known_elapsed_ms": 198,
+        "unknown_latency_calls": 0,
+        "retrieval_decisions": 8,
+        "changed_selections": 0,
+        "confirmed_baselines": 2,
+        "fallbacks": 0,
+        "cache_hits": 1,
+        "skipped": 6
+      },
+      "records": [
+        {
+          "event_id": "evt_29d4d635-addd-4c5f-84fa-331f4af6cfce",
+          "seq": 56,
+          "timestamp": "2026-10-05T19:05:24.824Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "pain endure suffering tolerate exhaustion sacrifice burden martyrdom shadow",
+          "outcome": "skipped",
+          "reason": "explicit source; no reranking needed",
+          "error": null,
+          "selection_source": "deterministic",
+          "cache_hit": false,
+          "request_id": null,
+          "baseline": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b"
+          ],
+          "selected": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b"
+          ],
+          "candidates": [],
+          "assessment": null,
+          "entries": [],
+          "economics": null,
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimate; no measured savings"
+        },
+        {
+          "event_id": "evt_5d2be5a6-327b-4929-9206-ac3cd0747410",
+          "seq": 48,
+          "timestamp": "2026-10-05T19:05:22.770Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "pain suffering endurance gender assigned masculine feminine labor natural gender pain tolerate",
+          "outcome": "skipped",
+          "reason": "explicit source; no reranking needed",
+          "error": null,
+          "selection_source": "deterministic",
+          "cache_hit": false,
+          "request_id": null,
+          "baseline": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b"
+          ],
+          "selected": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b"
+          ],
+          "candidates": [],
+          "assessment": null,
+          "entries": [],
+          "economics": null,
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimate; no measured savings"
+        },
+        {
+          "event_id": "evt_eee62061-c2a0-4824-b9b9-94b9301c326f",
+          "seq": 41,
+          "timestamp": "2026-10-05T19:05:19.805Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "suffering pain endure endurance gender roles burden sacrifice",
+          "outcome": "skipped",
+          "reason": "explicit source; no reranking needed",
+          "error": null,
+          "selection_source": "deterministic",
+          "cache_hit": false,
+          "request_id": null,
+          "baseline": [
+            "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc"
+          ],
+          "selected": [
+            "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc"
+          ],
+          "candidates": [],
+          "assessment": null,
+          "entries": [],
+          "economics": null,
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimate; no measured savings"
+        },
+        {
+          "event_id": "evt_73f198e2-0dde-4389-b943-b3aa765ce5cf",
+          "seq": 33,
+          "timestamp": "2026-10-05T19:05:16.666Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "suffering pain endure endurance gender roles asymmetry",
+          "outcome": "skipped",
+          "reason": "explicit source; no reranking needed",
+          "error": null,
+          "selection_source": "deterministic",
+          "cache_hit": false,
+          "request_id": null,
+          "baseline": [
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe"
+          ],
+          "selected": [
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe"
+          ],
+          "candidates": [],
+          "assessment": null,
+          "entries": [],
+          "economics": null,
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimate; no measured savings"
+        },
+        {
+          "event_id": "evt_a2455d0b-972f-4ef1-b9d5-94b5b65eae6c",
+          "seq": 26,
+          "timestamp": "2026-10-05T19:05:14.891Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "caregiving responsibility family suffering endurance",
+          "outcome": "baseline confirmed",
+          "reason": null,
+          "error": null,
+          "selection_source": "bounded-model",
+          "cache_hit": true,
+          "request_id": "evt_6b2e34cd-fdc2-4a47-937c-7a7581fa3868",
+          "baseline": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+            "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00"
+          ],
+          "selected": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+            "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00"
+          ],
+          "candidates": [
+            {
+              "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+              "kind": "document",
+              "excerpt": " the invisible violence inside both roles, you don’t want progress. You want rescue. You want someone to make things better without showing you where the blood comes from.\n\n**Core insight:**\nMasculine-coded and feminine-coded invisible labor aren’t parallel problems competing for attention. They [are two halves](#the-interlock \"ontological:composes\") of the same machine. Neither can be dismantled without the other. And no one who benefits from it—which is all of us—gets to stand outside the frame.\n\n---\n\n## Part I: Mapping the Territory {#mapping-territory}\n\n### Stewardship as the Umbrella {#stewardship-definition}\n\nCall it what it is: [stewardship](#stewardship-definition \"ontological:defines\")—the ongoing responsibility for maintaining the safety, stability, and functionality of a shared ",
+              "source": {
+                "sourceRef": "E3",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/interlocked-stewardship-v2.ormd",
+                "url": "",
+                "offset": 1440,
+                "end_offset": 2240,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+              "kind": "document",
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Caregiving as an Ecosystem\"\nauthors: [\"Daniel Pace\"]\n\n# CLP ContextBundle Integration\nframe: \"philosophy.caregiving\"\nlineage:\n  origin: { uri: \"urn:ormd:caregiving-ecosystem\", ts: \"2025-04-29T00:00:00Z\" }\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"caregiving\", \"relational-ecology\", \"stewardship\", \"attunement\", \"rplang\"]\nresolution: { confidence: 0.85 }\n---\n\n# Caregiving as an Ecosystem {#title}\n\n4/29/25\n\n[Interlocked Stewardship](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%2024911588332080b59a16c92fbb34fc18.md \"meta:corresponds_to\")\n\n[Interlocked Stewardship V2](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%20V2%2024911588332080e39e79eec18d7eaaae.md \"meta:corresponds_to\")\n\n[Family as a Relational Field](Caregiv",
+              "source": {
+                "sourceRef": "E2",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/caregiving-as-an-ecosystem.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+              "kind": "document",
+              "excerpt": "renting.” They are **structural violations** that degrade the family system itself. When you break a primitive, you don’t just create conflict; you compromise the field’s capacity to maintain coherence.\n\n### The Core Reframe {#reframe}\n\nThis document offers three foundational shifts:\n\n1. **From managing people to stewarding coherence**: You are not the cause of growth; you are the condition for it\n2. **From roles to modes**: Caregiving is not a fixed identity but a dynamic choreography of attentional patterns\n3. **From resolution to paradox**: Health emerges from holding tension, not eliminating it\n\nWhat follows is the architecture of these shifts applied specifically to family systems.\n\n---\n\n# Part 1: Theoretical Foundations {#foundations}\n\n## 1.1 Essential Relationships in Family Systems",
+              "source": {
+                "sourceRef": "E1",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/family-as-a-relational-field.ormd",
+                "url": "",
+                "offset": 2880,
+                "end_offset": 3680,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+              "kind": "document",
+              "excerpt": "ld remainder accumulates. When systems maintain coherence by exporting entropy, cost, confusion, or responsibility down-gradient, the receiving system loses maintenance margin. The sending system appears stable because the remainder has left its ledger. The receiving system becomes saturated.\n\nSource relation:\n\n- AMM diagnoses the maintenance burden;\n- Complex Causality traces how the burden propagates;\n- Remnant Stewardship asks whether what remains is metabolized, preserved, repaired, released, or displaced.\n\n## 10. Diagnostics\n\nUse AMM when asking:\n\n- What usable difference is being maintained?\n- What would happen if the maintenance stopped?\n- Who or what pays the maintenance cost?\n- Is the system preserving ",
+              "source": {
+                "sourceRef": "E5",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/asymmetry-maintenance-core-source.ormd",
+                "url": "",
+                "offset": 8079,
+                "end_offset": 8800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+              "kind": "document",
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Responsibility Absorption\"\nauthors: [\"Daniel Pace\", \"OpenAI Codex\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"governance.responsibility_absorption\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/responsibility-absorption\", ts: \"2026-08-10T00:00:00Z\" }\n  parents:\n    - \"urn:cb:consequence-routing\"\n    - \"urn:cb:complex-causality\"\n    - \"urn:cb:remnant-stewardship\"\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"responsibility absorption\", \"repair capacity\", \"contestability\", \"narrative concentration\", \"consequence routing\"]\nresolution: { confidence: 0.84 }\n---\n# Responsibility Absorption\n\nStatus: integrated core specialization source; preliminary coherence tests passed 2026-08-10\n\nPromotion date: 2026-08-10\n\nPrimary parent:\n\n- `E2C",
+              "source": {
+                "sourceRef": "E4",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/responsibility-absorption-core-source.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            }
+          ],
+          "assessment": {
+            "decisions": [
+              {
+                "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+                "category": "useful",
+                "confidence": 0.78,
+                "uncertain": false
+              },
+              {
+                "id": "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+                "category": "useful",
+                "confidence": 0.72,
+                "uncertain": false
+              },
+              {
+                "id": "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+                "category": "useful",
+                "confidence": 0.65,
+                "uncertain": false
+              },
+              {
+                "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+                "category": "useful",
+                "confidence": 0.39,
+                "uncertain": true
+              },
+              {
+                "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+                "category": "irrelevant",
+                "confidence": 0.75,
+                "uncertain": false
+              }
+            ],
+            "model": "jev-1.13.0",
+            "threshold": 0.65,
+            "decision_version": "jev-selection-v4",
+            "candidates": [
+              {
+                "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+                "kind": "document",
+                "excerpt": " the invisible violence inside both roles, you don’t want progress. You want rescue. You want someone to make things better without showing you where the blood comes from.\n\n**Core insight:**\nMasculine-coded and feminine-coded invisible labor aren’t parallel problems competing for attention. They [are two halves](#the-interlock \"ontological:composes\") of the same machine. Neither can be dismantled without the other. And no one who benefits from it—which is all of us—gets to stand outside the frame.\n\n---\n\n## Part I: Mapping the Territory {#mapping-territory}\n\n### Stewardship as the Umbrella {#stewardship-definition}\n\nCall it what it is: [stewardship](#stewardship-definition \"ontological:defines\")—the ongoing responsibility for maintaining the safety, stability, and functionality of a shared ",
+                "source": {
+                  "sourceRef": "E3",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/interlocked-stewardship-v2.ormd",
+                  "url": "",
+                  "offset": 1440,
+                  "end_offset": 2240,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+                "kind": "document",
+                "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Caregiving as an Ecosystem\"\nauthors: [\"Daniel Pace\"]\n\n# CLP ContextBundle Integration\nframe: \"philosophy.caregiving\"\nlineage:\n  origin: { uri: \"urn:ormd:caregiving-ecosystem\", ts: \"2025-04-29T00:00:00Z\" }\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"caregiving\", \"relational-ecology\", \"stewardship\", \"attunement\", \"rplang\"]\nresolution: { confidence: 0.85 }\n---\n\n# Caregiving as an Ecosystem {#title}\n\n4/29/25\n\n[Interlocked Stewardship](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%2024911588332080b59a16c92fbb34fc18.md \"meta:corresponds_to\")\n\n[Interlocked Stewardship V2](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%20V2%2024911588332080e39e79eec18d7eaaae.md \"meta:corresponds_to\")\n\n[Family as a Relational Field](Caregiv",
+                "source": {
+                  "sourceRef": "E2",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/caregiving-as-an-ecosystem.ormd",
+                  "url": "",
+                  "offset": 0,
+                  "end_offset": 800,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+                "kind": "document",
+                "excerpt": "renting.” They are **structural violations** that degrade the family system itself. When you break a primitive, you don’t just create conflict; you compromise the field’s capacity to maintain coherence.\n\n### The Core Reframe {#reframe}\n\nThis document offers three foundational shifts:\n\n1. **From managing people to stewarding coherence**: You are not the cause of growth; you are the condition for it\n2. **From roles to modes**: Caregiving is not a fixed identity but a dynamic choreography of attentional patterns\n3. **From resolution to paradox**: Health emerges from holding tension, not eliminating it\n\nWhat follows is the architecture of these shifts applied specifically to family systems.\n\n---\n\n# Part 1: Theoretical Foundations {#foundations}\n\n## 1.1 Essential Relationships in Family Systems",
+                "source": {
+                  "sourceRef": "E1",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/family-as-a-relational-field.ormd",
+                  "url": "",
+                  "offset": 2880,
+                  "end_offset": 3680,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+                "kind": "document",
+                "excerpt": "ld remainder accumulates. When systems maintain coherence by exporting entropy, cost, confusion, or responsibility down-gradient, the receiving system loses maintenance margin. The sending system appears stable because the remainder has left its ledger. The receiving system becomes saturated.\n\nSource relation:\n\n- AMM diagnoses the maintenance burden;\n- Complex Causality traces how the burden propagates;\n- Remnant Stewardship asks whether what remains is metabolized, preserved, repaired, released, or displaced.\n\n## 10. Diagnostics\n\nUse AMM when asking:\n\n- What usable difference is being maintained?\n- What would happen if the maintenance stopped?\n- Who or what pays the maintenance cost?\n- Is the system preserving ",
+                "source": {
+                  "sourceRef": "E5",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/asymmetry-maintenance-core-source.ormd",
+                  "url": "",
+                  "offset": 8079,
+                  "end_offset": 8800,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+                "kind": "document",
+                "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Responsibility Absorption\"\nauthors: [\"Daniel Pace\", \"OpenAI Codex\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"governance.responsibility_absorption\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/responsibility-absorption\", ts: \"2026-08-10T00:00:00Z\" }\n  parents:\n    - \"urn:cb:consequence-routing\"\n    - \"urn:cb:complex-causality\"\n    - \"urn:cb:remnant-stewardship\"\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"responsibility absorption\", \"repair capacity\", \"contestability\", \"narrative concentration\", \"consequence routing\"]\nresolution: { confidence: 0.84 }\n---\n# Responsibility Absorption\n\nStatus: integrated core specialization source; preliminary coherence tests passed 2026-08-10\n\nPromotion date: 2026-08-10\n\nPrimary parent:\n\n- `E2C",
+                "source": {
+                  "sourceRef": "E4",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/responsibility-absorption-core-source.ormd",
+                  "url": "",
+                  "offset": 0,
+                  "end_offset": 800,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              }
+            ],
+            "ids": [
+              "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+              "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+              "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+              "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+              "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf"
+            ],
+            "fallback": false
+          },
+          "entries": [],
+          "economics": {
+            "allowed": true,
+            "reason": "Conservative local estimate; no measured savings claim",
+            "comparison": "Delegated judgment versus an extra task-model judgment; deterministic selection has no inference cost",
+            "estimated_saving_usd": 0.0016,
+            "overhead_usd": 0.000336,
+            "pricing_date": "2026-10-02"
+          },
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimated avoided read; no measured token or cost savings"
+        },
+        {
+          "event_id": "evt_aaf621ad-4c22-4fa1-957b-e232174e4de3",
+          "seq": 16,
+          "timestamp": "2026-10-05T19:05:12.354Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "responsibility absorption asymmetry maintenance",
+          "outcome": "skipped",
+          "reason": "shortlist already fits",
+          "error": null,
+          "selection_source": "deterministic",
+          "cache_hit": false,
+          "request_id": null,
+          "baseline": [
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+            "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe"
+          ],
+          "selected": [
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+            "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe"
+          ],
+          "candidates": [
+            {
+              "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+              "kind": "document",
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Asymmetry Maintenance\"\nauthors: [\"Daniel Pace\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"mechanics.persistence.asymmetry\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/Asymmetry%20Maintenance%20-%20Core%20Source.md\", ts: \"2026-06-12T15:24:59Z\" }\n  parents: []\n  transforms:\n    - { fn: \"manual_context_convert@deterministic-preserve\", ts: \"2026-06-12T00:00:00Z\" }\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"Asymmetry Maintenance\", \"AMM\", \"GCO\", \"maintained asymmetry\", \"margin\", \"persistence\"]\nresolution: { confidence: 0.90 }\nconversion:\n  method: \"deterministic_preserve_markdown\"\n  preserves: \"source text, heading hierarchy, code blocks, lists\"\n  note: \"Converted from Semantic Substrate without summarization or reinterpretation",
+              "source": {
+                "sourceRef": "E5",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/asymmetry-maintenance-core-source.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+              "kind": "document",
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Responsibility Absorption\"\nauthors: [\"Daniel Pace\", \"OpenAI Codex\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"governance.responsibility_absorption\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/responsibility-absorption\", ts: \"2026-08-10T00:00:00Z\" }\n  parents:\n    - \"urn:cb:consequence-routing\"\n    - \"urn:cb:complex-causality\"\n    - \"urn:cb:remnant-stewardship\"\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"responsibility absorption\", \"repair capacity\", \"contestability\", \"narrative concentration\", \"consequence routing\"]\nresolution: { confidence: 0.84 }\n---\n# Responsibility Absorption\n\nStatus: integrated core specialization source; preliminary coherence tests passed 2026-08-10\n\nPromotion date: 2026-08-10\n\nPrimary parent:\n\n- `E2C",
+              "source": {
+                "sourceRef": "E4",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/responsibility-absorption-core-source.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+              "kind": "document",
+              "excerpt": "tion}\n\nCall it what it is: [stewardship](#stewardship-definition \"ontological:defines\")—the ongoing responsibility for maintaining the safety, stability, and functionality of a shared life. It exists in every household, every community, every team. It’s not gendered by nature. But under traditional gender roles, the invisible labor inside stewardship [has been split](#fcil-mcil-split \"ontological:composes\") into two domains that mirror and trap each other.\n\n---\n\n### Feminine-Coded Invisible Labor (FCIL): Nurturing & Sustaining {#fcil-focus}\n\n**Focus:** Maintaining the quality of life.\n\n**Core Functions:** {#fcil-functions}\n\n*   **Relational Maintenance** – tending emotional bonds, smoothing conflict, keeping connection intact.\n*   **Domestic Management** – planning and executing daily oper",
+              "source": {
+                "sourceRef": "E3",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/interlocked-stewardship-v2.ormd",
+                "url": "",
+                "offset": 2056,
+                "end_offset": 2856,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+              "kind": "document",
+              "excerpt": ")](#failure \"symmetric:constrains\"), extracting labor without metabolic maintenance\n- **Information asymmetry** (“because I said so”) violates the [Right to Knowledge (P5)](#failure \"epistemic:supports\"), creating power gradients that destabilize trust\n- **Rigid role assignments** violate the [Right to Identity (P1)](#failure \"ontological:defines\"), forcing ontological redefinitions that break internal coherence\n- **Arbitrary rule changes** violate the [Right to Consistency (P4)](#failure \"symmetric:constrains\"), inducing learned helplessness through double-binds\n\nThese aren’t just “bad parenting.” They are **structural violations** that degrade the family system itself. When you break a primitive, you don’t just create conflict; you compromise t",
+              "source": {
+                "sourceRef": "E1",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/family-as-a-relational-field.ormd",
+                "url": "",
+                "offset": 2284,
+                "end_offset": 3040,
+                "scope": "partial source text; relevance is not truth"
+              }
+            }
+          ],
+          "assessment": null,
+          "entries": [],
+          "economics": {
+            "allowed": true,
+            "reason": "Conservative local estimate; no measured savings claim",
+            "comparison": "Delegated judgment versus an extra task-model judgment; deterministic selection has no inference cost",
+            "estimated_saving_usd": 0.0016,
+            "overhead_usd": 0.000336,
+            "pricing_date": "2026-10-02"
+          },
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimated avoided read; no measured token or cost savings"
+        },
+        {
+          "event_id": "evt_5b8e9fcc-dc4f-402c-9ee4-7fdc80a3db16",
+          "seq": 15,
+          "timestamp": "2026-10-05T19:05:12.344Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "pain suffering responsibility",
+          "outcome": "skipped",
+          "reason": "shortlist already fits",
+          "error": null,
+          "selection_source": "deterministic",
+          "cache_hit": false,
+          "request_id": null,
+          "baseline": [
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+            "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b"
+          ],
+          "selected": [
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+            "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b"
+          ],
+          "candidates": [
+            {
+              "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+              "kind": "document",
+              "excerpt": "ld remainder accumulates. When systems maintain coherence by exporting entropy, cost, confusion, or responsibility down-gradient, the receiving system loses maintenance margin. The sending system appears stable because the remainder has left its ledger. The receiving system becomes saturated.\n\nSource relation:\n\n- AMM diagnoses the maintenance burden;\n- Complex Causality traces how the burden propagates;\n- Remnant Stewardship asks whether what remains is metabolized, preserved, repaired, released, or displaced.\n\n## 10. Diagnostics\n\nUse AMM when asking:\n\n- What usable difference is being maintained?\n- What would happen if the maintenance stopped?\n- Who or what pays the maintenance cost?\n- Is the system preserving ",
+              "source": {
+                "sourceRef": "E5",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/asymmetry-maintenance-core-source.ormd",
+                "url": "",
+                "offset": 8079,
+                "end_offset": 8800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+              "kind": "document",
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Responsibility Absorption\"\nauthors: [\"Daniel Pace\", \"OpenAI Codex\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"governance.responsibility_absorption\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/responsibility-absorption\", ts: \"2026-08-10T00:00:00Z\" }\n  parents:\n    - \"urn:cb:consequence-routing\"\n    - \"urn:cb:complex-causality\"\n    - \"urn:cb:remnant-stewardship\"\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"responsibility absorption\", \"repair capacity\", \"contestability\", \"narrative concentration\", \"consequence routing\"]\nresolution: { confidence: 0.84 }\n---\n# Responsibility Absorption\n\nStatus: integrated core specialization source; preliminary coherence tests passed 2026-08-10\n\nPromotion date: 2026-08-10\n\nPrimary parent:\n\n- `E2C",
+              "source": {
+                "sourceRef": "E4",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/responsibility-absorption-core-source.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+              "kind": "document",
+              "excerpt": " the invisible violence inside both roles, you don’t want progress. You want rescue. You want someone to make things better without showing you where the blood comes from.\n\n**Core insight:**\nMasculine-coded and feminine-coded invisible labor aren’t parallel problems competing for attention. They [are two halves](#the-interlock \"ontological:composes\") of the same machine. Neither can be dismantled without the other. And no one who benefits from it—which is all of us—gets to stand outside the frame.\n\n---\n\n## Part I: Mapping the Territory {#mapping-territory}\n\n### Stewardship as the Umbrella {#stewardship-definition}\n\nCall it what it is: [stewardship](#stewardship-definition \"ontological:defines\")—the ongoing responsibility for maintaining the safety, stability, and functionality of a shared ",
+              "source": {
+                "sourceRef": "E3",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/interlocked-stewardship-v2.ormd",
+                "url": "",
+                "offset": 1440,
+                "end_offset": 2240,
+                "scope": "partial source text; relevance is not truth"
+              }
+            }
+          ],
+          "assessment": null,
+          "entries": [],
+          "economics": {
+            "allowed": true,
+            "reason": "Conservative local estimate; no measured savings claim",
+            "comparison": "Delegated judgment versus an extra task-model judgment; deterministic selection has no inference cost",
+            "estimated_saving_usd": 0.0016,
+            "overhead_usd": 0.000336,
+            "pricing_date": "2026-10-02"
+          },
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimated avoided read; no measured token or cost savings"
+        },
+        {
+          "event_id": "evt_f29d909c-cb83-4e28-8124-b3c452ebaa37",
+          "seq": 14,
+          "timestamp": "2026-10-05T19:05:12.334Z",
+          "kind": "retrieval_decision",
+          "purpose": "retrieval",
+          "query": "caregiving responsibility family suffering endurance",
+          "outcome": "baseline confirmed",
+          "reason": null,
+          "error": null,
+          "selection_source": "bounded-model",
+          "cache_hit": false,
+          "request_id": "evt_6b2e34cd-fdc2-4a47-937c-7a7581fa3868",
+          "baseline": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+            "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00"
+          ],
+          "selected": [
+            "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+            "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+            "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+            "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00"
+          ],
+          "candidates": [
+            {
+              "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+              "kind": "document",
+              "excerpt": " the invisible violence inside both roles, you don’t want progress. You want rescue. You want someone to make things better without showing you where the blood comes from.\n\n**Core insight:**\nMasculine-coded and feminine-coded invisible labor aren’t parallel problems competing for attention. They [are two halves](#the-interlock \"ontological:composes\") of the same machine. Neither can be dismantled without the other. And no one who benefits from it—which is all of us—gets to stand outside the frame.\n\n---\n\n## Part I: Mapping the Territory {#mapping-territory}\n\n### Stewardship as the Umbrella {#stewardship-definition}\n\nCall it what it is: [stewardship](#stewardship-definition \"ontological:defines\")—the ongoing responsibility for maintaining the safety, stability, and functionality of a shared ",
+              "source": {
+                "sourceRef": "E3",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/interlocked-stewardship-v2.ormd",
+                "url": "",
+                "offset": 1440,
+                "end_offset": 2240,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+              "kind": "document",
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Caregiving as an Ecosystem\"\nauthors: [\"Daniel Pace\"]\n\n# CLP ContextBundle Integration\nframe: \"philosophy.caregiving\"\nlineage:\n  origin: { uri: \"urn:ormd:caregiving-ecosystem\", ts: \"2025-04-29T00:00:00Z\" }\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"caregiving\", \"relational-ecology\", \"stewardship\", \"attunement\", \"rplang\"]\nresolution: { confidence: 0.85 }\n---\n\n# Caregiving as an Ecosystem {#title}\n\n4/29/25\n\n[Interlocked Stewardship](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%2024911588332080b59a16c92fbb34fc18.md \"meta:corresponds_to\")\n\n[Interlocked Stewardship V2](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%20V2%2024911588332080e39e79eec18d7eaaae.md \"meta:corresponds_to\")\n\n[Family as a Relational Field](Caregiv",
+              "source": {
+                "sourceRef": "E2",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/caregiving-as-an-ecosystem.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+              "kind": "document",
+              "excerpt": "renting.” They are **structural violations** that degrade the family system itself. When you break a primitive, you don’t just create conflict; you compromise the field’s capacity to maintain coherence.\n\n### The Core Reframe {#reframe}\n\nThis document offers three foundational shifts:\n\n1. **From managing people to stewarding coherence**: You are not the cause of growth; you are the condition for it\n2. **From roles to modes**: Caregiving is not a fixed identity but a dynamic choreography of attentional patterns\n3. **From resolution to paradox**: Health emerges from holding tension, not eliminating it\n\nWhat follows is the architecture of these shifts applied specifically to family systems.\n\n---\n\n# Part 1: Theoretical Foundations {#foundations}\n\n## 1.1 Essential Relationships in Family Systems",
+              "source": {
+                "sourceRef": "E1",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/family-as-a-relational-field.ormd",
+                "url": "",
+                "offset": 2880,
+                "end_offset": 3680,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+              "kind": "document",
+              "excerpt": "ld remainder accumulates. When systems maintain coherence by exporting entropy, cost, confusion, or responsibility down-gradient, the receiving system loses maintenance margin. The sending system appears stable because the remainder has left its ledger. The receiving system becomes saturated.\n\nSource relation:\n\n- AMM diagnoses the maintenance burden;\n- Complex Causality traces how the burden propagates;\n- Remnant Stewardship asks whether what remains is metabolized, preserved, repaired, released, or displaced.\n\n## 10. Diagnostics\n\nUse AMM when asking:\n\n- What usable difference is being maintained?\n- What would happen if the maintenance stopped?\n- Who or what pays the maintenance cost?\n- Is the system preserving ",
+              "source": {
+                "sourceRef": "E5",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/asymmetry-maintenance-core-source.ormd",
+                "url": "",
+                "offset": 8079,
+                "end_offset": 8800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+              "kind": "document",
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Responsibility Absorption\"\nauthors: [\"Daniel Pace\", \"OpenAI Codex\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"governance.responsibility_absorption\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/responsibility-absorption\", ts: \"2026-08-10T00:00:00Z\" }\n  parents:\n    - \"urn:cb:consequence-routing\"\n    - \"urn:cb:complex-causality\"\n    - \"urn:cb:remnant-stewardship\"\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"responsibility absorption\", \"repair capacity\", \"contestability\", \"narrative concentration\", \"consequence routing\"]\nresolution: { confidence: 0.84 }\n---\n# Responsibility Absorption\n\nStatus: integrated core specialization source; preliminary coherence tests passed 2026-08-10\n\nPromotion date: 2026-08-10\n\nPrimary parent:\n\n- `E2C",
+              "source": {
+                "sourceRef": "E4",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/responsibility-absorption-core-source.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            }
+          ],
+          "assessment": {
+            "decisions": [
+              {
+                "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+                "category": "useful",
+                "confidence": 0.78,
+                "uncertain": false
+              },
+              {
+                "id": "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+                "category": "useful",
+                "confidence": 0.72,
+                "uncertain": false
+              },
+              {
+                "id": "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+                "category": "useful",
+                "confidence": 0.65,
+                "uncertain": false
+              },
+              {
+                "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+                "category": "useful",
+                "confidence": 0.39,
+                "uncertain": true
+              },
+              {
+                "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+                "category": "irrelevant",
+                "confidence": 0.75,
+                "uncertain": false
+              }
+            ],
+            "model": "jev-1.13.0",
+            "threshold": 0.65,
+            "decision_version": "jev-selection-v4",
+            "candidates": [
+              {
+                "id": "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+                "kind": "document",
+                "excerpt": " the invisible violence inside both roles, you don’t want progress. You want rescue. You want someone to make things better without showing you where the blood comes from.\n\n**Core insight:**\nMasculine-coded and feminine-coded invisible labor aren’t parallel problems competing for attention. They [are two halves](#the-interlock \"ontological:composes\") of the same machine. Neither can be dismantled without the other. And no one who benefits from it—which is all of us—gets to stand outside the frame.\n\n---\n\n## Part I: Mapping the Territory {#mapping-territory}\n\n### Stewardship as the Umbrella {#stewardship-definition}\n\nCall it what it is: [stewardship](#stewardship-definition \"ontological:defines\")—the ongoing responsibility for maintaining the safety, stability, and functionality of a shared ",
+                "source": {
+                  "sourceRef": "E3",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/interlocked-stewardship-v2.ormd",
+                  "url": "",
+                  "offset": 1440,
+                  "end_offset": 2240,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+                "kind": "document",
+                "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Caregiving as an Ecosystem\"\nauthors: [\"Daniel Pace\"]\n\n# CLP ContextBundle Integration\nframe: \"philosophy.caregiving\"\nlineage:\n  origin: { uri: \"urn:ormd:caregiving-ecosystem\", ts: \"2025-04-29T00:00:00Z\" }\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"caregiving\", \"relational-ecology\", \"stewardship\", \"attunement\", \"rplang\"]\nresolution: { confidence: 0.85 }\n---\n\n# Caregiving as an Ecosystem {#title}\n\n4/29/25\n\n[Interlocked Stewardship](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%2024911588332080b59a16c92fbb34fc18.md \"meta:corresponds_to\")\n\n[Interlocked Stewardship V2](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%20V2%2024911588332080e39e79eec18d7eaaae.md \"meta:corresponds_to\")\n\n[Family as a Relational Field](Caregiv",
+                "source": {
+                  "sourceRef": "E2",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/caregiving-as-an-ecosystem.ormd",
+                  "url": "",
+                  "offset": 0,
+                  "end_offset": 800,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+                "kind": "document",
+                "excerpt": "renting.” They are **structural violations** that degrade the family system itself. When you break a primitive, you don’t just create conflict; you compromise the field’s capacity to maintain coherence.\n\n### The Core Reframe {#reframe}\n\nThis document offers three foundational shifts:\n\n1. **From managing people to stewarding coherence**: You are not the cause of growth; you are the condition for it\n2. **From roles to modes**: Caregiving is not a fixed identity but a dynamic choreography of attentional patterns\n3. **From resolution to paradox**: Health emerges from holding tension, not eliminating it\n\nWhat follows is the architecture of these shifts applied specifically to family systems.\n\n---\n\n# Part 1: Theoretical Foundations {#foundations}\n\n## 1.1 Essential Relationships in Family Systems",
+                "source": {
+                  "sourceRef": "E1",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/family-as-a-relational-field.ormd",
+                  "url": "",
+                  "offset": 2880,
+                  "end_offset": 3680,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+                "kind": "document",
+                "excerpt": "ld remainder accumulates. When systems maintain coherence by exporting entropy, cost, confusion, or responsibility down-gradient, the receiving system loses maintenance margin. The sending system appears stable because the remainder has left its ledger. The receiving system becomes saturated.\n\nSource relation:\n\n- AMM diagnoses the maintenance burden;\n- Complex Causality traces how the burden propagates;\n- Remnant Stewardship asks whether what remains is metabolized, preserved, repaired, released, or displaced.\n\n## 10. Diagnostics\n\nUse AMM when asking:\n\n- What usable difference is being maintained?\n- What would happen if the maintenance stopped?\n- Who or what pays the maintenance cost?\n- Is the system preserving ",
+                "source": {
+                  "sourceRef": "E5",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/asymmetry-maintenance-core-source.ormd",
+                  "url": "",
+                  "offset": 8079,
+                  "end_offset": 8800,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              },
+              {
+                "id": "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf",
+                "kind": "document",
+                "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Responsibility Absorption\"\nauthors: [\"Daniel Pace\", \"OpenAI Codex\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"governance.responsibility_absorption\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/responsibility-absorption\", ts: \"2026-08-10T00:00:00Z\" }\n  parents:\n    - \"urn:cb:consequence-routing\"\n    - \"urn:cb:complex-causality\"\n    - \"urn:cb:remnant-stewardship\"\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"responsibility absorption\", \"repair capacity\", \"contestability\", \"narrative concentration\", \"consequence routing\"]\nresolution: { confidence: 0.84 }\n---\n# Responsibility Absorption\n\nStatus: integrated core specialization source; preliminary coherence tests passed 2026-08-10\n\nPromotion date: 2026-08-10\n\nPrimary parent:\n\n- `E2C",
+                "source": {
+                  "sourceRef": "E4",
+                  "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/responsibility-absorption-core-source.ormd",
+                  "url": "",
+                  "offset": 0,
+                  "end_offset": 800,
+                  "scope": "partial source text; relevance is not truth"
+                }
+              }
+            ],
+            "ids": [
+              "evt_2da92720-f6a4-4faa-94f3-1588fa32855b",
+              "evt_6ae6585d-003b-4aa9-9cbb-46b4f3e111dc",
+              "evt_0a0be54c-97e7-47cc-96d0-b6b9ed25dabe",
+              "evt_69e6b1d7-a235-4c88-b14a-a473573c1a00",
+              "evt_175bf789-70a6-4a9e-bfbb-4b4d148dd5cf"
+            ],
+            "fallback": false
+          },
+          "entries": [],
+          "economics": {
+            "allowed": true,
+            "reason": "Conservative local estimate; no measured savings claim",
+            "comparison": "Delegated judgment versus an extra task-model judgment; deterministic selection has no inference cost",
+            "estimated_saving_usd": 0.0016,
+            "overhead_usd": 0.000336,
+            "pricing_date": "2026-10-02"
+          },
+          "revision": null,
+          "applied_revision": null,
+          "economics_basis": "estimated avoided read; no measured token or cost savings"
+        },
+        {
+          "event_id": "evt_6b2e34cd-fdc2-4a47-937c-7a7581fa3868",
+          "seq": 12,
+          "timestamp": "2026-10-05T19:05:12.135Z",
+          "kind": "call",
+          "purpose": "retrieval-reranking",
+          "provider": "typesafe",
+          "model": "jev-1.13.0",
+          "request_id": "evt_6b2e34cd-fdc2-4a47-937c-7a7581fa3868",
+          "outcome": "completed",
+          "error": null,
+          "usage": {
+            "input_tokens": 2532,
+            "output_tokens": 174
+          },
+          "elapsed_ms": 198,
+          "answers": {
+            "item_0": {
+              "type": "choice",
+              "choice": "useful",
+              "confidence": 0.78,
+              "probabilities": {
+                "useful": 0.89,
+                "irrelevant": 0.11
+              }
+            },
+            "item_1": {
+              "type": "choice",
+              "choice": "useful",
+              "confidence": 0.72,
+              "probabilities": {
+                "useful": 0.86,
+                "irrelevant": 0.14
+              }
+            },
+            "item_2": {
+              "type": "choice",
+              "choice": "useful",
+              "confidence": 0.65,
+              "probabilities": {
+                "useful": 0.82,
+                "irrelevant": 0.18
+              }
+            },
+            "item_3": {
+              "type": "choice",
+              "choice": "useful",
+              "confidence": 0.39,
+              "probabilities": {
+                "useful": 0.7,
+                "irrelevant": 0.3
+              }
+            },
+            "item_4": {
+              "type": "choice",
+              "choice": "irrelevant",
+              "confidence": 0.75,
+              "probabilities": {
+                "useful": 0.12,
+                "irrelevant": 0.88
+              }
+            }
+          },
+          "supplied_candidates": [
+            {
+              "excerpt": " the invisible violence inside both roles, you don’t want progress. You want rescue. You want someone to make things better without showing you where the blood comes from.\n\n**Core insight:**\nMasculine-coded and feminine-coded invisible labor aren’t parallel problems competing for attention. They [are two halves](#the-interlock \"ontological:composes\") of the same machine. Neither can be dismantled without the other. And no one who benefits from it—which is all of us—gets to stand outside the frame.\n\n---\n\n## Part I: Mapping the Territory {#mapping-territory}\n\n### Stewardship as the Umbrella {#stewardship-definition}\n\nCall it what it is: [stewardship](#stewardship-definition \"ontological:defines\")—the ongoing responsibility for maintaining the safety, stability, and functionality of a shared ",
+              "kind": "document",
+              "source": {
+                "sourceRef": "E3",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/interlocked-stewardship-v2.ormd",
+                "url": "",
+                "offset": 1440,
+                "end_offset": 2240,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Caregiving as an Ecosystem\"\nauthors: [\"Daniel Pace\"]\n\n# CLP ContextBundle Integration\nframe: \"philosophy.caregiving\"\nlineage:\n  origin: { uri: \"urn:ormd:caregiving-ecosystem\", ts: \"2025-04-29T00:00:00Z\" }\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"caregiving\", \"relational-ecology\", \"stewardship\", \"attunement\", \"rplang\"]\nresolution: { confidence: 0.85 }\n---\n\n# Caregiving as an Ecosystem {#title}\n\n4/29/25\n\n[Interlocked Stewardship](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%2024911588332080b59a16c92fbb34fc18.md \"meta:corresponds_to\")\n\n[Interlocked Stewardship V2](Caregiving%20as%20an%20Ecosystem/Interlocked%20Stewardship%20V2%2024911588332080e39e79eec18d7eaaae.md \"meta:corresponds_to\")\n\n[Family as a Relational Field](Caregiv",
+              "kind": "document",
+              "source": {
+                "sourceRef": "E2",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/caregiving-as-an-ecosystem.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "excerpt": "renting.” They are **structural violations** that degrade the family system itself. When you break a primitive, you don’t just create conflict; you compromise the field’s capacity to maintain coherence.\n\n### The Core Reframe {#reframe}\n\nThis document offers three foundational shifts:\n\n1. **From managing people to stewarding coherence**: You are not the cause of growth; you are the condition for it\n2. **From roles to modes**: Caregiving is not a fixed identity but a dynamic choreography of attentional patterns\n3. **From resolution to paradox**: Health emerges from holding tension, not eliminating it\n\nWhat follows is the architecture of these shifts applied specifically to family systems.\n\n---\n\n# Part 1: Theoretical Foundations {#foundations}\n\n## 1.1 Essential Relationships in Family Systems",
+              "kind": "document",
+              "source": {
+                "sourceRef": "E1",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/family-as-a-relational-field.ormd",
+                "url": "",
+                "offset": 2880,
+                "end_offset": 3680,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "excerpt": "ld remainder accumulates. When systems maintain coherence by exporting entropy, cost, confusion, or responsibility down-gradient, the receiving system loses maintenance margin. The sending system appears stable because the remainder has left its ledger. The receiving system becomes saturated.\n\nSource relation:\n\n- AMM diagnoses the maintenance burden;\n- Complex Causality traces how the burden propagates;\n- Remnant Stewardship asks whether what remains is metabolized, preserved, repaired, released, or displaced.\n\n## 10. Diagnostics\n\nUse AMM when asking:\n\n- What usable difference is being maintained?\n- What would happen if the maintenance stopped?\n- Who or what pays the maintenance cost?\n- Is the system preserving ",
+              "kind": "document",
+              "source": {
+                "sourceRef": "E5",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/asymmetry-maintenance-core-source.ormd",
+                "url": "",
+                "offset": 8079,
+                "end_offset": 8800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            },
+            {
+              "excerpt": "<!-- ormd:1.0 -->\n---\ntitle: \"Responsibility Absorption\"\nauthors: [\"Daniel Pace\", \"OpenAI Codex\"]\n\n# --- Context Layer Protocol (CLP) ---\nframe: \"governance.responsibility_absorption\"\nlineage:\n  origin: { uri: \"local://semantic-substrate/responsibility-absorption\", ts: \"2026-08-10T00:00:00Z\" }\n  parents:\n    - \"urn:cb:consequence-routing\"\n    - \"urn:cb:complex-causality\"\n    - \"urn:cb:remnant-stewardship\"\npolicy:\n  read: [{ roles: [\"public\"] }]\nsemantics:\n  keywords: [\"responsibility absorption\", \"repair capacity\", \"contestability\", \"narrative concentration\", \"consequence routing\"]\nresolution: { confidence: 0.84 }\n---\n# Responsibility Absorption\n\nStatus: integrated core specialization source; preliminary coherence tests passed 2026-08-10\n\nPromotion date: 2026-08-10\n\nPrimary parent:\n\n- `E2C",
+              "kind": "document",
+              "source": {
+                "sourceRef": "E4",
+                "title": "https://e2-core-framework.capulusirl.chatgpt.site/ormd/responsibility-absorption-core-source.ormd",
+                "url": "",
+                "offset": 0,
+                "end_offset": 800,
+                "scope": "partial source text; relevance is not truth"
+              }
+            }
+          ]
+        }
+      ],
+      "before_cursor": 12,
+      "has_more": false,
+      "scope": "conversation; provider-reported usage; selection changes are not proof of answer quality or savings"
+    },
+    "answer": "Completed and read back **`pain-corpus-probe.md`**. It distinguishes the corpus’s conceptual overlap with learned pain endurance from empirical evidence: the excerpts suggest a possible link between gender-coded caregiving burdens and enduring distress, but they do not test or establish that link."
+  },
+  "recovery": [
+    {
+      "path": "recovery-final-2026-10-05/comparison.json",
+      "method": "Resume saved histories for synthesis and compaction only. Original model names in the prompts are replaced by their actual cheap-model slot names. No fresh web retrieval. Current arm includes follow-up memory/self-retrieval/telemetry repairs; this is a recovery, not a clean rerun.",
+      "arms": [
+        {
+          "arm": "current",
+          "turns": [
+            {
+              "turn": 9,
+              "status": "completed",
+              "agent_status": "completed",
+              "stop": {
+                "code": "completed",
+                "message": "The model finished. Written files passed the readback check.",
+                "used_tokens": 105091
+              },
+              "export_ms": 328.082699999999,
+              "export_bytes": 20284093
+            },
+            {
+              "turn": 10,
+              "status": "completed",
+              "agent_status": "completed",
+              "stop": {
+                "code": "completed",
+                "message": "The model finished. Written files passed the readback check.",
+                "used_tokens": 251642
+              },
+              "export_ms": 376.52230000001146,
+              "export_bytes": 22176141
+            }
+          ]
+        },
+        {
+          "arm": "baseline",
+          "turns": [
+            {
+              "turn": 9,
+              "status": "failed",
+              "agent_status": "expired",
+              "stop": {
+                "code": "expired",
+                "message": "The operation was aborted due to timeout",
+                "used_tokens": 270938
+              },
+              "export_ms": 308.4483000000182,
+              "export_bytes": 23080744
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "baseline-compaction-2026-10-05/comparison.json",
+      "method": "Resume saved histories for synthesis and compaction only. Original model names in the prompts are replaced by their actual cheap-model slot names. No fresh web retrieval. Current arm includes follow-up memory/self-retrieval/telemetry repairs; this is a recovery, not a clean rerun.",
+      "arms": [
+        {
+          "arm": "baseline",
+          "turns": [
+            {
+              "turn": 10,
+              "status": "completed",
+              "agent_status": "completed",
+              "stop": {
+                "code": "completed",
+                "message": "The model finished. Written files passed the readback check.",
+                "used_tokens": 132091
+              },
+              "export_ms": 312.18620000000374,
+              "export_bytes": 24107425
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "export_recheck": [
+    {
+      "path": "E:\\Coding\\converse\\converse\\docs\\conversations\\Pain, Gender, and Cultural Endurance Norms_2026-10-05T17-14-57-731Z.json",
+      "source_bytes": 66994357,
+      "download_bytes": 60498300,
+      "events": 1283,
+      "snapshots": 38,
+      "history_reads": 43,
+      "history_decodes": 1,
+      "hydrate_ms": 1051.6992999999998,
+      "build_ms": 372.9665,
+      "serialize_ms": 209.58580000000006,
+      "total_ms": 1634.2516,
+      "fidelity": true,
+      "controller": {
+        "full_history_bytes": 58747651,
+        "controller_history_bytes": 4699722,
+        "evaluation_status": "unavailable",
+        "elapsed_ms": 211.27300000000014,
+        "profile": {
+          "version": "shadow-profile-v1",
+          "stages": {
+            "history": {
+              "calls": 1,
+              "elapsed_ms": 65.18199999999979
+            },
+            "working_payload": {
+              "calls": 1,
+              "elapsed_ms": 11.890100000000075
+            },
+            "native_serialization": {
+              "calls": 1,
+              "elapsed_ms": 0.9484999999999673
+            },
+            "cache_trace": {
+              "calls": 1,
+              "elapsed_ms": 1.1660999999999149
+            },
+            "fingerprint": {
+              "calls": 1,
+              "elapsed_ms": 0.717200000000048
+            },
+            "candidate_selection": {
+              "calls": 1,
+              "elapsed_ms": 15.32400000000007
+            },
+            "candidate_payload": {
+              "calls": 8,
+              "elapsed_ms": 30.3757999999998
+            },
+            "candidate_tokenization": {
+              "calls": 8,
+              "elapsed_ms": 58.91119999999955
+            },
+            "recovery_tokenization": {
+              "calls": 8,
+              "elapsed_ms": 12.517100000000028
+            },
+            "summary_tokenization": {
+              "calls": 1,
+              "elapsed_ms": 4.7400000000002365
+            }
+          },
+          "last_stage": "recovery_tokenization",
+          "failed_stage": "recovery_tokenization",
+          "native_input_bytes": 67894,
+          "event_count": 1283,
+          "segment_count": 44,
+          "candidate_count": 0
+        },
+        "scope": "local controller projection bytes; not measured provider-token or cost savings"
+      }
+    }
+  ]
+}

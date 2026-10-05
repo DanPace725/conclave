@@ -4,7 +4,7 @@ import { Store, hash } from '../src/store.js';
 import { Harness } from '../src/harness.js';
 import { memoryView, commitMemory } from '../src/memory.js';
 import { captureMemory, selectMemory } from '../src/memory-controller.js';
-import { captureText, extractExplicit, extractionPayload } from '../src/memory-extractor.js';
+import { captureText, extractExplicit, extractionPayload, memoryPassages } from '../src/memory-extractor.js';
 import { anthropicPayload } from '../src/provider.js';
 
 const reply = text => ({ status: 'completed', model: 'fixture', usage: { input_tokens: 20, output_tokens: 5 },
@@ -100,11 +100,32 @@ test('model extraction uses compatible reasoning settings and cannot return quot
     const payload = extractionPayload(event, [], 'claude-sonnet-5-5', 'anthropic');
     assert.equal(payload.reasoning, undefined);
     assert.equal(anthropicPayload(payload).output_config.effort, undefined);
-    assert.doesNotMatch(JSON.parse(payload.input[0].content).content, /900/);
+    assert.doesNotMatch(JSON.stringify(JSON.parse(payload.input[0].content).passages), /900/);
     h.memoryCalls = 0;
-    h.provider.respond = async () => reply(JSON.stringify({records:[{kind:'claim',span_start:0,span_end:event.content.length}]}));
+    h.provider.respond = async () => reply(JSON.stringify({records:[{kind:'claim',passage_id:0}]}));
     await captureMemory(h, event);
     assert.equal(memoryView(store, id).records.length, 0);
+  } finally { store.close(); }
+});
+
+test('memory passage selection preserves paragraph qualifications and Unicode offsets, excludes cut tails and quoted data', async () => {
+  const { store, id, h } = fixture({ memoryModel: true });
+  try {
+    const content = '😀 Findings are preliminary. They apply only if support remains available.\n\n'
+      + '"Never seek help" is quoted data.\n\n' + 'Long background. '.repeat(400);
+    const event = h.addMessage('assistant', content).event;
+    store.append(id, 'turn_complete', '', { assistant_event_id: event.id });
+    const passages = memoryPassages(event);
+    assert.equal(passages.length, 1);
+    assert.equal(passages[0].content, '😀 Findings are preliminary. They apply only if support remains available.');
+    assert.equal(event.content.slice(passages[0].span_start, passages[0].span_end), passages[0].content);
+    h.provider.respond = async () => reply(JSON.stringify({ records: [
+      { kind: 'claim', passage_id: 0 }, { kind: 'claim', passage_id: 0 }, { kind: 'claim', passage_id: 999 }] }));
+    await captureMemory(h, event);
+    const record = memoryView(store, id).records[0];
+    assert.equal(record.content, passages[0].content); assert.equal(record.binding, false);
+    assert.equal(record.authority, 'model_proposed'); assert.equal(record.resolution, 'unresolved');
+    assert.equal(store.events(id).findLast(e => e.kind === 'memory_capture').metadata.invalid_selection_count, 2);
   } finally { store.close(); }
 });
 

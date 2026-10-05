@@ -94,6 +94,7 @@ test('native Jev requests, typed coverage/confidence gates, receipts and determi
     assert.ok(budgetUnits(wire) < 8000);
     const saved = store.events(conversation).find((e) => e.kind === 'inference_response');
     assert.ok(saved.metadata.answers.action_0.probabilities);
+    assert.equal(saved.metadata.status, 'completed');
     assert.equal(store.events(conversation).find((e) => e.kind === 'inference_request').metadata.output_reserve, 0);
     uncertain = true;
     const low = await harness.selectionPlan('current task', [], true);
