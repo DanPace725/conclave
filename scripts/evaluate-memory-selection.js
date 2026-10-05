@@ -9,18 +9,18 @@ import { memoryPassages, extractionPayload, parseExtraction } from '../src/memor
 import { MEMORY_LABELS_VERSION, LABELS, labelItems, scoreSelections, compareSelections } from '../src/memory-evaluation.js';
 import { JevDecisionAdapter } from '../src/jev.js';
 import { JevProvider, taskProvider, responseText, redact } from '../src/provider.js';
+import { priceUsage } from '../src/costs.js';
 
 const [command, input, ...rest] = process.argv.slice(2);
 const flag = name => rest.includes(name);
 const option = name => { const i = rest.indexOf(name); return i >= 0 ? rest[i + 1] : undefined; };
 const readJson = path => JSON.parse(readFileSync(path, 'utf8'));
 const costs = readJson(new URL('../src/resources/model-costs-2026-10-02.json', import.meta.url));
-const rates = (provider, model) => [...costs.models, ...(costs.management_models || [])]
-  .find(r => r.provider === provider && r.model === model)?.rates || null;
+// Shared pricing, so cache reads and writes are valued at their own rates.
 const price = (calls, provider, model) => {
-  const r = rates(provider, model);
-  if (!r || calls.some(c => !c.usage)) return null;
-  return calls.reduce((n, c) => n + ((c.usage.input_tokens || 0) * r.input + (c.usage.output_tokens || 0) * (r.output || 0)) / 1e6, 0);
+  if (calls.some(c => !c.usage)) return null;
+  const priced = calls.map(c => priceUsage(c.usage, provider, model, costs, { tier: 'short' }));
+  return priced.some(p => p.usd_max == null) ? null : priced.reduce((n, p) => n + p.usd_max, 0);
 };
 
 function prepare() {
