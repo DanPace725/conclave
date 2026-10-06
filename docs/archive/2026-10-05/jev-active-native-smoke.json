@@ -1,0 +1,165 @@
+{
+  "scope": "one native Jev call on synthetic completed assistant paragraphs; no task-model or answer-generation calls",
+  "task_model_calls": 0,
+  "selection_calls": 1,
+  "capture": {
+    "source_event_id": "evt_3603163a-4d55-4576-a905-e627b99f1a50",
+    "status": "completed",
+    "error": null,
+    "revision": 1,
+    "source_kind": "assistant",
+    "reason": "completed research episode; unresolved model proposals",
+    "paid_extraction": true,
+    "selector": "jev",
+    "selection_calls": 1,
+    "deferred_passage_ids": [],
+    "invalid_selection_count": 0,
+    "passage_coverage": {
+      "source_characters": 311,
+      "offered_characters": 307,
+      "source_paragraphs": 3,
+      "offered_paragraphs": 3,
+      "oversized_spans": [],
+      "limit_characters": 8000,
+      "policy": "complete source paragraphs; human quoted instruction data excluded"
+    },
+    "admitted_count": 2,
+    "revision_changed": true,
+    "elapsed_ms": 254,
+    "policy": "conversation-memory-v6",
+    "retry_on_activity": false,
+    "retry_disposition": "none"
+  },
+  "records": [
+    {
+      "content": "Finding: The octopus-event budget is $1,500, attendance is 36, and exactly three stations are required. These figures were stated by the user, not independently verified.",
+      "authority": "model_proposed",
+      "binding": false,
+      "resolution": "unresolved",
+      "selector": {
+        "selector": "jev",
+        "provider": "typesafe",
+        "model": "jev-1.13.0",
+        "confidence_target": "keep-or-skip",
+        "keep_probability": 0.99,
+        "kind_uncertain": false
+      }
+    },
+    {
+      "content": "Open question: UV cards cost $6 per attendee. The user has explicitly left this proposal undecided.",
+      "authority": "model_proposed",
+      "binding": false,
+      "resolution": "unresolved",
+      "selector": {
+        "selector": "jev",
+        "provider": "typesafe",
+        "model": "jev-1.13.0",
+        "confidence_target": "keep-or-skip",
+        "keep_probability": 1,
+        "kind_uncertain": false
+      }
+    }
+  ],
+  "selections": [
+    {
+      "source_event_id": "evt_3603163a-4d55-4576-a905-e627b99f1a50",
+      "source_kind": "assistant",
+      "selector": "jev",
+      "jev": {
+        "records": [
+          {
+            "passage_id": 0,
+            "kind": "claim"
+          },
+          {
+            "passage_id": 1,
+            "kind": "question"
+          }
+        ],
+        "decisions": [
+          {
+            "passage_id": 0,
+            "choice": "claim",
+            "kind": "claim",
+            "model": "jev-1.13.0",
+            "confidence": 0.99,
+            "kind_uncertain": false,
+            "keep_probability": 0.99,
+            "selection_confidence": 0.99,
+            "uncertain": false,
+            "duplicate": false
+          },
+          {
+            "passage_id": 1,
+            "choice": "question",
+            "kind": "question",
+            "model": "jev-1.13.0",
+            "confidence": 0.99,
+            "kind_uncertain": false,
+            "keep_probability": 1,
+            "selection_confidence": 1,
+            "uncertain": false,
+            "duplicate": false
+          },
+          {
+            "passage_id": 2,
+            "choice": "skip",
+            "kind": "preference",
+            "model": "jev-1.13.0",
+            "confidence": 1,
+            "kind_uncertain": false,
+            "keep_probability": 0,
+            "selection_confidence": 1,
+            "uncertain": false,
+            "duplicate": false
+          }
+        ],
+        "oversized": [],
+        "calls": [
+          {
+            "passages": 3,
+            "elapsed_ms": 246,
+            "usage": {
+              "input_tokens": 830,
+              "output_tokens": 144
+            },
+            "model": "jev-1.13.0"
+          }
+        ],
+        "threshold": 0.65,
+        "confidence_target": "keep-or-skip",
+        "decision_version": "jev-memory-v2"
+      },
+      "deferred_passage_ids": [],
+      "calls": [],
+      "records": [
+        {
+          "passage_id": 0,
+          "kind": "claim"
+        },
+        {
+          "passage_id": 1,
+          "kind": "question"
+        }
+      ],
+      "applied": false
+    }
+  ],
+  "usage": [
+    {
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 830,
+        "output_tokens": 144
+      },
+      "elapsed_ms": 242
+    }
+  ],
+  "sanitization": {
+    "policy": "shareable-export-v1",
+    "redactions": {},
+    "canonical": false,
+    "integrity": "Original hashes and source offsets refer to private canonical data; redacted content is not an exact replay.",
+    "coverage": "Pattern-based credential redaction, not a guarantee that arbitrary secrets or personal data are absent."
+  }
+}

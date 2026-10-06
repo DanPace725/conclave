@@ -218,7 +218,7 @@ test('Agent captures before answering, preserves objective scope, and Stop abort
   const s = new Store(undefined, { memory: true });
   const controller = new AbortController(); let entered;
   const started = new Promise(resolve => { entered = resolve; });
-  const service = new ConclaveService(s, { memoryModel: true, availability: () => ({ openai: true }), providerFactory: () => ({ name: 'openai', respond: async (_payload, { signal }) => {
+  const service = new ConclaveService(s, { memoryModel: true, memorySelector: 'task-model', availability: () => ({ openai: true }), providerFactory: () => ({ name: 'openai', respond: async (_payload, { signal }) => {
     entered(); await new Promise((resolve, reject) => signal.addEventListener('abort', () => reject(signal.reason), { once: true })); return reply('Unexpected');
   } }) });
   try {

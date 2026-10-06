@@ -35,11 +35,12 @@ function prepare() {
     conversation_id: record.conversation_id || record.context_layer?.conversation_id || null,
     instructions: `Set each passage label to one of: ${LABELS.join(', ')}. "keep" grades selection without kind; "optional" is neither a miss nor a false positive. Label before opening the recorded file.`,
     items });
-  // Recorded shadow selections are kept apart so labeling stays blind.
-  const shadows = events.filter(e => e.kind === 'memory_shadow');
+  // Recorded active/comparison selections stay apart so labeling stays blind.
+  const shadows = events.filter(e => ['memory_shadow', 'memory_comparison'].includes(e.kind)
+    || e.kind === 'memory_selection' && e.metadata.selector === 'jev');
   const recorded = { llm: {}, jev: {}, jev_decisions: {} };
   for (const e of shadows) {
-    recorded.llm[e.metadata.source_event_id] = e.metadata.llm?.records ?? null;
+    if (e.kind !== 'memory_selection') recorded.llm[e.metadata.source_event_id] = e.metadata.llm?.records ?? null;
     recorded.jev[e.metadata.source_event_id] = e.metadata.jev?.records ?? null;
     if (e.metadata.jev) recorded.jev_decisions[e.metadata.source_event_id] = e.metadata.jev.decisions;
   }
