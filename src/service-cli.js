@@ -12,7 +12,7 @@ export const serviceCommands = new Set(['call', 'view', 'workspace-list', 'works
   'agent-start', 'agent-step', 'agent-stop', 'agent-status', 'count-tokens', 'activity', 'audit', 'download']);
 const methods = new Set(['status', 'list', 'create', 'view', 'ask', 'remember', 'name', 'sourceEvent',
   'contextBundle', 'workspaceFile', 'saveDocument', 'uploadDocument', 'changeDocument', 'countTokens',
-  'saveContext', 'saveState', 'saveMemory', 'memoryLifecycle', 'agentStart', 'agentStep', 'agentStop', 'activity', 'audit', 'export', 'shareableExport', 'modelInput',
+  'saveContext', 'saveState', 'saveMemory', 'memoryLifecycle', 'approveMemorySuppression', 'agentStart', 'agentStep', 'agentStop', 'activity', 'audit', 'export', 'shareableExport', 'modelInput',
   'clpFrames', 'clpBundle', 'clpRegisterFrame', 'clpAttest', 'clpRecord', 'clpLink', 'clpQuery']);
 
 export async function serviceCommand(argv, { service: suppliedService, write = text => console.log(text) } = {}) {

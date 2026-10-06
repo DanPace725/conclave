@@ -4,6 +4,8 @@ Updated 2026-10-05. Mutable project state. [CLI usage](README.md) · [Developmen
 
 ## Current capabilities
 
+- Memory v7 offers bounded substantive discussion to Jev, preserves quoted paragraph data without commitment authority, uses full/pointer/archive projections for automatic and optional named memory, and supports exact single-record reads plus structured human-approved suppression sets. Meaningful relevance and deduplicated human engagement affect retrieval only. Source: 285 passes, one optional skip, thirteen new regressions and syntax checks passed. Neo saved-state replay excludes seven early critiques from a vector-store discussion; live quality/cost and semantic thresholds remain uncalibrated. [Implementation and evidence](docs/archive/2026-10-06/neo-memory-implementation.md)
+
 - Context/Agent services now use active Jev memory selection by default, with no automatic task-model fallback. Optional task-model comparisons are observational and off by default. Source: 272 passes, one optional skip; native smoke committed two unresolved candidates in one Jev call / zero task-model calls. User-authorized memory controls remain available. [Behavior and evidence](docs/archive/2026-10-05/jev-active-memory.md)
 
 - Memory v6 captures explicit multi-clause requirements and corrections, separates explicitly named projects and filters routine keep-working instructions. Astra extraction uses supported low reasoning. Nine new regressions and the original 28-human-turn offline replay recover the corrected octopus requirements; 266 source checks pass, one optional skip. No live quality/cost claim or historical backfill. [Evidence and limits](docs/archive/2026-10-05/conversation-memory-repairs.md)

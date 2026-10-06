@@ -1,0 +1,17 @@
+# Neo discussion and memory projection increment
+
+The supplied Neo chat exposed selection gates that never offered substantive discussion to Jev, paragraph-level rejection around a harmless quotation, loose keyword admission and unclear baseline/call labels. Memory policy v7 addresses these paths without granting model proposals new authority.
+
+Implemented: substantive human discussion and completed conceptual replies can reach optional selection; acknowledgments skip it; human discussion takes priority. Direct Jev capture allows two calls per source/turn, preserving exact complete paragraphs and reporting unassessed/uncertain/oversized IDs. Quote-only instructions remain ineligible; selected paragraphs with unquoted context remain unresolved data.
+
+Working memory now distinguishes full text, capped pointers and a retrievable archive. Meaningful words replace substrings; multi-word lexical admission needs two overlaps. Initial cosine tiers are 0.45 full / 0.3 pointer and need calibration. Scoped binding constraints and dependency/conflict closure stay complete. Named evidence/questions receive a bounded projection and persistent semantic matching, with operative named state retained. `retrieve_memory` reads one exact revision-checked record instead of the whole collection.
+
+Retention metadata distinguishes source and controller interpretation. Deduplicated substantive human returns provide a capped, decaying retrieval-order boost; prompt inclusion/assistant echoes cannot reinforce it or change authority. This is an inspectable initial heuristic, not a learned utility/relationship controller.
+
+Structured suppression proposals store target IDs, snippets and fingerprints. Explicit approval of the saved key or the manual API applies only the exact unchanged set; stale/changed/pinned targets reject atomically. Model memory reads omit suppressed proposal snippets. Existing snapshots/history remain canonical. Local eligibility checks/capture receipts/context reviews now appear separately from actual Jev provider calls.
+
+Offline replay of the real chat's 23:05 automatic activation: seven early critiques / 6,917 projected bytes become zero optional records / two bytes for an empty list with the same absent semantic matches. The 10:22 human paragraph now offers one complete passage; 13/23 human turns pass the substantive-discussion heuristic. These are saved-state policy results, not paid Jev decisions, live answer quality or measured total cost. Prior named-state protections and old canonical records are not rewritten/backfilled.
+
+Regression tests cover quotation authority, completed/partial replies, acknowledgments, native call bounds, ambiguous word matches, pointer budgets, named semantic persistence, constraints/dependencies, engagement deduplication, exact proposal approval and revision-checked targeted reads. Native/live cost, source-faithful answer quality, multilingual query calibration, learned relation routes and broader decay policies remain to evaluate.
+
+Validation: full source suite **285 passed, one optional replay skipped**; thirteen new regressions pass. Syntax/credential checks and `git diff --check` pass. No external inference or database migration was performed. Proposal approval additionally rejects a proposal replaced after the human's approving turn and semantically changed target dependencies; fingerprint inputs use stable primitive identity fields for PostgreSQL JSONB compatibility.
