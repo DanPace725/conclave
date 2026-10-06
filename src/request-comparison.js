@@ -109,7 +109,7 @@ export function requestComparison(payload, provider, events, request = null) {
     sent_estimated_tokens: breakdown.estimated_tokens,
     full_tokens: inputSize({ ...payload, input }, provider).estimated_tokens,
     fixed_tokens: inputSize({ ...payload, input: [] }, provider).estimated_tokens,
-    ...(breakdown.image_reserve_tokens ? { image_accounting: 'Uncalibrated image reserve; only text is tokenized locally' } : {}),
+    ...(breakdown.image_reserve_tokens || history.some(e => e.kind === 'image') ? { image_accounting: 'Uncalibrated image reserve; only text is tokenized locally' } : {}),
     baseline_scope: 'Chat, original documents/images and task tools; excludes memory/context management, retrieval and private reasoning',
     // Reported usage the local count does not explain: provider framing and tokenizer differences.
     breakdown: { ...breakdown, reported_tokens: measured ? reported : null,

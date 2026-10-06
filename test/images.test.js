@@ -8,7 +8,7 @@ import { ConclaveService } from '../src/service.js';
 import { validateImage, eligibleImages, materializeImages } from '../src/images.js';
 import { anthropicPayload, AnthropicProvider, OpenAIProvider } from '../src/provider.js';
 import { inputSize } from '../src/input-size.js';
-import { requestBreakdown } from '../src/request-comparison.js';
+import { requestBreakdown, requestComparison } from '../src/request-comparison.js';
 import { retrievalCatalog } from '../src/semantic-retrieval.js';
 import { ContextRepository, downloadRecord } from '../src/context-repository.js';
 import { startServer } from '../src/server.js';
@@ -61,6 +61,9 @@ test('native OpenAI and Claude requests receive pixels while accounting excludes
   }
   assert.equal(inputSize(payload, { name: 'openai' }).tokenizer_tokens,
     inputSize({ ...payload, input: [{ ...payload.input[0], content: [payload.input[0].content[0], { type: 'input_image', image_url: 'data:image/png;base64,' + 'A'.repeat(300000) }] }] }, { name: 'openai' }).tokenizer_tokens);
+  const comparison = requestComparison({ ...payload, input: [{ role: 'user', content: 'Pixels offloaded.' }] }, { name: 'openai' },
+    [{ id: 'evt_image', seq: 1, kind: 'image', actor: 'human', content: 'Saved image.', metadata: {} }]);
+  assert.match(comparison.image_accounting, /Uncalibrated/);
 });
 
 test('Context preserves image sources across restart and follow-ups without repeating base64 in audits', async () => {
