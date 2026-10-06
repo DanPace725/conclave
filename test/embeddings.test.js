@@ -12,8 +12,8 @@ import { Harness } from '../src/harness.js';
 import { ConclaveService } from '../src/service.js';
 import { ContextRepository } from '../src/context-repository.js';
 import { OpenAIEmbeddingProvider, EMBEDDING_MODEL } from '../src/embeddings.js';
-import { SQLiteEmbeddingStore } from '../src/embedding-store.js';
-import { SemanticRetrieval, retrievalCatalog, embeddingUsage } from '../src/semantic-retrieval.js';
+import { SQLiteEmbeddingStore, PostgresEmbeddingStore } from '../src/embedding-store.js';
+import { SemanticRetrieval, retrievalCatalog, embeddingUsage, memoryLinks } from '../src/semantic-retrieval.js';
 import { prepareSemanticMemory, activateMemory, selectMemory } from '../src/memory-controller.js';
 import { commitMemory, memoryView, changeMemory } from '../src/memory.js';
 import { agentState } from '../src/agent.js';
@@ -172,6 +172,65 @@ test('Neon pgvector path persists across fresh services, filters removed sources
       expected_source_event_id: result[0].event_id, expected_change_id: null }));
     const removed = await repo().run(id, true, service => search(service.harness(id, {}, true), 'hosting expenses'));
     assert.equal(removed.length, 0);
+  } finally { await client.close(); }
+});
+
+// Graded fixtures: every cost memory leans on axis 0 by a different amount.
+const blend = (axis, weight) => Array.from({ length: 1536 }, (_, i) => i === 0 ? weight : i === axis ? Math.sqrt(1 - weight ** 2) : 0);
+const linked = { 'Deployment costs are capped at $25.': v(0), 'Hosting expenses must stay low.': blend(1, .9),
+  'Cloud bills arrive monthly.': blend(2, .8), 'Deployment windows are on Fridays.': blend(3, .7), 'Orchard apples need water.': v(5) };
+const indexMemories = (backend, store, id) => backend.put(id, retrievalCatalog(store, id).items
+  .filter(r => r.kind === 'memory' && linked[r.content]).map(r => ({ ...r, vector: linked[r.content] })));
+
+test('memory links read stored vectors only, keep mutual nearest neighbours and follow lifecycle', async () => {
+  const s = new Store(undefined, { memory: true }), f = fixture();
+  const options = { providerFactory: () => ({ name: 'openai', respond: async () => answer }), availability: () => ({ openai: true, jev: false }) };
+  const service = new ConclaveService(s, { ...options, embeddingEnabled: true, embeddingFactory: () => f.provider });
+  try {
+    const id = service.create('Links').conversation_id, backend = new SQLiteEmbeddingStore(s);
+    for (const [n, text] of [...Object.keys(linked), 'Unindexed reminder about parking.'].entries())
+      commitMemory(s, id, [{ kind: 'claim', span_start: 0, span_end: text.length }], { event: s.append(id, 'document', text), expected_revision: n });
+    const ids = Object.fromEntries(memoryView(s, id).records.map(r => [r.content, r.memory_id]));
+    const [costs, hosting, , , orchard] = Object.keys(linked).map(text => ids[text]);
+    await indexMemories(backend, s, id);
+    const before = s.events(id).length;
+    const all = await service.memoryLinks(id);
+    assert.equal(all.enabled, true); assert.equal(all.memories, 6); assert.equal(all.indexed, 5);
+    assert.equal(all.links.length, 6, 'every pair among the four cost memories');
+    assert.deepEqual([all.links[0].from, all.links[0].to].sort(), [costs, hosting].sort()); assert.equal(all.links[0].similarity, .9);
+    assert.ok(!all.links.some(l => [l.from, l.to].includes(orchard)));
+    const nearest = await memoryLinks(s, id, backend, { perMemory: 1 });
+    assert.equal(nearest.links.length, 1, 'one-sided neighbours are dropped');
+    assert.deepEqual([nearest.links[0].from, nearest.links[0].to].sort(), [costs, hosting].sort());
+    assert.equal((await memoryLinks(s, id, backend, { floor: .75 })).links.length, 2);
+    changeMemory(s, id, hosting, 'suppress', memoryView(s, id).revision);
+    const after = await service.memoryLinks(id);
+    assert.equal(after.links.length, 3); assert.ok(!after.links.some(l => [l.from, l.to].includes(hosting)));
+    assert.equal(f.calls.length, 0, 'reading links never embeds');
+    assert.equal(s.events(id).length, before + 1, 'only the suppression was recorded');
+    assert.deepEqual(memoryView(s, id).records.flatMap(r => [...r.depends_on, ...r.conflicts_with, ...r.supersedes]), []);
+    assert.deepEqual(await new ConclaveService(s, options).memoryLinks(id), { enabled: false, memories: 0, indexed: 0, links: [] });
+  } finally { s.close(); }
+});
+
+test('hosted memory links use pgvector on read without provider calls', async () => {
+  const client = new PGlite({ extensions: { vector } });
+  try {
+    for (const file of readdirSync('drizzle').filter(f => f.endsWith('.sql')).sort()) await client.exec(readFileSync(join('drizzle', file), 'utf8'));
+    const db = drizzle(client, { schema }), f = fixture();
+    const repo = () => new ContextRepository(db, { serviceOptions: { embeddingEnabled: true, embeddingFactory: () => f.provider,
+      providerFactory: () => ({ name: 'openai', respond: async () => answer }), availability: () => ({ openai: true, jev: false }) } });
+    const id = (await repo().create('Hosted links')).conversation_id;
+    await repo().run(id, true, service => {
+      for (const [n, text] of Object.keys(linked).entries())
+        commitMemory(service.store, id, [{ kind: 'claim', span_start: 0, span_end: text.length }],
+          { event: service.store.append(id, 'document', text), expected_revision: n });
+    });
+    await repo().run(id, false, service => indexMemories(new PostgresEmbeddingStore(db), service.store, id));
+    const result = await repo().run(id, false, service => service.memoryLinks(id));
+    assert.equal(result.enabled, true); assert.equal(result.indexed, 5); assert.equal(result.links.length, 6);
+    assert.equal(result.links[0].similarity, .9); assert.equal(result.links.at(-1).similarity, .56);
+    assert.equal(f.calls.length, 0);
   } finally { await client.close(); }
 });
 
