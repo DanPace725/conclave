@@ -43,10 +43,13 @@ test('native OpenAI and Claude requests receive pixels while accounting excludes
     input: [{ role: 'user', content: [{ type: 'input_text', text: 'What do you see?' }, { type: 'input_image', image_url: 'data:image/png;base64,' + png }] }] };
   for (const Provider of [OpenAIProvider, AnthropicProvider]) {
     let wire;
+    const previousKey = process.env.OPENAI_API_KEY;
+    process.env.OPENAI_API_KEY = 'fixture-key';
     const provider = new Provider({ apiKey: 'fixture-key', fetchImpl: async (_url, options) => {
       wire = JSON.parse(options.body);
       return new Response(JSON.stringify(Provider === AnthropicProvider ? { content: [{ type: 'text', text: 'Seen.' }], stop_reason: 'end_turn', usage: { input_tokens: 20, output_tokens: 1 } } : answer), { status: 200 });
     } });
+    if (previousKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = previousKey;
     await provider.respond(payload);
     if (Provider === AnthropicProvider) assert.deepEqual(wire.messages[0].content.find(p => p.type === 'image').source, { type: 'base64', media_type: 'image/png', data: png });
     else assert.equal(wire.input[0].content[1].image_url, payload.input[0].content[1].image_url);
@@ -68,6 +71,13 @@ test('Context preserves image sources across restart and follow-ups without repe
     let service = fixture(store, respond), id = service.create('Saved image').conversation_id;
     const view = await service.ask(id, { message_id: 'msg_image', content: 'Describe the image.', attachments: [image()], settings });
     const source = view.attachments[0].source_event_id;
+    const counted = fixture(store, respond);
+    counted.providerFactory = name => ({ name, respond, countTokens: async payload => {
+      assert.equal(pixels(payload)[0].image_url, 'data:image/png;base64,' + png); return { input_tokens: 1234 };
+    } });
+    const calibration = await counted.countTokens(id);
+    assert.equal(calibration.count.provider_count, 1234);
+    assert.equal(calibration.count.fingerprint, calibration.view.model_input.next.fingerprint);
     assert.equal(view.attachments[0].data, undefined); assert.equal(service.sourceEvent(id, source).metadata.image_data, undefined);
     assert.equal(service.imageFile(id, source).data, png);
     assert.equal(JSON.stringify(service.transcript(id)).includes(png), false);
