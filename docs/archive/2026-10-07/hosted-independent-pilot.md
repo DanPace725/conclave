@@ -11,7 +11,9 @@
 - Independent Neon project `morning-sunset-04725595`, main branch `br-flat-truth-ar8qk60a`, Postgres 18, us-west-2. Neon Auth enabled and the Railway origin registered as trusted.
 - Private ignored `.env.hosted`; separate session secret and explicit email allowlist. Runtime/migration connection URLs transferred privately to Railway. Full TLS certificate verification made explicit after the first deployment's pg compatibility warning.
 
-Railway follows the hosted feature branch. Nothing was merged to main. No Converse database, auth configuration, Vercel variables or deployment was changed.
+Railway was connected using the hosted feature branch. Nothing was merged to main. No Converse database, auth configuration, Vercel variables or deployment was changed. Push-triggered automatic deployment has not been verified: a documentation-only push did not produce another build during this session. Confirm the branch trigger in Railway before relying on continuous deployment.
+
+Redeployment `4caa30ae-e4c0-426c-81dc-a1e43ab6445d` reused implementation commit `1b76883` with explicit full TLS verification and reported SUCCESS. The pre-deploy migration succeeded again; the pg compatibility warning disappeared. Public readiness returned 200 and unauthenticated MCP returned 401 after replacement. The subsequent commits change documentation only. Draft [PR #7](https://github.com/DanPace725/conclave/pull/7) targets the earlier handoff branch to isolate this hosted increment.
 
 ## Evidence
 

@@ -53,7 +53,7 @@ The shared six-tool contract is in [HANDOFF_MCP.md](HANDOFF_MCP.md). App-specifi
 
 The local bridge remains available but is not the current development priority. Local SQLite packets do not sync to this hosted store. Hosted import, direct PostgreSQL catalog/version reads, permanent deletion/retention, expired-record cleanup, broader rate controls and CIMD support are future increments. The private pilot has explicit allowed emails, 64 KB packets and a 2,000-event account cap. It replays that bounded account history in transient SQLite; no persistent Railway volume is required.
 
-This deployment is a private account pilot, not a public directory listing. Published distribution and its operational lifecycle remain separate work.
+This deployment is a private account pilot, not a public directory listing. Published distribution and its operational lifecycle remain separate work. The implementation is deployed from the hosted branch; automatic redeployment on GitHub pushes remains unverified and should be checked before relying on continuous deployment.
 
 ## Verification
 
