@@ -6,7 +6,7 @@ The Conclave and Converse repositories remain distinct. Converse keeps its exist
 
 ## Deployment
 
-Prepared on `codex/conclave-hosted` in `DanPace725/conclave`:
+Deployed from `codex/conclave-hosted` in `DanPace725/conclave`:
 
 | Resource | Configuration |
 | --- | --- |
@@ -59,4 +59,6 @@ This deployment is a private account pilot, not a public directory listing. Publ
 
 `node scripts/test.js test/hosted-standalone.test.js test/handoff-hosted.test.js` covers standalone migration idempotency/refusal, private sessions, secure cookies, CSRF, verified identity, database readiness, two independent OAuth clients, restart persistence, exact constraints, independent revocation, sign-out semantics and sign-in budgets. Existing transport and portability cases remain in the full suite.
 
-The full root suite passed 360 checks with one optional skip at four-file concurrency, and syntax/resource checks passed. An earlier highly parallel run failed one existing periodic-context-review count; that file passed independently, and the complete bounded-concurrency rerun passed. Live Neon migration succeeded. Deployment and actual app-account evidence must be recorded separately from fixture results.
+The full root suite passed 360 checks with one optional skip at four-file concurrency, and syntax/resource checks passed. An earlier highly parallel run failed one existing periodic-context-review count; that file passed independently, and the complete bounded-concurrency rerun passed. Converse parity matched all 102 files, its syntax checks passed, and its suite passed 203 checks with one optional skip using a workspace-local Windows temporary directory. The Converse snapshot is committed locally only; its production deployment is unchanged.
+
+Live Neon migration and Railway deployment succeeded. Public HTTPS readiness, login page, stylesheet and both OAuth discovery documents returned 200; unauthenticated MCP returned 401 with the correct resource metadata challenge. Database URLs explicitly use `sslmode=verify-full`. Email delivery, completed sign-in and actual ChatGPT/Claude account connections remain unverified. See the [deployment evidence](archive/2026-10-07/hosted-independent-pilot.md).
