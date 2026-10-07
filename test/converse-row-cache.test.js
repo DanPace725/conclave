@@ -104,6 +104,31 @@ test('direct transcript matches complete messages without rebuilding the engine 
   assert.deepEqual(next.messages, record.messages);
 });
 
+test('automatic reasoning selection survives direct PostgreSQL transcript reads without another call', async t => {
+  const client = await database(); t.after(() => client.close());
+  const db = drizzle(client, { schema });
+  let selections = 0;
+  const repository = new ContextRepository(db, { serviceOptions: { memoryModel: false, embeddingEnabled: false,
+    availability: () => ({ openai: true, jev: true }), decisionFactory: () => null,
+    providerFactory: () => ({ name: 'openai', respond: options.serviceOptions.providerFactory().respond,
+      decide: async payload => {
+        selections++;
+        return { status: 'completed', model: 'gpt-6-luna', output: [], usage: { input_tokens: 100, output_tokens: 0 },
+          answers: [{ name: 'reasoning_effort', type: 'choice', choice: 'low', confidence: 1,
+            probabilities: payload.questions[0].choices.map(c => ({ value: c.value, probability: c.value === 'low' ? 1 : 0 })) }] };
+      } }),
+  } });
+  const id = (await repository.create('Auto transcript')).conversation_id;
+  const full = await repository.run(id, true, service => service.ask(id, { message_id: 'auto', content: 'Explain a tree.',
+    settings: { model: 'gpt-6-luna', reasoning: 'auto', jev: false } }));
+  repository.service = () => { throw Error('Transcript must not instantiate a provider'); };
+  const light = await repository.transcript(id);
+  assert.equal(light.messages.at(-1).reasoning_selection.selected, 'low');
+  assert.deepEqual(light.messages, full.messages);
+  assert.equal(light.settings.reasoning, 'auto');
+  assert.equal(selections, 1);
+});
+
 test('transcript reads current Agent checkpoints and attachment removals after a restart', async t => {
   const client = await database(); t.after(() => client.close());
   const db = drizzle(client, { schema });

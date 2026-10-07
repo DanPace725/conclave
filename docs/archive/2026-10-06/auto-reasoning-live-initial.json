@@ -1,0 +1,338 @@
+{
+  "checked_at": "2026-10-07T04:48:03.915Z",
+  "scope": "Four synthetic selector probes and two native Context answers. Task difficulty estimates, not a calibrated quality or savings benchmark.",
+  "probes": [
+    {
+      "name": "copy",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "content": "Reply with exactly READY.",
+      "elapsed_ms": 293,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "none",
+            "probabilities": [
+              {
+                "value": "none",
+                "probability": 0.77
+              },
+              {
+                "value": "low",
+                "probability": 0.18
+              },
+              {
+                "value": "medium",
+                "probability": 0.02
+              },
+              {
+                "value": "high",
+                "probability": 0.01
+              },
+              {
+                "value": "xhigh",
+                "probability": 0.01
+              },
+              {
+                "value": "max",
+                "probability": 0.01
+              }
+            ],
+            "confidence": 0.72
+          }
+        ],
+        "usage": {
+          "input_tokens": 365,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 365
+        },
+        "status": "completed",
+        "output": []
+      }
+    },
+    {
+      "name": "explanation",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "content": "Explain a binary search tree in one sentence for a beginner.",
+      "elapsed_ms": 117,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "low",
+            "probabilities": [
+              {
+                "value": "low",
+                "probability": 1
+              },
+              {
+                "value": "medium",
+                "probability": 0
+              },
+              {
+                "value": "high",
+                "probability": 0
+              },
+              {
+                "value": "xhigh",
+                "probability": 0
+              },
+              {
+                "value": "max",
+                "probability": 0
+              }
+            ],
+            "confidence": 1
+          }
+        ],
+        "usage": {
+          "input_tokens": 362,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 362
+        },
+        "status": "completed",
+        "output": []
+      }
+    },
+    {
+      "name": "concurrency",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "content": "Diagnose intermittent duplicate debits in a payment service with at-least-once queue delivery. Explain the race between two workers using SELECT then INSERT and design an atomic idempotency transaction, considering crashes before acknowledgement and conflicting payloads using the same key.",
+      "elapsed_ms": 450,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "high",
+            "probabilities": [
+              {
+                "value": "low",
+                "probability": 0.02
+              },
+              {
+                "value": "medium",
+                "probability": 0.32
+              },
+              {
+                "value": "high",
+                "probability": 0.66
+              },
+              {
+                "value": "xhigh",
+                "probability": 0
+              },
+              {
+                "value": "max",
+                "probability": 0
+              }
+            ],
+            "confidence": 0.57
+          }
+        ],
+        "usage": {
+          "input_tokens": 439,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 439
+        },
+        "status": "completed",
+        "output": []
+      }
+    },
+    {
+      "name": "architecture",
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "content": "Design and verify a distributed transaction protocol under network partitions. Reconcile availability, linearizable writes, crash recovery and fencing tokens; prove the invariants and explain which guarantees cannot simultaneously hold.",
+      "elapsed_ms": 116,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "xhigh",
+            "probabilities": [
+              {
+                "value": "low",
+                "probability": 0.01
+              },
+              {
+                "value": "medium",
+                "probability": 0.02
+              },
+              {
+                "value": "high",
+                "probability": 0.35
+              },
+              {
+                "value": "xhigh",
+                "probability": 0.57
+              },
+              {
+                "value": "max",
+                "probability": 0.05
+              }
+            ],
+            "confidence": 0.46
+          }
+        ],
+        "usage": {
+          "input_tokens": 413,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 413
+        },
+        "status": "completed",
+        "output": []
+      }
+    }
+  ],
+  "answers": [
+    {
+      "name": "copy",
+      "elapsed_ms": 2198,
+      "selection": {
+        "version": "decisions-effort-v1",
+        "requested": "auto",
+        "selected": "none",
+        "reason": "selected",
+        "target_provider": "openai",
+        "target_model": "gpt-6-luna",
+        "allowed_levels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "selector_provider": "openai",
+        "selector_model": "gpt-6-luna",
+        "selector_request_id": "evt_cea56dc2-bb12-4fb3-afd6-fb8c7314a703",
+        "user_event_id": "evt_e5feefe4-c12b-4c63-a88a-95ad6df6adae",
+        "run_id": null,
+        "confidence": 0.86,
+        "probabilities": [
+          {
+            "value": "none",
+            "probability": 0.88
+          },
+          {
+            "value": "low",
+            "probability": 0.08
+          },
+          {
+            "value": "medium",
+            "probability": 0.02
+          },
+          {
+            "value": "high",
+            "probability": 0
+          },
+          {
+            "value": "xhigh",
+            "probability": 0.01
+          },
+          {
+            "value": "max",
+            "probability": 0.01
+          }
+        ],
+        "evidence_scope": "Bounded text excerpts; no images or opaque reasoning",
+        "input_fingerprint": "0b02eb3e971636c1d2b8cefcddd45cb57fda90a1bf0e269733095cee92f71338",
+        "acceptance_policy": "Experimental: confidence >= 0.5 and a strict probability majority; not calibrated on production tasks."
+      },
+      "answer": "READY",
+      "generation_settings": {
+        "max_output_tokens": 1024,
+        "reasoning": {
+          "summary": "auto",
+          "effort": "none"
+        }
+      },
+      "usage_by_purpose": {
+        "reasoning-selection": {
+          "calls": 1,
+          "responses": 1,
+          "input_tokens": 607,
+          "output_tokens": 0
+        },
+        "answer": {
+          "calls": 1,
+          "responses": 1,
+          "input_tokens": 3719,
+          "output_tokens": 5
+        }
+      },
+      "selector_usage": {
+        "input_tokens": 607,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 0,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 607
+      },
+      "answer_usage": {
+        "input_tokens": 3719,
+        "input_tokens_details": {
+          "cache_write_tokens": 3716,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3724
+      },
+      "passed": true
+    },
+    {
+      "name": "concurrency",
+      "passed": false,
+      "error": "Model response incomplete (max_output_tokens); increase output tokens per call if it exhausted its output budget"
+    }
+  ],
+  "passed": false,
+  "selector_input_tokens": 2186,
+  "estimated_selector_base_cost_usd": 0.00021860000000000003
+}

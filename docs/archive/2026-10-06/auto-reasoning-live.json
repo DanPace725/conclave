@@ -1,0 +1,435 @@
+{
+  "checked_at": "2026-10-07T04:49:13.930Z",
+  "scope": "Four synthetic selector probes and two native Context answers. Task difficulty estimates, not a calibrated quality or savings benchmark.",
+  "probes": [
+    {
+      "name": "copy",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "content": "Reply with exactly READY.",
+      "elapsed_ms": 204,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "none",
+            "probabilities": [
+              {
+                "value": "none",
+                "probability": 0.77
+              },
+              {
+                "value": "low",
+                "probability": 0.18
+              },
+              {
+                "value": "medium",
+                "probability": 0.02
+              },
+              {
+                "value": "high",
+                "probability": 0.01
+              },
+              {
+                "value": "xhigh",
+                "probability": 0.01
+              },
+              {
+                "value": "max",
+                "probability": 0.01
+              }
+            ],
+            "confidence": 0.72
+          }
+        ],
+        "usage": {
+          "input_tokens": 365,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 365
+        },
+        "status": "completed",
+        "output": []
+      }
+    },
+    {
+      "name": "explanation",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "content": "Explain a binary search tree in one sentence for a beginner.",
+      "elapsed_ms": 126,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "low",
+            "probabilities": [
+              {
+                "value": "low",
+                "probability": 1
+              },
+              {
+                "value": "medium",
+                "probability": 0
+              },
+              {
+                "value": "high",
+                "probability": 0
+              },
+              {
+                "value": "xhigh",
+                "probability": 0
+              },
+              {
+                "value": "max",
+                "probability": 0
+              }
+            ],
+            "confidence": 1
+          }
+        ],
+        "usage": {
+          "input_tokens": 362,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 362
+        },
+        "status": "completed",
+        "output": []
+      }
+    },
+    {
+      "name": "concurrency",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "content": "Diagnose intermittent duplicate debits in a payment service with at-least-once queue delivery. Explain the race between two workers using SELECT then INSERT and design an atomic idempotency transaction, considering crashes before acknowledgement and conflicting payloads using the same key.",
+      "elapsed_ms": 106,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "high",
+            "probabilities": [
+              {
+                "value": "low",
+                "probability": 0.02
+              },
+              {
+                "value": "medium",
+                "probability": 0.32
+              },
+              {
+                "value": "high",
+                "probability": 0.66
+              },
+              {
+                "value": "xhigh",
+                "probability": 0
+              },
+              {
+                "value": "max",
+                "probability": 0
+              }
+            ],
+            "confidence": 0.57
+          }
+        ],
+        "usage": {
+          "input_tokens": 439,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 439
+        },
+        "status": "completed",
+        "output": []
+      }
+    },
+    {
+      "name": "architecture",
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "content": "Design and verify a distributed transaction protocol under network partitions. Reconcile availability, linearizable writes, crash recovery and fencing tokens; prove the invariants and explain which guarantees cannot simultaneously hold.",
+      "elapsed_ms": 103,
+      "response": {
+        "model": "gpt-6-luna",
+        "answers": [
+          {
+            "type": "choice",
+            "name": "reasoning_effort",
+            "choice": "xhigh",
+            "probabilities": [
+              {
+                "value": "low",
+                "probability": 0.01
+              },
+              {
+                "value": "medium",
+                "probability": 0.02
+              },
+              {
+                "value": "high",
+                "probability": 0.35
+              },
+              {
+                "value": "xhigh",
+                "probability": 0.57
+              },
+              {
+                "value": "max",
+                "probability": 0.05
+              }
+            ],
+            "confidence": 0.46
+          }
+        ],
+        "usage": {
+          "input_tokens": 413,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 413
+        },
+        "status": "completed",
+        "output": []
+      }
+    }
+  ],
+  "answers": [
+    {
+      "name": "copy",
+      "elapsed_ms": 1771,
+      "selection": {
+        "version": "decisions-effort-v1",
+        "requested": "auto",
+        "selected": "none",
+        "reason": "selected",
+        "target_provider": "openai",
+        "target_model": "gpt-6-luna",
+        "allowed_levels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "selector_provider": "openai",
+        "selector_model": "gpt-6-luna",
+        "selector_request_id": "evt_9bf00b8a-ed9b-4253-bcd2-9c6f0e9045a9",
+        "user_event_id": "evt_7f3e0fd6-a5ad-4842-95fc-a6de79c6aba0",
+        "run_id": null,
+        "confidence": 0.93,
+        "probabilities": [
+          {
+            "value": "none",
+            "probability": 0.94
+          },
+          {
+            "value": "low",
+            "probability": 0.03
+          },
+          {
+            "value": "medium",
+            "probability": 0.01
+          },
+          {
+            "value": "high",
+            "probability": 0
+          },
+          {
+            "value": "xhigh",
+            "probability": 0.01
+          },
+          {
+            "value": "max",
+            "probability": 0.01
+          }
+        ],
+        "evidence_scope": "Bounded text excerpts; no images or opaque reasoning",
+        "input_fingerprint": "8a23ad574e3343c717d634b65e5ff59d90a47b2f1dd6c5205c63d19c59fbe73d",
+        "acceptance_policy": "Experimental: confidence >= 0.5 and a strict probability majority; not calibrated on production tasks."
+      },
+      "answer": "READY",
+      "generation_settings": {
+        "max_output_tokens": 8192,
+        "reasoning": {
+          "summary": "auto",
+          "effort": "none"
+        }
+      },
+      "usage_by_purpose": {
+        "reasoning-selection": {
+          "calls": 1,
+          "responses": 1,
+          "input_tokens": 607,
+          "output_tokens": 0
+        },
+        "answer": {
+          "calls": 1,
+          "responses": 1,
+          "input_tokens": 3719,
+          "output_tokens": 5
+        }
+      },
+      "selector_usage": {
+        "input_tokens": 607,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 0,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 607
+      },
+      "answer_usage": {
+        "input_tokens": 3719,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 3716
+        },
+        "output_tokens": 5,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3724
+      },
+      "passed": true
+    },
+    {
+      "name": "concurrency",
+      "elapsed_ms": 20434,
+      "selection": {
+        "version": "decisions-effort-v1",
+        "requested": "auto",
+        "selected": "high",
+        "reason": "selected",
+        "target_provider": "openai",
+        "target_model": "gpt-6-luna",
+        "allowed_levels": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "selector_provider": "openai",
+        "selector_model": "gpt-6-luna",
+        "selector_request_id": "evt_f5e40537-a40f-4c26-8ce3-03baeb2e2324",
+        "user_event_id": "evt_3334afc1-fe74-4828-b604-23ceb9ef2566",
+        "run_id": null,
+        "confidence": 0.52,
+        "probabilities": [
+          {
+            "value": "none",
+            "probability": 0
+          },
+          {
+            "value": "low",
+            "probability": 0.02
+          },
+          {
+            "value": "medium",
+            "probability": 0.36
+          },
+          {
+            "value": "high",
+            "probability": 0.6
+          },
+          {
+            "value": "xhigh",
+            "probability": 0.02
+          },
+          {
+            "value": "max",
+            "probability": 0
+          }
+        ],
+        "evidence_scope": "Bounded text excerpts; no images or opaque reasoning",
+        "input_fingerprint": "dbace89b8039908b7c404d1886586254c084a43fd10d67e3c02ceb721d5e3875",
+        "acceptance_policy": "Experimental: confidence >= 0.5 and a strict probability majority; not calibrated on production tasks."
+      },
+      "answer": "## Why the duplicate debit happens\n\nWith at-least-once delivery, the queue may deliver the same logical payment to two workers. If each worker does:\n\n1. `SELECT` for the idempotency key;\n2. sees no row;\n3. inserts a row and debits the account;\n\nboth can observe “no row” before either inserts. Without a database-enforced uniqueness constraint, both may debit. A `SELECT` followed by an `INSERT` is not an atomic “check and claim.”\n\n## Make the database arbitrate the claim\n\nGive each logical payment a stable idempotency key, scoped to the relevant tenant/account and operation. Enforce that scope with a unique constraint, for example:\n\n```sql\nUNIQUE (tenant_id, operation, idempotency_key)\n```\n\nStore a canonical payload fingerprint—covering fields such as account, amount, currency, and payee—alongside the key. In one database transaction:\n\n```text\nBEGIN\n\nAttempt to INSERT the idempotency row with status='processing',\nusing the unique key, and return whether the insert succeeded.\n\nIf this worker inserted the row:\n    Apply the debit and record its ledger entry.\n    Store the final result/response and mark the idempotency row complete.\n    COMMIT\n    Acknowledge the queue message.\n\nIf this worker did not insert the row:\n    Read the existing row.\n    If its payload differs, reject the request as a key conflict.\n    If its payload matches and it is complete, return the stored result.\n    Acknowledge the duplicate delivery only after that result is known.\n```\n\nFor example, in PostgreSQL, the claim can use `INSERT ... ON CONFLICT DO NOTHING RETURNING ...`. A concurrent attempt for the same unique key waits for the competing transaction to commit or roll back. If the first transaction commits, the second does not claim the key; if it rolls back, the second can claim it. Read the existing record in a subsequent statement. Handle serialization failures or deadlocks by retrying the whole transaction where appropriate.\n\nThe debit, ledger entry, and completed idempotency result must be committed together. A conditional balance update can also prevent overspending, for example, debit only where `balance >= amount`. A unique constraint on the ledger’s idempotency reference is useful defense in depth.\n\n## Crash and retry behavior\n\n- **Crash before commit:** the transaction rolls back, including the claim and debit. A redelivery can process the payment.\n- **Crash after commit but before queue acknowledgement:** a redelivery finds the completed record and returns the stored result without debiting again.\n- **Acknowledge before commit:** unsafe—the message could be lost after acknowledgement but before the debit commits. Commit first, then acknowledge.\n- **Uncertain commit outcome:** if the connection drops around commit, a redelivery can check the idempotency record to determine whether the transaction committed.\n\nThis provides an effectively once-only **database effect** despite at-least-once delivery; it does not make queue delivery itself exactly once.\n\n## Reusing a key with a different payload\n\nA key identifies one request, not just a slot to overwrite. If a request arrives with the same scoped key but a different canonical payload, reject it as a conflict (commonly HTTP 409 or an equivalent application error). Do not debit, replace the stored payload, or return the old result as though it matched. Keep idempotency records for at least the full period in which redelivery or client retries are possible; deleting them too soon can re-enable duplicate debits.\n\nIf the debit is actually performed by an **external payment processor**, a local database transaction cannot atomically include that network side effect. Use the processor’s idempotency mechanism with the same stable logical key, and typically a durable outbox or explicit recovery state machine; do not hold a database transaction open while making a fragile external call.",
+      "generation_settings": {
+        "max_output_tokens": 8192,
+        "reasoning": {
+          "summary": "auto",
+          "effort": "high"
+        }
+      },
+      "usage_by_purpose": {
+        "reasoning-selection": {
+          "calls": 1,
+          "responses": 1,
+          "input_tokens": 699,
+          "output_tokens": 0
+        },
+        "answer": {
+          "calls": 1,
+          "responses": 1,
+          "input_tokens": 3765,
+          "output_tokens": 2163
+        }
+      },
+      "selector_usage": {
+        "input_tokens": 699,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 0,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 699
+      },
+      "answer_usage": {
+        "input_tokens": 3765,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 3762
+        },
+        "output_tokens": 2163,
+        "output_tokens_details": {
+          "reasoning_tokens": 1365
+        },
+        "total_tokens": 5928
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "selector_input_tokens": 2885,
+  "estimated_selector_base_cost_usd": 0.0002885
+}
