@@ -199,6 +199,10 @@ test('hosted Context spends the signed-in user\'s saved key and never the deploy
       assert.equal(answered.body.messages.at(-1).content, 'Paid for by Ada.');
       assert.ok(spent.length);
       assert.deepEqual([...new Set(spent.map(call => call.authorization))], ['Bearer sk-ada-openai-key-1234']);
+      // The saved audit and its export hold request payloads, never the key.
+      const record = JSON.stringify(await as(ada).get(`conclave?action=download&conversation=${adas}`));
+      assert.match(record, /Paid for by Ada\./);
+      assert.doesNotMatch(record, /sk-ada-openai-key-1234|sk-deployment/);
 
       // Grace saved nothing: her request reaches no provider, least of all on the deployment's key.
       spent.length = 0;
