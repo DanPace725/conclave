@@ -12,6 +12,8 @@ Use `export PATH --conversation ID --sanitize` or `download PATH --conversation 
 
 ## Start
 
+For explicit context handoffs between AI apps, see [handoff MCP setup](docs/HANDOFF_MCP.md) and [your plain-language checklist](docs/HANDOFF_SETUP.md). The current connector is a local development build; online account linking remains planned.
+
 Requires Node.js 22.13+. Use OPENAI_API_KEY for OpenAI or ANTHROPIC_API_KEY for Claude. Credentials are read from the process or Windows User/Machine environment; offline controls need no key.
 
 ```powershell

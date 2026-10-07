@@ -1,8 +1,10 @@
 # Conclave project context
 
-Updated 2026-10-06. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
+Updated 2026-10-07. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
 
 ## Current capabilities
+
+- Explicit handoff MCP development on `codex/conclave-handoffs`: `save_handoff`, `find_handoffs`, and `get_handoff` store named, immutable versioned packets in a dedicated local Conclave SQLite directory. Independent MCP clients can save/restart/retrieve, with identical-retry deduplication, stale-update conflicts, and whole-paragraph focus that preserves every decision/constraint/question. Packets are external data, never verified human memory. The separate SDK package provides stdio and secret-protected loopback HTTP plus generated local configurations; ten focused storage/transport tests pass, including negotiated protocol `2025-11-25`; full source suite 335 passes / one optional skip. No live platform invocation, hosted OAuth/database integration, deployment or public publication yet. [Technical setup](docs/HANDOFF_MCP.md) · [Plain-language user checklist](docs/HANDOFF_SETUP.md) · [Evidence and limits](docs/archive/2026-10-07/handoff-mcp-implementation.md)
 
 - Experimental Auto reasoning on `dev/decisions-reasoning`: OpenAI Decisions chooses a supported target-model effort before each Context answer or Agent step, using account-scoped OpenAI credentials and bounded text excerpts. Manual effort bypasses it; images, uncertain/invalid/failed selection and unknown models use provider defaults. Linked audit and direct transcript receipts survive reload; Agent Stop and total-token guards include selection. Final source suite: 329 passes / one optional skip; Converse: 203 passes / one optional skip, 91-file parity and six desktop/mobile browser cases. Two native Context answers applied None/High and completed after increasing the small smoke output cap. No optimal-effort, general quality, savings or deployment claim. [Implementation and evidence](docs/archive/2026-10-06/auto-reasoning.md)
 
@@ -75,6 +77,7 @@ These are recorded checks and workloads. Context reduction, source recovery, ans
 
 ## Work not yet applied
 
+- Handoff MCP next increment: owner-scoped hosted packet persistence, OAuth/grants/revocation, live ChatGPT/Claude handoff pilots, verified Gemini CLI extension installation, portable packaging and optional source/memory/workspace features. Consumer Gemini custom-connector availability remains unestablished. Current local implementation follows the user's clarified explicit save/reference/retrieve workflow. [User setup checklist](docs/HANDOFF_SETUP.md) · [Broader research plan](docs/archive/2026-10-07/mcp-connector-plan.md)
 - CLP: portable bundles/sidecars, signed trust/frame/resolver registries, policy membranes and unresolved review, vector/graph brokerage, exploratory recall, measured confidence/separation and coherence/attention telemetry remain unapplied. Current independence grouping is conservative declared provenance, not proof of truth or editorial independence.
 - Broader filter-aware retrieval, semantic quality calibration, durable vector backfill jobs, approximate-index tuning and heading/TOC lookup.
 - Declared-state resolved/archive lifecycle, confirmation/proposal status, semantic conflict detection, and revision-conflict diffs.
