@@ -29,6 +29,8 @@ gemini extensions install .\.conclave\mcp-config\gemini-extension
 
 It references this checkout with absolute paths and is not portable to another machine without regeneration. Actual installation and invocation in Gemini CLI remain to be verified.
 
+`mcp:configs` also generates Codex TOML, Claude Code JSON and dual-host local plugin marketplaces with shared save/resume skills. Optional `--origin HTTPS_ORIGIN` preserves local files and writes separate online templates. The local Codex plugin is installed/enabled on this computer; actual fresh-session invocation and Claude Code installation remain pending. See [coding integration contracts](CODING_INTEGRATIONS.md) and [simple desktop directions](HANDOFF_SETUP.md#codex-desktop-cli-and-ide).
+
 ## Tool contract
 
 - `save_handoff({packet, request_id, handoff_id?, expected_revision?})`: creates or updates a packet and returns its ID, version, hash, and source event. Use one stable request ID per intended save; an identical retry returns its original receipt, while changed content with the same request ID fails. Updating requires the current revision.

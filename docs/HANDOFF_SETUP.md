@@ -17,6 +17,10 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [x] A local server and the required software installed in this checkout.
 - [x] A password-protected local HTTP connection for development.
 - [x] Example connection files for this computer, generated inside `.conclave/mcp-config/`.
+- [x] Codex and Claude Code configuration files, plus local plugin packages with save/resume workflows.
+- [x] Conclave plugin installed and enabled in this computer's Codex setup.
+- [ ] First Conclave tool call in a fresh Codex desktop/CLI conversation.
+- [ ] Install and try the Claude Code plugin in your desktop app or CLI.
 - [ ] A live test inside your actual ChatGPT or Claude account.
 - [x] Online storage code that keeps each account's handoffs separate.
 - [x] Sign-in consent, renewable app connections, and a page to revoke access.
@@ -220,6 +224,59 @@ The files contain this computer's actual Node and checkout paths. They are devel
 
 Sources: [Claude Desktop MCP](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop), [Cursor configuration](https://docs.cursor.com/context/model-context-protocol), [VS Code configuration](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
 
+## Codex desktop, CLI, and IDE
+
+**Already done on this computer:** the `conclave-handoffs` plugin is installed and enabled from the `conclave-local` marketplace. It uses local handoff storage in this checkout, with the same packets as the other local configurations.
+
+1. Start a fresh Codex conversation. If the plugin does not appear, restart the desktop app.
+2. Check the installed plugins for **Conclave handoffs**. Use `/mcp` to check connected servers where that menu is available.
+3. Ask: **“Use Conclave to save a handoff called ‘Coding pilot’. Include our repository, branch, changed files, test results, constraints, open questions, and next steps. Return the ID.”**
+4. In another connected app, ask: **“Use Conclave to retrieve handoff [ID] and continue from it. Check the current workspace against the saved branch and commit first.”**
+
+The plugin also includes save/resume workflows. It has no automatic conversation capture. Actual model invocation in your desktop session is still a check for you to try.
+
+If you need to reinstall this local package, run these commands from the Conclave checkout:
+
+```powershell
+npm run mcp:configs
+codex plugin marketplace add E:\Coding\converse\CLA\conclave\.conclave\mcp-config\plugin-marketplace
+codex plugin add conclave-handoffs@conclave-local
+codex plugin list --marketplace conclave-local
+```
+
+Codex also supports a direct MCP connection using the generated `codex-config.toml`. Choose the plugin or direct connection so you do not see duplicate tools. A local connection does not automatically give a hosted web conversation access to this computer's packets.
+
+Sources: [Codex MCP setup](https://learn.chatgpt.com/docs/extend/mcp?surface=cli), [plugin packaging and desktop marketplaces](https://developers.openai.com/plugins/build/plugins).
+
+## Claude Code, including the desktop Code tab
+
+The plugin package and connection file are ready. **The Claude Code CLI was not found on this computer's PATH, so I have not installed or invoked its plugin.**
+
+If you have the `claude` command available, use:
+
+```powershell
+claude plugin validate E:\Coding\converse\CLA\conclave\.conclave\mcp-config\plugin-marketplace\plugins\conclave-handoffs
+claude plugin marketplace add E:\Coding\converse\CLA\conclave\.conclave\mcp-config\plugin-marketplace
+claude plugin install conclave-handoffs@conclave-local
+claude plugin list
+```
+
+Then open a **local** session in the desktop app's Code tab. Use **+ → Plugins → Manage plugins** to check Conclave, or **Add plugin** to browse the configured marketplace. Start a fresh session after installation. Invoke **`/conclave-handoffs:save-handoff`** or **`/conclave-handoffs:resume-handoff`**, or ask the same plain-language save/retrieve questions used in Codex. The desktop plugin browser supports local/SSH sessions; cloud sessions need their own remote connection.
+
+For a direct connection without installing a plugin or CLI, merge the `mcpServers.conclave` entry from **`.conclave/mcp-config/claude-code.json`** into **`.mcp.json` in the project folder you open in Code**. Keep existing entries, start a local session, and approve the project MCP server when prompted. This connects the tools; it does not install the bundled workflow skills.
+
+Current English documentation says local Code sessions can also load the Claude Desktop chat MCP configuration. The standalone CLI does not read that chat file. If Conclave already appears in Code, use the existing connection. Check your app version if behavior differs.
+
+Sources: [Claude Code desktop](https://code.claude.com/docs/en/desktop), [local plugin installation](https://code.claude.com/docs/en/plugin-marketplaces), [MCP configuration](https://code.claude.com/docs/en/mcp).
+
+## Prepare the coding plugins for online use later
+
+Once the server has a verified HTTPS address, we can generate matching online plugin/configuration files with `npm run mcp:configs -- --origin https://YOUR-VERIFIED-ORIGIN`, replacing the placeholder first. They appear under `.conclave/mcp-config/online/`, separate from the local files. That does not deploy or sign you in.
+
+Codex can authenticate an online MCP connection with **`codex mcp login conclave`** when configured directly; for a bundled plugin, use its connection's Authenticate action. Claude Code offers authentication through **`/mcp`**. Keep the same Conclave account in each app and test one saved ID between them. No model API key is needed just to store/retrieve the packet.
+
+The [coding integration guide](CODING_INTEGRATIONS.md) explains packaging, UI limits, local/online storage and the checks already completed.
+
 ## Test the handoff between apps
 
 - [ ] In ChatGPT, enable Conclave and ask: **“Use Conclave to save a handoff called ‘Conclave pilot’. Our goal is to test cross-app continuity. Keep the constraint ‘Ask before publishing’ and the open question ‘Which app should we test next?’ Return the saved ID.”**
@@ -231,6 +288,8 @@ Sources: [Claude Desktop MCP](https://support.claude.com/en/articles/10949351-ge
 - [ ] Ask ChatGPT and Claude to **open the Conclave handoff library**. Check the compact card, expanded view, light/dark appearance and keyboard controls.
 - [ ] Read an earlier version in the browser, click **Continue in chat**, and confirm the model retrieves that same version. If the app lacks this action, use the continuation text instead.
 - [ ] Check that browsing creates no new versions and that read-only connections cannot save.
+- [ ] Save in a fresh Codex conversation and retrieve the same ID in Claude Code or Claude Desktop using local storage. Check exact constraints, questions and selected revision.
+- [ ] Later, repeat between online coding and chat apps using the same Conclave sign-in account. Do not mix a local ID with an online store.
 
 Do not mark these account tests complete based only on the local automated tests.
 

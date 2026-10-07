@@ -8,6 +8,8 @@ Research checked October 7, 2026. This is the active design and development guid
 | --- | --- | --- | --- |
 | ChatGPT | MCP Apps UI resources and bridge; optional OpenAI extensions | Shared card and expanded handoff browser | Resource rendering, OAuth, host theme/size behavior and actions |
 | Claude | Interactive connectors use MCP Apps, with inline/fullscreen presentation | The same standard UI and authenticated tools | Custom connector rendering and mobile/desktop behavior |
+| Codex desktop/CLI/IDE | Shared MCP configuration and plugin packaging | Same six tools plus bundled save/resume skills | Local installation verified; fresh conversation invocation and widget rendering not established |
+| Claude Code CLI/local desktop | MCP configuration and skills/MCP plugin packages | Same tools and namespaced save/resume skills | Actual Code installation and desktop invocation |
 | Gemini CLI | MCP tools, resources, prompts and slash-command invocation | Structured/text tool results; prompt shortcuts are a next increment | Actual CLI connection and interaction |
 | Consumer Gemini chat | A general custom MCP UI route has not been verified here | No claim that a Conclave widget installs there | Verify a supported integration before writing installation promises |
 | Other MCP clients | UI is an extension whose host support varies | Keep every essential workflow usable through tools | Client-specific permissions, discovery and UI support |
@@ -17,6 +19,8 @@ ChatGPT recommends the shared MCP Apps bridge first and capability detection for
 Claude documents inline cards and fullscreen interactive connectors using the existing connection's permissions, sandboxed iframes and declared CSP. Documentation establishes platform support, not that this custom Conclave connector has passed its real account tests. [Claude interactive connector guide](https://support.claude.com/en/articles/13454812-use-interactive-connectors-in-claude)
 
 Gemini CLI discovers tools/resources and can expose MCP prompts as slash commands. Its terminal workflow is a useful fallback; a supported consumer Gemini UI integration remains an open research item. [Gemini CLI MCP guide](https://geminicli.com/docs/tools/mcp-server/)
+
+Coding clients use the same packet workflow. Generated local packages, the installed Codex connection, Claude Code desktop instructions and remaining checks are documented in [CODING_INTEGRATIONS.md](CODING_INTEGRATIONS.md). MCP/plugin support alone does not establish custom UI support in those coding surfaces.
 
 ## The current UI increment
 
