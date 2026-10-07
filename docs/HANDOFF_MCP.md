@@ -1,10 +1,10 @@
-# Conclave handoff MCP: local development
+# Conclave handoff MCP: local and hosted setup
 
-The initial product is explicit **save → find/reference → retrieve → continue**. There is no background transcript capture, canonical-memory promotion, model inference, external network fetching, or hosted multi-user access in this increment.
+The product is explicit **save → find/reference → retrieve → continue**. It has local storage and a prepared owner-scoped hosted implementation. There is no background transcript capture, canonical-memory promotion, model inference, or external network fetching.
 
 `HandoffService` in `src/handoffs.js` uses the existing append-only Conclave `Store`. A packet owns a conversation ID, stores immutable `handoff_packet` events attributed to `external`, and records revision/source claims without inventing human authority. It does not expose ordinary saved conversations. Model-mediated packet text is external data.
 
-The MCP adapter is a separate private package under `packages/conclave-mcp/`; its SDK dependencies do not enter Converse's engine dependency manifest. The installed SDK is pinned to `@modelcontextprotocol/sdk@1.32.1` and Zod `3.25.76`. The actual HTTP test negotiates protocol `2025-11-25`. Do not advertise the earlier research's `2026-07-28` revision as implemented.
+Local launchers live in the private package `packages/conclave-mcp/`; shared tool/auth/server adapters now live in `src/` and their dependencies migrate into Converse's manifest. The SDK is pinned to `@modelcontextprotocol/sdk@1.32.1`, Express `5.2.1`, and Zod `3.25.76`. The actual HTTP test negotiates protocol `2025-11-25`. Do not advertise the earlier research's `2026-07-28` revision as implemented.
 
 ## Commands
 
@@ -43,18 +43,37 @@ MCP annotations mark retrieval as read-only and saving as a write. Results have 
 
 `npm run mcp:serve` serves `/mcp` on loopback port 3213 using the same local data. Set `CONCLAVE_MCP_TOKEN` to a random secret of at least 32 characters first; `CONCLAVE_MCP_PORT` changes the port. The client supplies `Authorization: Bearer ...`. Configuration is not automatically loaded from `.env`; set variables in the launching process.
 
-The process refuses to start without its secret, binds only to `127.0.0.1`, checks Host/Origin, disables caching, and bounds JSON requests. This development endpoint is not a production OAuth service. Do not expose it through a public tunnel as the finished ChatGPT/Claude connector. Hosted identity, grants, revocation and database persistence still need implementation.
+The process refuses to start without its secret, binds only to `127.0.0.1`, checks Host/Origin, disables caching, and bounds JSON requests. This development endpoint is not the hosted OAuth service below. Do not expose it through a public tunnel as the finished ChatGPT/Claude connector.
+
+## Hosted account connections (prepared, not deployed)
+
+`createHostedHandoffApp` serves stateless Streamable HTTP at `/mcp` using the pinned SDK and the same tool contract. `HandoffRepository` persists append-only events in `app.handoff_events`; every query is scoped to a required verified owner. Transaction row locks serialize retries and revision checks across server instances. PostgreSQL JSONB packet normalization preserves receipt hashes. The pilot refuses operations beyond 2,000 events per account rather than truncating the catalog.
+
+Migration `0005_handoff_mcp` adds that table, durable OAuth records, lock rows, and an append-only trigger. It has been exercised on PGlite, not applied to the live database. The snapshot migrates the thin `api/mcp.js` wrapper into Converse; Converse owns deployment rewrites and the existing database pool/sign-in.
+
+The official SDK auth router implements discovery, client registration, token validation/PKCE and OAuth endpoint handling. Our provider persists the authorization state and requires browser consent from `identity(req)`. Password/open local sessions cannot approve a grant. Grants are limited to the handoff resource and `handoffs:read` / `handoffs:write`; read-only grants do not register the save tool. This does not expose conversations, canonical memory, or provider credentials.
+
+- Dynamic client registration supports public clients and `client_secret_post`; HTTPS callbacks or HTTP loopback callbacks only. The SDK matches registered callbacks before redirecting. No client identity document fetching is implemented; choose automatic registration in clients.
+- Authorization requests bind the client, redirect, S256 challenge, scopes, resource and optional state. A ten-minute pending request requires its browser nonce, valid identity and same-origin CSRF-protected consent. Codes expire in five minutes and are redeemed once. Resource is required on authorization/code exchange and, when supplied on refresh, must match.
+- Access tokens expire after one hour; refresh tokens rotate and cannot be reused. Grants expire after 30 days. Token/code values are stored only as digests; client metadata including any generated secret is AES-GCM encrypted with a key derived from `SESSION_SECRET`.
+- `/connect` lists that owner's grants and revokes a selected connection. Each bearer request checks grant expiry, revocation, the current allowed email list, and the session-secret epoch. Secret rotation invalidates existing grants. Browser sign-out alone does not revoke them.
+- Fixed `CONCLAVE_MCP_ORIGIN` is required, including exact Host checking. The route stays disabled if that setting is absent. No automatic hostname inference or anonymous fallback is allowed. OAuth discovery/token endpoints use SDK CORS; MCP requests reject foreign browser Origins. JSON/form limits and generic unexpected errors bound disclosure.
+- SDK limits apply per warm instance, with a durable global cap of 100 registration requests/hour for this private pilot. This is not a general public abuse-management system. Expired OAuth records are ignored on reads; scheduled cleanup, larger storage and permanent account-data deletion remain operational work before public distribution. Lock rows are retained to preserve cross-instance serialization.
+
+Before deployment, follow the credential rotation, hosting access, environment, migration and plugin directions in [the user checklist](HANDOFF_SETUP.md). Keep the fixed origin consistent between OAuth discovery, the MCP URL, sign-in and any preview alias. Vercel deployment protection must not interpose its own login in the protocol flow. Do not claim deployment or account interoperability until public endpoint and real-app checks pass.
 
 ## Verification and next increment
 
 ```powershell
-node scripts/test.js test/handoffs.test.js packages/conclave-mcp/test/transport.test.js
+node scripts/test.js test/handoffs.test.js test/handoff-hosted.test.js packages/conclave-mcp/test/transport.test.js
 npm test
 npm run check
 ```
 
 The transport test uses two independently launched SDK clients to save, restart, find, and retrieve a packet from the same SQLite directory. It also exercises concurrent identical saves, authenticated HTTP, actual protocol negotiation, and blocked headers. This is protocol-client evidence; it is not a live ChatGPT, Claude, or Gemini app test.
 
-Next: implement an owner-scoped hosted packet repository and MCP OAuth resource server, decide the tested remote protocol, prepare private installation instructions, and run a real ChatGPT ↔ Claude handoff. Keep the local token transport separate from that account/grant system. Shared engine modules are authored/tested/committed in Conclave and then hash-migrated into Converse.
+Hosted tests use PGlite and real HTTP/SDK clients to cover persistence, owner isolation, duplicate saves, version conflicts, immutable rows, metadata discovery, escaped consent, CSRF, resource/PKCE/code replay rejection, refresh rotation, account removal, secret rotation, revocation and read-only tools. This is local integration evidence, not a real platform-account or Neon deployment test. The pinned SDK continues to negotiate protocol `2025-11-25` in the transport fixture; no MCP v2 compatibility is claimed.
+
+Next: restore hosting access, rotate the exposed configuration credentials, migrate an isolated hosted database, deploy a fixed preview address, and run a real ChatGPT ↔ Claude handoff. Shared engine modules are authored/tested/committed in Conclave and then hash-migrated into Converse.
 
 Current platform directions come from [official OpenAI documentation](https://developers.openai.com/api/docs/guides/custom-mcp-server), [Claude remote connectors](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp), and [Gemini CLI extensions](https://geminicli.com/docs/extensions/reference/). UI/account availability is not established by the local tests.
