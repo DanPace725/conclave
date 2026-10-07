@@ -13,7 +13,8 @@ This route needs no Vercel deployment, public server, inbound firewall opening o
 - The signed-in browser can open OpenAI tunnel settings under **Pace Consulting Services** and ChatGPT's custom MCP setup.
 - The official Windows `tunnel-client` release **v0.0.16** is downloaded in `.conclave/tunnel-client/`; its archive SHA-256 matches GitHub's release digest. This is a local installation, not a connected tunnel.
 - Setup commands and registered-app packaging are implemented and tested. A real ChatGPT tool call, tunnel authorization and UI rendering remain unverified.
-- Browser setup stopped because another Chrome extension UI is open. Dismiss that UI before asking me to continue the account setup; no tunnel, runtime key or ChatGPT connection has been created.
+- Browser form entry now works through the supported page controls with NordPass left alone. The tunnel form is prepared with Pace Consulting Services and the one ChatGPT workspace offered by OpenAI. Creating the tunnel/ChatGPT connection awaits the access confirmation; neither is created yet.
+- You approved reusing the existing OpenAI API key. Its authentication check succeeded without a model call or displaying the key. Tunnel-specific permissions remain to be checked after creation.
 
 ## 1. Create the private tunnel
 
@@ -41,6 +42,8 @@ If the client executable is elsewhere, set `CONCLAVE_TUNNEL_CLIENT` to its full 
 ## 3. Supply the tunnel key privately and start it
 
 Use a Platform runtime API key with **Tunnels Read + Use** for the tunnel's organization. Creating/managing tunnels requires **Tunnels Read + Manage**. An organization owner or administrator controls these permissions. A ChatGPT subscription login by itself does not supply this runtime key.
+
+For the existing key you approved, if `OPENAI_API_KEY` is already present in the terminal environment, use `$env:CONTROL_PLANE_API_KEY = $env:OPENAI_API_KEY`. This copies it only into that terminal's environment; it does not print the key or save it to a file. Then run the `doctor` and `run` commands below. A successful general API authentication check does not establish tunnel permission for the selected organization.
 
 Enter the key in your own terminal, not in chat. This PowerShell example prompts without displaying it and keeps it only in the terminal's environment:
 

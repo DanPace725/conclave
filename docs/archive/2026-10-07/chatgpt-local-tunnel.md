@@ -29,3 +29,9 @@ Local Codex plugin installation is still not a model invocation check. The separ
 No inference API calls, Vercel resource creation, migration, push, deployment, public listing or existing packet mutations.
 
 Sources: [Secure MCP Tunnel](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels), [custom MCP registration](https://developers.openai.com/api/docs/guides/custom-mcp-server), [plugin app mappings](https://developers.openai.com/plugins/build/plugins), [host MCP versus hosted Chat](https://learn.chatgpt.com/docs/extend/mcp?surface=cli), [official client](https://github.com/openai/tunnel-client).
+
+## Follow-up: browser form entry and approved existing key
+
+The user approved reusing the existing environment `OPENAI_API_KEY`. A read-only `/v1/models` authentication check returned HTTP 200; no model call, response content or secret output. The fixture profile's actual vendor doctor subsequently passed with the key mapped only in the child-process environment. This proves local configuration validation, not tunnel-scoped authorization or a live connection.
+
+Windows-based form entry again reported an extension UI and native Computer Use stopped because it could not verify the current URL. The user identified NordPass and asked to leave it alone. In a later turn, documented browser page controls successfully opened/filled the tunnel form without operating NordPass. The prepared draft selects Pace Consulting Services and the one ChatGPT workspace offered by the Platform page (`dd9cffeb-4866-4e65-8800-a7018c53912c`). A screenshot is retained in ignored `.conclave/tunnel-review.png`; no creation button submitted. Access approval for the private tunnel and ChatGPT connector is pending under the Computer Use confirmation rules. No live tunnel, key file or registered app has been created.
