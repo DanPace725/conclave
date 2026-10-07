@@ -21,10 +21,11 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [x] Conclave plugin installed and enabled in this computer's Codex setup.
 - [x] Conclave's local MCP connection added to the existing Claude Desktop configuration.
 - [x] Local ChatGPT tunnel setup helper and registered-app plugin packaging; official Windows client downloaded and checksum-verified.
-- [ ] Create/authorize the private OpenAI tunnel and register its ChatGPT connection. [Plain-language steps](CHATGPT_LOCAL.md).
+- [x] Create/authorize the private OpenAI tunnel and register its ChatGPT connection. [Use/restart instructions](CHATGPT_LOCAL.md).
 - [ ] First Conclave tool call in a fresh Codex desktop/CLI conversation.
 - [ ] Install and try the Claude Code plugin in your desktop app or CLI.
-- [ ] A live test inside your actual ChatGPT or Claude account.
+- [x] Regular ChatGPT account retrieved the existing revision-2 packet and saved a new revision-1 test packet, verified from an independent local MCP client.
+- [ ] Retrieve that new test packet from the actual Claude Desktop app.
 - [x] Online storage code that keeps each account's handoffs separate.
 - [x] Sign-in consent, renewable app connections, and a page to revoke access.
 - [x] Local tests of the full online authorization and handoff flow.
@@ -32,9 +33,9 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [ ] Apply the new database migration to the hosted database.
 - [ ] Installable public plugins and directory listings.
 
-The online implementation is prepared and tested locally, but **it is not deployed**. For regular ChatGPT chats, we can also connect this PC through an OpenAI Secure MCP Tunnel without deploying Conclave. That account connection is not created yet. The existing local connection stores packets on this computer; those packets are separate from the online account's packets.
+The online implementation is prepared and tested locally, but **it is not deployed**. Regular ChatGPT now connects to this PC through the approved private OpenAI Secure MCP Tunnel, using the registered **Conclave local handoffs** plugin. Read and save both passed in a real regular chat. Keep this PC awake and the tunnel running. These local packets remain separate from the hosted account's packets.
 
-**The regular ChatGPT test found a setup gap:** `@Conclave handoffs` was visible but supplied no callable tools. Installing the local marketplace package did not establish a registered ChatGPT MCP connection. Follow [Use local Conclave from regular ChatGPT](CHATGPT_LOCAL.md) for the tunnel route. The supplied handoff ID exists locally at revision 2; packet storage is not the observed failure.
+**The earlier tool-discovery gap is resolved for regular ChatGPT:** the old `@Conclave handoffs` local package supplied no callable tools there. Choose the newly registered **Conclave local handoffs** connection with `@` instead. It retrieved the supplied revision-2 handoff and saved a new packet into the canonical local database. [Use and restart instructions](CHATGPT_LOCAL.md).
 
 **Online server address: not issued or verified yet.** Below, `YOUR-CONVERSE-ADDRESS` means the final HTTPS address of the Converse deployment. The connector URL will be `https://YOUR-CONVERSE-ADDRESS/mcp`. Do not paste this placeholder into an app.
 

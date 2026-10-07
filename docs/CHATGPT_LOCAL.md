@@ -11,10 +11,22 @@ This route needs no Vercel deployment, public server, inbound firewall opening o
 - The local server exposes all six Conclave tools through a real MCP connection.
 - Your requested `conv_3236a4e1-42e7-46d6-bdc8-98a5074c620c` exists in this checkout's handoff database at revision **2**. Only its presence/revision were inspected here.
 - The signed-in browser can open OpenAI tunnel settings under **Pace Consulting Services** and ChatGPT's custom MCP setup.
-- The official Windows `tunnel-client` release **v0.0.16** is downloaded in `.conclave/tunnel-client/`; its archive SHA-256 matches GitHub's release digest. This is a local installation, not a connected tunnel.
-- Setup commands and registered-app packaging are implemented and tested. A real ChatGPT tool call, tunnel authorization and UI rendering remain unverified.
-- Browser form entry now works through the supported page controls with NordPass left alone. The tunnel form is prepared with Pace Consulting Services and the one ChatGPT workspace offered by OpenAI. Creating the tunnel/ChatGPT connection awaits the access confirmation; neither is created yet.
-- You approved reusing the existing OpenAI API key. Its authentication check succeeded without a model call or displaying the key. Tunnel-specific permissions remain to be checked after creation.
+- The official Windows `tunnel-client` **v0.0.16** is installed and its archive SHA-256 matches GitHub's release digest. The approved private tunnel is created under **Pace Consulting Services**, associated with the offered ChatGPT workspace, and running on this PC.
+- [Conclave local handoffs](https://chatgpt.com/plugins/plugin_asdk_app_6ac6b6e4647081919e4c151e3dbde41c) is registered and connected in ChatGPT. In a new regular chat, ChatGPT retrieved the requested revision 2 and reported its title, **Coding Pilot**. The existing packet was not changed.
+- You approved reusing the existing OpenAI API key. The running client authenticated with the tunnel, and its health endpoint reports **live** and **ready**. The key is held only in the process environment.
+- The client initially ran inside the development sandbox, where its listener was unreachable. Restarting it as a normal hidden Windows process resolved the problem. NordPass was left alone.
+- ChatGPT also saved a new test packet, `conv_fd5705a5-30fb-4d8f-be61-0b21c7f777c0`, revision **1**. An independent local MCP client retrieved it and verified the title and test-data constraint. This confirms the ChatGPT tunnel writes to the same local store. Actual Claude Desktop invocation is still pending.
+
+## Use the connection now
+
+1. Start a new regular ChatGPT chat, in the browser or desktop app using this same account/workspace.
+2. Type **@** and choose **Conclave local handoffs**. Choose this registered connection instead of the older **Conclave handoffs** local package.
+3. Ask it to retrieve a saved ID, or ask it to save a handoff and give you the resulting ID.
+4. In the next app, use Conclave to retrieve that exact ID. The other app must use the same local handoff store.
+
+The tunnel is currently running in the background. This PC must stay awake. No automatic start at login has been configured. The browser ChatGPT flow has been tested; the native ChatGPT desktop app and Claude Desktop still need their own invocation checks.
+
+The existing profile uses tunnel ID `tunnel_6ac6b5172dd081918c3e28eb0e48c6ea`. **Do not create another tunnel or run prepare again on this PC.** The sections below explain setup for another installation and how to restart this one.
 
 ## 1. Create the private tunnel
 
@@ -31,11 +43,11 @@ The tunnel makes this local handoff store available through OpenAI to the author
 Open PowerShell in `E:\Coding\converse\CLA\conclave`. Run:
 
 ```powershell
-npm run mcp:chatgpt -- check
-npm run mcp:chatgpt -- prepare --tunnel-id YOUR_COMPLETE_TUNNEL_ID
+node packages/conclave-mcp/src/chatgpt.js check
+node packages/conclave-mcp/src/chatgpt.js prepare --tunnel-id YOUR_COMPLETE_TUNNEL_ID
 ```
 
-Replace `YOUR_COMPLETE_TUNNEL_ID` first. The second command uses OpenAI's client to create `.conclave/chatgpt-tunnel/conclave.yaml`. It references the existing Node launcher and keeps the health page on your computer at `http://127.0.0.1:3215/ui`. It refuses to overwrite an existing profile.
+Replace `YOUR_COMPLETE_TUNNEL_ID` first. The second command uses OpenAI's client to create `.conclave/chatgpt-tunnel/conclave.yaml`. It references the existing Node launcher and keeps the health page on your computer at `http://127.0.0.1:3215/ui`. It refuses to overwrite an existing profile. These direct Node commands avoid the npm/PowerShell flag forwarding issue observed on this PC.
 
 If the client executable is elsewhere, set `CONCLAVE_TUNNEL_CLIENT` to its full path before running the command. For another computer, download its matching archive from the [official latest release](https://github.com/openai/tunnel-client/releases/latest); paths and the existing download here are for this Windows PC.
 
@@ -51,6 +63,7 @@ Enter the key in your own terminal, not in chat. This PowerShell example prompts
 $conclaveTunnelKey = Read-Host 'OpenAI tunnel runtime key' -AsSecureString
 $env:CONTROL_PLANE_API_KEY = [System.Net.NetworkCredential]::new('', $conclaveTunnelKey).Password
 Remove-Variable conclaveTunnelKey
+$env:CONTROL_PLANE_ORGANIZATION_ID = 'org-OcaOjCyJT5NuEFGuKK5mhA14'
 npm run mcp:chatgpt -- doctor
 npm run mcp:chatgpt -- run
 ```
@@ -59,11 +72,28 @@ Leave the terminal running while ChatGPT uses Conclave. Check the local health p
 
 Stop with **Ctrl+C** when finished, then run `Remove-Item Env:CONTROL_PLANE_API_KEY` in that terminal. Closing the terminal also discards its environment. The tunnel will be unavailable when this PC is asleep or the client is stopped.
 
+### Stop the current background client, or restart it
+
+Open a normal PowerShell terminal in `E:\Coding\converse\CLA\conclave`. To stop the background client started during setup, paste this block. It checks the saved process identity before stopping anything:
+
+```powershell
+$conclaveRun = Get-Content .conclave/chatgpt-tunnel/runtime.json | ConvertFrom-Json
+$conclaveProcess = Get-Process -Id $conclaveRun.pid -ErrorAction SilentlyContinue
+if ($conclaveProcess) {
+  if ($conclaveProcess.Path -ne $conclaveRun.path -or $conclaveProcess.StartTime.ToUniversalTime().ToString('o') -ne $conclaveRun.started) {
+    throw 'The saved process identity changed. No process was stopped.'
+  }
+  Stop-Process -Id $conclaveProcess.Id
+}
+```
+
+To restart after that, use the key/organization and `doctor`/`run` commands above in the normal terminal. Leave it open. Do not launch a second client while the background one is running. If the health page times out when an agent launched the client in its sandbox, run it from your normal Windows terminal; no firewall change is needed.
+
 ## 4. Register Conclave in ChatGPT
 
 1. While the tunnel is running, open [ChatGPT Plugins](https://chatgpt.com/plugins).
 2. Choose **Add → Add custom MCP server**.
-3. Name it **Conclave local handoffs**. Under **Connection**, choose **Tunnel**, then choose the tunnel you created. Do not paste a `conv_...` ID or `http://localhost:3213/mcp` into a server URL field.
+3. Name it **Conclave local handoffs**. Under **Connection**, choose **Tunnel**, then paste the complete tunnel ID into **Tunnel ID**. The form resolves it to the tunnel name. Do not paste a `conv_...` ID or `http://localhost:3213/mcp` into a server URL field.
 4. For this stdio tunnel, choose **No authentication** for upstream MCP authentication. Access comes from the authorized tunnel/workspace and private plugin; this choice does not create a public listener. The hosted Conclave connector instead requires OAuth.
 5. Review the displayed access warning and create/install the private plugin. Confirm it discovers `save_handoff`, `find_handoffs`, `get_handoff`, `list_handoff_versions`, `compare_handoff_versions` and `open_handoff_library`.
 6. Start a **new regular ChatGPT chat** and select the newly registered **Conclave local handoffs** connection with `@`. Ask: **Use Conclave to retrieve handoff conv_3236a4e1-42e7-46d6-bdc8-98a5074c620c at revision 2.**
@@ -75,12 +105,14 @@ Success means the model actually calls `get_handoff` and receives revision 2. Di
 The registered custom MCP plugin already provides the tools. If you also want our packaged workflows, copy its technical app ID from the ChatGPT plugin page URL. It starts with `plugin_asdk_app...`; preserve the exact ID issued by ChatGPT.
 
 ```powershell
-npm run mcp:chatgpt -- link --app-id YOUR_REGISTERED_APP_ID
+node packages/conclave-mcp/src/chatgpt.js link --app-id YOUR_REGISTERED_APP_ID
 codex plugin marketplace add E:\Coding\converse\CLA\conclave\.conclave\mcp-config\chatgpt\plugin-marketplace
 codex plugin add conclave-handoffs@conclave-chatgpt
 ```
 
 This generates a separate plugin whose `.app.json` points to the registered connection. It does not include the local stdio command, create an account connection or reuse a fabricated ID. Refresh the desktop plugin directory and test in a fresh chat. Select the registered connection rather than the earlier `@Conclave handoffs` local-only package. Keep local Codex/Claude configurations for direct local sessions.
+
+The package has already been generated here with the real registered ID `plugin_asdk_app_6ac6b6e4647081919e4c151e3dbde41c`; installing the optional workflow package remains a separate step. The connected ChatGPT custom plugin works without it.
 
 ## If ChatGPT still cannot find the tools
 
