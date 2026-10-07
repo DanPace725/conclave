@@ -174,10 +174,16 @@ test('hosted Context spends the signed-in user\'s saved key and never the deploy
     let server;
     globalThis.fetch = async (url, options = {}) => {
       if (!String(url).startsWith('https://')) return realFetch(url, options);
-      spent.push({ url: String(url), authorization: options.headers?.Authorization });
-      return new Response(JSON.stringify({ id: 'resp_fixture', model: 'fixture', status: 'completed',
+      const payload = JSON.parse(options.body);
+      spent.push({ url: String(url), authorization: options.headers?.Authorization, key: options.headers?.['x-api-key'], payload });
+      const text = payload.text?.format?.name === 'memory_candidates' || payload.output_config?.format
+        ? '{"records":[{"passage_id":0,"kind":"preference"}]}' : 'Paid for by Ada.';
+      if (String(url).includes('anthropic.com')) return new Response(JSON.stringify({ id: 'msg_fixture', model: payload.model,
+        stop_reason: 'end_turn', usage: { input_tokens: 10, output_tokens: 5 }, content: [{ type: 'text', text }] }),
+        { status: 200, headers: { 'content-type': 'application/json' } });
+      return new Response(JSON.stringify({ id: 'resp_fixture', model: payload.model, status: 'completed',
         usage: { input_tokens: 10, output_tokens: 5, total_tokens: 15 },
-        output: [{ type: 'message', role: 'assistant', content: [{ type: 'output_text', text: 'Paid for by Ada.' }] }] }),
+        output: [{ type: 'message', role: 'assistant', content: [{ type: 'output_text', text }] }] }),
         { status: 200, headers: { 'content-type': 'application/json' } });
     };
     try {
@@ -194,11 +200,12 @@ test('hosted Context spends the signed-in user\'s saved key and never the deploy
       assert.equal((await as(ada).get('keys')).providers.find(item => item.id === 'openai').source, 'own');
 
       const adas = (await as(ada).post({ action: 'create', title: "Ada's notes" })).body.conversation_id;
-      const answered = await as(ada).post({ action: 'ask', conversation_id: adas, message_id: 'msg_ada', content: 'Hello', settings: { provider: 'openai', model: 'fixture', jev: false } });
+      const answered = await as(ada).post({ action: 'ask', conversation_id: adas, message_id: 'msg_ada', content: 'Budget preference: perhaps $600.', settings: { provider: 'openai', model: 'fixture', jev: false } });
       assert.equal(answered.status, 200, JSON.stringify(answered.body));
       assert.equal(answered.body.messages.at(-1).content, 'Paid for by Ada.');
       assert.ok(spent.length);
       assert.deepEqual([...new Set(spent.map(call => call.authorization))], ['Bearer sk-ada-openai-key-1234']);
+      assert.deepEqual(spent.map(call => call.payload.model), ['gpt-6-luna', 'fixture']);
       // The saved audit and its export hold request payloads, never the key.
       const record = JSON.stringify(await as(ada).get(`conclave?action=download&conversation=${adas}`));
       assert.match(record, /Paid for by Ada\./);
@@ -214,6 +221,23 @@ test('hosted Context spends the signed-in user\'s saved key and never the deploy
       const claude = await as(ada).post({ action: 'ask', conversation_id: adas, message_id: 'msg_ada_2', content: 'Hello', settings: { provider: 'anthropic', model: 'claude-fixture', jev: false } });
       assert.match(claude.body.error, /No Anthropic API key is saved for your account/);
       assert.deepEqual(spent, []);
+
+      // A Claude-only account outside SHARED_KEY_EMAILS uses Haiku with its own
+      // Anthropic key. Neither the deployment key nor OpenAI is attempted.
+      await new CredentialStore(db).save(grace.id, 'anthropic', 'sk-ant-grace-key-9999');
+      const status = await as(grace).get('conclave?action=status');
+      assert.equal(status.selector_fallback.anthropic.available, true);
+      assert.equal(status.selector_fallback.openai.available, false);
+      const haiku = await as(grace).post({ action: 'ask', conversation_id: graces, message_id: 'msg_haiku', content: 'Budget preference: perhaps $500.', settings: { provider: 'anthropic', model: 'claude-fixture', jev: false } });
+      assert.equal(haiku.status, 200, JSON.stringify(haiku.body));
+      assert.deepEqual([...new Set(spent.map(call => call.key))], ['sk-ant-grace-key-9999']);
+      assert.ok(spent.every(call => call.url.includes('anthropic.com') && !call.authorization));
+      assert.deepEqual(spent.map(call => call.payload.model), ['claude-haiku-4-5', 'claude-fixture']);
+      assert.equal(spent[0].payload.max_tokens, 600);
+      assert.equal(spent[0].payload.output_config.effort, undefined);
+      const exported = JSON.stringify(await as(grace).get(`conclave?action=download&conversation=${graces}`));
+      assert.match(exported, /claude-haiku-4-5/);
+      assert.doesNotMatch(exported, /sk-ant-grace|sk-deployment/);
     } finally {
       globalThis.fetch = realFetch;
       server?.close();
