@@ -25,6 +25,8 @@ The online implementation is prepared and tested locally, but **it is not deploy
 
 **Online server address: not issued or verified yet.** Below, `YOUR-CONVERSE-ADDRESS` means the final HTTPS address of the Converse deployment. The connector URL will be `https://YOUR-CONVERSE-ADDRESS/mcp`. Do not paste this placeholder into an app.
 
+The browser session is confirmed signed in to `danpace725s-projects` and can open the Converse project. Its current production domain is `converse-cyan.vercel.app`, with production marked Ready. This is the existing app; the handoff build has not been deployed there.
+
 ## What you can do now
 
 You do not need to buy anything, create a database, or provide model API keys for the current local work. The model in your chat writes the packet; Conclave saves and retrieves it without making an extra model call.
@@ -46,14 +48,15 @@ If you use Gemini CLI, there is also a generated local extension folder at `.con
 
 ## Things you need to do before the online test
 
-- [ ] **Restore hosting access.** The Vercel connector and the existing CLI login could not access the linked `converse` project in `danpace725s-projects`. Sign in to Vercel with the account that owns that project, and reconnect the Vercel integration with access to that team. This is the current deployment blocker.
+- [x] **Confirm browser hosting access.** The signed-in Chrome session can open `converse` in `danpace725s-projects`. We can use this browser for the hosting dashboard steps. The connector and CLI use separate credentials and still lack this team's access; reconnect those only if we need that route.
+- [ ] **Check the hosting usage warning.** The team dashboard shows “Exceeded free resources” and Fluid Active CPU of 5h 46m against a 4h free allowance. We still need to establish how this affects the pilot. No plan change or purchase has been made.
 - [ ] **Rotate two credentials before deploying.** My earlier configuration check accidentally included the database password and `SESSION_SECRET` in tool output. In Neon, reset the database role's password and replace the corresponding `DATABASE_URL` and `DATABASE_URL_UNPOOLED` values in Vercel and your local `.env`. In Vercel, replace `SESSION_SECRET` with a newly generated random secret of at least 32 characters. Keep `KEY_ENCRYPTION_SECRET` unchanged so existing saved model keys remain readable. Changing the session secret signs browsers out and invalidates this implementation's app grants. Do not send the replacement secrets in chat.
 - [ ] **Confirm the pilot account.** Use the same Converse sign-in account from both apps. Your allowed email list controls who can connect. The ChatGPT and Claude accounts themselves can have different email addresses; the Converse account you choose during each permission flow must match.
 - [ ] **Enable custom apps if your workspace requires it.** A workspace administrator may need to enable developer mode or custom connectors.
 
 ## Putting the server online
 
-This is the prepared developer sequence. I can continue it once hosting access is restored; you do not need to create a second hosting project or a second database for the implementation.
+This is the prepared developer sequence. Browser hosting access is verified; the credential rotation and usage check above remain before the live pilot. You do not need to create a second hosting project or a second database for the implementation.
 
 1. Choose a stable HTTPS address on the existing Converse project for the pilot. A preview needs a stable alias and a working Converse sign-in callback. Keep the server address fixed during a connection.
 2. In Vercel's environment settings for that deployment, set **`CONCLAVE_MCP_ORIGIN`** to its origin, such as `https://your-real-address.example`, with no trailing slash or path. Keep the existing database and sign-in settings. Leave this variable absent in deployments where handoffs should stay disabled.
