@@ -14,18 +14,34 @@
     "check": "node scripts/check.js",
     "serve": "node --env-file-if-exists=.env src/server.js",
     "sync:converse": "node scripts/sync-converse.js",
-    "db:migrate": "node --env-file-if-exists=.env scripts/migrate.js"
+    "db:migrate": "node --env-file-if-exists=.env scripts/migrate.js",
+    "mcp": "node packages/conclave-mcp/src/stdio.js",
+    "mcp:serve": "node packages/conclave-mcp/src/http.js",
+    "mcp:configs": "node packages/conclave-mcp/src/write-configs.js",
+    "mcp:chatgpt": "node packages/conclave-mcp/src/chatgpt.js",
+    "mcp:backup": "node packages/conclave-mcp/src/backup.js",
+    "mcp:ui:build": "node scripts/build-handoff-ui.js",
+    "mcp:ui:check": "node scripts/build-handoff-ui.js --check",
+    "mcp:ui:preview": "node packages/conclave-mcp/src/ui-preview.js",
+    "test:mcp:ui": "node scripts/test-handoff-ui.js",
+    "test:mcp": "node scripts/test.js packages/conclave-mcp/test/transport.test.js"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
     "@vercel/functions": "^3.9.9",
     "drizzle-orm": "^0.45.3",
+    "express": "5.2.1",
     "gpt-tokenizer": "^4.0.0",
     "htmlparser2": "^12.0.0",
-    "pg": "^8.23.1"
+    "pg": "^8.23.1",
+    "zod": "3.25.76"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",
-    "@electric-sql/pglite-pgvector": "^0.0.9"
+    "@electric-sql/pglite-pgvector": "^0.0.9",
+    "@modelcontextprotocol/ext-apps": "1.7.5",
+    "@playwright/test": "1.63.0",
+    "esbuild": "0.28.2"
   },
   "main": "./src/index.js",
   "exports": {
