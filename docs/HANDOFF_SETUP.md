@@ -20,6 +20,8 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [x] Codex and Claude Code configuration files, plus local plugin packages with save/resume workflows.
 - [x] Conclave plugin installed and enabled in this computer's Codex setup.
 - [x] Conclave's local MCP connection added to the existing Claude Desktop configuration.
+- [x] Local ChatGPT tunnel setup helper and registered-app plugin packaging; official Windows client downloaded and checksum-verified.
+- [ ] Create/authorize the private OpenAI tunnel and register its ChatGPT connection. [Plain-language steps](CHATGPT_LOCAL.md).
 - [ ] First Conclave tool call in a fresh Codex desktop/CLI conversation.
 - [ ] Install and try the Claude Code plugin in your desktop app or CLI.
 - [ ] A live test inside your actual ChatGPT or Claude account.
@@ -30,7 +32,9 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [ ] Apply the new database migration to the hosted database.
 - [ ] Installable public plugins and directory listings.
 
-The online implementation is prepared and tested locally, but **it is not deployed**. The live ChatGPT/Claude steps below are ready to follow once the server is online. The existing local connection stores packets on this computer; those packets are separate from the online account's packets.
+The online implementation is prepared and tested locally, but **it is not deployed**. For regular ChatGPT chats, we can also connect this PC through an OpenAI Secure MCP Tunnel without deploying Conclave. That account connection is not created yet. The existing local connection stores packets on this computer; those packets are separate from the online account's packets.
+
+**The regular ChatGPT test found a setup gap:** `@Conclave handoffs` was visible but supplied no callable tools. Installing the local marketplace package did not establish a registered ChatGPT MCP connection. Follow [Use local Conclave from regular ChatGPT](CHATGPT_LOCAL.md) for the tunnel route. The supplied handoff ID exists locally at revision 2; packet storage is not the observed failure.
 
 **Online server address: not issued or verified yet.** Below, `YOUR-CONVERSE-ADDRESS` means the final HTTPS address of the Converse deployment. The connector URL will be `https://YOUR-CONVERSE-ADDRESS/mcp`. Do not paste this placeholder into an app.
 
@@ -44,7 +48,7 @@ If you want to try a local app now:
 
 1. Pick a local app that supports MCP, such as Claude Desktop, Gemini CLI, Cursor, or VS Code.
 2. Use the matching example file from `.conclave/mcp-config/` in this Conclave checkout. These files contain the correct paths for this computer and no passwords.
-3. Add the `conclave` entry to that app's MCP configuration. Keep any other entries already in your settings. I have not changed your app settings.
+3. Add the `conclave` entry to that app's MCP configuration. Keep any other entries already in your settings. Claude Desktop and the Codex plugin are already configured on this PC; actual tool invocation remains to be checked.
 4. Restart or reconnect the app. Check that `save_handoff`, `find_handoffs`, `get_handoff`, `list_handoff_versions`, `compare_handoff_versions`, and `open_handoff_library` appear. A read-only connection omits `save_handoff`.
 5. Ask: **“Use Conclave to save a handoff called ‘My first handoff’. Include our objective, decisions, constraints, open questions, and next steps.”**
 6. Keep the ID the app returns. In another connected local app or a fresh conversation, ask: **“Use Conclave to retrieve handoff [paste ID] and continue from it.”**

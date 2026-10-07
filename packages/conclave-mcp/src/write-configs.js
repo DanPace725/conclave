@@ -67,6 +67,28 @@ export function writeConfigurations({ output = defaultOutput, origin, node = pro
   return { local, online };
 }
 
+// Chat sessions need an actual account-registered app mapping. A local stdio
+// package alone does not attach its server to hosted ChatGPT conversations.
+export function writeChatgptPlugin({ appId, output = join(defaultOutput, 'chatgpt') } = {}) {
+  if (typeof appId !== 'string' || !/^(?:plugin_)?asdk_app_[A-Za-z0-9_-]{8,160}$/.test(appId))
+    throw Error('Copy the registered MCP app ID from the ChatGPT plugin page; do not use a conversation or tunnel ID.');
+  const marketplace = join(resolve(output), 'plugin-marketplace');
+  const plugin = join(marketplace, 'plugins', 'conclave-handoffs');
+  mkdirSync(join(plugin, '.codex-plugin'), { recursive: true });
+  const openai = { apps: './.app.json', interface: { ...presentation, displayName: 'Conclave handoffs (ChatGPT)' } };
+  writeFileSync(join(plugin, 'plugin.json'), json({ $schema: 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json', ...identity,
+    extensions: { 'com.openai': openai } }));
+  writeFileSync(join(plugin, '.codex-plugin', 'plugin.json'), json({ ...identity, ...openai, skills: './skills/' }));
+  writeFileSync(join(plugin, '.app.json'), json({ apps: { conclave: { id: appId, required: true } } }));
+  cpSync(skills, join(plugin, 'skills'), { recursive: true });
+  mkdirSync(join(marketplace, '.agents', 'plugins'), { recursive: true });
+  writeFileSync(join(marketplace, '.agents', 'plugins', 'marketplace.json'), json({ name: 'conclave-chatgpt',
+    interface: { displayName: 'Conclave ChatGPT development' }, plugins: [{ name: identity.name,
+      source: { source: 'local', path: './plugins/conclave-handoffs' },
+      policy: { installation: 'AVAILABLE', authentication: 'ON_INSTALL' }, category: 'Productivity' }] }));
+  return { marketplace, plugin };
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   if (args.length && (args.length !== 2 || args[0] !== '--origin')) throw Error('Usage: npm run mcp:configs -- [--origin HTTPS_ORIGIN]');

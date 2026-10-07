@@ -18,6 +18,7 @@
     "mcp": "node packages/conclave-mcp/src/stdio.js",
     "mcp:serve": "node packages/conclave-mcp/src/http.js",
     "mcp:configs": "node packages/conclave-mcp/src/write-configs.js",
+    "mcp:chatgpt": "node packages/conclave-mcp/src/chatgpt.js",
     "mcp:backup": "node packages/conclave-mcp/src/backup.js",
     "mcp:ui:build": "node scripts/build-handoff-ui.js",
     "mcp:ui:check": "node scripts/build-handoff-ui.js --check",
