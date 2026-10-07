@@ -109,7 +109,8 @@ test('Auto capabilities exclude unsupported levels and unknown models use defaul
   const f = fixture();
   try {
     await f.service.ask(f.id, request('auto', 'openai', 'gpt-4o'));
-    assert.equal(f.decisions.length, 0); assert.equal(f.answers[0].reasoning.effort, undefined);
+    assert.equal(f.decisions.length, 0); assert.equal(f.answers[0].reasoning, undefined);
+    assert.ok(!f.answers[0].include.includes('reasoning.encrypted_content'));
   } finally { f.store.close(); }
 });
 
@@ -122,6 +123,19 @@ test('classifier evidence is bounded and excludes image data, signatures and opa
   assert.ok(Buffer.byteLength(JSON.stringify(body)) < 24000);
   assert.doesNotMatch(body.input, /PRIVATE_REASONING|PRIVATE_IMAGE/);
   assert.match(body.input, /excerpt omitted/);
+});
+
+test('requests with image evidence keep model-default effort without classifying unseen pixels', async () => {
+  const f = fixture();
+  try {
+    const h = f.service.harness(f.id, f.service.settings(request().settings), true);
+    h.addMessage('user', 'Inspect this image.');
+    const payload = h.payload([{ role: 'user', content: [{ type: 'input_image', image_url: 'data:image/png;base64,fixture' }] }]);
+    const resolved = await h.resolveReasoning(payload, 'answer');
+    assert.equal(resolved.reasoning.effort, undefined);
+    assert.equal(f.decisions.length, 0);
+    assert.equal(f.store.events(f.id).findLast(e => e.kind === 'reasoning_selection').metadata.reason, 'image_evidence_unavailable');
+  } finally { f.store.close(); }
 });
 
 test('native Decisions transport uses its own key and endpoint with zero output generation', async () => {

@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { effortLevels } from './effort.js';
+import { imageAccounting } from './images.js';
 
 export const REASONING_SELECTOR_MODEL = 'gpt-6-luna';
 export const REASONING_SELECTOR_VERSION = 'decisions-effort-v1';
@@ -63,9 +64,10 @@ export async function resolveAutomaticReasoning(h, payload, limits = {}) {
   h.automaticReasoning ||= new WeakMap();
   if (h.automaticReasoning.has(payload)) return payload;
   const provider = h.provider.name, levels = automaticEffortLevels(provider, payload.model);
+  const hasImages = imageAccounting(payload).count > 0;
   const user = h.store.events(h.conversation).findLast(e => e.kind === 'user' && !e.metadata.purpose?.startsWith('manual-'));
-  let selected = 'default', reason = 'unsupported_model', answer = null, requestId = null;
-  if (levels.length && h.options.reasoningProvider) {
+  let selected = 'default', reason = hasImages ? 'image_evidence_unavailable' : 'unsupported_model', answer = null, requestId = null;
+  if (!hasImages && levels.length && h.options.reasoningProvider) {
     try {
       const api = h.options.reasoningProvider();
       if (typeof api.decide !== 'function') throw Error('Decisions transport unavailable');
@@ -84,9 +86,15 @@ export async function resolveAutomaticReasoning(h, payload, limits = {}) {
       if (error.agent_status || error.agent_detail) throw error;
       reason = 'selector_failed';
     }
-  } else if (levels.length) reason = 'openai_key_unavailable';
+  } else if (!hasImages && levels.length) reason = 'openai_key_unavailable';
   const { effort, ...otherReasoning } = payload.reasoning || {};
   const resolved = { ...payload, reasoning: { ...otherReasoning, ...(selected !== 'default' ? { effort: selected } : {}) } };
+  if (!Object.keys(resolved.reasoning).length) {
+    delete resolved.reasoning;
+    // Non-reasoning models cannot accept reasoning include fields either.
+    if (provider === 'openai' && !levels.length && Array.isArray(resolved.include))
+      resolved.include = resolved.include.filter(item => item !== 'reasoning.encrypted_content');
+  }
   const receipt = h.store.append(h.conversation, 'reasoning_selection', selected, {
     version: REASONING_SELECTOR_VERSION, requested: 'auto', selected, reason,
     target_provider: provider, target_model: payload.model, allowed_levels: levels,
