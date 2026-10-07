@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { guard, identity, session, emailAllowed, identityRequired } from '../src/access.js';
 
-const names = ['APP_PASSWORD', 'SESSION_SECRET', 'ALLOWED_EMAILS', 'VERCEL'];
+const names = ['APP_PASSWORD', 'SESSION_SECRET', 'ALLOWED_EMAILS', 'KEY_ENCRYPTION_SECRET', 'VERCEL'];
 function withEnv(values, run) {
   const before = Object.fromEntries(names.map(name => [name, process.env[name]]));
   for (const name of names) if (values[name] === undefined) delete process.env[name]; else process.env[name] = values[name];
@@ -53,4 +53,24 @@ test('identity sessions end when the allowlist or secret changes', () => {
   });
   withEnv({ SESSION_SECRET: 'rotated-session-secret', ALLOWED_EMAILS: 'ada@example.com' }, () => assert.equal(attempt(cookie).allowed, false));
   withEnv({ APP_PASSWORD: 'fixture-session-secret' }, () => assert.deepEqual(attempt(cookie).user, null));
+});
+
+test('"*" admits any signed-in account only while personal keys are on', () => {
+  const eve = { id: 'user-eve', email: 'eve@elsewhere.example' };
+  const secrets = { SESSION_SECRET: 'fixture-session-secret', KEY_ENCRYPTION_SECRET: 'fixture-key-encryption-secret-0123456789' };
+  withEnv({ ...secrets, ALLOWED_EMAILS: 'ada@example.com, *' }, () => {
+    assert.equal(emailAllowed('eve@elsewhere.example'), true);
+    assert.equal(emailAllowed(''), false);
+    assert.deepEqual(attempt(session(eve)).user, eve);
+    assert.equal(attempt().status, 401);
+    assert.equal(attempt(session()).allowed, false);
+  });
+  // Without personal keys the wildcard admits nobody: strangers never reach the deployment's keys.
+  withEnv({ SESSION_SECRET: 'fixture-session-secret', ALLOWED_EMAILS: 'ada@example.com,*' }, () => {
+    assert.equal(emailAllowed('eve@elsewhere.example'), false);
+    assert.equal(attempt(session(eve)).allowed, false);
+    assert.equal(attempt(session(ada)).allowed, true);
+  });
+  // An explicit list stays a list.
+  withEnv({ ...secrets, ALLOWED_EMAILS: 'ada@example.com' }, () => assert.equal(attempt(session(eve)).allowed, false));
 });
