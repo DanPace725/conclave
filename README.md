@@ -93,3 +93,7 @@ Memory tiers describe availability: active in the projection, proximal through a
 Layered Context/Agent capture user commitments and corrections into a separate event-backed ledger with bounded selection and source-linked inspection. User/model authority, unresolved candidates, correction history and reversible suppression are independent of availability tiers. See [automatic memory](docs/AUTOMATIC_MEMORY.md) for grammar, model-call bounds, service/API operations and limits.
 
 Model tools `read_memory` and `suppress_memory` inspect both memory stores and execute current-human-authorized suppression with revision/authority guards. `workspace_patch_batch` saves up to 16 non-overlapping replacements against one fully read file version, atomically. Shadow stage timings and recent summaries appear in `read_telemetry`; profile an exported conversation without provider calls using `node scripts/profile-shadow.js export.json profile.json 3` (1–8 sampled prefixes).
+
+## Licence
+
+[MIT](LICENSE).
