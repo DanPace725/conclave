@@ -81,9 +81,16 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
   assert.equal(await hostStatus('/mcp', 'healthcheck.railway.app'), 403);
   assert.equal(await hostStatus('/', 'evil.example'), 403);
   const landing = await request('/'), html = await landing.text();
+  assert.equal(landing.headers.get('referrer-policy'), 'same-origin', 'native forms must preserve Origin');
   const csrf = html.match(/name="csrf" value="([^"]+)"/)[1], browser = landing.headers.get('set-cookie').split(';')[0];
   assert.ok(!html.includes('Sign in to Converse'));
   assert.equal((await request('/signin', form({ email: 'alice@example.com' }, browser))).status, 403);
+  for (const requestOrigin of ['null', 'https://evil.example', '']) {
+    const rejected = form({ email: 'alice@example.com', csrf }, browser);
+    if (requestOrigin) rejected.headers.Origin = requestOrigin; else delete rejected.headers.Origin;
+    assert.equal((await request('/signin', rejected)).status, 403);
+  }
+  assert.equal((await request('/signin', form({ email: 'alice@example.com', csrf }, ''))).status, 403);
   assert.equal(upstreamCalls, 0);
   const sent = await request('/signin', form({ email: 'alice@example.com', csrf }, browser));
   assert.match(await sent.text(), /six-digit/);
@@ -103,7 +110,9 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
     const consentPath = auth.headers.get('location'), browserCookies = cookies + '; ' + auth.headers.get('set-cookie').split(';')[0];
     // Browser and OAuth state survive a fresh deployment instance.
     app = createStandaloneApp(options);
-    const consentPage = await (await request(consentPath, { headers: { Cookie: browserCookies } })).text();
+    const consentResponse = await request(consentPath, { headers: { Cookie: browserCookies } });
+    assert.equal(consentResponse.headers.get('referrer-policy'), 'same-origin', 'consent forms must preserve Origin too');
+    const consentPage = await consentResponse.text();
     const consentCsrf = consentPage.match(/name="csrf" value="([^"]+)"/)[1];
     const allowed = await request('/connect', form({ request: new URL(consentPath, origin).searchParams.get('request'), csrf: consentCsrf, decision: 'allow' }, browserCookies));
     const code = new URL(allowed.headers.get('location')).searchParams.get('code');

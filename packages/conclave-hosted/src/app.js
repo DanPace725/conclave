@@ -21,7 +21,9 @@ export function createStandaloneApp({ pool, origin, secret, allowedEmails, authB
     catch { res.status(503).json({ status: 'unavailable' }); }
   });
   app.use((req, res, next) => {
-    res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff',
+    // Native form POSTs need their same-origin Origin header for CSRF checks.
+    // Still suppress referrers when leaving Conclave, including OAuth callbacks.
+    res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'same-origin', 'X-Content-Type-Options': 'nosniff',
       'Content-Security-Policy': "default-src 'self'; script-src 'none'; style-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" });
     if (req.headers.host !== host) return res.sendStatus(403);
     next();
