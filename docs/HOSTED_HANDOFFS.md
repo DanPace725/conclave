@@ -1,0 +1,62 @@
+# Conclave hosted handoff pilot
+
+Conclave's next product increment prioritizes hosted continuity between ChatGPT and Claude. Both apps connect to the same account-scoped MCP service. Other MCP clients can use the same protocol and tools without adding model adapters or provider API keys.
+
+The Conclave and Converse repositories remain distinct. Converse keeps its existing UI, engine snapshot, sign-in and database. The independent Conclave service uses `packages/conclave-hosted/`, its own Neon project and Railway deployment. It does not run conversations, inference, embeddings or agents, and does not require model API keys.
+
+## Deployment
+
+Prepared on `codex/conclave-hosted` in `DanPace725/conclave`:
+
+| Resource | Configuration |
+| --- | --- |
+| Railway project | Conclave, `8414b456-9878-4fb0-b0ec-40d0a9364aa7` |
+| Railway production environment | `2184f8e0-6f22-47f5-9836-be3fb1428d29` |
+| Railway service | conclave-mcp, `2958d211-36be-40b0-9426-b5bc6a2e158b` |
+| Origin | `https://conclave-mcp-production.up.railway.app` |
+| MCP URL | `https://conclave-mcp-production.up.railway.app/mcp` |
+| Neon project | conclave, `morning-sunset-04725595`, AWS us-west-2 |
+| Neon branch | main, `br-flat-truth-ar8qk60a` |
+
+Railway service settings: Dockerfile at the repository root; start `node packages/conclave-hosted/src/server.js`; pre-deploy `node packages/conclave-hosted/src/migrate.js`; healthcheck `/healthz`, 120 seconds; one us-west2 replica; 0.5 GB RAM and 1 vCPU limits; sleep disabled; restart on failure with three retries; 30-second draining. Railway's connector rejected the older `railwayConfigFile` setting as deprecated, so these settings are applied directly to the service rather than through `railway.json`. Future infrastructure-as-code work should use the current Railway format.
+
+The new Neon compute is fixed at 0.25 CU, with the plan-default suspend setting (`0` in the current API); live metadata confirmed it suspends while idle. Startup fails if required configuration or handoff tables are absent. `/healthz` checks database readiness and accepts Railway's probe Host only on that route. Shutdown drains requests and ends the pool.
+
+See `packages/conclave-hosted/.env.example` for required variables. Actual `.env.hosted` is ignored, is never bundled in Docker or committed, and uses a separate session secret. Railway holds its own copies of the variables. Runtime uses the pooled URL; migrations use the direct URL. Existing Converse credentials and configuration are not deployment inputs.
+
+The independent migration adds only handoff events, OAuth records and lock rows, with a checksum-controlled history under `conclave_hosted`. It refuses a database containing Converse conversation or provider-key tables before modifying it. Re-running it preserves existing packets. Do not use Converse's full migration command on this service.
+
+## Sign in and connect
+
+1. Open [Conclave](https://conclave-mcp-production.up.railway.app). Request an email code using an explicitly allowed pilot address, then enter the code. Neon Auth proves identity; Conclave issues its own host-scoped signed browser cookie. No provider key is needed.
+2. Add a custom MCP server in ChatGPT's plugin setup using the MCP URL above. Select OAuth and dynamic/automatic client registration. Install the resulting private plugin and enable it in a conversation. Current [OpenAI setup](https://developers.openai.com/api/docs/guides/custom-mcp-server) and [authentication](https://developers.openai.com/plugins/build/auth) documentation describe the flow.
+3. In Claude, open Customize → Connectors → Add custom connector, enter the same MCP URL, choose sign-in and **Register automatically** for the OAuth client. Complete sign-in and consent using the same Conclave account. Enable the connector in a conversation. See [Claude's current remote connector instructions](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp).
+4. The first version supports dynamic registration, public clients (`none`) and `client_secret_post`, OAuth discovery, resource binding, S256 PKCE, refresh rotation, read/write scopes and connection revocation. It does not advertise Client ID Metadata Document support. Choose automatic registration rather than a published-client identity for this pilot.
+
+Conclave's browser login is separate from each AI app's OAuth grant. Sign in at the root in the tab opened by consent, then return to the consent page and continue. Signing out of the website keeps app grants active. Use [Connections](https://conclave-mcp-production.up.railway.app/connect) to revoke an individual app.
+
+## Acceptance check in your accounts
+
+In ChatGPT, ask:
+
+> Use Conclave to save a handoff called Hosted pilot. Our objective is cross-app project continuity. Keep the constraint Ask before publishing and the open question Which app should we add next? Return its ID.
+
+In Claude, ask:
+
+> Use Conclave to retrieve handoff [ID]. Tell me the objective, exact constraints and open questions. Read the current version and save an update adding our next step.
+
+Retrieve that ID again in ChatGPT, confirm its increased revision, and compare the versions. Restart/redeploy the service and retrieve it again. Revoke Claude's connection and confirm Claude requires a new grant while ChatGPT still works. Automated SDK fixtures do not establish these actual app-account results.
+
+## Boundaries and future extensions
+
+The shared six-tool contract is in [HANDOFF_MCP.md](HANDOFF_MCP.md). App-specific setup instructions and plugin packaging sit outside packet storage, identity and OAuth. New MCP clients should need endpoint/auth configuration and a compatibility check, rather than a new copy of the server or a model-provider integration. New identity providers can implement the injected verified-owner contract while preserving ownership; email alone is not an account migration key.
+
+The local bridge remains available but is not the current development priority. Local SQLite packets do not sync to this hosted store. Hosted import, direct PostgreSQL catalog/version reads, permanent deletion/retention, expired-record cleanup, broader rate controls and CIMD support are future increments. The private pilot has explicit allowed emails, 64 KB packets and a 2,000-event account cap. It replays that bounded account history in transient SQLite; no persistent Railway volume is required.
+
+This deployment is a private account pilot, not a public directory listing. Published distribution and its operational lifecycle remain separate work.
+
+## Verification
+
+`node scripts/test.js test/hosted-standalone.test.js test/handoff-hosted.test.js` covers standalone migration idempotency/refusal, private sessions, secure cookies, CSRF, verified identity, database readiness, two independent OAuth clients, restart persistence, exact constraints, independent revocation, sign-out semantics and sign-in budgets. Existing transport and portability cases remain in the full suite.
+
+The full root suite passed 360 checks with one optional skip at four-file concurrency, and syntax/resource checks passed. An earlier highly parallel run failed one existing periodic-context-review count; that file passed independently, and the complete bounded-concurrency rerun passed. Live Neon migration succeeded. Deployment and actual app-account evidence must be recorded separately from fixture results.

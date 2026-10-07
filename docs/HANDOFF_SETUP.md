@@ -314,3 +314,6 @@ Use the online **`/connect`** page to revoke a connection immediately. Removing 
 - Older versions are retained. This pilot does not provide a permanent-delete button.
 
 Implementation and test details live in [the technical setup guide](HANDOFF_MCP.md). The broader [research plan](archive/2026-10-07/mcp-connector-plan.md) is still available.
+# Hosted-first setup
+
+The current path is [Conclave's independent hosted pilot for ChatGPT and Claude](HOSTED_HANDOFFS.md). Use that guide for the Railway endpoint, Conclave email-code sign-in and cross-app checks. The local and earlier Converse-hosted instructions below remain available for those separate installations.

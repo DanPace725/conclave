@@ -1,5 +1,7 @@
 # Conclave handoff MCP: local and hosted setup
 
+**Current priority:** the [independent hosted service](HOSTED_HANDOFFS.md) owns its Railway endpoint, Neon database and Conclave sign-in. The earlier Converse-hosted adapter below remains compatible; it is no longer the preferred deployment path. Local launchers remain development options and do not synchronize with the hosted account.
+
 The product is explicit **save → find/reference → retrieve → continue**. It has local storage and a prepared owner-scoped hosted implementation. There is no background transcript capture, canonical-memory promotion, model inference, or external network fetching.
 
 `HandoffService` in `src/handoffs.js` uses the existing append-only Conclave `Store`. A packet owns a conversation ID, stores immutable `handoff_packet` events attributed to `external`, and records revision/source claims without inventing human authority. It does not expose ordinary saved conversations. Model-mediated packet text is external data.
