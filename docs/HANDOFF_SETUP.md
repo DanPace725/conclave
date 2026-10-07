@@ -19,6 +19,7 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [x] Example connection files for this computer, generated inside `.conclave/mcp-config/`.
 - [x] Codex and Claude Code configuration files, plus local plugin packages with save/resume workflows.
 - [x] Conclave plugin installed and enabled in this computer's Codex setup.
+- [x] Conclave's local MCP connection added to the existing Claude Desktop configuration.
 - [ ] First Conclave tool call in a fresh Codex desktop/CLI conversation.
 - [ ] Install and try the Claude Code plugin in your desktop app or CLI.
 - [ ] A live test inside your actual ChatGPT or Claude account.
@@ -216,11 +217,11 @@ These generated configurations are for local storage and do not require online s
 
 | App | What to do |
 | --- | --- |
-| Claude Desktop | Open its developer settings and edit the MCP configuration. Merge the `mcpServers.conclave` entry from `.conclave/mcp-config/claude-desktop.json`, keeping existing servers. Fully quit and reopen Claude Desktop. |
+| Claude Desktop | Already configured on this computer. Fully quit and reopen Claude Desktop, then check that Conclave appears. If reinstalling later, merge `mcpServers.conclave` from `.conclave/mcp-config/claude-desktop.json` into its MCP configuration, keeping other servers. |
 | Cursor | Merge `.conclave/mcp-config/cursor-mcp.json` into the project's `.cursor/mcp.json` or your global MCP settings. Reconnect Conclave in its MCP settings. |
 | VS Code | Merge the `servers.conclave` entry from `.conclave/mcp-config/vscode-mcp.json` into the workspace's `.vscode/mcp.json`. Start the server through VS Code's MCP server controls. |
 
-The files contain this computer's actual Node and checkout paths. They are development configurations, not portable public installers. I have not edited your app settings.
+The files contain this computer's actual Node and checkout paths. They are development configurations, not portable public installers. Conclave was added to Claude Desktop's existing `%APPDATA%\Claude\claude_desktop_config.json`; all unrelated settings were verified unchanged. Cursor and VS Code settings have not been edited.
 
 Sources: [Claude Desktop MCP](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop), [Cursor configuration](https://docs.cursor.com/context/model-context-protocol), [VS Code configuration](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
 
@@ -265,7 +266,7 @@ Then open a **local** session in the desktop app's Code tab. Use **+ → Plugins
 
 For a direct connection without installing a plugin or CLI, merge the `mcpServers.conclave` entry from **`.conclave/mcp-config/claude-code.json`** into **`.mcp.json` in the project folder you open in Code**. Keep existing entries, start a local session, and approve the project MCP server when prompted. This connects the tools; it does not install the bundled workflow skills.
 
-Current English documentation says local Code sessions can also load the Claude Desktop chat MCP configuration. The standalone CLI does not read that chat file. If Conclave already appears in Code, use the existing connection. Check your app version if behavior differs.
+The Claude Desktop MCP connection has already been added. Current English documentation says local Code sessions can load that chat configuration too. Restart Claude and check a local Code session first; this may give you the tools without another installation. It does not install the workflow skills. The standalone CLI does not read the chat file. Check your app version if behavior differs.
 
 Sources: [Claude Code desktop](https://code.claude.com/docs/en/desktop), [local plugin installation](https://code.claude.com/docs/en/plugin-marketplaces), [MCP configuration](https://code.claude.com/docs/en/mcp).
 

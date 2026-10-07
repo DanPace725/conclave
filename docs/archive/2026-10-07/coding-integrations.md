@@ -18,7 +18,9 @@ Three new regressions cover actual independent stdio process launch from generat
 
 Installed Codex CLI at `5ea220ae823df3d7/codex.exe` accepted the local marketplace/package in an isolated workspace configuration. Initial restricted execution failed during Windows configuration-path canonicalization; the approved elevated run succeeded with no user configuration changes. The same validated package was then installed in the user's real configuration through `codex plugin marketplace add` and `codex plugin add`. Listing only `conclave-local` confirmed `conclave-handoffs@conclave-local` installed and enabled, version `0.1.0`, with a local source and cache at `~/.codex/plugins/cache/conclave-local/conclave-handoffs/0.1.0`.
 
-This changes the user's Conclave marketplace/plugin settings and cache only. It does not make model calls, capture a conversation, install global workflow hooks, publish a package or alter another app's settings.
+The Codex install changes the user's Conclave marketplace/plugin settings and cache. A follow-up added the generated local stdio entry to the existing Claude Desktop configuration, using an adjacent temporary file and atomic rename. Readback verified that the Conclave entry matched and the fingerprint of all unrelated settings was unchanged. No credentials or unrelated configuration contents were printed.
+
+These setup actions do not make model calls, capture a conversation, install global workflow hooks or publish a package. Claude Desktop still needs to reload its configuration; actual Chat/Code invocation remains pending.
 
 ## Research and limits
 

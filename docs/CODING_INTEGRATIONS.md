@@ -11,7 +11,7 @@ The same Conclave tools implement save → find/reference → retrieve → conti
 | Codex local desktop, CLI, IDE | Shared MCP configuration or plugin marketplace | All six tools; bundled save/resume workflows | Local plugin installed/enabled by the actual Codex CLI; new-session invocation remains to be tried |
 | Claude Code CLI | MCP configuration or `.claude-plugin` package | Same tools and namespaced workflows | Generated package and real SDK transport checked; CLI unavailable on PATH here |
 | Claude Code local desktop session | Plugin browser or shared MCP configuration | Same tools; plugin workflows after installation | Documented support; actual desktop session not tested |
-| Claude Desktop chat | Local stdio configuration or hosted account connector | Same packets when storage/account matches; UI where supported | Local connection file prepared; actual app invocation pending |
+| Claude Desktop chat | Local stdio configuration or hosted account connector | Same packets when storage/account matches; UI where supported | Local Conclave entry added/read back; actual app invocation pending |
 | Hosted ChatGPT/Claude conversations | Authenticated public HTTPS connector | Same tools against the signed-in account's hosted packets | Deployment, OAuth and real account tests remain pending |
 
 Codex documents shared configuration across the desktop, CLI and IDE, with stdio/HTTP and OAuth support. Local configuration does not automatically appear in hosted web conversations. [Official MCP setup](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
@@ -53,3 +53,5 @@ Saving requires explicit requested/previously authorized context and a successfu
 Generated connection tests use real independent stdio processes and the official SDK with isolated fixture storage, including paths with spaces, cached plugin relocation and shared durable packets. Hosted-template checks validate transport/address mapping and reject credential-bearing/path/query origins before any writes. Both skills pass the Skill Creator frontmatter validator, and generated Codex TOML parses with Python's standard TOML parser.
 
 The installed Codex CLI accepted, installed and enabled the local package in an isolated configuration and then the user's local configuration. These are discovery/installation checks, not model invocation evidence. Claude Code CLI was not available; no Claude runtime validator or actual Code desktop test was run. A fresh desktop/CLI conversation, host UI tests and hosted authorization remain required. No model calls, remote publication, new hosting project or database changes were needed.
+
+Conclave's generated stdio entry was also added to the existing Claude Desktop chat configuration. The saved entry was read back and every unrelated setting was fingerprint-checked unchanged without printing its contents. This sets up the desktop connection; it does not establish that the running app has reloaded it or that a Code session has inherited it.
