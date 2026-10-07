@@ -6,4 +6,10 @@ Reproduced in a real browser with a disallowed synthetic address, without contac
 
 Changed the standalone login and shared OAuth consent pages to `Referrer-Policy: same-origin`. Native same-origin form POSTs retain Origin; external navigations including OAuth callbacks still receive no referrer. Signed CSRF cookie/token checks, exact canonical origin and allowlist remain mandatory. Null, missing and foreign origins remain rejected; the fix does not accept null Origin.
 
-Expanded the standalone HTTP regression to assert the native-form policy on login and consent and reject null/missing/foreign origins or missing CSRF cookies before upstream calls. The full source suite passed 360 checks / one optional skip, and syntax/resource checks passed. Deployment and browser/email results will be recorded after rollout. Converse receives the shared consent correction through its normal engine snapshot; its production deployment remains unchanged.
+Expanded the standalone HTTP regression to assert the native-form policy on login and consent and reject null/missing/foreign origins or missing CSRF cookies before upstream calls. The full source suite passed 360 checks / one optional skip, and syntax/resource checks passed. Converse parity matched 102 files; its suite passed 203 checks / one optional skip and syntax checks passed. Its snapshot is committed locally; its production deployment remains unchanged.
+
+## Live rollout
+
+Implementation `948598efa1b12d8cfa2ac076ea0634b5795d9d2d` was pushed and the remote SHA verified. Railway deployment `0ef00c95-c84d-4218-9ed7-4fef009af191` reported SUCCESS for that commit. Public login returned 200 with `Referrer-Policy: same-origin`. A browser's native POST with the same disallowed synthetic address now reached the account allowlist instead of failing the origin check.
+
+After explicit user approval, one email-code request for the user's account was submitted through the real browser form. Neon Auth returned success and the browser advanced to the six-digit code entry screen. Before approval, automatic review rejected that test request; it was not sent until the user authorized it. The acceptance screenshot is stored privately in ignored `.conclave/signin-fix-browser.png`. No OTP was read or submitted. Receipt in the user's inbox and completed login remain separate checks.
