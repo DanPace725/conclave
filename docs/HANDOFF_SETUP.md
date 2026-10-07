@@ -11,6 +11,8 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [x] Saved packets stay available after the server restarts.
 - [x] Updates keep the earlier versions and prevent accidental overwrites.
 - [x] Tools to browse earlier versions and show exactly what changed.
+- [x] A compact chat card and an expanded, read-only handoff browser for compatible apps.
+- [x] A local UI preview with example data, plus desktop and narrow-screen browser tests.
 - [x] Local backup, inspection, and restore commands, including a check before saving.
 - [x] A local server and the required software installed in this checkout.
 - [x] A password-protected local HTTP connection for development.
@@ -38,7 +40,7 @@ If you want to try a local app now:
 1. Pick a local app that supports MCP, such as Claude Desktop, Gemini CLI, Cursor, or VS Code.
 2. Use the matching example file from `.conclave/mcp-config/` in this Conclave checkout. These files contain the correct paths for this computer and no passwords.
 3. Add the `conclave` entry to that app's MCP configuration. Keep any other entries already in your settings. I have not changed your app settings.
-4. Restart or reconnect the app. Check that `save_handoff`, `find_handoffs`, `get_handoff`, `list_handoff_versions`, and `compare_handoff_versions` appear.
+4. Restart or reconnect the app. Check that `save_handoff`, `find_handoffs`, `get_handoff`, `list_handoff_versions`, `compare_handoff_versions`, and `open_handoff_library` appear. A read-only connection omits `save_handoff`.
 5. Ask: **“Use Conclave to save a handoff called ‘My first handoff’. Include our objective, decisions, constraints, open questions, and next steps.”**
 6. Keep the ID the app returns. In another connected local app or a fresh conversation, ask: **“Use Conclave to retrieve handoff [paste ID] and continue from it.”**
 
@@ -69,13 +71,31 @@ Your remaining hosting decision and account setup do not stop the local engine w
 
 ## See earlier versions and what changed
 
-After updating the local server, reconnect it in your app. For an online connection that already exists, refresh its tools after deploying an update. Conclave now offers five tools: the original save, find, and retrieve tools, plus `list_handoff_versions` and `compare_handoff_versions`.
+After updating the local server, reconnect it in your app. For an online connection that already exists, refresh its tools after deploying an update. Conclave now offers six tools: save, find, retrieve, list versions, compare versions, and open the handoff browser.
 
 - Ask: **“Use Conclave to list the earlier versions of handoff [ID].”** The list shows the newest versions first; the model can request another page.
 - Ask: **“Use Conclave to compare version 1 of handoff [ID] with its latest version. Show changed constraints and questions.”** The result includes the exact earlier and later text, including removed items.
 - Ask: **“Retrieve version 1 of that handoff.”** Reading an older version leaves the current version untouched. To reuse earlier content, read the current version and explicitly save a new update.
 
 Comparisons do not make an extra model call inside Conclave. They show stored text changes and do not decide which version is factually correct.
+
+## Try the chat UI
+
+To see the new interface before choosing hosting:
+
+1. Open a terminal in `E:\Coding\converse\CLA\conclave`.
+2. Run **`npm run mcp:ui:preview`**.
+3. Open **`http://127.0.0.1:3214`** in your browser. This shows example packets only; it does not open your real handoffs or accounts.
+4. To try the compact chat card, open **`http://127.0.0.1:3214/?inline=1`**, then click **Open handoff browser**.
+5. Try searching, reading a packet, opening its version history and comparing versions. Stop the preview with Ctrl+C in the terminal.
+
+In an app connected to the updated server, ask: **“Open my Conclave handoff library.”** ChatGPT and Claude document interactive MCP interfaces, but we still need to test this custom interface in your actual accounts. A terminal client such as Gemini CLI receives ordinary tool results.
+
+The browser lets you inspect saved context and copy its ID. **Continue in chat** asks the current model to retrieve the selected version; it appears only when the app supports that action. You can also expand **Continuation text for another app** and copy that request. Browsing does not save an update; ask the chat to save one explicitly.
+
+For a public ChatGPT release, we will also need a dedicated UI origin, privacy/support details and platform review. The supported UI conventions and the next feature list are in [the plugin development guide](PLUGIN_UI.md).
+
+Sources: [ChatGPT UI guide](https://developers.openai.com/plugins/build/chatgpt-ui), [Claude interactive connectors](https://support.claude.com/en/articles/13454812-use-interactive-connectors-in-claude).
 
 ## Back up a local handoff
 
@@ -208,6 +228,9 @@ Sources: [Claude Desktop MCP](https://support.claude.com/en/articles/10949351-ge
 - [ ] Ask Claude to read the current packet and save an updated version. Retrieve the same ID in ChatGPT and confirm the revision increased.
 - [ ] Visit **`https://YOUR-CONVERSE-ADDRESS/connect`**, revoke Claude's connection, and confirm Claude must reconnect before it can retrieve packets. Keep ChatGPT's grant active to check that revocation applies to the selected connection.
 - [ ] Repeat with Gemini CLI once the first pair succeeds.
+- [ ] Ask ChatGPT and Claude to **open the Conclave handoff library**. Check the compact card, expanded view, light/dark appearance and keyboard controls.
+- [ ] Read an earlier version in the browser, click **Continue in chat**, and confirm the model retrieves that same version. If the app lacks this action, use the continuation text instead.
+- [ ] Check that browsing creates no new versions and that read-only connections cannot save.
 
 Do not mark these account tests complete based only on the local automated tests.
 

@@ -13,6 +13,10 @@ function check(directory) {
 }
 for (const directory of ['src', 'scripts', 'test', 'integrations']) check(directory);
 if (existsSync('packages')) check('packages');
+for (const args of [['--check', 'playwright.handoff.config.js'], ['scripts/build-handoff-ui.js', '--check']]) {
+  const result = spawnSync(process.execPath, args, { stdio: 'inherit' });
+  if (result.status) process.exit(result.status);
+}
 if (existsSync('memory-selection-eval')) {
   const result = spawnSync(process.execPath, ['scripts/sanitize-artifacts.js','--check','memory-selection-eval'], {stdio:'inherit'});
   if (result.status) process.exit(result.status);

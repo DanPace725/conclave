@@ -19,6 +19,10 @@
     "mcp:serve": "node packages/conclave-mcp/src/http.js",
     "mcp:configs": "node packages/conclave-mcp/src/write-configs.js",
     "mcp:backup": "node packages/conclave-mcp/src/backup.js",
+    "mcp:ui:build": "node scripts/build-handoff-ui.js",
+    "mcp:ui:check": "node scripts/build-handoff-ui.js --check",
+    "mcp:ui:preview": "node packages/conclave-mcp/src/ui-preview.js",
+    "test:mcp:ui": "node scripts/test-handoff-ui.js",
     "test:mcp": "node scripts/test.js packages/conclave-mcp/test/transport.test.js"
   },
   "dependencies": {
@@ -33,7 +37,10 @@
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",
-    "@electric-sql/pglite-pgvector": "^0.0.9"
+    "@electric-sql/pglite-pgvector": "^0.0.9",
+    "@modelcontextprotocol/ext-apps": "1.7.5",
+    "@playwright/test": "1.63.0",
+    "esbuild": "0.28.2"
   },
   "main": "./src/index.js",
   "exports": {

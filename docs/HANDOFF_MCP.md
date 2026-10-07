@@ -36,10 +36,19 @@ It references this checkout with absolute paths and is not portable to another m
 - `get_handoff({handoff_id? OR title?, revision?, focus?, max_characters?})`: retrieves the latest or requested immutable version. Duplicate exact titles produce an ambiguity error. Focus selects whole matching context paragraphs and preserves every other packet section. The response reports omitted context, latest/saved revisions, provenance, and the original hash. No constraints are silently clipped; capacity failure requires a larger allowance or more focused context.
 - `list_handoff_versions({handoff_id, limit?, offset?})`: newest-first metadata, hashes, and previous-event links, with 1–20 items per page. The hosted adapter uses the same verified-owner boundary as packet retrieval.
 - `compare_handoff_versions({handoff_id, from_revision, to_revision?, max_characters?})`: exact before/after values for every changed packet field, defaulting to latest as the target. Removed constraints/questions are explicit. Returns both original packet hashes; identical content returns an empty change list. Comparison capacity failures never clip a field. Both tools are read-only and require only `handoffs:read` in hosted connections.
+- `open_handoff_library({handoff_id? OR query?, offset?})`: a separate read-only display tool. Returns `{view,query,offset,data}` containing either the latest complete packet or ten catalog entries. Compatible hosts can render the linked MCP Apps resource; headless clients still receive structured/text data. Error results use the same envelope with `view:"error"` and `{error,message}` data so SDK output validation succeeds.
 
 Packet fields: required `title` and `summary`; optional `objective`, `context`, arrays of `decisions`, `constraints`, `open_questions`, `next_steps`, `{label,url}` references, `source_app`, and `source_model`. Total packet JSON is limited to 64 KB. URLs are references only; the server never fetches them. Credentials in URLs and non-HTTP(S) schemes are rejected. The model's text may still contain confidential information, so explicit handoff creation is the sharing boundary.
 
 MCP annotations mark retrieval as read-only and saving as a write. Results have text plus structured content. Known input/conflict/ambiguity/capacity errors are returned explicitly; unexpected exceptions receive a generic message without paths or SQL details. No SDK logging is sent to stdio stdout.
+
+## Optional MCP Apps UI
+
+The display tool references a content-addressed `ui://` resource with MIME type `text/html;profile=mcp-app`. Data tools do not launch it. The static HTML is built with the official MCP Apps SDK, declares no external connection/resource/frame domains, and contains no account data. Owner/scope checks remain on the existing authenticated tool connection; UI metadata is not authorization. Saving is model-only for this read-only UI.
+
+`npm run mcp:ui:build` regenerates the committed resource; `mcp:ui:check` verifies it matches source. `npm run test:mcp:ui` checks the compiled app against a synthetic SDK-backed host, and `mcp:ui:preview` runs that local demonstration on port 3214. The preview uses no real storage or credentials and must not be deployed as the connector. Factory option `ui:false` omits the resource/display tool entirely.
+
+See [the development guide](PLUGIN_UI.md) for platform capabilities, design rules, optional extensions and remaining real-account verification, and [the user checklist](HANDOFF_SETUP.md#try-the-chat-ui) for simple preview instructions.
 
 ## Portable local handoff backups
 

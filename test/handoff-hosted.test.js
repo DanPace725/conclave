@@ -104,7 +104,7 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   const mcp = new Client({ name: 'handoff-pilot-a', version: '1' });
   t.after(() => mcp.close());
   await mcp.connect(new StreamableHTTPClientTransport(new URL(resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
-  assert.deepEqual((await mcp.listTools()).tools.map(x => x.name), ['save_handoff', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions']);
+  assert.deepEqual((await mcp.listTools()).tools.map(x => x.name), ['save_handoff', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']);
   const saved = (await mcp.callTool({ name: 'save_handoff', arguments: { packet, request_id: 'http-save' } })).structuredContent;
   assert.ok(saved.handoff_id);
   app = createHostedHandoffApp(options);
@@ -174,12 +174,15 @@ test('read-only MCP connection cannot discover or invoke a save tool', async t =
   t.after(() => mcp.close());
   await mcp.connect(new StreamableHTTPClientTransport(new URL(provider.resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
   const tools = (await mcp.listTools()).tools;
-  assert.deepEqual(tools.map(x => x.name), ['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions']);
+  assert.deepEqual(tools.map(x => x.name), ['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']);
   for (const tool of tools) {
     assert.equal(tool.annotations.readOnlyHint, true);
     assert.deepEqual(tool._meta.securitySchemes, [{ type: 'oauth2', scopes: ['handoffs:read'] }]);
   }
   const existing = await new HandoffRepository(pool, 'bob').save({ packet, request_id: 'readonly-existing' });
+  const browser = await mcp.callTool({ name: 'open_handoff_library', arguments: { handoff_id: existing.handoff_id } });
+  assert.equal(browser.isError, undefined);
+  assert.equal(browser.structuredContent.data.handoff_id, existing.handoff_id);
   const history = await mcp.callTool({ name: 'list_handoff_versions', arguments: { handoff_id: existing.handoff_id } });
   assert.equal(history.structuredContent.revisions[0].sha256, existing.sha256);
   const compared = await mcp.callTool({ name: 'compare_handoff_versions', arguments: { handoff_id: existing.handoff_id, from_revision: 1 } });
