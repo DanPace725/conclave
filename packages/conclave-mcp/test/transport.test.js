@@ -31,7 +31,7 @@ test('independent stdio clients save, restart, find and retrieve the same durabl
   let saved;
   try {
     const tools = (await first.listTools()).tools;
-    assert.deepEqual(tools.map(tool => tool.name), ['save_handoff', 'find_handoffs', 'get_handoff']);
+    assert.deepEqual(tools.map(tool => tool.name), ['save_handoff', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions']);
     assert.equal(tools.find(tool => tool.name === 'save_handoff').annotations.readOnlyHint, false);
     assert.equal(tools.find(tool => tool.name === 'get_handoff').annotations.readOnlyHint, true);
     saved = decode(await first.callTool({ name: 'save_handoff', arguments: input }));
@@ -45,6 +45,13 @@ test('independent stdio clients save, restart, find and retrieve the same durabl
     assert.deepEqual(pulled.packet.constraints, ['Preserve the original diagram.']);
     assert.equal(pulled.packet.source_app, 'app-a');
     assert.equal(pulled.provenance.author_claims_verified, false);
+    const history = decode(await second.callTool({ name: 'list_handoff_versions', arguments: { handoff_id: saved.handoff_id } }));
+    assert.equal(history.revisions[0].sha256, saved.sha256);
+    const updated = decode(await second.callTool({ name: 'save_handoff', arguments: { ...input, request_id: 'cross-app-update',
+      handoff_id: saved.handoff_id, expected_revision: 1, packet: { ...input.packet, constraints: [] } } }));
+    assert.equal(updated.revision, 2);
+    const compared = decode(await second.callTool({ name: 'compare_handoff_versions', arguments: { handoff_id: saved.handoff_id, from_revision: 1 } }));
+    assert.deepEqual(compared.changes.find(x => x.field === 'constraints'), { field: 'constraints', before: input.packet.constraints, after: [] });
     assert.equal(decode(await second.callTool({ name: 'save_handoff', arguments: input })).replayed, true);
     const missing = await second.callTool({ name: 'get_handoff', arguments: { handoff_id: 'conv_missing' } });
     assert.equal(missing.isError, true);

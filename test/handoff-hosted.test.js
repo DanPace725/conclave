@@ -38,9 +38,13 @@ test('hosted packets survive repository restart, owner isolation and concurrent 
   assert.equal((await new HandoffRepository(pool, 'alice').get({ handoff_id: id })).sha256, receipts[0].sha256);
   assert.equal((await b.find()).total, 0);
   await assert.rejects(b.get({ handoff_id: id }), { code: 'not_found' });
+  await assert.rejects(b.history({ handoff_id: id }), { code: 'not_found' });
+  await assert.rejects(b.compare({ handoff_id: id, from_revision: 1 }), { code: 'not_found' });
   await assert.rejects(b.save({ ...input, handoff_id: id, expected_revision: 1 }), { code: 'not_found' });
   const updated = await a.save({ packet: { ...packet, summary: 'New decision' }, request_id: 'update-1', handoff_id: id, expected_revision: 1 });
   assert.equal(updated.revision, 2);
+  assert.equal((await a.history({ handoff_id: id })).revisions[0].revision, 2);
+  assert.deepEqual((await a.compare({ handoff_id: id, from_revision: 1 })).changes, [{ field: 'summary', before: packet.summary, after: 'New decision' }]);
   assert.equal((await new HandoffRepository(pool, 'alice').get({ handoff_id: id, revision: 1 })).packet.summary, packet.summary);
   await assert.rejects(a.save({ packet, request_id: 'stale', handoff_id: id, expected_revision: 1 }), { code: 'conflict' });
   await assert.rejects(pool.query('UPDATE app.handoff_events SET data=data WHERE owner_id=$1', ['alice']), /append-only/);
@@ -100,7 +104,7 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   const mcp = new Client({ name: 'handoff-pilot-a', version: '1' });
   t.after(() => mcp.close());
   await mcp.connect(new StreamableHTTPClientTransport(new URL(resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
-  assert.deepEqual((await mcp.listTools()).tools.map(x => x.name), ['save_handoff', 'find_handoffs', 'get_handoff']);
+  assert.deepEqual((await mcp.listTools()).tools.map(x => x.name), ['save_handoff', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions']);
   const saved = (await mcp.callTool({ name: 'save_handoff', arguments: { packet, request_id: 'http-save' } })).structuredContent;
   assert.ok(saved.handoff_id);
   app = createHostedHandoffApp(options);
@@ -169,11 +173,21 @@ test('read-only MCP connection cannot discover or invoke a save tool', async t =
   const mcp = new Client({ name: 'readonly', version: '1' });
   t.after(() => mcp.close());
   await mcp.connect(new StreamableHTTPClientTransport(new URL(provider.resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
-  assert.deepEqual((await mcp.listTools()).tools.map(x => x.name), ['find_handoffs', 'get_handoff']);
+  const tools = (await mcp.listTools()).tools;
+  assert.deepEqual(tools.map(x => x.name), ['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions']);
+  for (const tool of tools) {
+    assert.equal(tool.annotations.readOnlyHint, true);
+    assert.deepEqual(tool._meta.securitySchemes, [{ type: 'oauth2', scopes: ['handoffs:read'] }]);
+  }
+  const existing = await new HandoffRepository(pool, 'bob').save({ packet, request_id: 'readonly-existing' });
+  const history = await mcp.callTool({ name: 'list_handoff_versions', arguments: { handoff_id: existing.handoff_id } });
+  assert.equal(history.structuredContent.revisions[0].sha256, existing.sha256);
+  const compared = await mcp.callTool({ name: 'compare_handoff_versions', arguments: { handoff_id: existing.handoff_id, from_revision: 1 } });
+  assert.equal(compared.structuredContent.identical, true);
   const blocked = await mcp.callTool({ name: 'save_handoff', arguments: { packet, request_id: 'blocked' } });
   assert.equal(blocked.isError, true);
   assert.match(blocked.content[0].text, /not found/);
-  assert.equal((await new HandoffRepository(pool, 'bob').find()).total, 0);
+  assert.equal((await new HandoffRepository(pool, 'bob').find()).total, 1);
 });
 
 test('hosted storage cap preserves identical retry receipts and refuses new writes atomically', async t => {

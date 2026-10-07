@@ -10,6 +10,8 @@ The goal is simple: ask an app to save a handoff in Conclave, then ask another a
 - [x] Tools to save, find, and retrieve named handoff packets.
 - [x] Saved packets stay available after the server restarts.
 - [x] Updates keep the earlier versions and prevent accidental overwrites.
+- [x] Tools to browse earlier versions and show exactly what changed.
+- [x] Local backup, inspection, and restore commands, including a check before saving.
 - [x] A local server and the required software installed in this checkout.
 - [x] A password-protected local HTTP connection for development.
 - [x] Example connection files for this computer, generated inside `.conclave/mcp-config/`.
@@ -36,7 +38,7 @@ If you want to try a local app now:
 1. Pick a local app that supports MCP, such as Claude Desktop, Gemini CLI, Cursor, or VS Code.
 2. Use the matching example file from `.conclave/mcp-config/` in this Conclave checkout. These files contain the correct paths for this computer and no passwords.
 3. Add the `conclave` entry to that app's MCP configuration. Keep any other entries already in your settings. I have not changed your app settings.
-4. Restart or reconnect the app. Check that `save_handoff`, `find_handoffs`, and `get_handoff` appear.
+4. Restart or reconnect the app. Check that `save_handoff`, `find_handoffs`, `get_handoff`, `list_handoff_versions`, and `compare_handoff_versions` appear.
 5. Ask: **“Use Conclave to save a handoff called ‘My first handoff’. Include our objective, decisions, constraints, open questions, and next steps.”**
 6. Keep the ID the app returns. In another connected local app or a fresh conversation, ask: **“Use Conclave to retrieve handoff [paste ID] and continue from it.”**
 
@@ -54,7 +56,74 @@ If you use Gemini CLI, there is also a generated local extension folder at `.con
 - [ ] **Confirm the pilot account.** Use the same Converse sign-in account from both apps. Your allowed email list controls who can connect. The ChatGPT and Claude accounts themselves can have different email addresses; the Converse account you choose during each permission flow must match.
 - [ ] **Enable custom apps if your workspace requires it.** A workspace administrator may need to enable developer mode or custom connectors.
 
+## When you are back at your PC
+
+You can leave the hosting decision open while trying the local connection. The order for the online setup is:
+
+1. Choose whether Conclave gets its own Vercel project or starts inside Converse. The options below explain the remaining work for each.
+2. Reset the exposed database password and session secret using the steps above, and check the Vercel usage warning.
+3. Pick the account you will use to sign in to Conclave from every app.
+4. Once the chosen server is deployed and checked, follow the ChatGPT and Claude installation steps below and test one handoff between them.
+
+Your remaining hosting decision and account setup do not stop the local engine work. The new history tools and backup commands have been tested locally. A separate Conclave sign-in page, live deployment, database migration, and real account tests remain unfinished.
+
+## See earlier versions and what changed
+
+After updating the local server, reconnect it in your app. For an online connection that already exists, refresh its tools after deploying an update. Conclave now offers five tools: the original save, find, and retrieve tools, plus `list_handoff_versions` and `compare_handoff_versions`.
+
+- Ask: **“Use Conclave to list the earlier versions of handoff [ID].”** The list shows the newest versions first; the model can request another page.
+- Ask: **“Use Conclave to compare version 1 of handoff [ID] with its latest version. Show changed constraints and questions.”** The result includes the exact earlier and later text, including removed items.
+- Ask: **“Retrieve version 1 of that handoff.”** Reading an older version leaves the current version untouched. To reuse earlier content, read the current version and explicitly save a new update.
+
+Comparisons do not make an extra model call inside Conclave. They show stored text changes and do not decide which version is factually correct.
+
+## Back up a local handoff
+
+These commands run from `E:\Coding\converse\CLA\conclave`. They operate on this computer's local handoff storage; they do not download the online account or copy chats, app permissions, or credentials.
+
+1. Ask your connected local app to find the handoff and give you its ID.
+2. Save every version of that handoff to a new file:
+
+   ```powershell
+   npm run mcp:backup -- export conv_REPLACE_WITH_ID .\my-handoff-backup.json
+   ```
+
+3. Check the file before importing it:
+
+   ```powershell
+   npm run mcp:backup -- inspect .\my-handoff-backup.json
+   npm run mcp:backup -- import .\my-handoff-backup.json --dry-run
+   ```
+
+4. To restore it into your current local storage:
+
+   ```powershell
+   npm run mcp:backup -- import .\my-handoff-backup.json
+   ```
+
+   To restore into a different local directory, set `$env:CONCLAVE_HANDOFF_DATA` to that directory before running the import. Point your local MCP clients at the same directory to use those restored packets.
+
+Restore creates a new handoff ID and keeps all included versions. Reimporting the identical backup returns the same imported handoff without duplicating it, even if you later updated that copy. A failed restore rolls back the whole operation. The export command refuses to overwrite an existing file; use a new filename for the next backup.
+
+**Keep backup files private.** They contain readable packet text, including older versions and removed details. Checksums detect damaged or changed data; they do not prove who wrote it. Imported source labels remain unverified. A backup is limited to 1,000 versions and 8 MiB; a larger handoff fails explicitly instead of exporting an incomplete copy. This is a handoff backup, not a complete Conclave database backup or automatic local-to-online sync.
+
 ## Putting the server online
+
+### Recommended option: a separate Conclave project
+
+A dedicated Conclave Vercel project would give all connected apps one stable server address and let us update Conclave independently of Converse. This is a recommendation under discussion; no separate project or deployment has been created. The existing-project instructions below describe the implementation currently prepared.
+
+The setup work for this option is:
+
+1. Add a standalone hosting entry point in the Conclave source repository, reusing the handoff tools, storage, and app permissions already built.
+2. Give Conclave its own sign-in and return page using the existing identity provider. The current permission page relies on Converse's sign-in on the same website, so moving the server requires this adjustment.
+3. Start with the existing Neon database and its account-owned handoff tables. A separate website does not require a second database; keep the same verified account identity when connecting from different apps.
+4. Create a separate Vercel project, configure its database and sign-in settings, and verify a stable HTTPS address. Enter that same address ending in `/mcp` in every connector.
+5. Test saving in one real app and retrieving in another before treating the deployment as ready.
+
+A second project on the same Vercel team will not provide a fresh team usage allowance. The existing “Exceeded free resources” warning still needs checking. See [Vercel's team usage guidance](https://vercel.com/docs/pricing/manage-and-optimize-usage). Vercel supports deploying the [Express server framework](https://vercel.com/docs/frameworks/backend/express) used by the hosted implementation.
+
+### Existing Converse project option
 
 This is the prepared developer sequence. Browser hosting access is verified; the credential rotation and usage check above remain before the live pilot. You do not need to create a second hosting project or a second database for the implementation.
 

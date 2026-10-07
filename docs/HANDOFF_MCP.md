@@ -34,10 +34,22 @@ It references this checkout with absolute paths and is not portable to another m
 - `save_handoff({packet, request_id, handoff_id?, expected_revision?})`: creates or updates a packet and returns its ID, version, hash, and source event. Use one stable request ID per intended save; an identical retry returns its original receipt, while changed content with the same request ID fails. Updating requires the current revision.
 - `find_handoffs({query?, limit?, offset?})`: deterministic keyword discovery over packet data, with title weighting and paginated metadata. Search is not semantic relevance or factual verification.
 - `get_handoff({handoff_id? OR title?, revision?, focus?, max_characters?})`: retrieves the latest or requested immutable version. Duplicate exact titles produce an ambiguity error. Focus selects whole matching context paragraphs and preserves every other packet section. The response reports omitted context, latest/saved revisions, provenance, and the original hash. No constraints are silently clipped; capacity failure requires a larger allowance or more focused context.
+- `list_handoff_versions({handoff_id, limit?, offset?})`: newest-first metadata, hashes, and previous-event links, with 1–20 items per page. The hosted adapter uses the same verified-owner boundary as packet retrieval.
+- `compare_handoff_versions({handoff_id, from_revision, to_revision?, max_characters?})`: exact before/after values for every changed packet field, defaulting to latest as the target. Removed constraints/questions are explicit. Returns both original packet hashes; identical content returns an empty change list. Comparison capacity failures never clip a field. Both tools are read-only and require only `handoffs:read` in hosted connections.
 
 Packet fields: required `title` and `summary`; optional `objective`, `context`, arrays of `decisions`, `constraints`, `open_questions`, `next_steps`, `{label,url}` references, `source_app`, and `source_model`. Total packet JSON is limited to 64 KB. URLs are references only; the server never fetches them. Credentials in URLs and non-HTTP(S) schemes are rejected. The model's text may still contain confidential information, so explicit handoff creation is the sharing boundary.
 
 MCP annotations mark retrieval as read-only and saving as a write. Results have text plus structured content. Known input/conflict/ambiguity/capacity errors are returned explicitly; unexpected exceptions receive a generic message without paths or SQL details. No SDK logging is sent to stdio stdout.
+
+## Portable local handoff backups
+
+`npm run mcp:backup -- export HANDOFF_ID FILE`, `inspect FILE`, and `import FILE [--dry-run]` operate on local `CONCLAVE_HANDOFF_DATA` or the launcher's default handoff directory. Export uses a consistent SQLite transaction, includes all immutable revisions, and refuses overwriting an existing output file. Inspection/dry-run validate without opening a destination store. Import validates all fields, contiguous revisions, timestamps, canonical normalized SHA-256 packet checksums and limits before a single atomic write transaction.
+
+Format `conclave-handoff`, schema version 1: `{format,schema_version,exported_at,source_handoff_id,revisions:[{revision,saved_at,sha256,packet}]}`. Limits: 8 MiB and 1–1,000 complete revisions. No user-supplied owners, actors, authority metadata or OAuth records are accepted. Packet source labels remain reported claims. Checksums establish consistency, not authenticity.
+
+Import assigns fresh conversation/event IDs and current local event timestamps, preserves packet hashes/content/version order, and records claimed source IDs/revisions/timestamps in `provenance.imported_from` with `claims_verified:false`. It never promotes external data to human memory. A canonical digest of source ID and revisions deduplicates identical imports across retries/restarts; export time is excluded. Reimport after later edits returns the original import receipt and does not overwrite those edits. Storage failure rolls back every imported event. The utility does not synchronize hosted storage, restore ordinary conversations, or erase retained data. See [plain-language commands](HANDOFF_SETUP.md#back-up-a-local-handoff).
+
+The read tool contract follows the [implemented MCP revision's tool specification](https://modelcontextprotocol.io/specification/2025-11-25/server/tools). Client tool discovery and read-only annotations are tested through the installed SDK, not inferred from directory availability.
 
 ## Private local HTTP
 

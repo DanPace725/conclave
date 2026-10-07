@@ -18,6 +18,7 @@
     "mcp": "node packages/conclave-mcp/src/stdio.js",
     "mcp:serve": "node packages/conclave-mcp/src/http.js",
     "mcp:configs": "node packages/conclave-mcp/src/write-configs.js",
+    "mcp:backup": "node packages/conclave-mcp/src/backup.js",
     "test:mcp": "node scripts/test.js packages/conclave-mcp/test/transport.test.js"
   },
   "dependencies": {

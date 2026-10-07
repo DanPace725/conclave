@@ -94,3 +94,30 @@ test('capacity and invalid arguments fail before mutation or silent loss of bind
   assert.throws(() => service.get({ handoff_id: saved.handoff_id, title: 'Conclave launch' }));
   assert.throws(() => service.get({ handoff_id: saved.handoff_id, revision: 0 }));
 }));
+
+test('version history pages newest first and comparisons expose changed and removed binding fields', () => fixture(service => {
+  const saved = service.save(request('history-1'));
+  service.save(request('history-2', { constraints: ['Keep the fee under $25.'], open_questions: [], summary: 'Budget corrected.' },
+    { handoff_id: saved.handoff_id, expected_revision: 1 }));
+  const first = service.history({ handoff_id: saved.handoff_id, limit: 1 });
+  assert.equal(first.revisions[0].revision, 2); assert.equal(first.total, 2); assert.equal(first.next_offset, 1);
+  const older = service.history({ handoff_id: saved.handoff_id, limit: 1, offset: first.next_offset });
+  assert.equal(older.revisions[0].sha256, saved.sha256); assert.equal(older.next_offset, null);
+  assert.equal(first.revisions[0].previous_event_id, older.revisions[0].event_id);
+  const diff = service.compare({ handoff_id: saved.handoff_id, from_revision: 1 });
+  assert.equal(diff.to_revision, 2); assert.equal(diff.from_sha256, saved.sha256);
+  assert.deepEqual(diff.changes.find(x => x.field === 'constraints'), { field: 'constraints', before: ['Keep the fee under $40.'], after: ['Keep the fee under $25.'] });
+  assert.deepEqual(diff.changes.find(x => x.field === 'open_questions').after, []);
+  assert.equal(diff.changes.some(x => x.field === 'decisions'), false);
+  assert.equal(service.compare({ handoff_id: saved.handoff_id, from_revision: 1, to_revision: 1 }).identical, true);
+  assert.throws(() => service.compare({ handoff_id: saved.handoff_id, from_revision: 3 }), { code: 'not_found' });
+  assert.throws(() => service.history({ handoff_id: 'conv_absent' }), { code: 'not_found' });
+  assert.throws(() => service.history({ handoff_id: saved.handoff_id, limit: 21 }), { code: 'invalid_input' });
+}));
+
+test('comparison capacity fails without clipping the original or replacement constraints', () => fixture(service => {
+  const saved = service.save(request('compare-large-1', { constraints: ['A'.repeat(1900)] }));
+  service.save(request('compare-large-2', { constraints: ['B'.repeat(1900)] }, { handoff_id: saved.handoff_id, expected_revision: 1 }));
+  assert.throws(() => service.compare({ handoff_id: saved.handoff_id, from_revision: 1, max_characters: 2000 }), { code: 'capacity' });
+  assert.equal(service.compare({ handoff_id: saved.handoff_id, from_revision: 1 }).changes[0].before[0].length, 1900);
+}));
