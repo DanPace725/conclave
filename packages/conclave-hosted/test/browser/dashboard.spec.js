@@ -39,6 +39,21 @@ test('search, paging, full packets, exact changes, older revisions and export', 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
+test('project chips filter the list by the exact reported name', async ({ page }) => {
+  await page.goto('/dashboard');
+  await page.getByRole('button', { name: 'Demo project · 5', exact: true }).click();
+  await expect(page.getByText('1–5 of 5 · project Demo project · most recently saved first')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Demo project · 5', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#handoffs button[data-id]')).toHaveCount(5);
+  await page.getByLabel('Search names, apps, or keywords').fill('Dashboard planning');
+  await page.getByLabel('Search names, apps, or keywords').press('Enter');
+  await expect(page.getByText('No matches. Try another name, app, or keyword.')).toBeVisible();
+  await page.getByRole('button', { name: 'All', exact: true }).click();
+  await page.getByRole('button', { name: /Dashboard planning/ }).click();
+  await expect(page.locator('#detail .meta')).toContainText('Conclave dashboard');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
+
 test('empty results, inert packet text and clipboard fallback', async ({ page }) => {
   await page.goto('/dashboard');
   await page.getByLabel('Search names, apps, or keywords').fill('no-such-packet');

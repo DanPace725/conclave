@@ -57,10 +57,14 @@ test('dashboard serves an inert authenticated shell and enforces account, host, 
 });
 
 test('reads of one handoff by ID load only its events and match full-history reads', async t => {
-  const { pool } = await fixture(t), a = new HandoffRepository(pool, 'alice');
+  const { pool, request } = await fixture(t), a = new HandoffRepository(pool, 'alice');
   const saved = await a.save({ packet, request_id: 'first' }), id = saved.handoff_id;
   await a.save({ packet: { ...packet, constraints: [] }, handoff_id: id, expected_revision: 1, request_id: 'second' });
-  for (let i = 0; i < 3; i++) await a.save({ packet: { title: `Other ${i}`, summary: 'Unrelated' }, request_id: `other-${i}` });
+  for (let i = 0; i < 3; i++) await a.save({ packet: { title: `Other ${i}`, summary: 'Unrelated', ...(i ? {} : { project: 'Launch' }) }, request_id: `other-${i}` });
+  const grouped = await (await request('/dashboard/api/find?project=Launch')).json();
+  assert.deepEqual(grouped.handoffs.map(row => row.title), ['Other 0']); assert.deepEqual(grouped.projects, [{ name: 'Launch', handoffs: 1 }]);
+  assert.equal((await (await request('/dashboard/api/find?project=Launch', 'bob')).json()).total, 0);
+  assert.equal((await request('/dashboard/api/find?project=')).status, 400);
   const loaded = [], counting = { ...pool, query: async (sql, values) => {
     const result = await pool.query(sql, values); if (sql.includes('handoff_events')) loaded.push(result.rows.length); return result;
   } };

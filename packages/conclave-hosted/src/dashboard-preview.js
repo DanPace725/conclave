@@ -11,13 +11,13 @@ import { createHandoffDashboard } from '../../../src/handoff-dashboard.js';
 export async function startDashboardPreview({ port = 3226 } = {}) {
   const store = new Store(undefined, { memory: true }), service = new HandoffService(store);
   const packet = { title: 'Dashboard planning', summary: 'A shared place to see the work moving between apps.',
-    objective: 'Make saved project continuity visible.', source_app: 'ChatGPT', source_model: 'Sol (demo)',
+    objective: 'Make saved project continuity visible.', source_app: 'ChatGPT', source_model: 'Sol (demo)', project: 'Conclave dashboard',
     constraints: ['Keep source labels visible.', 'Ask before publishing.'], open_questions: ['Which default view?', 'How should projects be grouped?'],
     decisions: ['Start with recent handoffs.'], next_steps: ['Try this dashboard on desktop and a narrow screen.'],
     context: 'This is synthetic demo context.\n\nSaved packets are distinct from an app’s live memory.' };
   const first = service.save({ packet, request_id: 'dashboard-demo-first' });
   for (let i = 0; i < 11; i++) service.save({ packet: { title: i === 0 ? 'Literal <img src=x onerror="window.xss=true">' : `Demo workstream ${i + 1}`,
-    summary: 'Synthetic preview data.', source_app: i % 2 ? 'Claude' : 'Codex', constraints: ['Demo only.'] }, request_id: `dashboard-demo-${i}` });
+    summary: 'Synthetic preview data.', source_app: i % 2 ? 'Claude' : 'Codex', constraints: ['Demo only.'], ...(i % 2 ? { project: 'Demo project' } : {}) }, request_id: `dashboard-demo-${i}` });
   for (let i = 2; i <= 13; i++) service.save({ packet: { ...packet, summary: `Dashboard iteration ${i}. Synthetic preview data.`,
     constraints: ['Ask before publishing.'], open_questions: ['How should projects be grouped?'], source_app: i % 2 ? 'ChatGPT' : 'Claude' },
     handoff_id: first.handoff_id, expected_revision: i - 1, request_id: `dashboard-revision-${i}` });

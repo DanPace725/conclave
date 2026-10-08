@@ -17,6 +17,7 @@ Open `http://127.0.0.1:3226/dashboard`. The visible demo banner identifies synth
 ## What you can do
 
 - Browse recent handoffs, ten per page. Search names, source labels or saved packet keywords using the existing deterministic search. Search results retain the service's relevance order.
+- Filter the list by project. The chips are the exact project names apps reported when saving, each with its handoff count; a handoff's project also appears on its row and in its detail. The dashboard does not assign or rename projects.
 - Select a handoff without entering its ID. Keep the result list beside complete packet detail on desktop; on narrow screens the detail follows the list, selection scrolls it into view, and “All handoffs” returns to the list.
 - Read the objective, constraints, unresolved questions, decisions, next steps, context and references. Packet contents are exact text, including HTML-looking strings.
 - Inspect source app/model claims, selected and latest saved revision numbers, dates, packet hashes, event IDs and previous revision event IDs. Revision history loads when opened, with older/newer pages.
@@ -25,7 +26,7 @@ Open `http://127.0.0.1:3226/dashboard`. The visible demo banner identifies synth
 - Copy a continuation request for another connected app, or copy the handoff ID. If clipboard access fails, the text opens and is selected for manual copying. No message is sent to an app by these actions.
 - Export the currently selected complete revision as JSON with provenance, hash and completeness fields. This is a revision export, not a history backup or an importable bundle; use `mcp:backup` for supported local history backups.
 
-Source app and model labels are reported claims. A handoff records what was explicitly saved; it cannot establish what an app presently remembers. “Latest saved” identifies the latest revision returned by that read, not an agreed canonical project state. Related titles do not establish a shared project, and different packets do not establish a conflict.
+Source app and model labels are reported claims. A handoff records what was explicitly saved; it cannot establish what an app presently remembers. “Latest saved” identifies the latest revision returned by that read, not an agreed canonical project state. A project name is likewise a reported label: it groups packets that carry the same exact name and establishes nothing about agreed project state. Related titles do not establish a shared project, and different packets do not establish a conflict.
 
 ## Architecture
 
@@ -47,7 +48,7 @@ Opening a handoff by ID, its history and its comparisons load only that packet's
 
 Recent handoffs is the first default because it requires no inferred grouping or new data model. The following need separate design and implementation:
 
-1. **Projects:** introduce explicit project/workstream identifiers or user-approved grouping, with reversible links. Do not infer authoritative membership from matching titles.
+1. **Projects:** apps now report an optional exact project name when saving ([packet contract](HANDOFF_MCP.md#tool-contract)), and the dashboard filters by it. Moving a handoff is a new revision, so it is reversible and visible in history. Still open: assigning or renaming from the dashboard (its first write action), reconciling near-duplicate names, and a per-project overview. Do not infer authoritative membership from matching titles.
 2. **Canonical state and divergence:** define a named project's agreed state and any branch/parent relationships before displaying conflicts. Today's optimistic concurrency protects linear packet updates; it does not create a branch graph or merge separate packets.
 3. **Editing and conflict resolution:** preserve an unsaved draft, compare against the latest revision, and explicitly review a save using `expected_revision`. An optional paid agent-assisted merge must remain reviewable and must preserve removed constraints/questions in the saved history.
 4. **Timeline or graph:** build from explicit lineage and project links; a source label does not prove independent authorship, routing, or recall.
