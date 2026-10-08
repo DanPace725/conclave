@@ -22,16 +22,15 @@ Neon project `morning-sunset-04725595`, main branch `br-flat-truth-ar8qk60a`. Pr
 - Full source suite: 360 passed / one optional skip; syntax/resource checks passed.
 - Converse suite: 203 passed / one optional skip; syntax and 102-file engine parity passed. Manifest references runtime source `40128be`; later source commits are documentation only.
 - Public readiness 200; MCP unauthenticated 401 includes resource metadata with no read-only scope hint; metadata advertises read/write.
-- The user confirmed delivery of one explicitly authorized email code and subsequently reported overall ChatGPT/Claude integration working. Production grant metadata confirmed ChatGPT read/write and Claude read-only before the correction. No real packet was changed during scope diagnosis.
+- The user confirmed delivery of one explicitly authorized email code and subsequently tested ChatGPT and Claude. Read-only Neon inspection confirmed four durable revisions labeled ChatGPT → Claude → ChatGPT → Claude; the revision chain is valid, original constraint is preserved, and Claude's renewed grant includes read/write. No real packet or grant was changed during diagnosis. [Live account evidence](archive/2026-10-07/hosted-account-roundtrip.md).
 
-## Next acceptance check
+## Next session
 
-1. Disconnect/reconnect Conclave in Claude. Its Conclave consent page must say **read and save**. Existing grants retain their original scopes; refresh cannot expand them.
-2. Verify **Save a Conclave handoff** appears, then open a new Claude conversation.
-3. Retrieve a packet created in ChatGPT, read its current revision, save an update in Claude using that revision and a fresh request ID, and retrieve/compare the new version in ChatGPT.
-4. Record actual app results separately from HTTP/SDK fixtures. Do not silently expand stored grants or read OTPs. Sending another real email requires authorization for that request.
+The hosted ChatGPT/Claude update round trip is now accepted through the user test plus live database evidence. The earlier Claude reconnect/write check is complete. If the owner wants to continue the same packet, its ID is available in this task history; do not publish packet content into Git.
 
-After acceptance, prioritize hosted extensibility and simple distribution. Public directory submission, additional provider compatibility, hosted import, expired-record cleanup, retention and broader abuse controls remain future work. Local packets and hosted packets are separate stores.
+Prioritize a simple hosted release and extensibility. Before broader distribution, check actual app reconnection/revocation and restart/redeploy recovery, then decide the next provider and operational improvements. Keep evidence distinct from fixture coverage, and do not silently expand stored grants or read OTPs. Sending another real email requires authorization for that request.
+
+Prioritize hosted extensibility and simple distribution. Public directory submission, additional provider compatibility, hosted import, expired-record cleanup, retention and broader abuse controls remain future work. Local packets and hosted packets are separate stores.
 
 ## Workflow and cleanup
 
