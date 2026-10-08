@@ -4,6 +4,8 @@ Updated October 7, 2026 (the rollout and commits occur on October 8 UTC).
 
 ## Start here
 
+Current dashboard work is on `codex/conclave-dashboard` in both repositories. Conclave release `28cd797` is deployed and commit-pinned on the same Railway service (SUCCESS `f8051a5a-60d3-4c13-94c6-06fb7709a00f`); ten public checks and browser sign-in redirection pass. Real signed-in packet acceptance is pending. Draft PRs #10 (source) and #27 (snapshot) target the hosted branches. The older state below describes the pilot preceding this release. Use [dashboard release evidence](archive/2026-10-07/dashboard-railway-release.md) and [the release guide](DASHBOARD_RELEASE.md) for current dashboard work; distinguish later documentation commits from the pinned deployed SHA.
+
 Hosted progress packet: `conv_dbf6967e-b36c-4200-8489-cff38c5d4eca` (**Conclave hosted progress log**). Retrieve its latest revision through the hosted Conclave plugin at the start of a session. Both repository AGENTS files require an update after verified authorized pushes, using revision checks and retry-safe request IDs. This is an explicit project-progress log; local packets remain separate.
 
 Conclave is becoming an independent cross-app continuity service. Prioritize hosted ChatGPT/Claude interoperability and extensibility; local development is secondary. Keep Converse's existing integration and production configuration intact. The hosted service uses its own Neon database/Auth and Railway runtime; no model API keys are needed for handoff tools.
