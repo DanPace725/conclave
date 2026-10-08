@@ -4,6 +4,8 @@ Use the existing independent Conclave Railway service. The dashboard runs in the
 
 ## Inspected configuration
 
+October 8, 2026: the user requested automatic deployment from `codex/conclave-dashboard`. The exact commit pin was removed from the production service; Railway now follows pushes to that branch. Repository, environment, domain, start/pre-deploy commands, Neon configuration and account permissions remain the same. Deployment `3a2c5029-1d16-4a64-97ab-45631410e4c5` reached SUCCESS at branch head `f0e5e2d`; ten public release checks passed. Inspect each future deployment's status and SHA before treating a push as live. The initial pinned dashboard release below is historical.
+
 Read-only Railway inspection on October 7, 2026 confirmed one service and one production environment, with no preview environment or staged changes:
 
 - Project: `8414b456-9878-4fb0-b0ec-40d0a9364aa7` (Conclave).
@@ -21,7 +23,7 @@ The Dockerfile copies `src/` (including all dashboard assets) and the hosted pac
 
 1. Inspect clean local source and snapshot state, the intended delta, and existing tests. Dashboard implementation has passed the source suite, focused signed-session/owner-isolation tests and desktop/narrow browser cases. Confirm migration parity and Converse checks.
 2. Publish `codex/conclave-dashboard` in both repositories and verify their remote SHAs. Open review PRs against the matching hosted branches so the dashboard increment is isolated from earlier hosted work. Attach each created PR to the Codex task.
-3. Get the environment's staged changes. Stage only Conclave's GitHub source in this environment, pinned to the published, tested source commit. Re-read the staged diff and verify no variables, domains, volumes, unrelated services or database settings are changing. Explicit user approval for publishing/deploying is required; automatic approval review rejected the initial push because the request did not expressly authorize publication.
+3. For ordinary releases, push the validated source commit to `codex/conclave-dashboard`; automatic deployment is enabled. Before changing Railway source configuration, inspect the environment's staged changes and stage only the intended source delta. Use an exact commit pin only when deliberately suspending branch-following deploys. Re-read the staged diff and verify no variables, domains, volumes, unrelated services or database settings are changing. The user explicitly authorized publication/deployment and subsequently automatic deployment from this branch.
 4. Apply the reviewed source change. Confirm the new deployment reaches SUCCESS and its `commitHash` matches the intended source SHA. Keep the prior successful deployment ID for rollback. Do not count Git publication as deployment.
 5. Run the public release checks:
 
@@ -37,7 +39,7 @@ The Dockerfile copies `src/` (including all dashboard assets) and the hosted pac
 
 If the new build fails to become healthy, check whether Railway retained the previous live deployment before taking further action. For a successful deployment that has a regression, redeploy the prior successful build `52deb270-d20a-471d-9f17-da6db6c7abe8` in the same service/environment and verify readiness and the MCP challenge again. This uses the existing database; do not restore or erase packet history.
 
-Also reconcile the configured source pin to the accepted release or rollback commit so a later deploy does not unexpectedly reintroduce the rejected build. Preserve the domain, account secrets, Neon configuration, OAuth grants and Converse deployment settings. Do not automatically repeat a failed deployment or resend email codes.
+When rolling back, deliberately pin the source to the accepted rollback commit to suspend automatic deployment, or revert the offending change on the followed branch and verify the resulting deployment. An old-build redeploy alone does not prevent the next branch push from replacing it. Preserve the domain, account secrets, Neon configuration, OAuth grants and Converse deployment settings. Do not automatically repeat a failed deployment or resend email codes.
 
 ## Deferred work
 

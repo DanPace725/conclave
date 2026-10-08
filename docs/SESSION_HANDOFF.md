@@ -1,8 +1,10 @@
 # Hosted Conclave session handoff
 
-Updated October 7, 2026 (the rollout and commits occur on October 8 UTC).
+Updated October 8, 2026.
 
 ## Start here
+
+October 8 update: the user explicitly requested automatic deployment. Production now follows `codex/conclave-dashboard` without a commit pin. Deployment `3a2c5029-1d16-4a64-97ab-45631410e4c5` successfully released `f0e5e2d`, including the previously undeployed changes below; ten public release checks passed. The next source push will deploy automatically. The pinned `28cd797` release and previous permission limitation below are historical. Real signed-in dashboard testing remains deferred. See [automatic-deploy evidence](archive/2026-10-08/railway-auto-deploy.md).
 
 Current dashboard work is on `codex/conclave-dashboard` in both repositories. Conclave release `28cd797` is deployed and commit-pinned on the same Railway service (SUCCESS `f8051a5a-60d3-4c13-94c6-06fb7709a00f`); ten public checks and browser sign-in redirection pass. Real signed-in packet acceptance is pending. Draft PRs #10 (source) and #27 (snapshot) target the hosted branches. The older state below describes the pilot preceding this release. Use [dashboard release evidence](archive/2026-10-07/dashboard-railway-release.md) and [the release guide](DASHBOARD_RELEASE.md) for current dashboard work; distinguish later documentation commits from the pinned deployed SHA.
 
