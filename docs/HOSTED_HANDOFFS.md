@@ -35,6 +35,8 @@ The independent migration adds only handoff events, OAuth records and lock rows,
 
 Conclave's browser login is separate from each AI app's OAuth grant. Sign in at the root in the tab opened by consent, then return to the consent page and continue. Signing out of the website keeps app grants active. Use [Connections](https://conclave-mcp-production.up.railway.app/connect) to revoke an individual app.
 
+If an old approval page stays visible or reports that the submission expired, start a fresh Connect attempt from the AI app and approve once. A browser callback-policy issue was corrected on October 7; an earlier accepted request cannot be resubmitted. Login forms remain self-only, while each consent form permits only its validated callback origin. See the [callback correction and browser evidence](archive/2026-10-07/hosted-consent-callback-fix.md).
+
 ## Acceptance check in your accounts
 
 In ChatGPT, ask:
