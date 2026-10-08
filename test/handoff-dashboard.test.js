@@ -56,6 +56,26 @@ test('dashboard serves an inert authenticated shell and enforces account, host, 
   assert.equal((await a.history({ handoff_id: saved.handoff_id })).total, 1);
 });
 
+test('reads of one handoff by ID load only its events and match full-history reads', async t => {
+  const { pool } = await fixture(t), a = new HandoffRepository(pool, 'alice');
+  const saved = await a.save({ packet, request_id: 'first' }), id = saved.handoff_id;
+  await a.save({ packet: { ...packet, constraints: [] }, handoff_id: id, expected_revision: 1, request_id: 'second' });
+  for (let i = 0; i < 3; i++) await a.save({ packet: { title: `Other ${i}`, summary: 'Unrelated' }, request_id: `other-${i}` });
+  const loaded = [], counting = { ...pool, query: async (sql, values) => {
+    const result = await pool.query(sql, values); if (sql.includes('handoff_events')) loaded.push(result.rows.length); return result;
+  } };
+  const scoped = new HandoffRepository(counting, 'alice');
+  const byId = await scoped.get({ handoff_id: id }), byTitle = await scoped.get({ title: packet.title });
+  assert.deepEqual(byId, byTitle); assert.equal(byId.latest_revision, 2);
+  assert.equal((await scoped.history({ handoff_id: id })).total, 2);
+  assert.deepEqual((await scoped.compare({ handoff_id: id, from_revision: 1 })).changes.map(c => c.field), ['constraints']);
+  assert.equal((await scoped.find({})).total, 4);
+  // One conversation event plus two revisions for this packet; nine events in the account.
+  assert.deepEqual(loaded, [3, 9, 3, 3, 9]);
+  await assert.rejects(new HandoffRepository(counting, 'bob').get({ handoff_id: id }), { code: 'not_found' });
+  await assert.rejects(scoped.get({ handoff_id: 'conv_missing' }), { code: 'not_found' });
+});
+
 test('dashboard reads complete immutable versions, exact removals and paginated metadata without accepting owner overrides', async t => {
   const { pool, db, request } = await fixture(t), a = new HandoffRepository(pool, 'alice');
   const saved = await a.save({ packet, request_id: 'first' });

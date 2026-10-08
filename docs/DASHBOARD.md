@@ -41,7 +41,7 @@ Source app and model labels are reported claims. A handoff records what was expl
 
 The hosted package mounts this shared adapter. Source and resources are migrated to Converse for engine parity, but this increment does not add a dashboard route to Converse's chat app. The MCP widget remains a separate presentation over the same packet primitives.
 
-The repository currently reconstructs an account's bounded pilot event history for reads. Ten displayed rows do not imply ten database rows fetched. The 2,000-event pilot bound and response bounds remain explicit; scalable indexed projections are follow-up work.
+Opening a handoff by ID, its history and its comparisons load only that packet's events. Discovery, search, exact-title lookup and saves still reconstruct the account's bounded pilot event history, so ten displayed rows do not imply ten database rows fetched. The 2,000-event pilot bound and response bounds remain explicit. An expression index on the packet ID and an indexed list projection are follow-up work that needs a hosted migration.
 
 ## Remaining product decisions
 
