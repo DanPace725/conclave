@@ -2,6 +2,8 @@
 
 The first dashboard is a standalone browser surface at `/dashboard` in the independent Conclave hosted service. It uses the existing Conclave browser sign-in. The signed-in account page links to it; app OAuth connections and the MCP widget continue to work as before. This increment is implemented and checked locally, not deployed.
 
+The [Railway release guide](DASHBOARD_RELEASE.md) describes commit-pinned deployment, public checks, real-session acceptance and rollback using the existing service.
+
 ## Try the local demo
 
 From the Conclave checkout:
