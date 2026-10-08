@@ -26,6 +26,8 @@
     "mcp:ui:check": "node scripts/build-handoff-ui.js --check",
     "mcp:ui:preview": "node packages/conclave-mcp/src/ui-preview.js",
     "test:mcp:ui": "node scripts/test-handoff-ui.js",
+    "dashboard:preview": "node packages/conclave-hosted/src/dashboard-preview.js",
+    "test:dashboard:ui": "node scripts/test-dashboard-ui.js",
     "test:mcp": "node scripts/test.js packages/conclave-mcp/test/transport.test.js"
   },
   "dependencies": {

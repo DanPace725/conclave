@@ -13,7 +13,7 @@ function check(directory) {
 }
 for (const directory of ['src', 'scripts', 'test', 'integrations']) check(directory);
 if (existsSync('packages')) check('packages');
-for (const args of [['--check', 'playwright.handoff.config.js'], ['scripts/build-handoff-ui.js', '--check']]) {
+for (const args of [['--check', 'playwright.handoff.config.js'], ['--check', 'playwright.dashboard.config.js'], ['scripts/build-handoff-ui.js', '--check']]) {
   const result = spawnSync(process.execPath, args, { stdio: 'inherit' });
   if (result.status) process.exit(result.status);
 }

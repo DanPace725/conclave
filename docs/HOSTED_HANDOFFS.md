@@ -26,6 +26,8 @@ See `packages/conclave-hosted/.env.example` for required variables. Actual `.env
 
 The independent migration adds only handoff events, OAuth records and lock rows, with a checksum-controlled history under `conclave_hosted`. It refuses a database containing Converse conversation or provider-key tables before modifying it. Re-running it preserves existing packets. Do not use Converse's full migration command on this service.
 
+The first standalone dashboard is implemented on the local `codex/conclave-dashboard` branch at `/dashboard`, with a link from the signed-in account page. It uses the same browser account and existing saved packet operations; it is not yet deployed. See [dashboard usage, synthetic preview and remaining decisions](DASHBOARD.md).
+
 ## Sign in and connect
 
 1. Open [Conclave](https://conclave-mcp-production.up.railway.app). Request an email code using an explicitly allowed pilot address, then enter the code. Neon Auth proves identity; Conclave issues its own host-scoped signed browser cookie. No provider key is needed.
