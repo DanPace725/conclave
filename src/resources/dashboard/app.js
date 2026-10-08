@@ -137,7 +137,9 @@ function renderPacket(data) {
   root.append(provenance);
   const history = element('details'); history.append(element('summary', 'Revision history'));
   const rows = element('div'); rows.id = 'history'; history.append(rows); root.append(history);
-  history.addEventListener('toggle', () => { if (history.open && !rows.childElementCount) void loadHistory(data.handoff_id); });
+  history.addEventListener('toggle', () => {
+    if (history.isConnected && current === data && history.open && !rows.childElementCount) void loadHistory(data.handoff_id);
+  });
   const comparison = element('details'); comparison.append(element('summary', 'Compare saved revisions'));
   const form = element('form', undefined, 'compare-form');
   const numbers = {};
@@ -152,7 +154,8 @@ function renderPacket(data) {
   });
 }
 async function loadHistory(id, newOffset = 0) {
-  const token = ++historyEpoch, epoch = detailEpoch, target = $('history');
+  const target = $('history'); if (!target || selected !== id) return;
+  const token = ++historyEpoch, epoch = detailEpoch;
   target.replaceChildren(element('p', 'Loading immutable revisions…', 'muted'));
   try {
     const data = await read('history', { handoff_id: id, offset: newOffset });

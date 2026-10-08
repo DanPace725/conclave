@@ -58,6 +58,7 @@ test('empty results, inert packet text and clipboard fallback', async ({ page })
 });
 
 test('expired access, recoverable network failure and late responses do not replace the selection', async ({ page }) => {
+  const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/dashboard');
   await expect(page.getByRole('button', { name: /Dashboard planning/ })).toBeVisible();
   const firstID = await page.getByRole('button', { name: /Dashboard planning/ }).getAttribute('data-id');
@@ -82,8 +83,16 @@ test('expired access, recoverable network failure and late responses do not repl
   await page.unroute('**/dashboard/api/get?**');
   await page.getByRole('button', { name: 'Try again', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Dashboard planning', exact: true })).toBeVisible();
+  // Toggle events are queued. Closing this packet immediately must discard its
+  // queued history read instead of looking up a detached detail panel.
+  await page.evaluate(() => {
+    [...document.querySelectorAll('#detail summary')].find(node => node.textContent === 'Revision history').click();
+    document.querySelector('#handoffs button[data-id]').click();
+  });
+  await expect(page.getByRole('heading', { name: 'Dashboard planning', exact: true })).toBeVisible();
   await page.route('**/dashboard/api/**', route => route.fulfill({ status: 401, contentType: 'application/json', body: '{"error":"sign_in_required"}' }));
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.locator('#list-status')).toHaveText('Your sign-in expired. Sign in from Account, then refresh.');
   await expect(page.getByRole('heading', { name: 'Could not open this handoff', exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
 });
