@@ -89,7 +89,7 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   // A new server instance can continue the durable authorization request.
   app = createHostedHandoffApp(options);
   const consentPage = await request(consentPath, { headers: { Cookie: cookie } });
-  assert.match(consentPage.headers.get('content-security-policy'), /form-action 'self' https:\/\/client\.example$/);
+  assert.match(consentPage.headers.get('content-security-policy'), /form-action 'self'$/);
   const html = await consentPage.text();
   assert.ok(html.includes('&lt;script&gt;untrusted&lt;/script&gt;'));
   assert.ok(!html.includes('<script>untrusted'));
@@ -101,9 +101,13 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   assert.match(await foreignConsent.text(), /start Connect again/);
   assert.match(foreignConsent.headers.get('content-security-policy'), /form-action 'self'$/);
   const consent = await request('/connect', form({ request: pending, csrf, decision: 'allow' }, { Cookie: cookie, Origin: origin }));
-  assert.equal(consent.status, 303);
+  assert.equal(consent.status, 200);
   assert.equal(consent.headers.get('content-security-policy'), consentPage.headers.get('content-security-policy'));
-  const redirect = new URL(consent.headers.get('location'));
+  assert.equal(consent.headers.get('location'), null);
+  const completed = await consent.text();
+  assert.match(completed, /Connection approved/);
+  assert.match(completed, /src="\/connect\/return.js"/);
+  const redirect = new URL(completed.match(/id="oauth-return" href="([^"]+)"/)[1].replaceAll('&amp;', '&'));
   assert.equal(redirect.searchParams.get('state'), 'state-one');
   const code = redirect.searchParams.get('code');
   const exchange = { client_id: client.client_id, grant_type: 'authorization_code', code, code_verifier: verifier, redirect_uri: client.redirect_uris[0], resource };

@@ -113,12 +113,15 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
     app = createStandaloneApp(options);
     const consentResponse = await request(consentPath, { headers: { Cookie: browserCookies } });
     assert.equal(consentResponse.headers.get('referrer-policy'), 'same-origin', 'consent forms must preserve Origin too');
-    assert.match(consentResponse.headers.get('content-security-policy'), /form-action 'self' https:\/\/client\.example$/);
+    assert.match(consentResponse.headers.get('content-security-policy'), /form-action 'self'$/);
     const consentPage = await consentResponse.text();
     const consentCsrf = consentPage.match(/name="csrf" value="([^"]+)"/)[1];
     const allowed = await request('/connect', form({ request: new URL(consentPath, origin).searchParams.get('request'), csrf: consentCsrf, decision: 'allow' }, browserCookies));
     assert.equal(allowed.headers.get('content-security-policy'), consentResponse.headers.get('content-security-policy'));
-    const code = new URL(allowed.headers.get('location')).searchParams.get('code');
+    assert.equal(allowed.status, 200);
+    assert.equal(allowed.headers.get('location'), null);
+    const completed = await allowed.text();
+    const code = new URL(completed.match(/id="oauth-return" href="([^"]+)"/)[1].replaceAll('&amp;', '&')).searchParams.get('code');
     const tokens = await (await request('/token', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ client_id: client.client_id, grant_type: 'authorization_code', code, code_verifier: verifier, resource, redirect_uri: client.redirect_uris[0] }) })).json();
     assert.ok(tokens.access_token);
     const sdk = new Client({ name, version: 'test' }); t.after(() => sdk.close());
