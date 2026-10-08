@@ -8,11 +8,12 @@ import { verifyDatabase } from './database.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const page = (res, content) => res.type('html').send(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Conclave</title><link rel="stylesheet" href="/styles.css"><main><h1>Conclave</h1><p class="intro">Keep your project moving between AI apps.</p>${content}</main></html>`);
-export function createStandaloneApp({ pool, origin, secret, allowedEmails, authBaseUrl, fetcher }) {
+export function createStandaloneApp({ pool, origin, secret, allowedEmails, authBaseUrl, fetcher, trustProxy = false }) {
   const account = createIdentity({ origin, secret, allowedEmails, authBaseUrl, fetcher });
-  const mcp = createHostedHandoffApp({ pool, origin, secret, ...account, accountName: 'Conclave' });
+  const mcp = createHostedHandoffApp({ pool, origin, secret, ...account, accountName: 'Conclave', trustProxy });
   const records = new McpRecordStore(pool), host = new URL(origin).host;
   const app = express();
+  app.set('trust proxy', trustProxy);
   app.disable('x-powered-by');
   // Railway's deployment probe uses its own Host. Only this non-data route accepts it.
   app.get('/healthz', async (req, res) => {

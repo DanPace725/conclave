@@ -23,7 +23,7 @@ test('cached plugin and independently generated desktop/Code configurations resu
   const origin = await connect(read(join(cache, 'mcp.json')).mcpServers.conclave, temporary);
   let saved;
   try {
-    assert.equal((await origin.listTools()).tools.length, 6);
+    assert.equal((await origin.listTools()).tools.length, 7);
     saved = value(await origin.callTool({ name: 'save_handoff', arguments: { request_id: 'generated-origin',
       packet: { title: 'Coding handoff', summary: 'Use the generated cached plugin.', constraints: ['Preserve the selected branch.'], open_questions: ['Which host next?'] } } }));
   } finally { await origin.close(); }
@@ -55,7 +55,7 @@ test('ChatGPT registration binds the actual app without accidentally bundling lo
     assert.throws(() => writeChatgptPlugin({ appId, output }), /registered MCP app ID/);
     assert.equal(existsSync(output), false);
   }
-  assert.deepEqual(new Set(await checkLocalTools()), new Set(['save_handoff', 'find_handoffs', 'get_handoff',
+  assert.deepEqual(new Set(await checkLocalTools()), new Set(['save_handoff', 'create_project', 'find_handoffs', 'get_handoff',
     'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']));
 });
 

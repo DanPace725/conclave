@@ -57,6 +57,34 @@ test('standalone identity uses independent secure cookies, verified accounts and
   const wrongEmail = createIdentity({ ...defaults, fetcher: async () => Response.json({ token: 'upstream-only', user: { id: 'bob', email: 'bob@example.com', emailVerified: true } }) });
   assert.equal((await wrongEmail.emailCode(user.email, '123456')).status, 401);
 });
+test('Railway proxy keeps OAuth limits per client and ignores spoofed earlier forwarding hops', async t => {
+  const { pool } = await fixture(t); await migrateHosted(pool);
+  const server = createServer();
+  await new Promise(done => server.listen(0, '127.0.0.1', done));
+  t.after(() => new Promise(done => { server.closeAllConnections(); server.close(done); }));
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  const options = { ...defaults, origin, pool };
+  assert.equal(createStandaloneApp(options).get('trust proxy'), false);
+  assert.throws(() => createStandaloneApp({ ...options, trustProxy: true }), /proxy hop count/);
+  const app = createStandaloneApp({ ...options, trustProxy: 1 });
+  assert.equal(app.get('trust proxy'), 1);
+  server.on('request', app);
+  const diagnostics = [];
+  t.mock.method(console, 'error', (...args) => diagnostics.push(args.join(' ')));
+  const authorize = forwarded => fetch(origin + '/authorize', { headers: { 'X-Forwarded-For': forwarded } });
+  // Invalid OAuth parameters exercise the real SDK limiter without creating
+  // grants or involving sign-in. Rightmost address is the edge-reported client.
+  for (let i = 0; i < 100; i++) {
+    const response = await authorize('192.0.2.99, 198.51.100.1');
+    assert.equal(response.status, 400); await response.text();
+  }
+  const blocked = await authorize('192.0.2.88, 198.51.100.1');
+  assert.equal(blocked.status, 429); await blocked.text();
+  const otherClient = await authorize('192.0.2.99, 203.0.113.2');
+  assert.equal(otherClient.status, 400); await otherClient.text();
+  assert.deepEqual(diagnostics, []);
+});
+
 test('standalone HTTP sign-in and two OAuth clients share durable packets and independently revoke', async t => {
   const { db, pool } = await fixture(t); await migrateHosted(pool);
   let app, upstreamCalls = 0;

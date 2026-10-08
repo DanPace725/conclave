@@ -50,8 +50,8 @@ test('display tool returns useful paginated data to hosts without UI and handles
   assert.equal(service.history({ handoff_id: saved.handoff_id }).total, 1);
 });
 
-test('optional UI can be omitted while all five data tools remain available', async t => {
+test('optional UI can be omitted while all six data tools remain available', async t => {
   const { client } = await fixture(t, { ui: false });
-  assert.equal((await client.listTools()).tools.length, 5);
+  assert.equal((await client.listTools()).tools.length, 6);
   assert.equal(client.getServerCapabilities().resources, undefined);
 });
