@@ -17,7 +17,7 @@ Open `http://127.0.0.1:3226/dashboard`. The visible demo banner identifies synth
 ## What you can do
 
 - Browse recent handoffs, ten per page. Search names, source labels or saved packet keywords using the existing deterministic search. Search results retain the service's relevance order.
-- Select a handoff without entering its ID. Keep the result list beside complete packet detail on desktop; on narrow screens the detail follows the list and selection scrolls it into view.
+- Select a handoff without entering its ID. Keep the result list beside complete packet detail on desktop; on narrow screens the detail follows the list, selection scrolls it into view, and “All handoffs” returns to the list.
 - Read the objective, constraints, unresolved questions, decisions, next steps, context and references. Packet contents are exact text, including HTML-looking strings.
 - Inspect source app/model claims, selected and latest saved revision numbers, dates, packet hashes, event IDs and previous revision event IDs. Revision history loads when opened, with older/newer pages.
 - Read an older immutable revision, follow its bookmarkable fragment link, or check the latest saved version. A newer revision discovered during a history read is disclosed; reading an old version does not silently replace it.
