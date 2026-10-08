@@ -81,14 +81,20 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   const consentPath = auth.headers.get('location');
   // A new server instance can continue the durable authorization request.
   app = createHostedHandoffApp(options);
-  const html = await (await request(consentPath, { headers: { Cookie: cookie } })).text();
+  const consentPage = await request(consentPath, { headers: { Cookie: cookie } });
+  assert.match(consentPage.headers.get('content-security-policy'), /form-action 'self' https:\/\/client\.example$/);
+  const html = await consentPage.text();
   assert.ok(html.includes('&lt;script&gt;untrusted&lt;/script&gt;'));
   assert.ok(!html.includes('<script>untrusted'));
   const csrf = html.match(/name="csrf" value="([^"]+)"/)[1];
   const pending = new URL(consentPath, origin).searchParams.get('request');
-  assert.equal((await request('/connect', form({ request: pending, csrf, decision: 'allow' }, { Cookie: cookie, Origin: 'https://evil.example' }))).status, 403);
+  const foreignConsent = await request('/connect', form({ request: pending, csrf, decision: 'allow' }, { Cookie: cookie, Origin: 'https://evil.example' }));
+  assert.equal(foreignConsent.status, 403);
+  assert.match(await foreignConsent.text(), /start Connect again/);
+  assert.match(foreignConsent.headers.get('content-security-policy'), /form-action 'self'$/);
   const consent = await request('/connect', form({ request: pending, csrf, decision: 'allow' }, { Cookie: cookie, Origin: origin }));
   assert.equal(consent.status, 303);
+  assert.equal(consent.headers.get('content-security-policy'), consentPage.headers.get('content-security-policy'));
   const redirect = new URL(consent.headers.get('location'));
   assert.equal(redirect.searchParams.get('state'), 'state-one');
   const code = redirect.searchParams.get('code');
@@ -118,7 +124,9 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   assert.ok(refreshed.access_token);
   assert.notEqual(refreshed.refresh_token, tokens.refresh_token);
   assert.equal((await request('/token', form(refreshArgs))).status, 400);
-  const manage = await (await request('/connect', { headers: { Cookie: 'test_owner=alice' } })).text();
+  const managePage = await request('/connect', { headers: { Cookie: 'test_owner=alice' } });
+  assert.match(managePage.headers.get('content-security-policy'), /form-action 'self'$/);
+  const manage = await managePage.text();
   const grant = manage.match(/name="grant" value="([^"]+)"/)[1], manageCsrf = manage.match(/name="csrf" value="([^"]+)"/)[1];
   assert.equal((await request('/connect', form({ grant, csrf: manageCsrf }, { Cookie: 'test_owner=alice', Origin: origin }))).status, 303);
   for (const token of [tokens.access_token, refreshed.access_token]) assert.equal((await request('/mcp', { method: 'POST', headers: { Authorization: `Bearer ${token}` } })).status, 401);
