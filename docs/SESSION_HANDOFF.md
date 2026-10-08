@@ -4,6 +4,8 @@ Updated October 7, 2026 (the rollout and commits occur on October 8 UTC).
 
 ## Start here
 
+Hosted progress packet: `conv_dbf6967e-b36c-4200-8489-cff38c5d4eca` (**Conclave hosted progress log**). Retrieve its latest revision through the hosted Conclave plugin at the start of a session. Both repository AGENTS files require an update after verified authorized pushes, using revision checks and retry-safe request IDs. This is an explicit project-progress log; local packets remain separate.
+
 Conclave is becoming an independent cross-app continuity service. Prioritize hosted ChatGPT/Claude interoperability and extensibility; local development is secondary. Keep Converse's existing integration and production configuration intact. The hosted service uses its own Neon database/Auth and Railway runtime; no model API keys are needed for handoff tools.
 
 Both repositories are on `codex/conclave-hosted`. Conclave source: `E:\Coding\converse\CLA\conclave`; Converse snapshot: `E:\Coding\converse\converse`. Both hosted branches are published. Converse's existing `codex/conclave-handoffs` review branch is also advanced by fast-forward to the tested snapshot. No merge into main or new Converse deployment was requested.
