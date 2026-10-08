@@ -66,15 +66,22 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   const noToken = await request('/mcp', { method: 'POST' });
   assert.equal(noToken.status, 401);
   assert.match(noToken.headers.get('www-authenticate'), /oauth-protected-resource\/mcp/);
+  assert.doesNotMatch(noToken.headers.get('www-authenticate'), /\bscope=/);
+  const invalidToken = await request('/mcp', { method: 'POST', headers: { Authorization: 'Bearer invalid' } });
+  assert.equal(invalidToken.status, 401);
+  assert.doesNotMatch(invalidToken.headers.get('www-authenticate'), /\bscope=/);
   const metadata = await (await request('/.well-known/oauth-protected-resource/mcp')).json();
   assert.equal(metadata.resource, resource);
+  assert.deepEqual(metadata.scopes_supported, ['handoffs:read', 'handoffs:write']);
   const oauth = await (await request('/.well-known/oauth-authorization-server')).json();
   assert.equal(oauth.registration_endpoint, origin + '/register');
   const registration = await request('/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ client_name: '<script>untrusted</script>', redirect_uris: ['https://client.example/callback'], token_endpoint_auth_method: 'none' }) });
   assert.equal(registration.status, 201);
   const client = await registration.json();
   const verifier = randomBytes(32).toString('base64url'), challenge = createHash('sha256').update(verifier).digest('base64url');
-  const parameters = { client_id: client.client_id, response_type: 'code', redirect_uri: client.redirect_uris[0], state: 'state-one', code_challenge: challenge, code_challenge_method: 'S256', resource };
+  // Follow MCP scope selection as Claude does: absent a 401 scope hint, use
+  // protected-resource scopes, then require the owner's browser consent.
+  const parameters = { client_id: client.client_id, response_type: 'code', redirect_uri: client.redirect_uris[0], state: 'state-one', code_challenge: challenge, code_challenge_method: 'S256', resource, scope: metadata.scopes_supported.join(' ') };
   const auth = await request('/authorize?' + new URLSearchParams(parameters));
   assert.equal(auth.status, 302);
   const cookie = auth.headers.get('set-cookie').split(';')[0] + '; test_owner=alice';
@@ -86,6 +93,7 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   const html = await consentPage.text();
   assert.ok(html.includes('&lt;script&gt;untrusted&lt;/script&gt;'));
   assert.ok(!html.includes('<script>untrusted'));
+  assert.match(html, /read and save/);
   const csrf = html.match(/name="csrf" value="([^"]+)"/)[1];
   const pending = new URL(consentPath, origin).searchParams.get('request');
   const foreignConsent = await request('/connect', form({ request: pending, csrf, decision: 'allow' }, { Cookie: cookie, Origin: 'https://evil.example' }));
@@ -103,6 +111,7 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   assert.equal((await request('/token', form({ ...exchange, resource: 'https://other.example/mcp' }))).status, 400);
   const tokens = await (await request('/token', form(exchange))).json();
   assert.ok(tokens.access_token);
+  assert.equal(tokens.scope, 'handoffs:read handoffs:write');
   assert.equal((await request('/token', form(exchange))).status, 400);
   // No raw codes or bearer/refresh tokens appear in persistent state.
   const state = JSON.stringify((await db.query('SELECT data FROM app.mcp_records')).rows);
@@ -119,6 +128,9 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   await second.connect(new StreamableHTTPClientTransport(new URL(resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
   const retrieved = (await second.callTool({ name: 'get_handoff', arguments: { handoff_id: saved.handoff_id } })).structuredContent;
   assert.deepEqual(retrieved.packet.constraints, packet.constraints);
+  const updated = (await second.callTool({ name: 'save_handoff', arguments: { packet: { ...packet, summary: 'Updated in the second client' }, request_id: 'http-update', handoff_id: saved.handoff_id, expected_revision: 1 } })).structuredContent;
+  assert.equal(updated.revision, 2);
+  assert.equal((await mcp.callTool({ name: 'get_handoff', arguments: { handoff_id: saved.handoff_id } })).structuredContent.packet.summary, 'Updated in the second client');
   const refreshArgs = { client_id: client.client_id, grant_type: 'refresh_token', refresh_token: tokens.refresh_token, resource };
   const refreshed = await (await request('/token', form(refreshArgs))).json();
   assert.ok(refreshed.access_token);
@@ -177,6 +189,8 @@ test('read-only MCP connection cannot discover or invoke a save tool', async t =
   await provider.authorize(client, { resource: new URL(provider.resource), codeChallenge: 'a'.repeat(43), redirectUri: client.redirect_uris[0], scopes: ['handoffs:read'] }, { cookie(_key, value) { nonce = value; }, redirect(_status, value) { pending = new URL(value, origin).searchParams.get('request'); } });
   const callback = await provider.approve(pending, nonce, { id: 'bob', email: 'bob@example.com' }, true);
   const tokens = await provider.exchangeAuthorizationCode(client, new URL(callback).searchParams.get('code'), undefined, client.redirect_uris[0], new URL(provider.resource));
+  assert.equal(tokens.scope, 'handoffs:read');
+  await assert.rejects(provider.exchangeRefreshToken(client, tokens.refresh_token, ['handoffs:read', 'handoffs:write']), /Reconnect/);
   app = createHostedHandoffApp({ pool, origin, secret, identity: () => null, emailAllowed: () => true });
   const mcp = new Client({ name: 'readonly', version: '1' });
   t.after(() => mcp.close());
@@ -199,6 +213,14 @@ test('read-only MCP connection cannot discover or invoke a save tool', async t =
   assert.equal(blocked.isError, true);
   assert.match(blocked.content[0].text, /not found/);
   assert.equal((await new HandoffRepository(pool, 'bob').find()).total, 1);
+  // Authentication discovery must not remove runtime read-scope enforcement.
+  const auth = await provider.verifyAccessToken(tokens.access_token);
+  const grantKey = `grant:${auth.extra.grant}`, grant = await records.get(grantKey);
+  await records.put(grantKey, { ...grant, scopes: [] }, grant.expires, 'bob');
+  const forbidden = await fetch(provider.resource, { method: 'POST', headers: { Authorization: `Bearer ${tokens.access_token}` } });
+  assert.equal(forbidden.status, 403);
+  assert.match(forbidden.headers.get('www-authenticate'), /error="insufficient_scope", scope="handoffs:read"/);
+  assert.equal((await forbidden.json()).error, 'insufficient_scope');
 });
 
 test('hosted storage cap preserves identical retry receipts and refuses new writes atomically', async t => {

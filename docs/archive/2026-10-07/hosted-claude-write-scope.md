@@ -1,0 +1,11 @@
+# Claude hosted write permission
+
+The user reported successful overall connections but Claude could not update packets. Its connector screenshot listed the five read tools and omitted Save a Conclave handoff. A read-only production query of grant client labels, scopes and creation dates confirmed Claude had only `handoffs:read`; ChatGPT had `handoffs:read handoffs:write`. No grant, credential or packet content was changed during diagnosis.
+
+The bearer-auth middleware enforced read scope and also advertised only that scope in its initial 401 challenge. Under the [MCP scope selection strategy](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization#scope-selection-strategy), clients prioritize that challenge over resource metadata. This produced a read-only grant and hid the save tool before Claude could discover it. [Claude supports write-capable connector tools](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities).
+
+Authentication now omits the optional scope hint on 401, allowing clients to request the existing read/write resource metadata scopes. Consent displays read and save before issuing that grant. Runtime read-scope enforcement remains a separate 403 check; save registration remains conditional on write permission. Existing grants are not expanded, explicit read-only authorization remains read-only, and refresh cannot escalate. The owner must disconnect/reconnect Claude and approve the new read/write request.
+
+Regression coverage follows the discovery fallback into explicit scope authorization, browser consent, token issuance, six-tool discovery and a save/update/read round trip across two independent SDK clients. Invalid bearer discovery and missing read-scope rejection are covered, along with existing explicit read-only tool filtering and refresh escalation rejection. These are HTTP/SDK fixtures; a renewed Claude connection and actual Claude write remain user acceptance checks.
+
+The full source suite passed 360 tests with one optional skip at four-file concurrency. Syntax/resource checks and diff checks passed. Snapshot migration and Railway deployment status will be recorded after verification.
