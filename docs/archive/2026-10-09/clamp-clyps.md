@@ -40,7 +40,10 @@ runner and its identified child were stopped without touching the other preview.
 
 No push or deployment. Tests use synthetic packets and separate fixture storage;
 no live packets, environment credentials or account data were modified.
-Converse snapshot parity and checks are recorded after source commit below.
+Converse snapshot migrated from source commit `316fb3089c3919b5c4bfc2bb8b5cf77537415df9`:
+107 files match; app syntax/resources and 203 tests / one optional skip pass.
+Initial Windows OS-temp rename failures were resolved by rerunning the unchanged
+suite with checkout-local TEMP/TMP. No application UI or deployment config change.
 
 Remaining: real ChatGPT/Claude Clyp acceptance and useful budget measurement;
 independent idea/project identities; arbitrary ORMD parse/edit/import; explicit
