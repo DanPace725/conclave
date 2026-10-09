@@ -17,6 +17,7 @@ Open `http://127.0.0.1:3226/dashboard`. The visible demo banner identifies synth
 ## What you can do
 
 - Read [CLAMP Clyps](CLAMP.md), see their complete-document token count, and export the exact saved ORMD revision.
+- Use readable references such as `dashboard-planning--2` in URLs, copied continuations and file names. Duplicate titles get different numbers; title changes keep the reference. Existing canonical-ID links continue to open. Connected models can pass the readable reference as `handoff_id`.
 - Open Connections to inspect explicit revision-pinned links between handoffs, including across projects. Project filtering includes one boundary hop to linked targets; the graph loads no linked content and makes no inferred relationships. Graphs above 100 nodes require a narrower project filter.
 
 - Browse recent handoffs, ten per page. Search names, source labels or saved packet keywords using the existing deterministic search. Search results retain the service's relevance order.

@@ -48,6 +48,27 @@ enough to choose the next action; links supply supporting detail.
 Legacy packets remain readable and retain their old hashes/limits. Explicitly
 adding the profile on a later revision adopts CLAMP without rewriting history.
 
+## Readable references
+
+Each handoff returns a stable `readable_id` such as `dashboard-planning--2`.
+The name comes from the original title; a short account-local event number
+distinguishes duplicate titles. A title change keeps the existing reference.
+Titles without Latin letters/digits use `conversation--N`. References identify
+handoffs within the signed-in account, not across unrelated accounts or stores.
+
+Use `readable_id` as `handoff_id` in saves, reads, history, comparisons and
+revision-pinned links. Save receipts also return it as `reference`. The canonical
+`conv_…` value remains in `handoff_id` for compatibility and audit; both forms
+resolve to the same packet. Links are normalized to canonical IDs before saving
+and hashing. Readable references do not change existing packet/document bytes.
+Legacy names derive from the first saved packet without rewriting its events.
+
+The dashboard shows/copies the readable reference, includes the current title
+in continuation text, names exported files, and uses it in fragment URLs.
+Old canonical-ID bookmarks still open and become readable URLs. Backups restored
+as fresh handoffs receive fresh references; original cross-handoff links retain
+their original canonical identities.
+
 ## Relationships and graph
 
 An optional link is `{relation, handoff_id, revision}`. Retrieve the target first;
@@ -102,3 +123,6 @@ Deferred: arbitrary ORMD import/editing, durable-memory promotion, stable
 independent idea/project IDs, dependency closure beyond one boundary hop, and
 live ChatGPT/Claude acceptance. Local tests establish storage and transport
 behavior; continuation quality and useful budget ranges require real trials.
+
+The [ChatGPT ↔ Claude pilot](CLAMP_PILOT.md) includes a synthetic seed, three
+copyable prompts, acceptance checks and an independent-client local rehearsal.

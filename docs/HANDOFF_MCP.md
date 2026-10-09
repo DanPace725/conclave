@@ -10,6 +10,13 @@ Local launchers live in the private package `packages/conclave-mcp/`; shared too
 
 ## Commands
 
+Handoff responses include `readable_id`, a stable name such as
+`dashboard-planning--2`. Use it as `handoff_id` in all handoff tools and pinned
+links; canonical `conv_…` IDs remain accepted. Save receipts return the readable
+name as `reference`. It stays stable after a title change and is scoped to the
+current account/store. See [CLAMP references](CLAMP.md#readable-references) and
+the prepared [ChatGPT ↔ Claude pilot](CLAMP_PILOT.md).
+
 Run from the Conclave checkout, with Node.js 22.13 or later:
 
 ```powershell

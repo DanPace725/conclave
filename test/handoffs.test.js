@@ -16,6 +16,22 @@ function fixture(run) {
   try { run(new HandoffService(store), store); } finally { store.close(); }
 }
 
+test('readable references distinguish duplicate titles and survive renames, retries and revision reads', () => fixture(service => {
+  const first = service.save(request('named-1', { title: 'Café dashboard' }));
+  const duplicate = service.save(request('named-2', { title: 'Café dashboard' }));
+  assert.match(first.readable_id, /^cafe-dashboard--\d+$/);
+  assert.equal(first.reference, first.readable_id);
+  assert.notEqual(first.readable_id, duplicate.readable_id);
+  const update = request('rename', { title: 'New dashboard name' }, { handoff_id: first.readable_id, expected_revision: 1 });
+  assert.equal(service.save(update).readable_id, first.readable_id);
+  assert.equal(service.save({ ...update, handoff_id: first.handoff_id }).replayed, true);
+  assert.equal(service.get({ handoff_id: first.readable_id, revision: 1 }).packet.title, 'Café dashboard');
+  assert.equal(service.history({ handoff_id: first.readable_id }).total, 2);
+  assert.deepEqual(service.compare({ handoff_id: first.readable_id, from_revision: 1 }).changes.map(c => c.field), ['title']);
+  assert.equal(service.find({ query: first.readable_id }).handoffs[0].handoff_id, first.handoff_id);
+  assert.throws(() => service.get({ handoff_id: 'wrong-name--2' }), { code: 'not_found' });
+}));
+
 test('handoff saves external data without human memory, model calls, or leaking other conversations', () => fixture((service, store) => {
   const ordinary = store.create('Private ordinary conversation');
   store.append(ordinary, 'user', 'Never show this in handoff search', {}, 'human');

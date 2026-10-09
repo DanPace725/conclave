@@ -1,0 +1,16 @@
+{
+  "title": "CLAMP pilot project map",
+  "summary": "A synthetic dashboard layout exercise is ready for a cross-model continuation.",
+  "objective": "Draft a small dashboard view connecting a project to its saved Clyps.",
+  "context": "The project is named Pilot garden. It has two ideas: a list of bounded handoffs and an explicit connections graph. Only reported links count. No code or service changes are needed for this exercise.",
+  "decisions": ["Offer a list view and an optional connections view."],
+  "constraints": [
+    "Keep every Clyp within 1500 o200k_base tokens, including ORMD metadata.",
+    "Use only explicit reported links; do not invent relationships.",
+    "Do not publish, deploy, contact anyone, or promote this fixture into durable human memory."
+  ],
+  "open_questions": ["Which view should open by default?"],
+  "next_steps": ["Propose three dashboard labels while leaving the default-view question unresolved."],
+  "project": "CLAMP live pilot",
+  "clamp": { "version": "1.0", "kind": "clyp", "links": [] }
+}

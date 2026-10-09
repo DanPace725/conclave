@@ -14,6 +14,8 @@ Use `export PATH --conversation ID --sanitize` or `download PATH --conversation 
 
 New model handoffs can use [CLAMP 1.0 Clyps](docs/CLAMP.md): complete ORMD documents bounded to 1,500 tokens, with revision-pinned links and dashboard connections. Legacy handoff history remains compatible.
 
+Readable references such as `dashboard-planning--2` work across the dashboard and handoff tools, even after title changes. The [ChatGPT ↔ Claude pilot](docs/CLAMP_PILOT.md) includes prompts, a synthetic seed and a local MCP rehearsal.
+
 For cross-app continuity, prioritize the [independent hosted handoff pilot](docs/HOSTED_HANDOFFS.md) for ChatGPT and Claude. It has its own Railway service, Neon database and sign-in, while Converse retains its current integration. See [the shared MCP contract](docs/HANDOFF_MCP.md). Local launchers remain available; they do not synchronize with hosted storage.
 
 Requires Node.js 22.13+. Use OPENAI_API_KEY for OpenAI or ANTHROPIC_API_KEY for Claude. Credentials are read from the process or Windows User/Machine environment; offline controls need no key.

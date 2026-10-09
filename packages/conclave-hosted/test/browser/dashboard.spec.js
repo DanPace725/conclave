@@ -4,8 +4,13 @@ import { readFile } from 'node:fs/promises';
 test('Clyp budgets, complete ORMD download and pinned cross-project graph navigation', async ({ page }, info) => {
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   await page.goto('/dashboard');
-  await page.getByRole('button', { name: /Dashboard planning/ }).click();
+  const legacyID = await page.getByRole('button', { name: /Dashboard planning/ }).getAttribute('data-id');
+  await page.goto(`/dashboard#handoff=${legacyID}`);
   await expect(page.getByText(/Clyp · CLAMP 1.0 · \d+ \/ 1500 tokens/)).toBeVisible();
+  await expect(page).toHaveURL(/#handoff=dashboard-planning--2$/);
+  await page.getByText('Continue in another app', { exact: true }).click();
+  await expect(page.getByLabel('Continuation text')).toHaveValue(/retrieve handoff dashboard-planning--2 \(Dashboard planning\), revision 13/);
+  await expect(page.locator('#detail').getByRole('button', { name: /depends on · demo-workstream-11--\d+ · revision 1/ })).toBeVisible();
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export ORMD', exact: true }).click();
   const file = await download, text = await readFile(await file.path(), 'utf8');
@@ -98,7 +103,7 @@ test('expired access, recoverable network failure and late responses do not repl
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/dashboard');
   await expect(page.getByRole('button', { name: /Dashboard planning/ })).toBeVisible();
-  const firstID = await page.getByRole('button', { name: /Dashboard planning/ }).getAttribute('data-id');
+  const firstID = await page.getByRole('button', { name: /Dashboard planning/ }).getAttribute('data-reference');
   let release, started;
   const gate = new Promise(done => { release = done; }), pending = new Promise(done => { started = done; });
   await page.route('**/dashboard/api/get?**', async route => {

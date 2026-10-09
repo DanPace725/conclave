@@ -33,11 +33,13 @@ test('hosted Clyps preserve original ORMD, JSONB hashes and owner-scoped pinned 
   const target = await alice.save({ packet: { ...packet, title: 'Evidence', project: 'Other' }, request_id: 'target' });
   const secret = await bob.save({ packet: { title: 'Bob private', summary: 'Private' }, request_id: 'secret' });
   const clyp = { ...packet, objective: 'Continue the dashboard.', next_steps: ['Review the evidence.'], project: 'CLAMP',
-    clamp: { version: '1.0', kind: 'clyp', links: [{ relation: 'supports', handoff_id: target.handoff_id, revision: 1 }] } };
+    clamp: { version: '1.0', kind: 'clyp', links: [{ relation: 'supports', handoff_id: target.readable_id, revision: 1 }] } };
   const saved = await alice.save({ packet: clyp, request_id: 'clyp' });
   const restarted = new HandoffRepository(pool, 'alice');
   assert.equal((await restarted.get({ handoff_id: saved.handoff_id })).sha256, saved.sha256);
-  const doc = await (await request(`/dashboard/api/get?handoff_id=${saved.handoff_id}&format=ormd`)).json();
+  const doc = await (await request(`/dashboard/api/get?handoff_id=${saved.readable_id}&format=ormd`)).json();
+  assert.equal(doc.readable_id, saved.readable_id);
+  assert.equal(doc.linked_handoffs[0].readable_id, target.readable_id);
   const raw = (await db.query("SELECT data FROM app.handoff_events WHERE owner_id=$1 AND data->>'id'=$2", ['alice', saved.event_id])).rows[0].data;
   assert.equal(doc.ormd, raw.content); assert.equal(doc.clyp.ormd_sha256, raw.metadata.ormd_sha256);
   assert.equal(doc.selection.complete, true); assert.equal(doc.packet, undefined);
@@ -102,6 +104,12 @@ test('reads of one handoff by ID load only its events and match full-history rea
   assert.equal((await scoped.find({})).total, 4);
   // One conversation event plus two revisions for this packet; nine events in the account.
   assert.deepEqual(loaded, [3, 9, 3, 3, 9]);
+  assert.deepEqual(await scoped.get({ handoff_id: saved.readable_id }), byId);
+  assert.equal(loaded.at(-1), 3);
+  assert.equal((await scoped.history({ handoff_id: saved.readable_id })).total, 2);
+  assert.equal(loaded.at(-1), 3);
+  await assert.rejects(new HandoffRepository(counting, 'bob').get({ handoff_id: saved.readable_id }), { code: 'not_found' });
+  await assert.rejects(scoped.get({ handoff_id: 'wrong-name--2' }), { code: 'not_found' });
   await assert.rejects(new HandoffRepository(counting, 'bob').get({ handoff_id: id }), { code: 'not_found' });
   await assert.rejects(scoped.get({ handoff_id: 'conv_missing' }), { code: 'not_found' });
 });

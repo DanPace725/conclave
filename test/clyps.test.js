@@ -35,7 +35,7 @@ test('complete Clyp ORMD survives restart, retries and focus without changing au
   store.close(); store = new Store(directory); service = new HandoffService(store);
   try {
     assert.equal(save(service, 'original').replayed, true);
-    assert.equal(service.get({ handoff_id: saved.handoff_id, format: 'ormd' }).ormd, doc.ormd);
+    assert.equal(service.get({ handoff_id: saved.readable_id, format: 'ormd' }).ormd, doc.ormd);
     const focused = service.get({ handoff_id: saved.handoff_id, focus: 'Supporting' });
     assert.equal(focused.packet.context, packet().context);
     assert.equal(focused.selection.complete, true);
@@ -63,7 +63,9 @@ test('explicit links pin revisions, validate visibility, and project graphs load
   try {
     const c = save(service, 'c', { title: 'C', project: 'Third' });
     const link = (id, revision = 1) => ({ relation: 'depends_on', handoff_id: id, revision });
-    const b = save(service, 'b', { title: 'B', project: 'Other', clamp: { version: '1.0', kind: 'clyp', links: [link(c.handoff_id)] } });
+    const b = save(service, 'b', { title: 'B', project: 'Other', clamp: { version: '1.0', kind: 'clyp', links: [link(c.readable_id)] } });
+    assert.equal(service.get({ handoff_id: b.readable_id }).packet.clamp.links[0].handoff_id, c.handoff_id);
+    assert.equal(service.get({ handoff_id: b.readable_id }).linked_handoffs[0].readable_id, c.readable_id);
     const a = save(service, 'a', { title: 'A', clamp: { version: '1.0', kind: 'clyp', links: [link(b.handoff_id)] } });
     save(service, 'b2', { title: 'B', project: 'Other' }, { handoff_id: b.handoff_id, expected_revision: 1 });
     const graph = service.graph({ project: 'CLAMP' });
@@ -81,7 +83,7 @@ test('Clyp backup imports generate bounded ORMD with new identity and declared i
   const source = new Store(undefined, { memory: true }), target = new Store(undefined, { memory: true });
   try {
     const service = new HandoffService(source), first = save(service, 'backup');
-    const bundle = exportHandoffBundle(service, first.handoff_id);
+    const bundle = exportHandoffBundle(service, first.readable_id);
     const imported = importHandoffBundle(new HandoffService(target), bundle);
     const doc = new HandoffService(target).get({ handoff_id: imported.handoff_id, format: 'ormd' });
     assert.notEqual(imported.handoff_id, first.handoff_id);
@@ -115,7 +117,7 @@ test('MCP discovery advertises CLAMP and separate clients save/read complete bou
   assert.ok(tools.find(tool => tool.name === 'save_handoff').inputSchema.properties.packet.properties.clamp);
   const result = await clients[0].callTool({ name: 'save_handoff', arguments: { packet: packet(), request_id: 'cross-client' } });
   assert.equal(result.isError, undefined);
-  const doc = await clients[1].callTool({ name: 'get_handoff', arguments: { handoff_id: result.structuredContent.handoff_id, format: 'ormd' } });
+  const doc = await clients[1].callTool({ name: 'get_handoff', arguments: { handoff_id: result.structuredContent.readable_id, format: 'ormd' } });
   assert.equal(doc.isError, undefined); assert.match(doc.structuredContent.ormd, /Keep every essential constraint/);
   assert.ok(doc.structuredContent.clyp.budget.tokens <= 1500);
 });
