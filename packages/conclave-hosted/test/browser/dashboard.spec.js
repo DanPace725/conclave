@@ -1,6 +1,28 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
+test('Clyp budgets, complete ORMD download and pinned cross-project graph navigation', async ({ page }, info) => {
+  const errors = []; page.on('pageerror', e => errors.push(e.message));
+  await page.goto('/dashboard');
+  await page.getByRole('button', { name: /Dashboard planning/ }).click();
+  await expect(page.getByText(/Clyp · CLAMP 1.0 · \d+ \/ 1500 tokens/)).toBeVisible();
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export ORMD', exact: true }).click();
+  const file = await download, text = await readFile(await file.path(), 'utf8');
+  expect(file.suggestedFilename()).toMatch(/r13\.ormd$/);
+  expect(text).toContain('<!-- ormd:1.0 -->'); expect(text).toContain('Ask before publishing.');
+  expect(text).toContain('depends_on');
+  await page.getByRole('button', { name: 'Show connections', exact: true }).click();
+  await expect(page.getByText(/12 handoffs · 1 explicit links/)).toBeVisible();
+  await expect(page.getByRole('group', { name: 'Saved handoff graph' })).toBeVisible();
+  expect(await page.locator('img').count()).toBe(0);
+  await page.locator('.connection-list').getByRole('button', { name: 'Demo workstream 11 (r1)', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Demo workstream 11', exact: true })).toBeVisible();
+  await page.screenshot({ path: info.outputPath('clyp-connections.png'), fullPage: true });
+  expect(errors).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
+
 test('search, paging, full packets, exact changes, older revisions and export', async ({ page }, info) => {
   const methods = []; page.on('request', req => { if (req.url().includes('/dashboard/api/')) methods.push(req.method()); });
   await page.goto('/dashboard');

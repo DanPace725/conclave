@@ -1,8 +1,10 @@
 # Conclave project context
 
-Updated 2026-10-08. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
+Updated 2026-10-09. Mutable project state. [CLI usage](README.md) · [Development method](docs/DEVELOPMENT_METHOD.md) · [Archive](docs/archive/README.md)
 
 ## Current capabilities
+
+- CLAMP 1.0 Clyps implemented locally on `codex/clamp-clyps`: bounded model handoffs stored as immutable ORMD revisions (1,500 o200k_base tokens including metadata), objective/next-action validation, complete reads, pinned account-scoped links, dashboard token counts/ORMD export and explicit Connections graph. Existing packet history and hashes remain compatible. Source suite: 371 passes / one optional skip, followed by 10 focused Clyp/real MCP transport checks including graph capacity; ten desktop/mobile dashboard cases and syntax/resources pass. No push, deployment, live model acceptance or measured continuation-quality result. Stable idea/project identities, arbitrary ORMD import and durable-memory promotion remain follow-ups. [Protocol](docs/CLAMP.md) · [Evidence](docs/archive/2026-10-09/clamp-clyps.md)
 
 - Explicit `create_project` MCP write tool saves a named project's initial handoff using the existing owner-bound grouping and retry guards; read-only grants cannot discover/invoke it. Improved save guidance and actual HTTP schema/project regression coverage. Railway standalone startup now opts into one proxy hop for OAuth rate limiting, while local/embedded apps default to direct connections. Recorded source validation: 369 passes / one optional skip including four transport cases, plus syntax/resources. Local preparation only; publication, live discovery and post-release mobile acceptance are pending. [Diagnosis and validation](docs/archive/2026-10-08/project-tool-proxy.md)
 

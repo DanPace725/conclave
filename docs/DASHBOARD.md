@@ -16,6 +16,9 @@ Open `http://127.0.0.1:3226/dashboard`. The visible demo banner identifies synth
 
 ## What you can do
 
+- Read [CLAMP Clyps](CLAMP.md), see their complete-document token count, and export the exact saved ORMD revision.
+- Open Connections to inspect explicit revision-pinned links between handoffs, including across projects. Project filtering includes one boundary hop to linked targets; the graph loads no linked content and makes no inferred relationships. Graphs above 100 nodes require a narrower project filter.
+
 - Browse recent handoffs, ten per page. Search names, source labels or saved packet keywords using the existing deterministic search. Search results retain the service's relevance order.
 - Filter the list by project. The chips are the exact project names apps reported when saving, each with its handoff count; a handoff's project also appears on its row and in its detail. The dashboard does not assign or rename projects.
 - Select a handoff without entering its ID. Keep the result list beside complete packet detail on desktop; on narrow screens the detail follows the list, selection scrolls it into view, and “All handoffs” returns to the list.

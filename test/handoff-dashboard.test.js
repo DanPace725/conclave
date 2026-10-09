@@ -28,6 +28,32 @@ async function fixture(t) {
 const packet = { title: 'Dashboard work', summary: 'A shared dashboard', source_app: 'ChatGPT', source_model: 'Sol',
   context: 'Complete context.\n\nKeep this qualification.', constraints: ['Keep provenance.', 'Ask before publishing.'], open_questions: ['Which default view?'] };
 
+test('hosted Clyps preserve original ORMD, JSONB hashes and owner-scoped pinned graph links', async t => {
+  const { pool, request, db } = await fixture(t), alice = new HandoffRepository(pool, 'alice'), bob = new HandoffRepository(pool, 'bob');
+  const target = await alice.save({ packet: { ...packet, title: 'Evidence', project: 'Other' }, request_id: 'target' });
+  const secret = await bob.save({ packet: { title: 'Bob private', summary: 'Private' }, request_id: 'secret' });
+  const clyp = { ...packet, objective: 'Continue the dashboard.', next_steps: ['Review the evidence.'], project: 'CLAMP',
+    clamp: { version: '1.0', kind: 'clyp', links: [{ relation: 'supports', handoff_id: target.handoff_id, revision: 1 }] } };
+  const saved = await alice.save({ packet: clyp, request_id: 'clyp' });
+  const restarted = new HandoffRepository(pool, 'alice');
+  assert.equal((await restarted.get({ handoff_id: saved.handoff_id })).sha256, saved.sha256);
+  const doc = await (await request(`/dashboard/api/get?handoff_id=${saved.handoff_id}&format=ormd`)).json();
+  const raw = (await db.query("SELECT data FROM app.handoff_events WHERE owner_id=$1 AND data->>'id'=$2", ['alice', saved.event_id])).rows[0].data;
+  assert.equal(doc.ormd, raw.content); assert.equal(doc.clyp.ormd_sha256, raw.metadata.ormd_sha256);
+  assert.equal(doc.selection.complete, true); assert.equal(doc.packet, undefined);
+  await alice.save({ packet: { ...packet, title: 'Evidence', project: 'Other', summary: 'New evidence' }, handoff_id: target.handoff_id, expected_revision: 1, request_id: 'target-2' });
+  const graph = await (await request('/dashboard/api/graph?project=CLAMP')).json();
+  assert.equal(graph.nodes.length, 2); assert.equal(graph.edges[0].target_revision, 1);
+  assert.ok(!JSON.stringify(graph).includes(secret.handoff_id));
+  assert.equal((await (await request('/dashboard/api/graph', 'bob')).json()).edges.length, 0);
+  const before = (await db.query('SELECT count(*) AS count FROM app.handoff_events')).rows[0].count;
+  await assert.rejects(alice.save({ packet: { ...clyp, clamp: { ...clyp.clamp, links: [{ relation: 'depends_on', handoff_id: secret.handoff_id, revision: 1 }] } }, request_id: 'foreign' }), { code: 'not_found' });
+  await assert.rejects(alice.save({ packet: { ...clyp, context: 'separate tokens '.repeat(1500) }, request_id: 'oversize' }), { code: 'capacity' });
+  assert.equal((await db.query('SELECT count(*) AS count FROM app.handoff_events')).rows[0].count, before);
+  assert.equal((await request('/dashboard/api/graph?owner=bob')).status, 400);
+  assert.equal((await request(`/dashboard/api/get?handoff_id=${saved.handoff_id}&format=ormd`, 'bob')).status, 404);
+});
+
 test('dashboard serves an inert authenticated shell and enforces account, host, origin and read-only access', async t => {
   const { request, origin, pool } = await fixture(t);
   const a = new HandoffRepository(pool, 'alice'), saved = await a.save({ packet, request_id: 'first' });
