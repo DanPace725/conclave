@@ -47,3 +47,9 @@ OAuth grants, real model continuation quality and hosted dashboard acceptance
 remain unobserved. Publication/deployment must precede the live run; this batch
 does not push or deploy. The prior CLAMP source/snapshot commits remain recorded
 in [the initial increment](clamp-clyps.md).
+
+Committed source: `3111e39`; Converse runtime snapshot: `7d30d50`. All 108 managed
+files match that source. Converse syntax/engine checks and 203 application tests
+pass, with one optional live Neon skip and checkout-local temporary storage.
+The synthetic preview on port 59618 was refreshed; the previously selected
+Demo workstream 8 now opens as `demo-workstream-8--18`.
