@@ -1,0 +1,187 @@
+{
+  "project_markdown_files": 260,
+  "markdown_with_external_urls": 66,
+  "codex_trace_files": 101,
+  "codex_user_threads": 29,
+  "codex_guardian_traces": 71,
+  "codex_task_subagent_traces": 1,
+  "codex_threads_with_web": 22,
+  "codex_web_tool_invocation_batches": 190,
+  "codex_web_threads_with_source_urls_in_final": 16,
+  "claude_traces": 9,
+  "claude_web_search_calls": 6,
+  "claude_web_fetch_calls": 10,
+  "recovered_distinct_external_urls": 920,
+  "distinct_saved_external_references": 142,
+  "scope_note": "File/thread counts are not counts of independent researchers. 71 Codex traces are guardian records; one is a task subagent. Web invocation batches are not search-query counts. Current compiling session is excluded.",
+  "codex_research_threads": [
+    {
+      "session_id": "01a0f838-d7af-7110-8fb1-714aa4bf4170",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\01\\rollout-2026-10-01T09-07-49-01a0f838-d7af-7110-8fb1-714aa4bf4170.jsonl",
+      "timestamp": "2026-10-01T16:07:49.937Z",
+      "web_invocation_batches": 3,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a0f8e2-6f6a-74b0-b655-43f85dfe340b",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\01\\rollout-2026-10-01T12-13-04-01a0f8e2-6f6a-74b0-b655-43f85dfe340b.jsonl",
+      "timestamp": "2026-10-01T19:13:04.364Z",
+      "web_invocation_batches": 4,
+      "final_answer_has_external_reference": false
+    },
+    {
+      "session_id": "01a0f983-2ca1-7a21-8fa2-c0b47e94cb29",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\01\\rollout-2026-10-01T15-08-38-01a0f983-2ca1-7a21-8fa2-c0b47e94cb29.jsonl",
+      "timestamp": "2026-10-01T22:08:38.563Z",
+      "web_invocation_batches": 2,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a0f9e2-4c96-78a3-acea-f3a7ff0a0c93",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\01\\rollout-2026-10-01T16-52-32-01a0f9e2-4c96-78a3-acea-f3a7ff0a0c93.jsonl",
+      "timestamp": "2026-10-01T23:52:32.664Z",
+      "web_invocation_batches": 18,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a0fb16-48e7-7ef1-b26b-a26b9a3b154e",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\01\\rollout-2026-10-01T22-28-56-01a0fb16-48e7-7ef1-b26b-a26b9a3b154e.jsonl",
+      "timestamp": "2026-10-02T05:28:56.809Z",
+      "web_invocation_batches": 1,
+      "final_answer_has_external_reference": false
+    },
+    {
+      "session_id": "01a0fd6d-d675-7ba2-9408-1f00ef70c3a1",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\02\\rollout-2026-10-02T09-23-49-01a0fd6d-d675-7ba2-9408-1f00ef70c3a1.jsonl",
+      "timestamp": "2026-10-02T16:23:49.112Z",
+      "web_invocation_batches": 13,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a0fdf7-bea4-7170-9607-589bbc91c0aa",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\02\\rollout-2026-10-02T11-54-26-01a0fdf7-bea4-7170-9607-589bbc91c0aa.jsonl",
+      "timestamp": "2026-10-02T18:54:26.984Z",
+      "web_invocation_batches": 24,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a1024f-8141-73c2-8a19-a0d1786a07f8",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\03\\rollout-2026-10-03T08-08-47-01a1024f-8141-73c2-8a19-a0d1786a07f8.jsonl",
+      "timestamp": "2026-10-03T15:08:47.299Z",
+      "web_invocation_batches": 8,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a10302-d81f-7321-856c-bba281909f89",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\03\\rollout-2026-10-03T11-24-40-01a10302-d81f-7321-856c-bba281909f89.jsonl",
+      "timestamp": "2026-10-03T18:24:40.481Z",
+      "web_invocation_batches": 3,
+      "final_answer_has_external_reference": false
+    },
+    {
+      "session_id": "01a1033f-d008-75b1-97ce-22ea3e363c17",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\03\\rollout-2026-10-03T12-31-16-01a1033f-d008-75b1-97ce-22ea3e363c17.jsonl",
+      "timestamp": "2026-10-03T19:31:16.107Z",
+      "web_invocation_batches": 5,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a1079c-37aa-7042-a63a-6b4e1a86dbe2",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\04\\rollout-2026-10-04T08-50-40-01a1079c-37aa-7042-a63a-6b4e1a86dbe2.jsonl",
+      "timestamp": "2026-10-04T15:50:40.812Z",
+      "web_invocation_batches": 8,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a10d10-b073-7f10-bc9f-43d72955d105",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\05\\rollout-2026-10-05T10-15-59-01a10d10-b073-7f10-bc9f-43d72955d105.jsonl",
+      "timestamp": "2026-10-05T17:15:59.989Z",
+      "web_invocation_batches": 2,
+      "final_answer_has_external_reference": false
+    },
+    {
+      "session_id": "01a111b0-2caa-7330-b37e-df6cfde38ab0",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\06\\rollout-2026-10-06T07-48-40-01a111b0-2caa-7330-b37e-df6cfde38ab0.jsonl",
+      "timestamp": "2026-10-06T14:48:40.876Z",
+      "web_invocation_batches": 3,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a11380-3038-7013-9fe0-4a63747e7072",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\06\\rollout-2026-10-06T16-15-30-01a11380-3038-7013-9fe0-4a63747e7072.jsonl",
+      "timestamp": "2026-10-06T23:15:30.490Z",
+      "web_invocation_batches": 3,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a11474-b743-7d52-9413-ec6df9ad8483",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\06\\rollout-2026-10-06T20-42-35-01a11474-b743-7d52-9413-ec6df9ad8483.jsonl",
+      "timestamp": "2026-10-07T03:42:35.845Z",
+      "web_invocation_batches": 4,
+      "final_answer_has_external_reference": false
+    },
+    {
+      "session_id": "01a114a3-9537-7480-a081-588c7ba378e2",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\06\\rollout-2026-10-06T21-33-47-01a114a3-9537-7480-a081-588c7ba378e2.jsonl",
+      "timestamp": "2026-10-07T04:33:47.321Z",
+      "web_invocation_batches": 7,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a11656-0eb5-7701-8eeb-203a9d7f6d61",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T05-28-21-01a11656-0eb5-7701-8eeb-203a9d7f6d61.jsonl",
+      "timestamp": "2026-10-07T12:28:21.047Z",
+      "web_invocation_batches": 44,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a11802-877a-75a2-9de3-bcd056d4543c",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T13-16-21-01a11802-877a-75a2-9de3-bcd056d4543c.jsonl",
+      "timestamp": "2026-10-07T20:16:21.372Z",
+      "web_invocation_batches": 2,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a11882-95d0-76a0-ab30-6aa2be428b10",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T15-36-13-01a11882-95d0-76a0-ab30-6aa2be428b10.jsonl",
+      "timestamp": "2026-10-07T22:36:13.651Z",
+      "web_invocation_batches": 15,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a1193b-750d-7900-a9f0-c7ad9e10181a",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\07\\rollout-2026-10-07T18-58-09-01a1193b-750d-7900-a9f0-c7ad9e10181a.jsonl",
+      "timestamp": "2026-10-08T01:58:09.423Z",
+      "web_invocation_batches": 2,
+      "final_answer_has_external_reference": true
+    },
+    {
+      "session_id": "01a11c0d-fc7b-7150-b172-d6f5bccd3ce7",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\10\\08\\rollout-2026-10-08T08-07-21-01a11c0d-fc7b-7150-b172-d6f5bccd3ce7.jsonl",
+      "timestamp": "2026-10-08T15:07:21.085Z",
+      "web_invocation_batches": 1,
+      "final_answer_has_external_reference": false
+    },
+    {
+      "session_id": "01a0f445-8987-7962-a50b-3c4e5e2a5cfc",
+      "path": "C:\\Users\\nscha\\.codex\\sessions\\2026\\09\\30\\rollout-2026-09-30T14-43-13-01a0f445-8987-7962-a50b-3c4e5e2a5cfc.jsonl",
+      "timestamp": "2026-09-30T21:43:13.034Z",
+      "web_invocation_batches": 18,
+      "final_answer_has_external_reference": true
+    }
+  ],
+  "claude_research_threads": [
+    {
+      "session_id": "493ad18e-5918-4ea0-9aab-48c1ff464c25",
+      "path": "C:\\Users\\nscha\\.claude\\projects\\E--Coding-converse\\493ad18e-5918-4ea0-9aab-48c1ff464c25.jsonl",
+      "web_search_calls": 2,
+      "web_fetch_calls": 5
+    },
+    {
+      "session_id": "e80d2a1a-8a06-4241-8d86-12118244f6f6",
+      "path": "C:\\Users\\nscha\\.claude\\projects\\E--Coding-converse\\e80d2a1a-8a06-4241-8d86-12118244f6f6.jsonl",
+      "web_search_calls": 4,
+      "web_fetch_calls": 5
+    }
+  ]
+}

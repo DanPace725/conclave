@@ -232,7 +232,7 @@ Sources: [Claude Desktop MCP](https://support.claude.com/en/articles/10949351-ge
 
 ## Codex desktop, CLI, and IDE
 
-**Already done on this computer:** the `conclave-handoffs` plugin is installed and enabled from the `conclave-local` marketplace. It uses local handoff storage in this checkout, with the same packets as the other local configurations.
+**Already done on this computer:** the `conclave-local` plugin, displayed as `conclave_local`, is installed and enabled from the `conclave-local` marketplace. Its local MCP namespace is also `conclave_local`. It uses local handoff storage in this checkout, with the same packets as the other local configurations. Restart the app or use a fresh session after the rename.
 
 1. Start a fresh Codex conversation. If the plugin does not appear, restart the desktop app.
 2. Check the installed plugins for **Conclave handoffs**. Use `/mcp` to check connected servers where that menu is available.
@@ -246,7 +246,7 @@ If you need to reinstall this local package, run these commands from the Conclav
 ```powershell
 npm run mcp:configs
 codex plugin marketplace add E:\Coding\converse\CLA\conclave\.conclave\mcp-config\plugin-marketplace
-codex plugin add conclave-handoffs@conclave-local
+codex plugin add conclave-local@conclave-local
 codex plugin list --marketplace conclave-local
 ```
 
@@ -261,13 +261,13 @@ The plugin package and connection file are ready. **The Claude Code CLI was not 
 If you have the `claude` command available, use:
 
 ```powershell
-claude plugin validate E:\Coding\converse\CLA\conclave\.conclave\mcp-config\plugin-marketplace\plugins\conclave-handoffs
+claude plugin validate E:\Coding\converse\CLA\conclave\.conclave\mcp-config\plugin-marketplace\plugins\conclave-local
 claude plugin marketplace add E:\Coding\converse\CLA\conclave\.conclave\mcp-config\plugin-marketplace
-claude plugin install conclave-handoffs@conclave-local
+claude plugin install conclave-local@conclave-local
 claude plugin list
 ```
 
-Then open a **local** session in the desktop app's Code tab. Use **+ → Plugins → Manage plugins** to check Conclave, or **Add plugin** to browse the configured marketplace. Start a fresh session after installation. Invoke **`/conclave-handoffs:save-handoff`** or **`/conclave-handoffs:resume-handoff`**, or ask the same plain-language save/retrieve questions used in Codex. The desktop plugin browser supports local/SSH sessions; cloud sessions need their own remote connection.
+Then open a **local** session in the desktop app's Code tab. Use **+ → Plugins → Manage plugins** to check Conclave, or **Add plugin** to browse the configured marketplace. Start a fresh session after installation. Invoke **`/conclave-local:save-handoff`** or **`/conclave-local:resume-handoff`**, or ask the same plain-language save/retrieve questions used in Codex. The desktop plugin browser supports local/SSH sessions; cloud sessions need their own remote connection.
 
 For a direct connection without installing a plugin or CLI, merge the `mcpServers.conclave` entry from **`.conclave/mcp-config/claude-code.json`** into **`.mcp.json` in the project folder you open in Code**. Keep existing entries, start a local session, and approve the project MCP server when prompted. This connects the tools; it does not install the bundled workflow skills.
 

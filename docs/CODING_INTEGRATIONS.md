@@ -1,6 +1,8 @@
 # Conclave in Codex and Claude Code
 
-Checked October 7, 2026. The [simple setup checklist](HANDOFF_SETUP.md) includes the commands and remaining account steps.
+Checked October 8, 2026. The [simple setup checklist](HANDOFF_SETUP.md) includes the commands and remaining account steps.
+
+The local plugin is displayed as **`conclave_local`**, with package ID `conclave-local@conclave-local` and MCP namespace `conclave_local`. Hosted templates retain `conclave-handoffs@conclave-online` and namespace `conclave`. This allows both connections to have distinct names; their packet stores remain separate. Codex's installed local package and Claude Desktop's local server entry have been renamed on this computer. Restart the app or start a fresh session to load the updated names.
 
 ## Same handoff, different host packaging
 
@@ -29,7 +31,7 @@ Run `npm run mcp:configs` in Conclave. Output stays in ignored `.conclave/mcp-co
 - `claude-code.json`: MCP map for a project `.mcp.json` or a CLI add-json operation.
 - Existing Claude Desktop, Gemini CLI, Cursor and VS Code configuration files.
 - `plugin-marketplace/`: separate OpenAI and Claude catalogs pointing to one plugin folder.
-- `plugin-marketplace/plugins/conclave-handoffs/`: portable `plugin.json`/`mcp.json`, compatible Codex/Claude manifests, `.mcp.json`, and `skills/`.
+- `plugin-marketplace/plugins/conclave-local/`: portable `plugin.json`/`mcp.json`, compatible Codex/Claude manifests, `.mcp.json`, and `skills/`.
 
 The OpenAI catalog uses `.agents/plugins/marketplace.json`; the Claude catalog uses `.claude-plugin/marketplace.json`. Both keep source paths inside the marketplace root. Portable MCP configuration declares `stdio` or `streamable-http`; the compatibility configuration uses `stdio` or `http`. The package has no lifecycle hooks, automatic capture, global memory edits or registered OpenAI app mapping. It does not invent a service ID or public publisher/contact.
 
@@ -41,7 +43,7 @@ Local packages are development packages for this checkout, not standalone server
 
 Once there is a verified server origin, run `npm run mcp:configs -- --origin https://YOUR-VERIFIED-ORIGIN` after replacing the placeholder. This preserves local configurations and writes online alternatives under `.conclave/mcp-config/online/`, with a `conclave-online` marketplace. Generation validates HTTPS origin shape before writing, adds `/mcp`, and includes no credentials. It does not check endpoint availability, perform sign-in or deploy anything.
 
-The online Claude chat connector is added through account settings; no remote `claude-desktop.json` is emitted. Use one local or online Conclave connection per host to avoid confusing tool copies. Online clients must choose the same Conclave account; matching ChatGPT/Claude subscriptions alone is not sufficient. Local and hosted packets remain separate stores.
+The online Claude chat connector is added through account settings; no remote `claude-desktop.json` is emitted. Choose `conclave_local` explicitly for packets stored on this PC and the hosted connection for account-scoped packets. Online clients must choose the same Conclave account; matching ChatGPT/Claude subscriptions alone is not sufficient. Local and hosted packets remain separate stores.
 
 Claude Code supports HTTP MCP/OAuth and can receive connectors already authenticated through a claude.ai subscription login. That inherited route depends on account and runtime configuration; API-key/third-party modes do not fetch those connectors the same way. Verify discovery and permissions before relying on it. [Claude MCP connections](https://code.claude.com/docs/en/mcp)
 

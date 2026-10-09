@@ -2,6 +2,8 @@
 
 Historical planning, proposals, reports, comparisons, and research notes. Originals are preserved byte for byte. PROJECT_CONTEXT.md holds the current project state.
 
+[Consolidated project research and citation audit (October 8, 2026)](2026-10-08/research/README.md) collects the findings, source links, trace locations and citation gaps across Converse and Conclave.
+
 Paths in the original documents describe their earlier locations. This index maps each original path to its archived file; non-Markdown evidence remains at its original location.
 
 | Original path | Archived document |
