@@ -61,6 +61,8 @@ Recent handoffs is the first default because it requires no inferred grouping or
 
 ## Checks
 
+The Connections canvas fits the network initially and provides +, − and Fit controls, drag panning and two-finger pinch/pan. The same camera is used in the MCP App. Focus the canvas for +/−, arrow-key panning and 0/Home to fit; node taps and Enter/Space still open the labeled revision. [Controls and local validation](archive/2026-10-10/graph-zoom-fit.md)
+
 ```powershell
 node scripts/test.js test/handoff-dashboard.test.js test/hosted-standalone.test.js
 node scripts/test-dashboard-ui.js
