@@ -18,7 +18,7 @@ function button(label, action, parent, requiresTools = true) {
   node.addEventListener('click', action); parent.append(node); return node;
 }
 function updateDisabled() {
-  for (const node of view.querySelectorAll('button,input')) node.disabled = busy || !ready ||
+  for (const node of view.querySelectorAll('button,input')) node.disabled = busy || !ready || node.dataset.viewDisabled === 'true' ||
     (node.dataset.requiresTools === 'true' && !app.getHostCapabilities()?.serverTools);
 }
 function reset(title) {

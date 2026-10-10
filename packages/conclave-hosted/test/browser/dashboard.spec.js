@@ -1,5 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { checkGraphNavigation } from '../../../../test/browser/graph-navigation.js';
+
+test('graph fits, zooms and pans without losing node navigation', async ({ page }, info) => {
+  await page.goto('/dashboard?view=graph');
+  await expect(page.locator('.graph-node')).toHaveCount(2);
+  await checkGraphNavigation(page, page, info.project.name === 'mobile');
+  await page.screenshot({ path: info.outputPath('graph-fit.png'), fullPage: true });
+  if (info.project.name === 'mobile') await page.locator('.graph-node').first().tap();
+  else { await page.locator('.graph-node').first().focus(); await page.locator('.graph-node').first().press('Enter'); }
+  await expect(page.locator('#detail h2').first()).toBeVisible();
+});
 
 test('Clyp budgets, complete ORMD download and pinned cross-project graph navigation', async ({ page }, info) => {
   const errors = []; page.on('pageerror', e => errors.push(e.message));

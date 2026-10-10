@@ -1,4 +1,17 @@
 import { test, expect } from '@playwright/test';
+import { checkGraphNavigation } from '../../../../test/browser/graph-navigation.js';
+
+test('inline graph supports local zoom, touch and fit before fullscreen expansion', async ({ page }, info) => {
+  await page.goto('/?inline=1&view=graph'); const ui = page.frameLocator('iframe');
+  await expect(ui.locator('.graph-node')).toHaveCount(2);
+  await checkGraphNavigation(page, ui, info.project.name === 'mobile');
+  expect(await page.evaluate(() => window.fixtureCalls)).toHaveLength(0);
+  await ui.getByRole('button', { name: 'Open connections graph' }).click();
+  await expect(ui.getByLabel('Zoom relative to fit')).toHaveText('100%');
+  await ui.locator('.graph-node').first().focus(); await ui.locator('.graph-node').first().press('Enter');
+  await expect(ui.getByRole('textbox', { name: 'Handoff reference', exact: true })).toBeVisible();
+  expect((await page.evaluate(() => window.fixtureCalls)).at(-1).name).toBe('get_handoff');
+});
 
 async function search(page, query = 'connector') {
   const ui = page.frameLocator('iframe');
@@ -61,6 +74,7 @@ test('theme updates, keyboard controls, clipboard fallback and hosts without mes
 
 test('packet titles render as inert text and failed requests keep the current view recoverable', async ({ page }) => {
   await page.goto('/'); const ui = await search(page, 'Literal');
+  await expect(ui.getByText('1 saved handoff', { exact: true })).toBeVisible();
   await expect(ui.getByRole('heading', { name: 'Literal <img src=x onerror="window.parent.xss=true">', exact: true })).toBeVisible();
   await expect(ui.locator('img, script[src="x"]')).toHaveCount(0);
   expect(await page.evaluate(() => window.xss)).toBeUndefined();
