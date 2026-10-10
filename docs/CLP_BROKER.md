@@ -1,5 +1,7 @@
 # CLP evidence broker
 
+[CLAMP 1.0 Clyps](CLAMP.md) extend the project vocabulary to bounded context and memory handoffs. The Clyp profile does not replace this evidence broker: reported handoff confidence and relationship labels do not satisfy its evidence floors.
+
 The first CLP increment provides a conversation-local, append-only frame registry and evidence broker. It is opt-in and separate from ordinary task state. It implements the six CLI acceptance cases from CLP v0.2: frame scoping, withholding thin evidence, deterministic explanations, short low-attention explanations, source deduplication, and event/frame-version citations.
 
 Run the six-bundle offline example with `node scripts/clp-demo.js`. It returns one supported claim and two unresolved claims (thin support and refutation), with the three `news.report` evidence bundles excluded from the claim rows. No network or model call is made.

@@ -2,7 +2,7 @@
 
 Checked October 7, 2026. [Main setup checklist](HANDOFF_SETUP.md).
 
-The installed `conclave-handoffs@conclave-local` package supplies local workflows and a local MCP command. Seeing its name in ChatGPT does not mean a regular ChatGPT chat can run that command. Regular Chat needs a registered MCP connection. OpenAI's **Secure MCP Tunnel** provides that connection while keeping the server and packet database on your PC.
+The installed `conclave-local@conclave-local` package, displayed as `conclave_local`, supplies local workflows and a local MCP command. Seeing its name in ChatGPT does not mean a regular ChatGPT chat can run that command. Regular Chat needs a registered MCP connection. OpenAI's **Secure MCP Tunnel** provides that connection while keeping the server and packet database on your PC. The existing registered tunnel connection is named **Conclave local handoffs**; renaming the workflow package preserves its app mapping and does not rename the account-side connection.
 
 This route needs no Vercel deployment, public server, inbound firewall opening or database migration. Conclave still makes no model calls. The tunnel requires an OpenAI Platform runtime API key for its connection, separate from the model answering your chat. Account eligibility, permissions and any tunnel usage charges should be checked in your account; we have not verified pricing.
 
@@ -107,7 +107,7 @@ The registered custom MCP plugin already provides the tools. If you also want ou
 ```powershell
 node packages/conclave-mcp/src/chatgpt.js link --app-id YOUR_REGISTERED_APP_ID
 codex plugin marketplace add E:\Coding\converse\CLA\conclave\.conclave\mcp-config\chatgpt\plugin-marketplace
-codex plugin add conclave-handoffs@conclave-chatgpt
+codex plugin add conclave-local@conclave-chatgpt
 ```
 
 This generates a separate plugin whose `.app.json` points to the registered connection. It does not include the local stdio command, create an account connection or reuse a fabricated ID. Refresh the desktop plugin directory and test in a fresh chat. Select the registered connection rather than the earlier `@Conclave handoffs` local-only package. Keep local Codex/Claude configurations for direct local sessions.

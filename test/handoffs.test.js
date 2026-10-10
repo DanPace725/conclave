@@ -16,6 +16,22 @@ function fixture(run) {
   try { run(new HandoffService(store), store); } finally { store.close(); }
 }
 
+test('readable references distinguish duplicate titles and survive renames, retries and revision reads', () => fixture(service => {
+  const first = service.save(request('named-1', { title: 'Café dashboard' }));
+  const duplicate = service.save(request('named-2', { title: 'Café dashboard' }));
+  assert.match(first.readable_id, /^cafe-dashboard--\d+$/);
+  assert.equal(first.reference, first.readable_id);
+  assert.notEqual(first.readable_id, duplicate.readable_id);
+  const update = request('rename', { title: 'New dashboard name' }, { handoff_id: first.readable_id, expected_revision: 1 });
+  assert.equal(service.save(update).readable_id, first.readable_id);
+  assert.equal(service.save({ ...update, handoff_id: first.handoff_id }).replayed, true);
+  assert.equal(service.get({ handoff_id: first.readable_id, revision: 1 }).packet.title, 'Café dashboard');
+  assert.equal(service.history({ handoff_id: first.readable_id }).total, 2);
+  assert.deepEqual(service.compare({ handoff_id: first.readable_id, from_revision: 1 }).changes.map(c => c.field), ['title']);
+  assert.equal(service.find({ query: first.readable_id }).handoffs[0].handoff_id, first.handoff_id);
+  assert.throws(() => service.get({ handoff_id: 'wrong-name--2' }), { code: 'not_found' });
+}));
+
 test('handoff saves external data without human memory, model calls, or leaking other conversations', () => fixture((service, store) => {
   const ordinary = store.create('Private ordinary conversation');
   store.append(ordinary, 'user', 'Never show this in handoff search', {}, 'human');
@@ -68,6 +84,30 @@ test('finding packets is deterministic, paginated, and ambiguous titles never se
   assert.notEqual(page.handoffs[0].handoff_id, service.find({ query: 'Authentication', limit: 1, offset: 1 }).handoffs[0].handoff_id);
   assert.deepEqual(service.find({ query: 'OAuth' }), service.find({ query: 'OAuth' }));
   assert.throws(() => service.get({ title: 'Conclave launch' }), { code: 'ambiguous' });
+}));
+
+test('projects are exact reported names that persist across updates, filter discovery and leave earlier packets unchanged', () => fixture(service => {
+  const plain = service.save(request('plain'));
+  assert.equal(plain.project, null);
+  assert.deepEqual(Object.keys(service.get({ handoff_id: plain.handoff_id }).packet), ['title', 'summary', 'objective', 'context',
+    'decisions', 'constraints', 'open_questions', 'next_steps', 'references', 'source_app', 'source_model']);
+  const alpha = service.save(request('alpha-1', { title: 'Alpha', project: '  Launch  ' }));
+  assert.equal(alpha.project, 'Launch');
+  const update = request('alpha-2', { title: 'Alpha', summary: 'Updated.' }, { handoff_id: alpha.handoff_id, expected_revision: 1 });
+  assert.equal(service.save(update).project, 'Launch');
+  assert.equal(service.save(update).replayed, true);
+  service.save(request('beta', { title: 'Beta', project: 'launch' }));
+  const found = service.find({ project: 'Launch' });
+  assert.deepEqual(found.handoffs.map(row => row.handoff_id), [alpha.handoff_id]);
+  assert.deepEqual(found.projects, [{ name: 'launch', handoffs: 1 }, { name: 'Launch', handoffs: 1 }]);
+  assert.equal(service.find({ project: 'Missing' }).total, 0);
+  const cleared = service.save(request('alpha-3', { title: 'Alpha', summary: 'Updated.', project: '' }, { handoff_id: alpha.handoff_id, expected_revision: 2 }));
+  assert.equal(cleared.project, null);
+  assert.deepEqual(service.compare({ handoff_id: alpha.handoff_id, from_revision: 2 }).changes, [{ field: 'project', before: 'Launch', after: '' }]);
+  assert.equal(service.get({ handoff_id: alpha.handoff_id, revision: 2 }).packet.project, 'Launch');
+  assert.deepEqual(service.find().projects, [{ name: 'launch', handoffs: 1 }]);
+  assert.throws(() => service.find({ project: '' }), { code: 'invalid_input' });
+  assert.throws(() => service.save(request('long', { project: 'x'.repeat(121) })), { code: 'invalid_input' });
 }));
 
 test('focus keeps complete matching passages and every decision, constraint, and open question', () => fixture(service => {

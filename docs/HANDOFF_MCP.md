@@ -10,6 +10,13 @@ Local launchers live in the private package `packages/conclave-mcp/`; shared too
 
 ## Commands
 
+Handoff responses include `readable_id`, a stable name such as
+`dashboard-planning--2`. Use it as `handoff_id` in all handoff tools and pinned
+links; canonical `conv_…` IDs remain accepted. Save receipts return the readable
+name as `reference`. It stays stable after a title change and is scoped to the
+current account/store. See [CLAMP references](CLAMP.md#readable-references) and
+the prepared [ChatGPT ↔ Claude pilot](CLAMP_PILOT.md).
+
 Run from the Conclave checkout, with Node.js 22.13 or later:
 
 ```powershell
@@ -35,14 +42,20 @@ It references this checkout with absolute paths and is not portable to another m
 
 ## Tool contract
 
+`create_project({name, summary, request_id, objective?, context?, constraints?, decisions?, open_questions?, next_steps?, references?, source_app?, source_model?})` explicitly creates a Conclave project by saving its initial handoff, with the name as both packet title and project. Projects are exact named groups of saved handoffs; an existing name groups the new packet into that project. This does not create a native project in ChatGPT or Claude, or a separate empty project record. It uses the same owner-bound save, retry and capacity guards as `save_handoff`, and requires read/write OAuth scopes. Read-only connections expose neither write tool.
+
+After deploying tool changes, refresh the Conclave connection in ChatGPT Plugins, confirm **Create a Conclave project** is listed and enabled, then start a new conversation. Reinstalling a connection before the tool is deployed cannot reveal it. [Official refresh steps](https://developers.openai.com/plugins/deploy/connect-chatgpt)
+
 - `save_handoff({packet, request_id, handoff_id?, expected_revision?})`: creates or updates a packet and returns its ID, version, hash, and source event. Use one stable request ID per intended save; an identical retry returns its original receipt, while changed content with the same request ID fails. Updating requires the current revision.
-- `find_handoffs({query?, limit?, offset?})`: deterministic keyword discovery over packet data, with title weighting and paginated metadata. Search is not semantic relevance or factual verification.
+- `find_handoffs({query?, project?, limit?, offset?})`: deterministic keyword discovery over packet data, with title weighting and paginated metadata. `project` limits results to packets whose latest revision reports that exact name. Every result also returns `projects`: the exact names in use with a packet count, most recently saved first (at most 100). Search is not semantic relevance or factual verification.
 - `get_handoff({handoff_id? OR title?, revision?, focus?, max_characters?})`: retrieves the latest or requested immutable version. Duplicate exact titles produce an ambiguity error. Focus selects whole matching context paragraphs and preserves every other packet section. The response reports omitted context, latest/saved revisions, provenance, and the original hash. No constraints are silently clipped; capacity failure requires a larger allowance or more focused context.
 - `list_handoff_versions({handoff_id, limit?, offset?})`: newest-first metadata, hashes, and previous-event links, with 1–20 items per page. The hosted adapter uses the same verified-owner boundary as packet retrieval.
 - `compare_handoff_versions({handoff_id, from_revision, to_revision?, max_characters?})`: exact before/after values for every changed packet field, defaulting to latest as the target. Removed constraints/questions are explicit. Returns both original packet hashes; identical content returns an empty change list. Comparison capacity failures never clip a field. Both tools are read-only and require only `handoffs:read` in hosted connections.
 - `open_handoff_library({handoff_id? OR query?, offset?})`: a separate read-only display tool. Returns `{view,query,offset,data}` containing either the latest complete packet or ten catalog entries. Compatible hosts can render the linked MCP Apps resource; headless clients still receive structured/text data. Error results use the same envelope with `view:"error"` and `{error,message}` data so SDK output validation succeeds.
 
-Packet fields: required `title` and `summary`; optional `objective`, `context`, arrays of `decisions`, `constraints`, `open_questions`, `next_steps`, `{label,url}` references, `source_app`, and `source_model`. Total packet JSON is limited to 64 KB. URLs are references only; the server never fetches them. Credentials in URLs and non-HTTP(S) schemes are rejected. The model's text may still contain confidential information, so explicit handoff creation is the sharing boundary.
+Packet fields: required `title` and `summary`; optional `objective`, `context`, arrays of `decisions`, `constraints`, `open_questions`, `next_steps`, `{label,url}` references, `source_app`, `source_model`, `project`, and `clamp`. Total packet JSON is limited to 64 KB. New model handoffs should use the [CLAMP 1.0 Clyp profile](CLAMP.md): an objective and next action are required, complete ORMD is bounded to 1,500 o200k_base tokens, and explicit links pin existing account-owned handoff revisions. `get_handoff` accepts `format:"ormd"` for complete saved Clyp documents; default packet reads are compatible. Focus never shortens a Clyp. Legacy packets remain unchanged.
+
+`project` (at most 120 characters, trimmed) is an explicit name reported by the saving app, like the source labels. Names are compared exactly, including case; similar names and matching titles are never merged. A packet without a project omits the field, so packets saved before projects existed keep their hashes. On an update, omitting `project` keeps the packet's current project and an empty string removes it; either way the change is a new immutable revision and appears in comparisons. URLs are references only; the server never fetches them. Credentials in URLs and non-HTTP(S) schemes are rejected. The model's text may still contain confidential information, so explicit handoff creation is the sharing boundary.
 
 MCP annotations mark retrieval as read-only and saving as a write. Results have text plus structured content. Known input/conflict/ambiguity/capacity errors are returned explicitly; unexpected exceptions receive a generic message without paths or SQL details. No SDK logging is sent to stdio stdout.
 

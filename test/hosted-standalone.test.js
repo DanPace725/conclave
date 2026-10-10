@@ -57,6 +57,34 @@ test('standalone identity uses independent secure cookies, verified accounts and
   const wrongEmail = createIdentity({ ...defaults, fetcher: async () => Response.json({ token: 'upstream-only', user: { id: 'bob', email: 'bob@example.com', emailVerified: true } }) });
   assert.equal((await wrongEmail.emailCode(user.email, '123456')).status, 401);
 });
+test('Railway proxy keeps OAuth limits per client and ignores spoofed earlier forwarding hops', async t => {
+  const { pool } = await fixture(t); await migrateHosted(pool);
+  const server = createServer();
+  await new Promise(done => server.listen(0, '127.0.0.1', done));
+  t.after(() => new Promise(done => { server.closeAllConnections(); server.close(done); }));
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  const options = { ...defaults, origin, pool };
+  assert.equal(createStandaloneApp(options).get('trust proxy'), false);
+  assert.throws(() => createStandaloneApp({ ...options, trustProxy: true }), /proxy hop count/);
+  const app = createStandaloneApp({ ...options, trustProxy: 1 });
+  assert.equal(app.get('trust proxy'), 1);
+  server.on('request', app);
+  const diagnostics = [];
+  t.mock.method(console, 'error', (...args) => diagnostics.push(args.join(' ')));
+  const authorize = forwarded => fetch(origin + '/authorize', { headers: { 'X-Forwarded-For': forwarded } });
+  // Invalid OAuth parameters exercise the real SDK limiter without creating
+  // grants or involving sign-in. Rightmost address is the edge-reported client.
+  for (let i = 0; i < 100; i++) {
+    const response = await authorize('192.0.2.99, 198.51.100.1');
+    assert.equal(response.status, 400); await response.text();
+  }
+  const blocked = await authorize('192.0.2.88, 198.51.100.1');
+  assert.equal(blocked.status, 429); await blocked.text();
+  const otherClient = await authorize('192.0.2.99, 203.0.113.2');
+  assert.equal(otherClient.status, 400); await otherClient.text();
+  assert.deepEqual(diagnostics, []);
+});
+
 test('standalone HTTP sign-in and two OAuth clients share durable packets and independently revoke', async t => {
   const { db, pool } = await fixture(t); await migrateHosted(pool);
   let app, upstreamCalls = 0;
@@ -113,12 +141,15 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
     app = createStandaloneApp(options);
     const consentResponse = await request(consentPath, { headers: { Cookie: browserCookies } });
     assert.equal(consentResponse.headers.get('referrer-policy'), 'same-origin', 'consent forms must preserve Origin too');
-    assert.match(consentResponse.headers.get('content-security-policy'), /form-action 'self' https:\/\/client\.example$/);
+    assert.match(consentResponse.headers.get('content-security-policy'), /form-action 'self'$/);
     const consentPage = await consentResponse.text();
     const consentCsrf = consentPage.match(/name="csrf" value="([^"]+)"/)[1];
     const allowed = await request('/connect', form({ request: new URL(consentPath, origin).searchParams.get('request'), csrf: consentCsrf, decision: 'allow' }, browserCookies));
     assert.equal(allowed.headers.get('content-security-policy'), consentResponse.headers.get('content-security-policy'));
-    const code = new URL(allowed.headers.get('location')).searchParams.get('code');
+    assert.equal(allowed.status, 200);
+    assert.equal(allowed.headers.get('location'), null);
+    const completed = await allowed.text();
+    const code = new URL(completed.match(/id="oauth-return" href="([^"]+)"/)[1].replaceAll('&amp;', '&')).searchParams.get('code');
     const tokens = await (await request('/token', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ client_id: client.client_id, grant_type: 'authorization_code', code, code_verifier: verifier, resource, redirect_uri: client.redirect_uris[0] }) })).json();
     assert.ok(tokens.access_token);
     const sdk = new Client({ name, version: 'test' }); t.after(() => sdk.close());

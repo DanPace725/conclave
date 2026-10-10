@@ -6,7 +6,7 @@ The Conclave and Converse repositories remain distinct. Converse keeps its exist
 
 ## Deployment
 
-Deployed from `codex/conclave-hosted` in `DanPace725/conclave`:
+Currently deployed from `codex/conclave-dashboard` in `DanPace725/conclave`, pinned to `28cd797`. The preceding pilot used `codex/conclave-hosted`.
 
 | Resource | Configuration |
 | --- | --- |
@@ -25,6 +25,8 @@ The new Neon compute is fixed at 0.25 CU, with the plan-default suspend setting 
 See `packages/conclave-hosted/.env.example` for required variables. Actual `.env.hosted` is ignored, is never bundled in Docker or committed, and uses a separate session secret. Railway holds its own copies of the variables. Runtime uses the pooled URL; migrations use the direct URL. Existing Converse credentials and configuration are not deployment inputs.
 
 The independent migration adds only handoff events, OAuth records and lock rows, with a checksum-controlled history under `conclave_hosted`. It refuses a database containing Converse conversation or provider-key tables before modifying it. Re-running it preserves existing packets. Do not use Converse's full migration command on this service.
+
+The first standalone dashboard is deployed from commit-pinned `codex/conclave-dashboard` at `/dashboard`, with a link from the signed-in account page. It uses the same browser account and existing saved packet operations. Railway deployment `f8051a5a-60d3-4c13-94c6-06fb7709a00f` at source `28cd797` is SUCCESS; ten public release checks and browser sign-in redirection pass. Real signed-in packet acceptance remains pending. See [dashboard usage and decisions](DASHBOARD.md), [release/rollback](DASHBOARD_RELEASE.md), and [deployment evidence](archive/2026-10-07/dashboard-railway-release.md).
 
 ## Sign in and connect
 

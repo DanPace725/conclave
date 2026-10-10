@@ -20,15 +20,15 @@ test('cached plugin and independently generated desktop/Code configurations resu
   const temporary = mkdtempSync(join(tmpdir(), 'handoff-config space-'));
   const generated = writeConfigurations({ output: join(temporary, 'examples'), dataDirectory: join(temporary, 'shared data') });
   const cache = join(temporary, 'installed plugin'); cpSync(generated.local.plugin, cache, { recursive: true });
-  const origin = await connect(read(join(cache, 'mcp.json')).mcpServers.conclave, temporary);
+  const origin = await connect(read(join(cache, 'mcp.json')).mcpServers.conclave_local, temporary);
   let saved;
   try {
-    assert.equal((await origin.listTools()).tools.length, 6);
+    assert.equal((await origin.listTools()).tools.length, 7);
     saved = value(await origin.callTool({ name: 'save_handoff', arguments: { request_id: 'generated-origin',
       packet: { title: 'Coding handoff', summary: 'Use the generated cached plugin.', constraints: ['Preserve the selected branch.'], open_questions: ['Which host next?'] } } }));
   } finally { await origin.close(); }
   for (const config of ['claude-code.json', 'claude-desktop.json']) {
-    const destination = await connect(read(join(generated.local.directory, config)).mcpServers.conclave, cache);
+    const destination = await connect(read(join(generated.local.directory, config)).mcpServers.conclave_local, cache);
     try {
       const packet = value(await destination.callTool({ name: 'get_handoff', arguments: { handoff_id: saved.handoff_id, revision: saved.revision } }));
       assert.deepEqual(packet.packet.constraints, ['Preserve the selected branch.']);
@@ -44,7 +44,9 @@ test('ChatGPT registration binds the actual app without accidentally bundling lo
   const temporary = mkdtempSync(join(tmpdir(), 'handoff-chatgpt-'));
   const appId = 'plugin_asdk_app_fixture_actual_connection';
   const generated = writeChatgptPlugin({ appId, output: temporary });
-  assert.deepEqual(read(join(generated.plugin, '.app.json')), { apps: { conclave: { id: appId, required: true } } });
+  assert.deepEqual(read(join(generated.plugin, '.app.json')), { apps: { conclave_local: { id: appId, required: true } } });
+  assert.equal(read(join(generated.plugin, 'plugin.json')).name, 'conclave-local');
+  assert.equal(read(join(generated.plugin, 'plugin.json')).extensions['com.openai'].interface.displayName, 'conclave_local');
   assert.equal(read(join(generated.plugin, 'plugin.json')).extensions['com.openai'].apps, './.app.json');
   assert.equal(read(join(generated.plugin, '.codex-plugin', 'plugin.json')).apps, './.app.json');
   assert.equal(existsSync(join(generated.plugin, 'mcp.json')), false);
@@ -55,7 +57,7 @@ test('ChatGPT registration binds the actual app without accidentally bundling lo
     assert.throws(() => writeChatgptPlugin({ appId, output }), /registered MCP app ID/);
     assert.equal(existsSync(output), false);
   }
-  assert.deepEqual(new Set(await checkLocalTools()), new Set(['save_handoff', 'find_handoffs', 'get_handoff',
+  assert.deepEqual(new Set(await checkLocalTools()), new Set(['save_handoff', 'create_project', 'find_handoffs', 'get_handoff',
     'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']));
 });
 
@@ -80,6 +82,19 @@ test('hosted templates preserve one HTTPS endpoint with per-host transports and 
   const marketplace = read(join(generated.online.marketplace, '.agents/plugins/marketplace.json'));
   assert.ok(existsSync(join(generated.online.marketplace, marketplace.plugins[0].source.path, 'plugin.json')));
   assert.equal(generated.local.marketplaceName, 'conclave-local'); assert.equal(generated.online.marketplaceName, 'conclave-online');
+  const localManifest = read(join(generated.local.plugin, 'plugin.json'));
+  assert.equal(localManifest.name, 'conclave-local');
+  assert.equal(localManifest.extensions['com.openai'].interface.displayName, 'conclave_local');
+  assert.equal(read(join(generated.online.plugin, 'plugin.json')).name, 'conclave-handoffs');
+  assert.equal(read(join(generated.online.plugin, 'plugin.json')).extensions['com.openai'].interface.displayName, 'Conclave handoffs');
+  for (const config of ['claude-code.json', 'claude-desktop.json', 'cursor-mcp.json', 'gemini-settings.json'])
+    assert.deepEqual(Object.keys(read(join(generated.local.directory, config)).mcpServers), ['conclave_local']);
+  assert.deepEqual(Object.keys(read(join(generated.local.directory, 'vscode-mcp.json')).servers), ['conclave_local']);
+  assert.match(readFileSync(join(generated.local.directory, 'codex-config.toml'), 'utf8'), /^\[mcp_servers\.conclave_local\]/);
+  assert.deepEqual(Object.keys(read(join(generated.local.plugin, '.mcp.json')).mcpServers), ['conclave_local']);
+  assert.equal(read(join(generated.local.plugin, '.claude-plugin/plugin.json')).name, 'conclave-local');
+  for (const catalog of ['.agents/plugins/marketplace.json', '.claude-plugin/marketplace.json'])
+    assert.equal(read(join(generated.local.marketplace, catalog)).plugins[0].name, 'conclave-local');
   assert.equal(existsSync(join(generated.online.directory, 'claude-desktop.json')), false);
 });
 
