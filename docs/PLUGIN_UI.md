@@ -1,6 +1,6 @@
 # Developing Conclave plugins and chat UI
 
-Research checked October 7, 2026. This is the active design and development guide. The [plain-language setup checklist](HANDOFF_SETUP.md) explains what you need to do on your computer.
+ChatGPT UI documentation rechecked October 10, 2026; other platform research checked October 7. This is the active design and development guide. The [plain-language setup checklist](HANDOFF_SETUP.md) explains what you need to do on your computer.
 
 ## What the platforms support
 
@@ -8,7 +8,7 @@ Research checked October 7, 2026. This is the active design and development guid
 | --- | --- | --- | --- |
 | ChatGPT | MCP Apps UI resources and bridge; optional OpenAI extensions | Shared card and expanded handoff browser | Resource rendering, OAuth, host theme/size behavior and actions |
 | Claude | Interactive connectors use MCP Apps, with inline/fullscreen presentation | The same standard UI and authenticated tools | Custom connector rendering and mobile/desktop behavior |
-| Codex desktop/CLI/IDE | Shared MCP configuration and plugin packaging | Same six tools plus bundled save/resume skills | Local installation verified; fresh conversation invocation and widget rendering not established |
+| Codex desktop/CLI/IDE | Shared MCP configuration and plugin packaging | Shared data tools plus bundled save/resume skills | Local installation verified; fresh conversation invocation and widget rendering not established |
 | Claude Code CLI/local desktop | MCP configuration and skills/MCP plugin packages | Same tools and namespaced save/resume skills | Actual Code installation and desktop invocation |
 | Gemini CLI | MCP tools, resources, prompts and slash-command invocation | Structured/text tool results; prompt shortcuts are a next increment | Actual CLI connection and interaction |
 | Consumer Gemini chat | A general custom MCP UI route has not been verified here | No claim that a Conclave widget installs there | Verify a supported integration before writing installation promises |
@@ -24,17 +24,28 @@ Coding clients use the same packet workflow. Generated local packages, the insta
 
 ## The current UI increment
 
-Implemented locally: `open_handoff_library` is a separate read-only display tool. The original five data tools remain useful without UI. The server supplies a static, self-contained HTML resource through `resources/read`; its URI changes with the content hash so hosts do not reuse an outdated bundle.
+Implemented locally: `open_handoff_library` is a separate read-only display tool. Seven data tools remain useful without UI, including `get_handoff_graph`. The server supplies a static, self-contained HTML resource through `resources/read`; its URI changes with the content hash so hosts do not reuse an outdated bundle.
 
 An inline card shows a brief entry point and offers an expanded browser when the host advertises fullscreen support. Packet cards preserve a visible reference and explicitly label source claims as unverified. Constraints and questions can be expanded without truncating their contents. The expanded browser supports:
 
 - Search by name or keywords, with result pagination.
+- Show an explicit Clyp graph, filter by exact project name, and open linked revisions. The dashboard and MCP card share the renderer. Connected components stay together; unlinked handoffs are collapsed separately. Narrow screens use a vertical layout.
 - Read complete packets, including constraints, unresolved questions, decisions, next steps, context and references.
 - Copy a stable handoff ID, with manual selection if the host blocks clipboard access.
 - Browse immutable versions, read an older packet and compare exact changed fields.
 - Ask the current conversation to continue from a selected ID and revision, only after clicking the action and only if the host advertises text-message support. Otherwise use the provided continuation text.
 
 The browser does not edit packets. Saving continues through the existing explicit save tool. It makes no model calls itself and does not read an entire conversation, upload files, store tokens in browser storage, or contact a database from the iframe. Browsing uses the host's current MCP connection and account permissions.
+
+### Graph in ChatGPT
+
+Ask “Show my Conclave connections graph,” or “Show the connections for project Conclave.” The display call is `open_handoff_library({view:"graph", project:"Conclave"})`; omit `project` for all projects. Normal graph reads use `get_handoff_graph` without opening UI.
+
+The inline graph shows at most eight linked nodes and discloses any omitted nodes/links. “Open connections graph” requests fullscreen when supported; the expanded view offers the complete bounded graph and project filtering. A host without fullscreen gets the full graph inline instead. View-only hosts retain labels and linked-revision information with navigation disabled. Clicking a graph node reads its latest revision as labeled; “Linked revisions” opens the exact pinned revisions. Neither action sends a message or saves context. Graphs above 100 nodes return a capacity error and require a narrower project.
+
+This is a prepared MCP Apps integration, not real ChatGPT acceptance. After authorized publication/deployment, refresh Conclave under ChatGPT Plugins, start a fresh conversation, and verify graph rendering, expansion, project filtering and pinned reads using the signed-in account. ChatGPT documents inline cards and fullscreen canvases; it also recommends keeping ordinary reads separate from display tools. [Official UI guide](https://developers.openai.com/plugins/build/chatgpt-ui)
+
+Local synthetic preview: `http://127.0.0.1:3214/?view=graph&inline=1`. Add `tools=0&expand=0` to inspect capability fallback. This SDK-backed fixture is explicitly labeled and does not prove actual ChatGPT behavior. [Local implementation and checks](archive/2026-10-10/clyp-graph.md)
 
 ## Practical design rules
 

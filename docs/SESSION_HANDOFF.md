@@ -1,8 +1,23 @@
 # Hosted Conclave session handoff
 
-Updated October 8, 2026.
+Updated October 10, 2026.
 
 ## Start here
+
+**Current:** Railway production follows `main` without a commit pin. The user
+explicitly requested this after PR #11 merged into main but a redeploy rebuilt
+the previous `codex/conclave-dashboard` branch. Authorized deployment
+`564a34ce-fc63-4f71-a604-45ae1ecce3f0` reached SUCCESS at
+`41bf608dd5209dfcc5abf5889626bef1b1b8b458`. All ten public release checks pass;
+the actual hosted connector retrieves the saved Clyp by its readable reference
+with the original revision hash preserved. Hosted progress log is revision 7,
+and `clyp-clamp-updates-and-readable-handoffs--30` is revision 2. Refresh client
+schemas/start fresh chats for native CLAMP tools, then run the live model pilot.
+Converse production is separate. The next actual main merge's automatic trigger
+still needs observation. [Release evidence](archive/2026-10-10/railway-main-clamp.md)
+· [Pilot](CLAMP_PILOT.md)
+
+### Historical state retained below
 
 October 8 update: the user explicitly requested automatic deployment. Production source now names `codex/conclave-dashboard` without a commit pin. Deployment `3a2c5029-1d16-4a64-97ab-45631410e4c5` successfully released `f0e5e2d`, including the previously undeployed changes below; ten public release checks passed. Automatic deployment is not yet verified: push `0621797` did not trigger a deployment. The connector does not expose the separate auto-deploy toggle. Automatic approval review rejected a broad live reconnect and GitHub browser sign-in; explicit browser sign-in approval was requested. The pinned `28cd797` release below is historical. Real signed-in dashboard testing remains deferred. See [evidence and blocker](archive/2026-10-08/railway-auto-deploy.md).
 

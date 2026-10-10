@@ -31,7 +31,7 @@ test('independent stdio clients save, restart, find and retrieve the same durabl
   let saved;
   try {
     const tools = (await first.listTools()).tools;
-    assert.deepEqual(tools.map(tool => tool.name), ['save_handoff', 'create_project', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']);
+    assert.deepEqual(tools.map(tool => tool.name), ['save_handoff', 'create_project', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'get_handoff_graph', 'open_handoff_library']);
     assert.equal(tools.find(tool => tool.name === 'save_handoff').annotations.readOnlyHint, false);
     assert.equal(tools.find(tool => tool.name === 'get_handoff').annotations.readOnlyHint, true);
     saved = decode(await first.callTool({ name: 'save_handoff', arguments: input }));
