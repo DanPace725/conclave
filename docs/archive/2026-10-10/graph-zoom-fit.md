@@ -18,3 +18,7 @@ Node taps and Enter/Space preserve latest-revision navigation; linked-revision b
 ## Limits
 
 Real ChatGPT Android, real mobile dashboard and native Safari gestures remain unverified. The host may intercept touch events; the explicit buttons and linked-revision list remain alternatives. Existing host-capability fullscreen support is reused. The initial fit applies to the displayed graph; an inline preview still discloses its eight-linked-node bound. No account data, schema, model calls, hosted packet writes, push or deployment changes.
+
+## Authorized main publication
+
+The user subsequently requested main publication and explicitly selected Conclave main only after reviewing that Converse main lacks the earlier integration prerequisites. Implementation `5798362` was merged into current Conclave main (`e6c6c46`) as `2f80305`; that merge has exactly the tested feature tree. Converse snapshot `b77c121` remains local on `codex/clyp-graph`. The separate user AGENTS.md edit was preserved and restored byte-for-byte in Git's comparison, excluded from this batch. The main push receipt and any observed automatic Railway deployment are recorded separately in the hosted progress log; no Railway configuration or explicit deployment action is needed for the requested Git publication.
