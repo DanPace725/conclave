@@ -21,6 +21,9 @@ test('Clyp budgets, complete ORMD download and pinned cross-project graph naviga
   await expect(page.getByText(/12 handoffs · 1 explicit links/)).toBeVisible();
   await expect(page.getByRole('group', { name: 'Saved handoff graph' })).toBeVisible();
   expect(await page.locator('img').count()).toBe(0);
+  await expect(page.locator('.graph-node[aria-current=true]')).toHaveCount(1);
+  await expect(page.getByText('10 handoffs without links', { exact: true })).toBeVisible();
+  await page.getByText('Linked revisions', { exact: true }).click();
   await page.locator('.connection-list').getByRole('button', { name: 'Demo workstream 11 (r1)', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Demo workstream 11', exact: true })).toBeVisible();
   await page.screenshot({ path: info.outputPath('clyp-connections.png'), fullPage: true });

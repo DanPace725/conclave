@@ -79,7 +79,7 @@ test('compact cards expand on request and search works with Enter inside a form-
   await page.goto('/?inline=1'); const ui = page.frameLocator('iframe');
   await expect(ui.getByText('12 saved handoffs. Open the browser to search, read and compare them.', { exact: true })).toBeVisible();
   await expect(ui.getByRole('searchbox')).toHaveCount(0);
-  await expect(ui.getByRole('button')).toHaveCount(1);
+  await expect(ui.getByRole('button')).toHaveCount(2);
   await page.screenshot({ path: `.conclave/handoff-ui-inline-${testInfo.project.name}.png`, fullPage: true });
   await ui.getByRole('button', { name: 'Open handoff browser' }).click();
   await expect(ui.getByRole('searchbox')).toBeVisible();
@@ -97,4 +97,32 @@ test('view-only hosts keep a useful card and disable unavailable navigation', as
   await expect(ui.getByText('This host supports viewing only. Use Conclave’s tools in chat to navigate.', { exact: true })).toBeVisible();
   await expect(ui.getByRole('button', { name: 'View handoff', exact: true }).first()).toBeDisabled();
   expect(await page.evaluate(() => window.fixtureCalls)).toHaveLength(0);
+});
+
+test('inline graph expands, filters by project and opens pinned revisions; view-only hosts can inspect it', async ({ page }, testInfo) => {
+  await page.goto('/?inline=1&view=graph'); const ui = page.frameLocator('iframe');
+  await expect(ui.getByRole('group', { name: 'Saved handoff graph' })).toBeVisible();
+  await expect(ui.getByText('12 handoffs · 1 explicit links · All projects', { exact: true })).toBeVisible();
+  await expect(ui.getByText('10 handoffs without links', { exact: true })).toBeVisible();
+  await page.screenshot({ path: `.conclave/handoff-graph-inline-${testInfo.project.name}.png`, fullPage: true });
+  await ui.getByRole('button', { name: 'Open connections graph' }).click();
+  await ui.getByLabel('Exact project name (leave empty for all)').fill('Conclave');
+  await ui.getByRole('button', { name: 'Filter connections', exact: true }).click();
+  await expect(ui.getByText('2 handoffs · 1 explicit links · Conclave', { exact: true })).toBeVisible();
+  await ui.getByText('Linked revisions', { exact: true }).click();
+  await ui.getByRole('button', { name: 'Dashboard graph (r1)', exact: true }).click();
+  await expect(ui.getByText('Version 1 of 2', { exact: false })).toBeVisible();
+  await expect(ui.getByRole('textbox', { name: 'Handoff reference', exact: true })).toHaveValue(/^dashboard-graph--\d+$/);
+  const calls = await page.evaluate(() => window.fixtureCalls);
+  expect(calls.find(call => call.name === 'get_handoff_graph').arguments).toEqual({ project: 'Conclave' });
+  expect(calls.at(-1).arguments).toMatchObject({ handoff_id: expect.stringMatching(/^dashboard-graph--\d+$/), revision: 1 });
+  expect(await page.evaluate(() => window.fixtureMessages)).toHaveLength(0);
+  await page.goto('/?view=graph&tools=0&expand=0&theme=dark');
+  await expect(ui.getByRole('group', { name: 'Saved handoff graph' })).toBeVisible();
+  await expect(ui.getByRole('button', { name: 'Open connections graph' })).toHaveCount(0);
+  await expect(ui.locator('.graph-node[aria-disabled=true]')).toHaveCount(2);
+  await ui.getByText('Linked revisions', { exact: true }).click();
+  await expect(ui.getByRole('button', { name: 'Dashboard graph (r1)', exact: true })).toBeDisabled();
+  const frame = page.frames().find(frame => frame.parentFrame());
+  expect(await frame.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

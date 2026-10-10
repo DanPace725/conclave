@@ -47,11 +47,21 @@ test('display tool returns useful paginated data to hosts without UI and handles
   assert.equal(conflict.isError, true); assert.equal(conflict.structuredContent.data.error, 'invalid_input');
   const missing = await client.callTool({ name: 'open_handoff_library', arguments: { handoff_id: 'conv_absent' } });
   assert.equal(missing.isError, true); assert.equal(missing.structuredContent.data.error, 'not_found');
+  service.save({ packet: { title: 'Linked Clyp', summary: 'Explicit connection.', project: 'Graph test', objective: 'Inspect a linked handoff.', next_steps: ['Read the saved target.'],
+    clamp: { version: '1.0', kind: 'clyp', links: [{ relation: 'depends_on', handoff_id: saved.readable_id, revision: 1 }] } }, request_id: 'ui-graph' });
+  const graph = await client.callTool({ name: 'open_handoff_library', arguments: { view: 'graph', project: 'Graph test' } });
+  assert.equal(graph.isError, undefined); assert.equal(graph.structuredContent.view, 'graph');
+  assert.equal(graph.structuredContent.project, 'Graph test'); assert.equal(graph.structuredContent.data.nodes.length, 2);
+  assert.equal(graph.structuredContent.data.edges[0].target, saved.handoff_id); assert.equal(graph.structuredContent.data.edges[0].target_revision, 1);
+  const rawGraph = await client.callTool({ name: 'get_handoff_graph', arguments: { project: 'Graph test' } });
+  assert.deepEqual(rawGraph.structuredContent, graph.structuredContent.data);
+  const mixed = await client.callTool({ name: 'open_handoff_library', arguments: { view: 'graph', query: 'private' } });
+  assert.equal(mixed.isError, true); assert.equal(mixed.structuredContent.data.error, 'invalid_input');
   assert.equal(service.history({ handoff_id: saved.handoff_id }).total, 1);
 });
 
-test('optional UI can be omitted while all six data tools remain available', async t => {
+test('optional UI can be omitted while all seven data tools remain available', async t => {
   const { client } = await fixture(t, { ui: false });
-  assert.equal((await client.listTools()).tools.length, 6);
+  assert.equal((await client.listTools()).tools.length, 7);
   assert.equal(client.getServerCapabilities().resources, undefined);
 });

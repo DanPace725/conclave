@@ -15,17 +15,21 @@ export async function startHandoffUiPreview({ port = 3214 } = {}) {
   const host = await build({ entryPoints: [fileURLToPath(new URL('../ui/preview-host.js', import.meta.url))],
     bundle: true, write: false, format: 'esm', platform: 'browser', minify: true, target: 'es2022', logLevel: 'warning' });
   const store = new Store(undefined, { memory: true }), service = new HandoffService(store);
+  const linked = service.save({ packet: { title: 'Dashboard graph', summary: 'A simple view of explicitly linked ideas.', project: 'ORMD research' }, request_id: 'demo-graph' });
+  service.save({ packet: { title: 'Dashboard graph', summary: 'A newer revision to distinguish latest nodes from pinned links.', project: 'ORMD research' },
+    handoff_id: linked.handoff_id, expected_revision: 1, request_id: 'demo-graph-second' });
   const fixturePacket = { title: 'Conclave connector work', summary: 'Move the handoff workflow between chat apps.',
     objective: 'Save in one app and continue in another.', constraints: ['Ask before publishing.', 'Keep source labels visible.'],
     decisions: ['Use account-owned packets.'], open_questions: ['Which hosting option should we choose?'],
-    next_steps: ['Test the UI in each real chat app.'], context: 'Handoffs contain explicit saved context.\n\nA hosting choice is still open.', source_app: 'Local demo' };
+    next_steps: ['Test the UI in each real chat app.'], context: 'Handoffs contain explicit saved context.\n\nA hosting choice is still open.', source_app: 'Local demo', project: 'Conclave',
+    clamp: { version: '1.0', kind: 'clyp', links: [{ relation: 'depends_on', handoff_id: linked.handoff_id, revision: 1 }] } };
   const first = service.save({ packet: fixturePacket, request_id: 'demo-first' });
   service.save({ packet: { ...fixturePacket, summary: 'The packet browser is ready for local testing.', constraints: ['Ask before publishing.'] }, request_id: 'demo-second', handoff_id: first.handoff_id, expected_revision: 1 });
-  for (let i = 0; i < 11; i++) service.save({ packet: { title: i === 0 ? 'Literal <img src=x onerror="window.parent.xss=true">' : `Demo handoff ${i + 1}`, summary: 'Synthetic preview data.', constraints: ['Keep this as a demo.'] }, request_id: `demo-${i}` });
+  for (let i = 0; i < 10; i++) service.save({ packet: { title: i === 0 ? 'Literal <img src=x onerror="window.parent.xss=true">' : `Demo handoff ${i + 1}`, summary: 'Synthetic preview data.', constraints: ['Keep this as a demo.'] }, request_id: `demo-${i}` });
   const mcp = createHandoffMcpServer(service, { write: false }), client = new Client({ name: 'local-ui-preview', version: '1' });
   const [a, b] = InMemoryTransport.createLinkedPair(); await mcp.connect(a); await client.connect(b);
   const resource = await client.readResource({ uri: handoffUiUri });
-  const allowed = new Set(['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']);
+  const allowed = new Set(['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'get_handoff_graph', 'open_handoff_library']);
   const server = createServer(async (req, res) => {
     res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Content-Type-Options', 'nosniff');
     const expected = `127.0.0.1:${server.address().port}`;
@@ -55,6 +59,6 @@ export async function startHandoffUiPreview({ port = 3214 } = {}) {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const preview = await startHandoffUiPreview(); console.log(`Synthetic Conclave UI preview: ${preview.url}`);
+  const preview = await startHandoffUiPreview({ port: Number(process.env.CONCLAVE_UI_PREVIEW_PORT || 3214) }); console.log(`Synthetic Conclave UI preview: ${preview.url}`);
   for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => { void preview.close().then(() => process.exit()); });
 }

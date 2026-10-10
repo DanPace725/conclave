@@ -6,7 +6,8 @@ const root = new URL('../', import.meta.url);
 const bundle = await build({ entryPoints: [fileURLToPath(new URL('packages/conclave-mcp/ui/app.js', root))],
   bundle: true, write: false, format: 'esm', platform: 'browser', target: 'es2022', minify: true,
   legalComments: 'inline', logLevel: 'warning' });
-const css = await transform(readFileSync(new URL('packages/conclave-mcp/ui/app.css', root), 'utf8'), { loader: 'css', minify: true });
+const css = await transform(['packages/conclave-mcp/ui/app.css', 'src/resources/dashboard/graph.css']
+  .map(path => readFileSync(new URL(path, root), 'utf8')).join('\n'), { loader: 'css', minify: true });
 const html = readFileSync(new URL('packages/conclave-mcp/ui/app.html', root), 'utf8')
   .replace('/* CONCLAVE_STYLES */', () => css.code.replaceAll('</style', '<\\/style'))
   .replace('/* CONCLAVE_SCRIPT */', () => bundle.outputFiles[0].text.replaceAll('</script', '<\\/script'));

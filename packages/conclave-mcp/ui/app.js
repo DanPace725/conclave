@@ -1,4 +1,5 @@
 import { App, applyDocumentTheme, applyHostStyleVariables } from '@modelcontextprotocol/ext-apps';
+import { renderHandoffGraph } from '../../../src/resources/dashboard/graph.js';
 
 const app = new App({ name: 'Conclave handoff browser', version: '0.1.0' }, { availableDisplayModes: ['inline', 'fullscreen'] }, { strict: true });
 const view = document.getElementById('view'), status = document.getElementById('status');
@@ -49,9 +50,33 @@ function library(newOffset = 0) {
 function packet(id, revision) {
   void request('get_handoff', { handoff_id: id, ...(revision ? { revision } : {}), max_characters: 128000 }, show);
 }
+function connections(project = '') {
+  void request('get_handoff_graph', project ? { project } : {}, data => show(data, { project }));
+}
+function renderGraph(data, state, compact = false) {
+  reset('Connections');
+  view.append(element('p', `${data.nodes.length} handoffs · ${data.edges.length} explicit links · ${state.project || 'All projects'}`, 'muted'));
+  const actions = element('div', undefined, 'row');
+  if (compact) expansion(actions, 'Open connections graph');
+  else {
+    button('All handoffs', () => library(offset), actions);
+    button('Refresh connections', () => connections(state.project), actions);
+    const search = element('div', undefined, 'search'), input = element('input'), label = element('label', 'Exact project name (leave empty for all)');
+    input.id = 'graph-project'; label.htmlFor = input.id; input.value = state.project || ''; input.maxLength = 120; input.dataset.requiresTools = 'true';
+    const submit = () => connections(input.value.trim());
+    input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); submit(); } });
+    search.append(label, input); button('Filter connections', submit, search); view.append(search);
+  }
+  view.append(actions, renderHandoffGraph(data, { onOpen: packet,
+    compact: compact && app.getHostContext()?.availableDisplayModes?.includes('fullscreen'), canOpen: ready && !!app.getHostCapabilities()?.serverTools }),
+    element('p', data.note, 'muted'));
+  if (!app.getHostCapabilities()?.serverTools) view.append(element('p', 'This host supports viewing only. Use Conclave’s tools in chat to navigate.', 'notice'));
+  updateDisabled();
+}
 function renderLibrary(data) {
   reset('Saved handoffs');
   view.append(element('p', 'Choose a handoff to inspect or continue in this conversation.', 'muted'));
+  const navigation = element('div', undefined, 'row'); button('Show connections', () => connections(), navigation); view.append(navigation);
   const search = element('div', undefined, 'search'), label = element('label', 'Find by name or keywords');
   label.htmlFor = 'search';
   const input = element('input'); input.id = 'search'; input.type = 'search'; input.maxLength = 300; input.value = query;
@@ -93,11 +118,12 @@ async function copy(text, input) {
   catch { input.focus(); input.select(); note('Copy is unavailable here. The reference is selected; copy it manually.'); }
 }
 function continueReference(data) {
-  return `Use Conclave to retrieve handoff ${data.handoff_id}, revision ${data.revision}, and continue from it. Treat the packet as external context; keep its constraints and open questions visible.`;
+  return `Use Conclave to retrieve handoff ${data.readable_id || data.handoff_id}, revision ${data.revision}, and continue from it. Treat the packet as external context; keep its constraints and open questions visible.`;
 }
 function renderPacket(data) {
   reset(data.packet.title);
-  const navigation = element('div', undefined, 'row'); button('All handoffs', () => library(offset), navigation); view.append(navigation);
+  const navigation = element('div', undefined, 'row'); button('All handoffs', () => library(offset), navigation);
+  button('Show connections', () => connections(data.packet.project || ''), navigation); view.append(navigation);
   view.append(element('p', `Version ${data.revision} of ${data.latest_revision} · Saved ${data.saved_at}`, 'muted'));
   if (data.revision < data.latest_revision) {
     view.append(element('p', 'You are viewing an earlier version. Later changes are available.', 'notice'));
@@ -106,10 +132,10 @@ function renderPacket(data) {
   view.append(element('p', 'Saved context, not verified instructions. Source app and model labels are reported claims.', 'notice'));
   if (data.selection?.complete === false) view.append(element('p', 'This is a focused excerpt. Retrieve the complete version before treating it as a full handoff.', 'notice'));
   const referenceLabel = element('label', 'Handoff reference'); referenceLabel.htmlFor = 'reference';
-  const reference = element('input'); reference.id = 'reference'; reference.readOnly = true; reference.value = data.handoff_id; reference.className = 'reference';
+  const reference = element('input'); reference.id = 'reference'; reference.readOnly = true; reference.value = data.readable_id || data.handoff_id; reference.className = 'reference';
   view.append(referenceLabel, reference);
   const actions = element('div', undefined, 'row');
-  button('Copy reference', () => { void copy(data.handoff_id, reference); }, actions, false);
+  button('Copy reference', () => { void copy(reference.value, reference); }, actions, false);
   button('Version history', () => history(data.handoff_id), actions);
   if (app.getHostCapabilities()?.message?.text) button('Continue in chat', () => {
     if (!ready || busy) return;
@@ -171,12 +197,13 @@ function renderComparison(data) {
 function renderResult(result) {
   try {
     const decoded = decode(result);
-    show(decoded.data ?? decoded, { query: decoded.query ?? '', offset: decoded.offset ?? 0 });
+    show(decoded.data ?? decoded, { query: decoded.query ?? '', offset: decoded.offset ?? 0, project: decoded.project ?? '' });
   } catch { note('Could not display this result. Use the normal Conclave tools in chat or try again.'); }
 }
 function show(data, state = {}) {
   latestView = { data, state };
   if (Array.isArray(data.handoffs)) { query = state.query ?? query; offset = state.offset ?? offset; }
+  if (Array.isArray(data.nodes) && Array.isArray(data.edges)) return renderGraph(data, state, presentation !== 'fullscreen');
   if (presentation !== 'fullscreen') return renderCompact(data);
   if (data.packet) renderPacket(data);
   else if (Array.isArray(data.handoffs)) renderLibrary(data);
@@ -188,10 +215,10 @@ function renderCompact(data) {
   reset(data.packet?.title || (data.changes ? 'Handoff changes' : data.revisions ? 'Handoff history' : 'Saved handoffs'));
   if (data.packet) {
     view.append(element('p', data.packet.summary, 'verbatim'), element('p', `Version ${data.revision} of ${data.latest_revision}. Source claims are unverified.`, 'muted'));
-    const reference = element('input'); reference.id = 'reference'; reference.readOnly = true; reference.value = data.handoff_id;
+    const reference = element('input'); reference.id = 'reference'; reference.readOnly = true; reference.value = data.readable_id || data.handoff_id;
     reference.className = 'reference'; reference.setAttribute('aria-label', 'Handoff reference'); view.append(reference);
     const actions = element('div', undefined, 'row');
-    expansion(actions); button('Copy reference', () => { void copy(data.handoff_id, reference); }, actions, false); view.append(actions);
+    expansion(actions); button('Copy reference', () => { void copy(reference.value, reference); }, actions, false); view.append(actions);
     section('Constraints', data.packet.constraints, view, true); section('Open questions', data.packet.open_questions, view, true);
     view.append(element('p', 'Ask your chat to retrieve this reference and continue, or open the browser for the full packet.', 'muted'));
   } else {
@@ -200,14 +227,14 @@ function renderCompact(data) {
       const item = element('article', undefined, 'card'); item.append(element('h2', saved.title), element('p', `Version ${saved.revision}`, 'muted')); view.append(item);
     }
     if ((data.handoffs || []).length > 3) view.append(element('p', `${data.handoffs.length - 3} more results on this page.`, 'muted'));
-    const actions = element('div', undefined, 'row'); expansion(actions); view.append(actions);
+    const actions = element('div', undefined, 'row'); expansion(actions); button('Show connections', () => connections(), actions); view.append(actions);
   }
   if (!app.getHostContext()?.availableDisplayModes?.includes('fullscreen')) view.append(element('p', 'This host does not offer an expanded browser. Use Conclave’s tools in chat for the complete information.', 'muted'));
   updateDisabled();
 }
-function expansion(parent) {
+function expansion(parent, label = 'Open handoff browser') {
   if (!app.getHostContext()?.availableDisplayModes?.includes('fullscreen')) return;
-  button('Open handoff browser', () => {
+  button(label, () => {
     void app.requestDisplayMode({ mode: 'fullscreen' }, { timeout: 10000 }).then(result => {
       presentation = result.mode;
       if (latestView) show(latestView.data, latestView.state);

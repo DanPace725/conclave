@@ -124,7 +124,7 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   t.after(() => mcp.close());
   await mcp.connect(new StreamableHTTPClientTransport(new URL(resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
   const discovered = (await mcp.listTools()).tools;
-  assert.deepEqual(discovered.map(x => x.name), ['save_handoff', 'create_project', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']);
+  assert.deepEqual(discovered.map(x => x.name), ['save_handoff', 'create_project', 'find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'get_handoff_graph', 'open_handoff_library']);
   assert.equal(discovered.find(x => x.name === 'save_handoff').inputSchema.properties.packet.properties.project.type, 'string');
   assert.equal(discovered.find(x => x.name === 'find_handoffs').inputSchema.properties.project.type, 'string');
   const saved = (await mcp.callTool({ name: 'save_handoff', arguments: { packet: { ...packet, project: 'Hosted pilot' }, request_id: 'http-save' } })).structuredContent;
@@ -221,7 +221,7 @@ test('read-only MCP connection cannot discover or invoke a save tool', async t =
   t.after(() => mcp.close());
   await mcp.connect(new StreamableHTTPClientTransport(new URL(provider.resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
   const tools = (await mcp.listTools()).tools;
-  assert.deepEqual(tools.map(x => x.name), ['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'open_handoff_library']);
+  assert.deepEqual(tools.map(x => x.name), ['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'get_handoff_graph', 'open_handoff_library']);
   for (const tool of tools) {
     assert.equal(tool.annotations.readOnlyHint, true);
     assert.deepEqual(tool._meta.securitySchemes, [{ type: 'oauth2', scopes: ['handoffs:read'] }]);
