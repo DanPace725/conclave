@@ -47,6 +47,32 @@ export async function checkGraphNavigation(page, root, mobile) {
     await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     await session.detach();
   } else {
+    // An ordinary wheel zooms around the pointer, without a modifier key.
+    const rect = await svg.boundingBox();
+    const x = Math.round(rect.x + rect.width * .7), y = Math.round(rect.y + rect.height * .4);
+    const anchor = () => svg.evaluate((svg, offset) => {
+      const rect = svg.getBoundingClientRect(), point = svg.createSVGPoint();
+      point.x = rect.left + offset.x; point.y = rect.top + offset.y;
+      const world = point.matrixTransform(svg.getScreenCTM().inverse());
+      return { x: world.x, y: world.y };
+    }, { x: x - rect.x, y: y - rect.y });
+    const before = await anchor();
+    await page.mouse.move(x, y);
+    await page.mouse.wheel(0, -120);
+    await expect(zoom).toHaveText('127%');
+    const after = await anchor();
+    expect(after.x).toBeCloseTo(before.x, 2); expect(after.y).toBeCloseTo(before.y, 2);
+    await page.mouse.wheel(0, 120); await expect(zoom).toHaveText('100%');
+    for (const deltaMode of [1, 2]) {
+      await canvas.dispatchEvent('wheel', { deltaY: -3, deltaMode, cancelable: true });
+      await expect.poll(async () => parseInt(await zoom.textContent())).toBeGreaterThan(100);
+      await fit.click();
+    }
+    // Outside the canvas, the browser retains its ordinary scrolling behavior.
+    expect(await root.locator('.graph-hint').evaluate(node => node.dispatchEvent(
+      new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true }),
+    ))).toBe(true);
+    await expect(zoom).toHaveText('100%');
     // Begin a real drag on a node; releasing must not activate it.
     const box = await canvas.locator('.graph-node').first().boundingBox();
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);

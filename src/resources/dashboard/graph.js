@@ -40,7 +40,7 @@ function navigation(canvas, svg, width, height) {
   const plus = button('+', 'Zoom in', () => zoomAt(zoom * 1.25));
   button('Fit', 'Fit graph to screen', fit); controls.append(readout);
   canvas.tabIndex = 0; canvas.setAttribute('role', 'group'); canvas.setAttribute('aria-label', 'Graph viewport');
-  const hint = element('p', 'Drag to pan · Pinch to zoom · Use +, − or Fit', 'graph-hint');
+  const hint = element('p', 'Scroll or pinch to zoom · Drag to pan · Use +, − or Fit', 'graph-hint');
   hint.id = `graph-help-${sequence}`; canvas.setAttribute('aria-describedby', hint.id);
   const resize = new ResizeObserver(() => {
     if (!canvas.isConnected) { resize.disconnect(); return; }
@@ -91,10 +91,14 @@ function navigation(canvas, svg, width, height) {
     if (suppressClick && event.detail !== 0) { event.preventDefault(); event.stopImmediatePropagation(); }
   }, true);
   canvas.addEventListener('wheel', event => {
-    if (!event.ctrlKey && !event.metaKey) return;
+    if (!event.cancelable || !Number.isFinite(event.deltaY) || event.deltaY === 0) return;
     event.preventDefault();
     const rect = svg.getBoundingClientRect();
-    zoomAt(zoom * Math.exp(-event.deltaY * .01), event.clientX - rect.left, event.clientY - rect.top);
+    // Wheel devices report pixels, lines or pages. Normalize and bound each
+    // step so a wheel notch is useful and a trackpad stays gradual.
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rect.height : 1;
+    const delta = Math.max(-120, Math.min(120, event.deltaY * unit));
+    zoomAt(zoom * Math.exp(-delta * .002), event.clientX - rect.left, event.clientY - rect.top);
   }, { passive: false });
   canvas.addEventListener('keydown', event => {
     if (event.target !== canvas) return;
