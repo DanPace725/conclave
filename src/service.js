@@ -90,35 +90,36 @@ export class ConclaveService {
     this.require(conversation);
     const options = { ...defaults, memoryModel: this.memoryModel, memorySelector: this.memorySelector, memoryComparison: this.memoryComparison, memoryCapacityInspect: !inference, ...settings, mode: 'layered', webSearch: true, pageFetcher: this.pageFetcher };
     if (inference) {
-      Object.assign(options, this.selectionOptions(options));
-      options.semanticRetrieval = this.semanticRetrieval();
+      const credentials = this.availability();
+      Object.assign(options, this.selectionOptions(options, credentials));
+      options.semanticRetrieval = this.semanticRetrieval(credentials);
     }
     options.maxCalls = 16;
     return new WorkspaceHarness(this.store, conversation, inference ? this.providerFactory(options.provider) : { name: options.provider }, options);
   }
 
-  decisionAdapter(settings) {
-    if (this.availability().jev) return settings.jev ? this.decisionFactory() : null;
+  decisionAdapter(settings, credentials = this.availability()) {
+    if (credentials.jev) return settings.jev ? this.decisionFactory() : null;
     const provider = settings.provider || defaults.provider;
-    return SELECTOR_MODELS[provider] && this.availability()[provider]
+    return SELECTOR_MODELS[provider] && credentials[provider]
       ? selectorDecisionAdapter(this.providerFactory(provider)) : null;
   }
 
-  selectionOptions(settings) {
-    const decisionAdapter = this.decisionAdapter(settings);
+  selectionOptions(settings, credentials = this.availability()) {
+    const decisionAdapter = this.decisionAdapter(settings, credentials);
     const options = { decisionAdapter, memorySelector: settings.memorySelector || this.memorySelector,
-      ...(settings.reasoning === 'auto' && this.availability().openai ? { reasoningProvider: () => this.providerFactory('openai') } : {}) };
+      ...(settings.reasoning === 'auto' && credentials.openai ? { reasoningProvider: () => this.providerFactory('openai') } : {}) };
     // The UI switches Jev off when its key is absent. Missing-key fallback uses
     // the conversation provider's scoped credentials regardless of that checkbox.
-    if (!this.availability().jev && decisionAdapter && options.memorySelector !== 'task-model') {
+    if (!credentials.jev && decisionAdapter && options.memorySelector !== 'task-model') {
       options.memorySelector = 'model-fallback';
       options.memoryFallback = { provider: decisionAdapter.provider, model: decisionAdapter.options.model };
     }
     return options;
   }
 
-  semanticRetrieval() {
-    if (!this.embeddingEnabled || !this.availability().openai) return null;
+  semanticRetrieval(credentials) {
+    if (!this.embeddingEnabled || !(credentials || this.availability()).openai) return null;
     return this.semantic ||= new SemanticRetrieval(this.embeddingBackend || new SQLiteEmbeddingStore(this.store), this.embeddingFactory);
   }
 

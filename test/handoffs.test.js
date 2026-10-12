@@ -135,11 +135,15 @@ test('capacity and invalid arguments fail before mutation or silent loss of bind
   assert.throws(() => service.get({ handoff_id: saved.handoff_id, revision: 0 }));
 }));
 
-test('version history pages newest first and comparisons expose changed and removed binding fields', () => fixture(service => {
+test('version history pages newest first and comparisons expose changed and removed binding fields', () => fixture((service, store) => {
   const saved = service.save(request('history-1'));
   service.save(request('history-2', { constraints: ['Keep the fee under $25.'], open_questions: [], summary: 'Budget corrected.' },
     { handoff_id: saved.handoff_id, expected_revision: 1 }));
+  let reads = 0;
+  const prepare = store.db.prepare.bind(store.db);
+  store.db.prepare = sql => { if (sql === 'SELECT * FROM events WHERE conversation_id=? ORDER BY seq') reads++; return prepare(sql); };
   const first = service.history({ handoff_id: saved.handoff_id, limit: 1 });
+  assert.equal(reads, 1);
   assert.equal(first.revisions[0].revision, 2); assert.equal(first.total, 2); assert.equal(first.next_offset, 1);
   const older = service.history({ handoff_id: saved.handoff_id, limit: 1, offset: first.next_offset });
   assert.equal(older.revisions[0].sha256, saved.sha256); assert.equal(older.next_offset, null);
@@ -153,6 +157,8 @@ test('version history pages newest first and comparisons expose changed and remo
   assert.throws(() => service.compare({ handoff_id: saved.handoff_id, from_revision: 3 }), { code: 'not_found' });
   assert.throws(() => service.history({ handoff_id: 'conv_absent' }), { code: 'not_found' });
   assert.throws(() => service.history({ handoff_id: saved.handoff_id, limit: 21 }), { code: 'invalid_input' });
+  service.save(request('history-3', {}, { handoff_id: saved.handoff_id, expected_revision: 2 }));
+  assert.equal(service.history({ handoff_id: saved.handoff_id }).latest_revision, 3);
 }));
 
 test('comparison capacity fails without clipping the original or replacement constraints', () => fixture(service => {

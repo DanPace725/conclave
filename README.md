@@ -88,7 +88,7 @@ For a new PostgreSQL database, set DATABASE_URL_UNPOOLED and run npm run db:migr
 
 ## Develop and migrate
 
-Engine changes start here, then migrate into Converse. Run npm test and npm run check, commit the source, then npm run sync:converse -- --apply. npm run sync:converse -- --check verifies exact parity. Migration preserves application files, records hashes/source commit, and refuses independent downstream engine edits. See [the workflow and boundary](docs/CONVERSE_INTEGRATION.md).
+Engine changes start here, then migrate into Converse. Run npm run verify for the complete offline engine/transport/browser checks (Microsoft Edge required), or npm test and npm run check for the fast engine checks. Commit the verified source, then npm run sync:converse -- --apply. npm run sync:converse -- --check verifies exact parity. Migration preserves application files, records hashes/source commit, and refuses independent downstream engine edits. See [the workflow and boundary](docs/CONVERSE_INTEGRATION.md).
 
 ## Storage and counts
 

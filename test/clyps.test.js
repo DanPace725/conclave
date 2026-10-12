@@ -5,11 +5,11 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
-import { Store } from '../src/store.js';
-import { HandoffService } from '../src/handoffs.js';
+import { Store, hash } from '../src/store.js';
+import { HandoffService, validateHandoff } from '../src/handoffs.js';
 import { createHandoffMcpServer } from '../src/handoff-mcp-server.js';
-import { clypBudget, documentHash } from '../src/clyps.js';
-import { exportHandoffBundle, importHandoffBundle } from '../src/handoff-portability.js';
+import { clypBudget, documentHash, renderClyp } from '../src/clyps.js';
+import { exportHandoffBundle, importHandoffBundle, validateHandoffBundle } from '../src/handoff-portability.js';
 
 const packet = (extra = {}) => ({ title: 'Continue CLAMP', summary: 'The profile is drafted.', objective: 'Verify model handoffs.',
   decisions: ['Use revision-pinned links.'], constraints: ['Keep every essential constraint.'],
@@ -79,7 +79,7 @@ test('explicit links pin revisions, validate visibility, and project graphs load
   } finally { store.close(); }
 });
 
-test('Clyp backup imports generate bounded ORMD with new identity and declared import lineage', () => {
+test('Clyp backups preserve bounded source ORMD with new destination identity and unverified import lineage', () => {
   const source = new Store(undefined, { memory: true }), target = new Store(undefined, { memory: true });
   try {
     const service = new HandoffService(source), first = save(service, 'backup');
@@ -88,9 +88,50 @@ test('Clyp backup imports generate bounded ORMD with new identity and declared i
     const doc = new HandoffService(target).get({ handoff_id: imported.handoff_id, format: 'ormd' });
     assert.notEqual(imported.handoff_id, first.handoff_id);
     assert.equal(imported.sha256, first.sha256);
-    assert.ok(doc.ormd.includes(imported.handoff_id));
+    assert.equal(bundle.schema_version, 2);
+    assert.equal(doc.ormd, service.get({ handoff_id: first.handoff_id, format: 'ormd' }).ormd);
+    assert.equal(doc.provenance.imported_from.document_preserved, true);
     assert.equal(doc.clyp.ormd_sha256, documentHash(doc.ormd));
     assert.equal(doc.provenance.imported_from.claims_verified, false);
+  } finally { source.close(); target.close(); }
+});
+
+test('near-limit Clyps restore independently of destination IDs, including version-1 backups', () => {
+  const source = new Store(null, { memory: true }), target = new Store(null, { memory: true });
+  try {
+    const sourceId = 'conv_00000000-0000-0000-0000-000000000000';
+    const targetId = 'conv_a1b2c3d4-e5f6-47a8-9b0c-d1e2f3a4b5c6';
+    source.create = title => { source.append(sourceId, 'conversation', title); return sourceId; };
+    target.create = title => { target.append(targetId, 'conversation', title); return targetId; };
+    const service = new HandoffService(source), restored = new HandoffService(target);
+    const p = validateHandoff(packet({ context: '' }));
+    const remaining = 1500 - clypBudget(renderClyp(p, { handoff_id: sourceId, revision: 1 })).tokens;
+    p.context = ' x'.repeat(remaining - 8);
+    while (clypBudget(renderClyp(p, { handoff_id: sourceId, revision: 1 })).tokens < 1500) p.context += ' x';
+    const saved = service.save({ packet: p, request_id: 'boundary' });
+    assert.equal(saved.clyp.budget.tokens, 1500);
+    assert.ok(clypBudget(renderClyp(p, { handoff_id: targetId, revision: 1 })).tokens > 1500);
+    const bundle = exportHandoffBundle(service, sourceId);
+    const imported = importHandoffBundle(restored, bundle);
+    assert.equal(imported.clyp.budget.tokens, 1500);
+    assert.equal(imported.clyp.ormd_sha256, saved.clyp.ormd_sha256);
+    const legacy = { ...bundle, schema_version: 1, revisions: bundle.revisions.map(({ ormd, ormd_sha256, ...entry }) => entry) };
+    assert.equal(importHandoffBundle(restored, legacy).replayed, true);
+    const fresh = new Store(null, { memory: true });
+    try {
+      const oldImport = importHandoffBundle(new HandoffService(fresh), legacy);
+      assert.equal(oldImport.clyp.budget.tokens, 1500);
+      const doc = new HandoffService(fresh).get({ handoff_id: oldImport.handoff_id, format: 'ormd' });
+      assert.equal(doc.provenance.imported_from.document_preserved, false);
+    } finally { fresh.close(); }
+    const mismatched = structuredClone(bundle);
+    mismatched.revisions[0].ormd = mismatched.revisions[0].ormd.replace('Keep every essential constraint.', 'Changed document text.');
+    mismatched.revisions[0].ormd_sha256 = documentHash(mismatched.revisions[0].ormd);
+    assert.throws(() => validateHandoffBundle(mismatched), /does not match/);
+    const oversized = structuredClone(legacy);
+    oversized.revisions[0].packet.context += ' x'.repeat(20);
+    oversized.revisions[0].sha256 = hash(oversized.revisions[0].packet);
+    assert.throws(() => validateHandoffBundle(oversized), { code: 'capacity' });
   } finally { source.close(); target.close(); }
 });
 

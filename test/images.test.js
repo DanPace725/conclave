@@ -121,6 +121,12 @@ test('view_image switches older pixels through a fresh signed Claude continuatio
     assert.equal(phase, 4);
     await service.ask(id, { message_id: 'msg_older_followup', content: 'And its top corner?', settings });
     assert.equal(pixels(store.events(id).findLast(e => e.kind === 'inference_request').metadata.payload)[0].image_url, 'conclave-image:' + older);
+    await service.ask(id, { message_id: 'msg_new_upload', content: 'Describe this new image.', attachments: [image('att_new')], settings });
+    const newest = store.events(id).findLast(e => e.kind === 'image').id;
+    assert.equal(pixels(store.events(id).findLast(e => e.kind === 'inference_request').metadata.payload)[0].image_url, 'conclave-image:' + newest);
+    service.harness(id, settings).toolResult('view_image', { event_id: older }, []);
+    await service.ask(id, { message_id: 'msg_selected_again', content: 'Follow up on the selected older image.', settings });
+    assert.equal(pixels(store.events(id).findLast(e => e.kind === 'inference_request').metadata.payload)[0].image_url, 'conclave-image:' + older);
   } finally { store.close(); }
 });
 

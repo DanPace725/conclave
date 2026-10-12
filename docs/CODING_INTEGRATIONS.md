@@ -10,11 +10,11 @@ The same Conclave tools implement save → find/reference → retrieve → conti
 
 | Surface | Connection/package | Conclave behavior | Current evidence |
 | --- | --- | --- | --- |
-| Codex local desktop, CLI, IDE | Shared MCP configuration or plugin marketplace | All six tools; bundled save/resume workflows | Local plugin installed/enabled by the actual Codex CLI; new-session invocation remains to be tried |
+| Codex local desktop, CLI, IDE | Shared MCP configuration or plugin marketplace | Current handoff tools; bundled save/resume workflows | Local plugin installed/enabled by the actual Codex CLI; new-session invocation remains to be tried |
 | Claude Code CLI | MCP configuration or `.claude-plugin` package | Same tools and namespaced workflows | Generated package and real SDK transport checked; CLI unavailable on PATH here |
 | Claude Code local desktop session | Plugin browser or shared MCP configuration | Same tools; plugin workflows after installation | Documented support; actual desktop session not tested |
 | Claude Desktop chat | Local stdio configuration or hosted account connector | Same packets when storage/account matches; UI where supported | Local Conclave entry added/read back; actual app invocation pending |
-| Hosted ChatGPT/Claude conversations | Authenticated public HTTPS connector | Same tools against the signed-in account's hosted packets | Deployment, OAuth and real account tests remain pending |
+| Hosted ChatGPT/Claude conversations | Authenticated public HTTPS connector | Same tools against the signed-in account's hosted packets | Independent hosted service and historical ChatGPT/Claude round trip recorded; new client/release checks remain separate |
 | Regular ChatGPT using this PC's handoffs | Registered custom MCP connection through OpenAI Secure MCP Tunnel; optional `.app.json` workflow package | Same local database over outbound stdio tunnel | Private tunnel connected; real ChatGPT read/save passed; new packet independently retrieved locally. Native desktop invocation pending |
 
 Codex documents shared configuration across the desktop, CLI and IDE, with stdio/HTTP and OAuth support. Local configuration does not automatically appear in hosted web conversations. [Official MCP setup](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)

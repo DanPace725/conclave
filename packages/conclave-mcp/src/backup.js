@@ -31,11 +31,12 @@ export function runBackup(args) {
     if (bytes.length > MAX_HANDOFF_BUNDLE_BYTES) throw Object.assign(Error('Handoff backup exceeds 8 MiB'), { code: 'invalid_input' });
     try { bundle = validateHandoffBundle(JSON.parse(bytes.toString('utf8'))); }
     catch (error) {
-      if (error.code === 'invalid_input') throw error;
+      if (['invalid_input', 'capacity'].includes(error.code)) throw error;
       throw Object.assign(Error('Invalid handoff backup JSON'), { code: 'invalid_input' });
     }
   } finally { closeSync(fd); }
   if (command === 'inspect' || second === '--dry-run') return { valid: true, changes_saved: false,
+    validation: 'packet checksums and complete restored-document budgets; destination storage not checked',
     source_handoff_id: bundle.source_handoff_id, revisions: bundle.revisions.length,
     title: bundle.revisions.at(-1).packet.title, note: 'Checksums detect corruption; source claims remain unverified. Backup contains private packet text.' };
   const local = openHandoffs();

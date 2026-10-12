@@ -274,6 +274,7 @@ export async function stepAgent(service, id, input, { onEvent, signal } = {}) {
       )
       .map((s) => s.id);
     state.harness_version = 4;
+    const credentials = service.availability();
     const h = new AgentHarness(store, id, service.providerFactory(state.settings.provider || 'openai'), {
       ...state.settings,
       run_id: state.run_id,
@@ -284,8 +285,8 @@ export async function stepAgent(service, id, input, { onEvent, signal } = {}) {
       pageDeadline: () => state.deadline,
       memoryModel: service.memoryModel,
       memoryComparison: service.memoryComparison,
-      ...service.selectionOptions(state.settings),
-      semanticRetrieval: service.semanticRetrieval(),
+      ...service.selectionOptions(state.settings, credentials),
+      semanticRetrieval: service.semanticRetrieval(credentials),
       compactAttempts: 1,
     });
     h.continuation = state.continuation || null;

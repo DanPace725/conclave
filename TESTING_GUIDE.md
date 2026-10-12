@@ -4,6 +4,10 @@ Run from the Conclave repository with Node.js 22.13+ and installed dependencies.
 
 ## Offline checks
 
+`npm run verify` is the complete offline entry point: syntax/resource checks, the engine suite, package transport and hosted consent-browser tests, then embedded MCP App and dashboard browser suites. It requires installed Microsoft Edge, loopback listeners and permission to launch browser processes. Stores and account identities are synthetic; no provider or production-account calls are made. Browser process restrictions can require running outside a restricted sandbox. The command stops on the first failed suite. Real-client and deployment acceptance remain separate.
+
+For fast engine-only checks and optional fixture walkthroughs:
+
 ```powershell
 npm test
 npm run check

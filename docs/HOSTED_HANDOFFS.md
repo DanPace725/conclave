@@ -1,12 +1,14 @@
 # Conclave hosted handoff pilot
 
-Conclave's next product increment prioritizes hosted continuity between ChatGPT and Claude. Both apps connect to the same account-scoped MCP service. Other MCP clients can use the same protocol and tools without adding model adapters or provider API keys.
+Conclave provides hosted continuity between ChatGPT and Claude. Both apps connect to the same account-scoped MCP service. Other MCP clients can use the same protocol and tools without adding model adapters or provider API keys.
 
 The Conclave and Converse repositories remain distinct. Converse keeps its existing UI, engine snapshot, sign-in and database. The independent Conclave service uses `packages/conclave-hosted/`, its own Neon project and Railway deployment. It does not run conversations, inference, embeddings or agents, and does not require model API keys.
 
 ## Deployment
 
-Currently deployed from `codex/conclave-dashboard` in `DanPace725/conclave`, pinned to `28cd797`. The preceding pilot used `codex/conclave-hosted`.
+The last recorded Railway configuration follows `main` in `DanPace725/conclave` without a commit pin. Earlier dashboard/pilot branch deployments are historical. Verify the live SHA separately before treating a local change as deployed. [Configuration receipt](archive/2026-10-10/railway-main-clamp.md)
+
+The resource configuration below is recorded deployment information, not a fresh infrastructure inspection.
 
 | Resource | Configuration |
 | --- | --- |
@@ -20,13 +22,13 @@ Currently deployed from `codex/conclave-dashboard` in `DanPace725/conclave`, pin
 
 Railway service settings: Dockerfile at the repository root; start `node packages/conclave-hosted/src/server.js`; pre-deploy `node packages/conclave-hosted/src/migrate.js`; healthcheck `/healthz`, 120 seconds; one us-west2 replica; 0.5 GB RAM and 1 vCPU limits; sleep disabled; restart on failure with three retries; 30-second draining. Railway's connector rejected the older `railwayConfigFile` setting as deprecated, so these settings are applied directly to the service rather than through `railway.json`. Future infrastructure-as-code work should use the current Railway format.
 
-The new Neon compute is fixed at 0.25 CU, with the plan-default suspend setting (`0` in the current API); live metadata confirmed it suspends while idle. Startup fails if required configuration or handoff tables are absent. `/healthz` checks database readiness and accepts Railway's probe Host only on that route. Shutdown drains requests and ends the pool.
+The recorded Neon compute is fixed at 0.25 CU, with the plan-default suspend setting (`0` in the current API); the deployment check confirmed it suspended while idle. Startup fails if required configuration or handoff tables are absent. `/healthz` checks database readiness and accepts Railway's probe Host only on that route. Shutdown drains requests and ends the pool.
 
 See `packages/conclave-hosted/.env.example` for required variables. Actual `.env.hosted` is ignored, is never bundled in Docker or committed, and uses a separate session secret. Railway holds its own copies of the variables. Runtime uses the pooled URL; migrations use the direct URL. Existing Converse credentials and configuration are not deployment inputs.
 
 The independent migration adds only handoff events, OAuth records and lock rows, with a checksum-controlled history under `conclave_hosted`. It refuses a database containing Converse conversation or provider-key tables before modifying it. Re-running it preserves existing packets. Do not use Converse's full migration command on this service.
 
-The first standalone dashboard is deployed from commit-pinned `codex/conclave-dashboard` at `/dashboard`, with a link from the signed-in account page. It uses the same browser account and existing saved packet operations. Railway deployment `f8051a5a-60d3-4c13-94c6-06fb7709a00f` at source `28cd797` is SUCCESS; ten public release checks and browser sign-in redirection pass. Real signed-in packet acceptance remains pending. See [dashboard usage and decisions](DASHBOARD.md), [release/rollback](DASHBOARD_RELEASE.md), and [deployment evidence](archive/2026-10-07/dashboard-railway-release.md).
+The standalone dashboard at `/dashboard` was first released from commit-pinned `codex/conclave-dashboard`, with a link from the signed-in account page. It uses the same browser account and existing saved packet operations. That historical Railway deployment `f8051a5a-60d3-4c13-94c6-06fb7709a00f` at source `28cd797` is SUCCESS; ten public release checks and browser sign-in redirection pass. Real signed-in packet acceptance remains pending. See [dashboard usage and decisions](DASHBOARD.md), [release/rollback](DASHBOARD_RELEASE.md), and [deployment evidence](archive/2026-10-07/dashboard-railway-release.md).
 
 ## Sign in and connect
 

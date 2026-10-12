@@ -8,6 +8,8 @@ Paths in the original documents describe their earlier locations. This index map
 
 | Original path | Archived document |
 |---|---|
+| `PROJECT_CONTEXT.md` (before October 12 review) | [Full project state and historical receipts](2026-10-12/project-context-before-review.md) |
+| `docs/HANDOFF_SETUP.md` (before October 12 review) | [Superseded setup and deployment proposals](2026-10-12/handoff-setup-before-review.md) |
 | `docs/Context Layer Architecture.md` | [Context Layer Architecture.md](<2026-10-02/docs/Context Layer Architecture.md>) |
 | `docs/CONVERSATION_COMPARISON.md` | [CONVERSATION_COMPARISON.md](<2026-10-02/docs/CONVERSATION_COMPARISON.md>) |
 | `docs/CONVERSE_INTEGRATION.md` | [CONVERSE_INTEGRATION.md](<2026-10-02/docs/CONVERSE_INTEGRATION.md>) |

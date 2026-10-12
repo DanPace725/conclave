@@ -100,6 +100,13 @@ test('task-model opt-in and an available Jev retain their existing selectors', (
     assert.equal(f.service.selectionOptions(f.settings).decisionAdapter, null);
     f.service.availability = () => ({ openai: false, anthropic: true, jev: false });
     assert.equal(f.service.selectionOptions(f.settings).decisionAdapter, null);
+    let reads = 0;
+    f.service.availability = () => { reads++; return { openai: true, jev: false }; };
+    f.service.harness(f.id, { ...f.settings, reasoning: 'auto' }, true);
+    assert.equal(reads, 1);
+    f.service.availability = () => { reads++; return { openai: false, jev: false }; };
+    assert.equal(f.service.harness(f.id, f.settings, true).decisionAdapter, null);
+    assert.equal(reads, 2);
   } finally { f.store.close(); }
 });
 

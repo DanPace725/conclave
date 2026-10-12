@@ -149,7 +149,15 @@ export class HandoffService {
       message: 'Saved in Conclave. Use reference (the readable_id) as handoff_id in another app; the canonical handoff_id also works.' };
   }
 
-  find({ query = '', project, limit = 10, offset = 0 } = {}) {
+  // Read scopes are synchronous and nest safely. Saves deliberately keep their
+  // transaction's fresh reads; no cache survives a public read operation.
+  find(input) { return this.store.withReadCache(() => this.#find(input)); }
+  history(input) { return this.store.withReadCache(() => this.#history(input)); }
+  compare(input) { return this.store.withReadCache(() => this.#compare(input)); }
+  get(input) { return this.store.withReadCache(() => this.#get(input)); }
+  graph(input) { return this.store.withReadCache(() => this.#graph(input)); }
+
+  #find({ query = '', project, limit = 10, offset = 0 } = {}) {
     text(query, 'query', 300, true);
     if (project !== undefined) project = text(project, 'project', 120).trim();
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 20 || !Number.isSafeInteger(offset) || offset < 0)
@@ -171,7 +179,7 @@ export class HandoffService {
       projects: [...projects].slice(0, 100).map(([name, handoffs]) => ({ name, handoffs })), search: 'deterministic_keyword', note: 'Use readable_id as handoff_id; canonical IDs also work. Titles may be shared by more than one packet.' };
   }
 
-  history({ handoff_id, limit = 10, offset = 0 } = {}) {
+  #history({ handoff_id, limit = 10, offset = 0 } = {}) {
     handoff_id = this.resolve(handoff_id);
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 20 || !Number.isSafeInteger(offset) || offset < 0)
       fail('Use limit 1–20 and a nonnegative offset');
@@ -183,7 +191,7 @@ export class HandoffService {
       total: versions.length, next_offset: offset + limit < versions.length ? offset + limit : null };
   }
 
-  compare({ handoff_id, from_revision, to_revision, max_characters = 128000 } = {}) {
+  #compare({ handoff_id, from_revision, to_revision, max_characters = 128000 } = {}) {
     if (!Number.isSafeInteger(from_revision) || from_revision < 1) fail('Supply a positive from_revision');
     if (!Number.isSafeInteger(max_characters) || max_characters < 2000 || max_characters > 128000)
       fail('Use max_characters between 2000 and 128000');
@@ -200,7 +208,7 @@ export class HandoffService {
     return result;
   }
 
-  get({ handoff_id, title, revision, focus = '', max_characters = 64000, format = 'packet' } = {}) {
+  #get({ handoff_id, title, revision, focus = '', max_characters = 64000, format = 'packet' } = {}) {
     if (!['packet', 'ormd'].includes(format) || (format === 'ormd' && typeof focus === 'string' && focus.trim())) fail('Use packet or ormd format; ORMD reads must be complete');
     if ((handoff_id === undefined) === (title === undefined)) fail('Supply either handoff_id or an exact title');
     if (handoff_id !== undefined) handoff_id = this.resolve(handoff_id);
@@ -247,7 +255,7 @@ export class HandoffService {
     return result;
   }
 
-  graph({ project } = {}) {
+  #graph({ project } = {}) {
     if (project !== undefined) project = text(project, 'project', 120).trim();
     const catalog = this.catalog();
     const selected = catalog.filter(e => project === undefined || e.metadata.packet.project === project);

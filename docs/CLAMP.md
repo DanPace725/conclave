@@ -108,9 +108,13 @@ and document checksum metadata. The dashboard offers Export ORMD and displays
 the complete-document count. Models submit structured fields; the server writes
 ORMD, so they need not compose YAML.
 
-Existing local backups preserve normalized packet histories. Clyp imports assign
-fresh IDs and regenerate bounded ORMD with declared, unverified import lineage;
-their original packet hashes survive but original document hashes do not.
+Local Clyp backups use schema 2 to preserve normalized packet histories and exact
+bounded source ORMD bytes/checksums. Imports assign fresh destination IDs while
+retaining declared source document lineage as unverified external data; actual
+destination lineage is stored separately in event metadata. Older schema-1
+backups remain supported by reconstructing source ORMD with unknown previous
+document lineage. Original document bytes/checksums are unavailable in that
+format. Inspection/dry-run validates the complete restored-document budget.
 External link IDs are retained, not remapped or fetched. Missing targets remain
 unresolved and are omitted from the graph. This is an explicit backup restore,
 not an arbitrary ORMD editing/import round trip.
