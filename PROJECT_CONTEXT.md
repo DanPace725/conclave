@@ -26,6 +26,8 @@ The earlier hosted polish/auth implementation `df75f9a89ba9f1497a6b68fb34427f1fc
 
 ## Open work
 
+The dashboard PWA is implemented locally on `codex/conclave-pwa`: manifest, icons, browser install controls/guidance and a dashboard-scoped worker with a public offline/reconnect screen. Account data and authenticated HTML stay network-only. Validation passes: 377 engine tests/one optional skip, syntax/resource checks, 18 desktop/mobile dashboard browser cases and no browser installability errors in an isolated non-private Edge profile. Publication and real-device installation/sign-in remain pending. See [PWA usage](docs/PLUGIN_UI.md#installable-dashboard) and [validation receipt](docs/archive/2026-10-12/dashboard-pwa.md).
+
 - Hosted distribution: real-app revocation/reconnection and restart/redeploy recovery, public listings, operational cleanup/retention and permanent deletion, hosted import and additional clients. Consumer Gemini custom-connector availability is unestablished. New graph gestures still need real ChatGPT desktop/Android acceptance.
 - Clyps: live continuation-quality trials, useful budget ranges, arbitrary ORMD editing/import, stable independent idea/project identities, dependency closure beyond one boundary hop and durable-memory promotion. Existing explicit links are not inferred relationships.
 - CLP: portable bundles/sidecars, signed trust/frame/resolver registries, policy membranes and unresolved review, vector/graph brokerage, exploratory recall, calibrated confidence/separation and coherence/attention telemetry.

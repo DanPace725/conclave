@@ -51,6 +51,16 @@ The shared MCP Apps integration has local synthetic coverage; each deployed chan
 
 Local synthetic preview: `http://127.0.0.1:3214/?view=graph&inline=1`. Add `tools=0&expand=0` to inspect capability fallback. This SDK-backed fixture is explicitly labeled and does not prove actual ChatGPT behavior. [Local implementation and checks](archive/2026-10-10/clyp-graph.md)
 
+## Installable dashboard
+
+The standalone web dashboard has a PWA manifest at `/dashboard/manifest.webmanifest`, with a stable identity/start URL of `/dashboard/`, standalone display, PNG icons in 192/512 sizes, a maskable icon and an Apple touch icon. Its app navigation scope is `/` so account sign-in, connections and help can stay within the installed window. This is separate from the worker's narrower `/dashboard/` offline scope. Railway's HTTPS hosting meets the secure-origin requirement; localhost supports local checks. No additional hosting service or database migration is needed.
+
+Open the dashboard in a browser and select **Install Conclave** when the browser offers it. The **Use Conclave as an app** section explains browser-menu installation and Safari's **Share → Add to Home Screen** flow. Installed windows hide this guidance. Installation uses the existing Conclave account; it does not create another identity or change MCP connections.
+
+The worker at `/dashboard/sw.js` is scoped to `/dashboard/`. It caches only the public offline document, its stylesheet and app icons. Dashboard HTML and account-scoped handoffs always come from the network; APIs, sign-in, OAuth and MCP traffic are never cached or given offline responses. When offline, opening the installed app shows a reconnect screen. There is no offline handoff browsing or synchronization. Bump the worker cache version when changing the offline document, stylesheet or icons; activation removes only older Conclave dashboard offline caches. Updates do not reload an open handoff.
+
+Local checks: `node scripts/test.js test/handoff-dashboard.test.js` and `node scripts/test-dashboard-ui.js pwa.spec.js --workers=1`. These validate HTTP access, icon dimensions, browser manifest/installability, install-control behavior, cache contents, offline API failure, reconnection and expired-session rejection. Browser fixtures use synthetic handoffs; native installation and account sign-in on real devices remain release acceptance checks. [Implementation receipt](archive/2026-10-12/dashboard-pwa.md)
+
 ## Practical design rules
 
 Start with a compact card and move detailed navigation into a larger view. Keep no more than two primary inline actions; avoid nested scrolling, deep card navigation and a duplicate chat composer. Use native fonts, host theme variables, readable contrast and visible keyboard focus. Make loading, empty, failed and disconnected states understandable. [OpenAI UI guidelines](https://developers.openai.com/plugins/concepts/ui-guidelines)

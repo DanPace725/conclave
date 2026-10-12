@@ -5,7 +5,13 @@ import { hostedDashboardHtml } from './handoff-branding.js';
 
 const assets = new Map(['index.html', 'app.js', 'app.css', 'graph.js', 'graph.css'].map(name =>
   [name, readFileSync(new URL(`./resources/dashboard/${name}`, import.meta.url), 'utf8')]));
-const policy = "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
+// These installation/offline resources contain no account data and must remain
+// available after a session expires, including for browser worker update checks.
+const publicAssets = new Map(['manifest.webmanifest', 'pwa.js', 'sw.js', 'offline.html', 'offline.css',
+  'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'].map(name =>
+  [`/${name}`, { content: readFileSync(new URL(`./resources/dashboard/${name}`, import.meta.url)),
+    type: name.endsWith('.webmanifest') ? 'application/manifest+json' : name.split('.').at(-1) }]));
+const policy = "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
 const invalid = () => { throw Object.assign(Error('Invalid dashboard request'), { code: 'invalid_input' }); };
 
 // Read-only browser adapter over the same owner-scoped packet operations as MCP.
@@ -18,6 +24,8 @@ export function createHandoffDashboard({ pool, origin, identity, repository = ow
     if (req.headers.host !== host || (req.headers.origin && req.headers.origin !== origin) || req.headers['sec-fetch-site'] === 'cross-site')
       return res.status(403).json({ error: 'forbidden' });
     if (req.method !== 'GET' && req.method !== 'HEAD') return res.status(405).set('Allow', 'GET, HEAD').json({ error: 'read_only' });
+    const asset = publicAssets.get(req.path);
+    if (asset) return res.type(asset.type).send(asset.content);
     const user = identity(req);
     if (!user?.id) return req.path.startsWith('/api/') ? res.status(401).json({ error: 'sign_in_required' }) : res.redirect(303, '/');
     res.locals.owner = user.id; next();

@@ -61,9 +61,23 @@ test('dashboard serves an inert authenticated shell and enforces account, host, 
   const a = new HandoffRepository(pool, 'alice'), saved = await a.save({ packet, request_id: 'first' });
   assert.equal((await request('/dashboard', null)).status, 303);
   assert.equal((await request('/dashboard/api/find', null)).status, 401);
+  const manifestResponse = await request('/dashboard/manifest.webmanifest', null);
+  assert.equal(manifestResponse.status, 200);
+  assert.match(manifestResponse.headers.get('content-type'), /application\/manifest\+json/);
+  const manifest = await manifestResponse.json();
+  assert.equal(manifest.start_url, '/dashboard/'); assert.equal(manifest.scope, '/');
+  for (const icon of [...manifest.icons, { src: '/dashboard/apple-touch-icon.png', sizes: '180x180' }]) {
+    const response = await request(icon.src, null), png = Buffer.from(await response.arrayBuffer());
+    assert.equal(response.status, 200); assert.match(response.headers.get('content-type'), /image\/png/);
+    assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], icon.sizes.split('x').map(Number));
+  }
+  for (const path of ['sw.js', 'pwa.js', 'offline.html', 'offline.css'])
+    assert.equal((await request('/dashboard/' + path, null)).status, 200, path);
+  assert.equal((await request('/dashboard/sw.js', null, { headers: { Origin: 'https://foreign.example' } })).status, 403);
   const page = await request('/dashboard');
   assert.equal(page.status, 200); assert.equal(page.headers.get('cache-control'), 'no-store');
   assert.match(page.headers.get('content-security-policy'), /script-src 'self'/);
+  assert.match(page.headers.get('content-security-policy'), /worker-src 'self'/);
   assert.match(page.headers.get('content-security-policy'), /frame-ancestors 'none'/);
   const html = await page.text();
   assert.ok(!html.includes(saved.handoff_id)); assert.ok(!html.includes('alice@example.com')); assert.ok(!html.includes(packet.context));
