@@ -3,3 +3,4 @@
 src/** text eol=lf
 integrations/** text eol=lf
 drizzle/** text eol=lf
+*.png binary

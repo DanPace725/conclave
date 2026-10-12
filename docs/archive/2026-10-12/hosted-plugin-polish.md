@@ -26,6 +26,8 @@ Public documentation describes explicit saves, same-account access, read-only br
 
 Mode: built-in image generation, one new image, opaque background, no references. Output copied to `src/resources/branding/conclave-icon.png`; actual PNG 1254 × 1254, 1,380,654 bytes. The same source is copied into review-package assets. There is no claimed SVG master or fabricated dark variant.
 
+Commit review caught the repository's `src/** text` attribute applying newline conversion to PNG bytes. An explicit PNG binary attribute preserves the asset; the committed blob is checked against the working PNG before migration.
+
 Exact generation prompt:
 
 > Use case: logo-brand. Asset type: final app-directory icon for Conclave, a service for carrying explicitly saved project handoffs between AI conversations. Create ONE polished square icon, 1024x1024 composition, not a contact sheet. Subject: three simple overlapping rounded document cards arranged in a subtle clockwise open-circle/C formation, conveying continuity and collected context. Precisely three cards, clean spacious geometric silhouette, no tiny details, no text, no lettering, no arrows, no third-party marks. White and very pale ice-blue card faces with restrained blue edge/shadow separation, on a rich cobalt-blue (#2357C6) square background with a subtle blue-to-cyan gradient. All meaningful shapes contained in central 70% with generous safe margins so it reads at 24/48px and circular crops. Straight-on flat vector-like graphic, strong recognizable silhouette, extremely minimal, professional and calm. No glossy 3D, no mockup, no border around the icon, no watermark. Background fills the entire square, no transparent outer corners.
