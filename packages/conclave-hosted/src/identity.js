@@ -5,8 +5,10 @@ export function createIdentity({ origin, secret, allowedEmails, authBaseUrl, fet
   if (typeof secret !== 'string' || secret.length < 32) throw Error('Set a strong CONCLAVE_SESSION_SECRET');
   const secure = new URL(origin).protocol === 'https:';
   const cookieName = secure ? '__Host-conclave_session' : 'conclave_session';
-  const allowed = new Set(allowedEmails.split(',').map(normalize).filter(Boolean));
-  if (!allowed.size || allowed.has('*')) throw Error('Set CONCLAVE_ALLOWED_EMAILS to explicit pilot account emails');
+  const allowed = new Set(String(allowedEmails || '').split(',').map(normalize).filter(Boolean));
+  const publicSignup = allowed.size === 1 && allowed.has('*');
+  if (!allowed.size || (allowed.has('*') && !publicSignup))
+    throw Error('Set CONCLAVE_ALLOWED_EMAILS to explicit account emails or * alone for public signup');
   const base = new URL(authBaseUrl);
   if (base.protocol !== 'https:' || base.username || base.password || base.search || base.hash)
     throw Error('Set NEON_AUTH_BASE_URL to a trusted HTTPS Auth endpoint');
@@ -32,7 +34,8 @@ export function createIdentity({ origin, secret, allowedEmails, authBaseUrl, fet
   const cookie = (name, value, age) => `${name}=${value}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${age}${secure ? '; Secure' : ''}`;
   const csrfName = secure ? '__Host-conclave_csrf' : 'conclave_csrf';
   const googleName = secure ? '__Host-conclave_google' : 'conclave_google';
-  const validEmail = email => allowed.has(email) && email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validEmail = email => email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    && (publicSignup || allowed.has(email));
   const unavailable = { status: 502, error: 'Sign-in is unavailable. Try again shortly.' };
   const invalid = { status: 401, error: 'Sign-in could not be verified. Check your details or use an email code.' };
   const passwordValid = password => typeof password === 'string' && password.length >= 12 && password.length <= 128;
@@ -57,10 +60,11 @@ export function createIdentity({ origin, secret, allowedEmails, authBaseUrl, fet
     return { status: 200, user: { id: user.id, email: normalize(user.email) } };
   };
   return {
-    emailAllowed: email => allowed.has(normalize(email)),
+    publicSignup,
+    emailAllowed: email => validEmail(normalize(email)),
     identity(req) {
       const data = unpack(readCookie(req, cookieName));
-      return !req.conclaveSessionRevoked && data && typeof data.id === 'string' && data.id && allowed.has(normalize(data.email))
+      return !req.conclaveSessionRevoked && data && typeof data.id === 'string' && data.id && validEmail(normalize(data.email))
         ? { id: data.id, email: normalize(data.email) } : null;
     },
     sessionCookie(user) {
@@ -120,8 +124,7 @@ export function createIdentity({ origin, secret, allowedEmails, authBaseUrl, fet
     },
     async emailCode(email, otp) {
       email = normalize(email);
-      if (!allowed.has(email) || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-        return { status: 403, error: 'This account is not enabled for the private pilot.' };
+      if (!validEmail(email)) return { status: 403, error: 'Sign-in is unavailable for these details.' };
       if (otp !== undefined && !/^\d{6}$/.test(otp)) return { status: 400, error: 'Enter the six-digit email code.' };
       const result = await upstream(otp === undefined ? '/email-otp/send-verification-otp' : '/sign-in/email-otp',
         otp === undefined ? { email, type: 'sign-in' } : { email, otp });

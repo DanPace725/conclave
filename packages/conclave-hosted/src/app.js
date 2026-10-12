@@ -21,6 +21,7 @@ export function createStandaloneApp({ pool, origin, secret, allowedEmails, authB
   const app = express();
   app.set('trust proxy', trustProxy);
   app.disable('x-powered-by');
+  app.use((_req, res, next) => { res.locals.publicSignup = account.publicSignup; next(); });
   // Railway's deployment probe uses its own Host. Only this non-data route accepts it.
   app.get('/healthz', async (req, res) => {
     res.set('Cache-Control', 'no-store');

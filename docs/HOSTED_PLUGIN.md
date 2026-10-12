@@ -4,7 +4,7 @@ Conclave is published by **Didactech Industries**, with support at **contact@did
 
 ## Public pages and identity
 
-The hosted server provides `/get-started`, `/support`, `/privacy`, `/terms` and `/assets/conclave-icon.png` without signing in. The sign-in, account and consent pages link to this information; the dashboard adds the icon, help links and a first-save guide for an empty library. The embedded hosted library includes concise help. The service still requires an invited account and OAuth permission to access handoffs.
+The hosted server provides `/get-started`, `/support`, `/privacy`, `/terms` and `/assets/conclave-icon.png` without signing in. The sign-in, account and consent pages link to this information; the dashboard adds the icon, help links and a first-save guide for an empty library. The embedded hosted library includes concise help. The service requires a verified account admitted by the configured signup policy and OAuth permission to access handoffs. [Admission setup](HOSTED_AUTH.md#account-admission-restricted-or-public)
 
 The prepared account login uses email/password or Google with email codes as a backup. Password setup/recovery and Google's production client requirements are in the [hosted authentication guide](HOSTED_AUTH.md). These are local changes until approved deployment.
 
@@ -44,7 +44,7 @@ Suggested prompts:
 - Find my handoffs for this project and help me resume.
 - Show what changed since the previous handoff.
 
-These describe implemented capabilities, not automatic transcript capture or guaranteed recall. Keep the invitation-only pilot disclosure wherever distribution is offered.
+These describe implemented capabilities, not automatic transcript capture or guaranteed recall. Match the advertised account availability to the deployed admission mode; keep the invitation disclosure while access is restricted.
 
 ## Release and directory review
 

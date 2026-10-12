@@ -10,6 +10,7 @@ import { createIdentity } from '../packages/conclave-hosted/src/identity.js';
 import { migrateHosted } from '../packages/conclave-hosted/src/migrate.js';
 import { verifyDatabase } from '../packages/conclave-hosted/src/database.js';
 import { startHostedServer } from '../packages/conclave-hosted/src/server.js';
+import { HandoffRepository } from '../src/handoff-repository.js';
 import { buildHostedPlugin } from '../scripts/build-hosted-plugin.js';
 import { mkdtempSync, readFileSync, rmSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -51,7 +52,8 @@ test('standalone identity uses independent secure cookies, verified accounts and
   assert.equal(account.identity({ headers: { cookie: 'converse_session=' + header.split('=')[1] } }), null);
   assert.equal(account.identity({ headers: { cookie: header.split(';')[0] + 'bad' } }), null);
   assert.equal(createIdentity({ ...defaults, secret: 'rotated-secret-'.repeat(3) }).identity({ headers: { cookie: header.split(';')[0] } }), null);
-  assert.throws(() => createIdentity({ ...defaults, allowedEmails: '*' }), /explicit/);
+  assert.throws(() => createIdentity({ ...defaults, allowedEmails: '*,alice@example.com' }), /alone/);
+  assert.throws(() => createIdentity({ ...defaults, allowedEmails: '' }), /explicit/);
   assert.throws(() => createIdentity({ ...defaults, secret: 'weak' }), /strong/);
   let calls = 0;
   const unverified = createIdentity({ ...defaults, fetcher: async () => { calls++; return Response.json({ token: 'upstream-only', user: { ...user, emailVerified: false } }); } });
@@ -65,6 +67,67 @@ test('standalone identity uses independent secure cookies, verified accounts and
   const unsafeGoogle = createIdentity({ ...defaults, fetcher: async () => Response.json({ url: 'https://evil.example' },
     { headers: { 'set-cookie': '__Secure-neon-auth.session_challenge=synthetic-challenge; Secure' } }) });
   assert.equal((await unsafeGoogle.startGoogle('synthetic-state')).status, 502);
+  const publicAccount = createIdentity({ ...defaults, allowedEmails: '*', fetcher: async () => Response.json({
+    token: 'upstream-only', user: { id: 'bob-id', email: 'bob@example.com', emailVerified: true },
+  }) });
+  assert.equal(publicAccount.emailAllowed('bob@example.com'), true);
+  assert.equal(publicAccount.emailAllowed('not-an-email'), false);
+  assert.equal((await publicAccount.password('bob@example.com', 'synthetic-password')).user.id, 'bob-id');
+  assert.equal((await publicAccount.emailCode('bob@example.com', '123456')).user.id, 'bob-id');
+  const bobCookie = publicAccount.sessionCookie({ id: 'bob-id', email: 'bob@example.com' }).split(';')[0];
+  assert.equal(publicAccount.identity({ headers: { cookie: bobCookie } }).id, 'bob-id');
+  assert.equal(account.identity({ headers: { cookie: bobCookie } }), null);
+  const publicUnverified = createIdentity({ ...defaults, allowedEmails: '*', fetcher: unverifiedFetcher });
+  async function unverifiedFetcher() { return Response.json({ token: 'upstream-only', user: { ...user, emailVerified: false } }); }
+  assert.equal((await publicUnverified.password(user.email, 'synthetic-password')).status, 401);
+  assert.equal((await publicUnverified.finishGoogle('verifier', 'challenge')).status, 401);
+});
+
+test('public Google signup keeps accounts isolated and bounds code sends across email addresses', async t => {
+  const { pool } = await fixture(t); await migrateHosted(pool);
+  let app, callback, googleUser, sends = 0;
+  const server = createServer((req, res) => app(req, res));
+  await new Promise(done => server.listen(0, '127.0.0.1', done));
+  t.after(() => new Promise(done => { server.closeAllConnections(); server.close(done); }));
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  app = createStandaloneApp({ ...defaults, origin, pool, allowedEmails: '*', fetcher: async (url, init) => {
+    if (url.endsWith('/sign-in/social')) {
+      callback = new URL(JSON.parse(init.body).callbackURL);
+      return Response.json({ url: 'https://accounts.google.com/o/oauth2/v2/auth' },
+        { headers: { 'set-cookie': '__Secure-neon-auth.session_challenge=challenge; Secure' } });
+    }
+    if (url.includes('/get-session?')) return Response.json({ user: googleUser });
+    sends++; return Response.json({ success: true });
+  } });
+  const request = (path, init = {}) => fetch(origin + path, { redirect: 'manual', ...init });
+  const landing = await request('/'), html = await landing.text();
+  assert.ok(!html.includes('invited')); assert.match(html, /verified account required/i);
+  const csrf = html.match(/name="csrf" value="([^"]+)"/)[1], csrfCookie = landing.headers.getSetCookie()[0].split(';')[0];
+  const form = body => ({ method: 'POST', headers: { Origin: origin, Cookie: csrfCookie, 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ csrf, ...body }) });
+  const accounts = [];
+  for (const name of ['alice', 'bob']) {
+    googleUser = { id: name + '-id', email: name + '@example.com', emailVerified: true };
+    const started = await request('/signin/google', form({})); assert.equal(started.status, 200);
+    const cookie = started.headers.getSetCookie()[0].split(';')[0];
+    callback.searchParams.set('neon_auth_session_verifier', 'synthetic-verifier'); callback.searchParams.set('resume', '1');
+    const completed = await request(callback.pathname + callback.search, { headers: { Cookie: cookie } });
+    assert.equal(completed.status, 303);
+    const session = completed.headers.getSetCookie().find(value => value.startsWith('conclave_session=')).split(';')[0];
+    const saved = await new HandoffRepository(pool, googleUser.id).save({ packet: { title: name + ' private', summary: 'Only this owner' }, request_id: name });
+    accounts.push({ session, saved });
+  }
+  for (const [index, own] of accounts.entries()) {
+    const init = { headers: { Cookie: own.session } };
+    const found = await (await request('/dashboard/api/find', init)).json();
+    assert.deepEqual(found.handoffs.map(row => row.handoff_id), [own.saved.handoff_id]);
+    assert.equal((await request('/dashboard/api/get?handoff_id=' + accounts[1 - index].saved.handoff_id, init)).status, 404);
+  }
+  for (const path of ['/get-started', '/support', '/privacy', '/terms']) {
+    const page = await (await request(path)).text(); assert.ok(!page.includes('invitation'));
+  }
+  for (let i = 0; i < 10; i++) assert.equal((await request('/signin', form({ email: `signup${i}@example.com` }))).status, 200);
+  assert.equal((await request('/signin/reset', form({ email: 'another@example.com' }))).status, 429);
+  assert.equal(sends, 10, 'changing email or method cannot bypass the IP send budget');
 });
 
 test('password, recovery and one-use Google return preserve the verified account across instances', async t => {

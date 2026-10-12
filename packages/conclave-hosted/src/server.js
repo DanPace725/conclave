@@ -10,7 +10,7 @@ export async function startHostedServer({ env = process.env, pool = createPool(e
     const port = Number(env.PORT || 3000);
     if (!Number.isSafeInteger(port) || port < 0 || port > 65535) throw Error('Invalid PORT');
     if (!env.CONCLAVE_MCP_ORIGIN || !env.CONCLAVE_SESSION_SECRET || !env.NEON_AUTH_BASE_URL || !env.CONCLAVE_ALLOWED_EMAILS)
-      throw Error('Configure Conclave origin, session secret, Neon Auth and pilot account emails');
+      throw Error('Configure Conclave origin, session secret, Neon Auth and account admission');
     const app = createStandaloneApp({ pool, origin: env.CONCLAVE_MCP_ORIGIN,
       secret: env.CONCLAVE_SESSION_SECRET, authBaseUrl: env.NEON_AUTH_BASE_URL, allowedEmails: env.CONCLAVE_ALLOWED_EMAILS,
       // The Railway public origin reaches this service through its edge proxy.

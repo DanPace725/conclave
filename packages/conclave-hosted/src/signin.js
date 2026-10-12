@@ -7,16 +7,17 @@ const digest = value => createHash('sha256').update(value).digest('hex');
 const revokedKey = email => 'browser-reset:' + digest(email);
 
 export function signinPage(account, req, res, { mode = 'password', email = '', code = false, message = '' } = {}) {
+  const invited = account.publicSignup ? '' : 'invited ';
   const csrf = `<input type="hidden" name="csrf" value="${escape(account.form(req, res))}">`;
   const emailField = `<label>Email<input name="email" type="email" autocomplete="${mode === 'password' ? 'username' : 'email'}" maxlength="254" value="${escape(email)}" required></label>`;
   const passwordField = `<label>${mode === 'reset' ? 'New password' : 'Password'}<input name="password" type="password" autocomplete="${mode === 'reset' ? 'new-password' : 'current-password'}" ${mode === 'reset' ? 'minlength="12"' : ''} maxlength="128" required></label>`;
   const codeField = '<label>Email code<input name="otp" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></label>';
   let content;
-  if (mode === 'password') content = `<form action="/signin/google" method="post">${csrf}<button class="social">Continue with Google</button></form><p class="divider">or sign in with your email</p><form action="/signin/password" method="post">${csrf}${emailField}${passwordField}<button>Sign in</button></form><p><a href="/signin/reset">Set or reset your password</a> · <a href="/signin/code">Use an email code instead</a></p><p class="note">New here? Continue with Google or use an email code once to create your invited account. You can then set a password.</p>`;
+  if (mode === 'password') content = `<form action="/signin/google" method="post">${csrf}<button class="social">Continue with Google</button></form><p class="divider">or sign in with your email</p><form action="/signin/password" method="post">${csrf}${emailField}${passwordField}<button>Sign in</button></form><p><a href="/signin/reset">Set or reset your password</a> · <a href="/signin/code">Use an email code instead</a></p><p class="note">New here? Continue with Google or use an email code once to create your ${invited}account. You can then set a password.</p>`;
   else if (mode === 'reset') content = `<p>Use a recovery code to set a password for your existing Conclave account. Your email is your username.</p><form action="/signin/reset" method="post">${csrf}${emailField}${code ? codeField + passwordField + '<label>Confirm new password<input name="confirm" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></label><p class="note">Use 12–128 characters. Passwords are managed by Neon Auth.</p>' : ''}<button>${code ? 'Save password' : 'Send recovery code'}</button></form><p><a href="/">Back to sign in</a> · <a href="/signin/code">Use an email code instead</a></p>`;
-  else content = `<p>Get a six-digit code at your invited email address. This also works if you have not set a password.</p><form action="/signin" method="post">${csrf}${emailField}${code ? codeField : ''}<button>${code ? 'Sign in with code' : 'Send email code'}</button></form><p><a href="/">Back to password or Google sign-in</a>${code ? ' · <a href="/signin/code">Request a new code</a>' : ''}</p>`;
+  else content = `<p>Get a six-digit code at your ${invited}email address. This also works if you have not set a password.</p><form action="/signin" method="post">${csrf}${emailField}${code ? codeField : ''}<button>${code ? 'Sign in with code' : 'Send email code'}</button></form><p><a href="/">Back to password or Google sign-in</a>${code ? ' · <a href="/signin/code">Request a new code</a>' : ''}</p>`;
   return hostedPage(res, mode === 'reset' ? 'Set or reset your password' : 'Sign in to Conclave',
-    `${message ? `<p class="note" role="status">${escape(message)}</p>` : ''}${content}<p class="note">Private pilot. Use the same Conclave email in ChatGPT and Claude.</p>`);
+    `${message ? `<p class="note" role="status">${escape(message)}</p>` : ''}${content}<p class="note">${account.publicSignup ? 'Verified account required.' : 'Private pilot.'} Use the same Conclave email in ChatGPT and Claude.</p>`);
 }
 
 export function mountSignin(app, { account, records, origin }) {
@@ -50,7 +51,10 @@ export function mountSignin(app, { account, records, origin }) {
     const email = String(req.body.email || '').trim().toLowerCase(), otp = req.body.otp;
     const code = otp !== undefined;
     const fail = (status, message) => { res.status(status); return page(req, res, { mode, email, code, message }); };
-    if (!account.emailAllowed(email)) return fail(403, 'Sign-in is unavailable for these details. Check your invited email or contact support.');
+    if (!account.emailAllowed(email)) return fail(403, 'Sign-in is unavailable for these details. Check your email or contact support.');
+    const verifying = code || mode === 'password';
+    if (!await budget('signin-ip:' + digest(req.ip + ':' + (verifying ? 'verify' : 'send')), verifying ? 60 : 10))
+      return fail(429, 'Too many attempts. Wait before trying again.');
     const key = 'signin:' + digest(email + ':' + mode + ':' + (code || mode === 'password' ? 'verify' : 'send'));
     if (!await budget(key, code || mode === 'password' ? 15 : 5)) return fail(429, 'Too many attempts. Wait before trying again.');
     if (mode === 'reset' && code && req.body.password !== req.body.confirm) return fail(400, 'The passwords must match. Enter them again.');

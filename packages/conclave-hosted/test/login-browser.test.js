@@ -22,7 +22,7 @@ test('hosted password, email backup, recovery and Google navigation work on desk
   t.after(() => new Promise(done => { server.closeAllConnections(); server.close(done); }));
   const origin = `http://127.0.0.1:${server.address().port}`;
   const user = { id: 'synthetic-owner', email: 'pilot@example.test', emailVerified: true };
-  app = createStandaloneApp({ pool, origin, secret: 'synthetic-browser-secret-'.repeat(3), allowedEmails: user.email,
+  const options = { pool, origin, secret: 'synthetic-browser-secret-'.repeat(3), allowedEmails: user.email,
     authBaseUrl: 'https://synthetic-auth.example.test/auth', fetcher: async (url, init) => {
       const data = init.body && JSON.parse(init.body);
       if (url.endsWith('/sign-in/social')) {
@@ -33,10 +33,11 @@ test('hosted password, email backup, recovery and Google navigation work on desk
       if (url.includes('/get-session?')) return Response.json({ user, session: { id: 'synthetic-session' } });
       if (url.includes('/email-otp/')) return Response.json({ success: true });
       return Response.json({ user, token: 'synthetic-token-never-in-browser' });
-    } });
+    } };
   const browser = await chromium.launch({ channel: 'msedge' }); t.after(() => browser.close());
   await mkdir('.conclave/hosted-login-previews', { recursive: true });
   for (const name of ['desktop', 'mobile', 'scriptless']) await t.test(name, async () => {
+    app = createStandaloneApp({ ...options, allowedEmails: name === 'desktop' ? user.email : '*' });
     const context = await browser.newContext({ javaScriptEnabled: name !== 'scriptless',
       viewport: name === 'mobile' ? { width: 390, height: 844 } : { width: 1280, height: 1000 },
       ...(name === 'mobile' ? { isMobile: true, hasTouch: true } : {}) });
