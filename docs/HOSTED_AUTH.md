@@ -1,6 +1,6 @@
 # Hosted account sign-in
 
-The prepared hosted service offers email/password and Google sign-in, with email codes as a backup. Email is the username. Authentication stays in the existing dedicated Neon Auth project; the verified Neon account ID remains the handoff owner. This does not change local plugins, Converse sign-in or connected apps' OAuth permissions.
+The hosted service offers email/password and Google sign-in, with email codes as a backup. Email is the username. Authentication stays in the existing dedicated Neon Auth project; the verified Neon account ID remains the handoff owner. This does not change local plugins, Converse sign-in or connected apps' OAuth permissions. The implementation deployed October 12 at `df75f9a`; public page/security checks passed. Google production credentials and real-account sign-in/recovery acceptance remain outstanding. [Release evidence](archive/2026-10-12/hosted-polish-main-release.md)
 
 First-time invited users create their account with Google or an email sign-in code. They can then choose **Set or reset your password**, receive a recovery code and set a 12–128 character password. Existing code-only and Google accounts use that same recovery flow to add a password. This avoids creating an unverified password account with a different handoff owner.
 
