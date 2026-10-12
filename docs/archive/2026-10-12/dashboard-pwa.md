@@ -20,4 +20,10 @@ Implemented on isolated branch `codex/conclave-pwa` from `9ec00699138e68e90a6ce0
 
 ## Release limits
 
-No push or Railway deployment performed for this task. Browser validation uses synthetic fixtures; native OS installation, iOS/Android standalone sign-in and live account acceptance require the deployed release and real devices. Converse synchronization is a local engine snapshot, not a Converse production deployment.
+The user approved Conclave-only publication/deployment after local verification. Fast-forwarded remote main from `9ec0069` to `b4ee297c38ea34ad53dadd82953e2db1ad5c8940`; independent `git ls-remote` confirmed the exact main SHA. Railway's existing main-following trigger deployed it as `194c2397-62b6-493e-82c2-dc2f233160fc`, SUCCESS at `2026-10-12T21:13:26.522Z`. Source still follows main without a pin, and production has no staged/applying work. No service/Auth/variable/domain setting was changed.
+
+All **22 live public checks** passed at `2026-10-12T21:14:14.662Z`: database readiness; dashboard sign-in and anonymous find/get/history/compare rejection; method/origin controls; MCP authorization/scope metadata; exact source bytes, MIME and no-store headers for all nine public PWA resources; manifest identity/start/scope/display; and public worker origin/write refusal. The script and full SHA-256 receipt are retained in ignored `.conclave/check-pwa-release.mjs` and `.conclave/pwa-public-release.json`.
+
+This documentation receipt has no runtime/package changes from the verified implementation. Any subsequent documentation-only main deployment must be observed separately; the hosted progress log records the final verified head/deployment.
+
+Browser validation uses synthetic fixtures; native OS installation, iOS/Android standalone sign-in and real-device account acceptance remain pending. Converse synchronization was completed locally before the user narrowed the remaining work to Conclave; no Converse push, merge or deployment was performed.
