@@ -6,7 +6,7 @@ console.log('Browser prerequisites: installed Microsoft Edge, local listeners, a
 for (const args of [
   ['scripts/check.js'],
   ['scripts/test.js'],
-  ['scripts/test.js', 'packages/conclave-mcp/test/transport.test.js', 'packages/conclave-hosted/test/consent-browser.test.js'],
+  ['scripts/test.js', 'packages/conclave-mcp/test/transport.test.js', 'packages/conclave-hosted/test/consent-browser.test.js', 'packages/conclave-hosted/test/login-browser.test.js'],
   ['scripts/test-handoff-ui.js'],
   ['scripts/test-dashboard-ui.js'],
 ]) {

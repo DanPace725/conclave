@@ -60,6 +60,79 @@ test('standalone identity uses independent secure cookies, verified accounts and
   assert.equal((await unverified.emailCode(user.email, '123456')).status, 401);
   const wrongEmail = createIdentity({ ...defaults, fetcher: async () => Response.json({ token: 'upstream-only', user: { id: 'bob', email: 'bob@example.com', emailVerified: true } }) });
   assert.equal((await wrongEmail.emailCode(user.email, '123456')).status, 401);
+  assert.equal((await wrongEmail.password(user.email, 'synthetic-password')).status, 401);
+  assert.equal((await unverified.password(user.email, 'synthetic-password')).status, 401);
+  const unsafeGoogle = createIdentity({ ...defaults, fetcher: async () => Response.json({ url: 'https://evil.example' },
+    { headers: { 'set-cookie': '__Secure-neon-auth.session_challenge=synthetic-challenge; Secure' } }) });
+  assert.equal((await unsafeGoogle.startGoogle('synthetic-state')).status, 502);
+});
+
+test('password, recovery and one-use Google return preserve the verified account across instances', async t => {
+  const { db, pool } = await fixture(t); await migrateHosted(pool);
+  let app, googleReturn, requests = [], accept = true;
+  const server = createServer((req, res) => app(req, res));
+  await new Promise(done => server.listen(0, '127.0.0.1', done));
+  t.after(() => new Promise(done => { server.closeAllConnections(); server.close(done); }));
+  const origin = `http://127.0.0.1:${server.address().port}`, user = { id: 'alice-id', email: 'alice@example.com', emailVerified: true };
+  const options = { ...defaults, origin, pool, fetcher: async (url, init) => {
+    requests.push({ url, body: init.body });
+    const data = init.body && JSON.parse(init.body);
+    assert.equal(init.redirect, 'manual'); assert.equal(init.headers.origin, origin);
+    if (url.endsWith('/sign-in/social')) {
+      googleReturn = new URL(data.callbackURL); assert.equal(data.provider, 'google');
+      return Response.json({ url: 'https://accounts.google.com/o/oauth2/v2/auth?synthetic=1' },
+        { headers: { 'set-cookie': '__Secure-neon-auth.session_challenge=synthetic-challenge; Secure' } });
+    }
+    if (url.includes('/get-session?')) {
+      assert.match(init.headers.cookie, /session_challenge=synthetic-challenge/);
+      return Response.json({ user, session: { id: 'synthetic-upstream-session' } });
+    }
+    if (url.includes('/email-otp/')) return Response.json({ success: true });
+    return accept ? Response.json({ token: 'never-expose-neon-token', user }) : Response.json({ message: 'private provider error' }, { status: 401 });
+  } };
+  app = createStandaloneApp(options);
+  const request = (path, init = {}) => fetch(origin + path, { redirect: 'manual', ...init });
+  const landing = await request('/'), html = await landing.text();
+  const csrf = html.match(/name="csrf" value="([^"]+)"/)[1], cookie = landing.headers.getSetCookie()[0].split(';')[0];
+  const form = body => ({ method: 'POST', headers: { Origin: origin, Cookie: cookie, 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ csrf, ...body }) });
+  assert.match(html, /Continue with Google/); assert.match(html, /autocomplete="username"/);
+  const noCsrf = form({ email: user.email, password: 'synthetic-password' }); noCsrf.headers.Origin = 'https://evil.example';
+  assert.equal((await request('/signin/password', noCsrf)).status, 403); assert.equal(requests.length, 0);
+  accept = false;
+  const denied = await request('/signin/password', form({ email: user.email, password: 'wrong-password' }));
+  assert.equal(denied.status, 401); assert.ok(!(await denied.text()).includes('private provider error'));
+  accept = true;
+  const signed = await request('/signin/password', form({ email: user.email, password: 'synthetic-password' }));
+  assert.equal(signed.status, 303);
+  const session = signed.headers.getSetCookie()[0].split(';')[0];
+  assert.deepEqual(createIdentity(options).identity({ headers: { cookie: session } }), { id: user.id, email: user.email });
+  assert.ok(!signed.headers.get('set-cookie').includes('never-expose-neon-token'));
+  assert.equal((await request('/signin/reset', form({ email: user.email }))).status, 200);
+  const reset = await request('/signin/reset', form({ email: user.email, otp: '123456', password: 'new-synthetic-password', confirm: 'new-synthetic-password' }));
+  assert.equal(reset.status, 200); assert.match(await reset.text(), /Password saved/);
+  assert.match(requests.at(-1).url, /\/email-otp\/reset-password$/);
+  const revoked = await request('/', { headers: { Cookie: session } });
+  assert.match(await revoked.text(), /Sign in to Conclave/);
+  assert.match(revoked.headers.get('set-cookie'), /Max-Age=0/);
+  const before = requests.length;
+  assert.equal((await request('/signin/google', { method: 'POST' })).status, 403); assert.equal(requests.length, before);
+  const started = await request('/signin/google', form({})); assert.equal(started.status, 200);
+  assert.match(await started.text(), /id="google-continue"/);
+  const googleCookie = started.headers.getSetCookie()[0].split(';')[0];
+  googleReturn.searchParams.set('neon_auth_session_verifier', 'synthetic-verifier');
+  const callback = googleReturn.pathname + googleReturn.search;
+  const intermediate = await request(callback); assert.equal(intermediate.status, 200); assert.match(await intermediate.text(), /http-equiv="refresh"/);
+  googleReturn.searchParams.set('resume', '1'); const resumed = googleReturn.pathname + googleReturn.search;
+  assert.equal((await request(resumed)).status, 400, 'unbound browser cannot consume pending sign-in');
+  app = createStandaloneApp(options);
+  const completed = await request(resumed, { headers: { Cookie: googleCookie } }); assert.equal(completed.status, 303);
+  const googleSession = completed.headers.getSetCookie().find(value => value.startsWith('conclave_session=')).split(';')[0];
+  assert.deepEqual(createIdentity(options).identity({ headers: { cookie: googleSession } }), { id: user.id, email: user.email });
+  assert.equal((await request(resumed, { headers: { Cookie: googleCookie } })).status, 400, 'callback cannot be replayed');
+  const stored = JSON.stringify((await db.query('SELECT data FROM app.mcp_records')).rows);
+  assert.ok(!stored.includes('synthetic-password')); assert.ok(!stored.includes('never-expose-neon-token'));
+  for (let i = 0; i < 14; i++) await request('/signin/password', form({ email: user.email, password: 'synthetic-password' }));
+  assert.equal((await request('/signin/password', form({ email: user.email, password: 'synthetic-password' }))).status, 429);
 });
 test('Railway proxy keeps OAuth limits per client and ignores spoofed earlier forwarding hops', async t => {
   const { pool } = await fixture(t); await migrateHosted(pool);
