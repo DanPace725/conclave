@@ -6,13 +6,15 @@ First-time admitted users create their account with Google or an email sign-in c
 
 ## Account admission: restricted or public
 
-The prepared public-signup change makes `CONCLAVE_ALLOWED_EMAILS` an explicit admission choice:
+`CONCLAVE_ALLOWED_EMAILS` is an explicit admission choice:
 
 - A comma-separated list such as `alice@example.com,bob@example.com` keeps sign-in restricted to those accounts.
 - Exactly `*` admits any valid, **verified** email account through Google, email codes or password sign-in. It does not permit anonymous access or change handoff/OAuth ownership.
 - Missing/empty configuration and mixing `*` with addresses fail startup. Public signup must be intentional.
 
 Deploy the supporting source before changing Railway's variable to `*`: the earlier deployed code rejects wildcards and would fail startup. Existing account IDs, saved handoffs and app grants need no migration. Reverting the variable to an address list blocks browser sign-in/session use for accounts outside that list; it does not revoke their already-issued app grants. Revoke those separately if needed.
+
+October 12 release: supporting source `99f647d` is verified deployed and healthy. The user authorized public signup and production Railway is configured with exactly `*` for the following deployment. Confirm that deployment and the live public admission checks before treating activation as complete. See the [release record](archive/2026-10-12/public-account-admission.md); final runtime verification is also recorded in the hosted progress log.
 
 The login and public pages reflect the selected mode. Code/recovery sends share a durable ten-per-hour IP budget across addresses and methods, in addition to the five-per-hour account/method budget. Password/code/recovery verification shares a sixty-per-hour IP budget, with existing account/method limits retained. Google start remains twenty per hour per IP. Shared-network users share their IP budget; upstream Neon mail/auth limits also apply.
 
