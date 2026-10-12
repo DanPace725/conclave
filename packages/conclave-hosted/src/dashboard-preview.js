@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url';
 import { Store } from '../../../src/store.js';
 import { HandoffService } from '../../../src/handoffs.js';
 import { createHandoffDashboard } from '../../../src/handoff-dashboard.js';
+import { hostedDashboardHtml } from '../../../src/handoff-branding.js';
+import { mountPublicPages } from './public-pages.js';
 
 // Explicit synthetic demo. No .env, saved local packets, hosted database or keys.
 export async function startDashboardPreview({ port = 3226 } = {}) {
@@ -28,16 +30,25 @@ export async function startDashboardPreview({ port = 3226 } = {}) {
   try {
     await new Promise((done, reject) => { server.once('error', reject); server.listen(port, '127.0.0.1', done); });
     const origin = `http://127.0.0.1:${server.address().port}`;
+    app.use((req, res, next) => {
+      if (req.headers.host !== new URL(origin).host) return res.sendStatus(403);
+      res.set({ 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
+        'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'" });
+      next();
+    });
+    mountPublicPages(app, origin);
+    const styles = readFileSync(new URL('./styles.css', import.meta.url), 'utf8');
+    app.get('/styles.css', (_req, res) => res.type('css').send(styles));
     app.get('/', (_req, res) => res.redirect('/dashboard'));
     app.get(['/connect', '/account'], (_req, res) => res.type('text').send('Synthetic preview only. No real account or app connections.'));
-    const html = readFileSync(new URL('../../../src/resources/dashboard/index.html', import.meta.url), 'utf8');
+    const html = hostedDashboardHtml(readFileSync(new URL('../../../src/resources/dashboard/index.html', import.meta.url), 'utf8'));
     app.get(['/dashboard', '/dashboard/'], (req, res, next) => {
       if (req.headers.host !== new URL(origin).host) return res.sendStatus(403);
       if (req.headers.cookie?.includes('preview_expired=1')) return next();
       res.set({ 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'" });
       res.type('html').send(html.replace('<body>', '<body><p class="notice" role="note">Local demo · synthetic packets only. No live account data.</p>').replace('href="/">Account', 'href="/account">Account'));
     });
-    app.use('/dashboard', createHandoffDashboard({ origin, identity: req => req.headers.cookie?.includes('preview_expired=1') ? null : { id: 'synthetic-demo' }, repository: () => service }));
+    app.use('/dashboard', createHandoffDashboard({ origin, hostedPresentation: true, identity: req => req.headers.cookie?.includes('preview_expired=1') ? null : { id: 'synthetic-demo' }, repository: () => service }));
     return { server, service, demoId: first.handoff_id, url: origin + '/dashboard', async close() {
       server.closeAllConnections(); await new Promise(done => server.close(done)); store.close();
     } };

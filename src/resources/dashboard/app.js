@@ -41,6 +41,8 @@ async function library(newOffset = 0) {
     if (operation !== listEpoch) return;
     $('handoffs').replaceChildren(); $('pages').replaceChildren(); $('projects').replaceChildren();
     $('count').textContent = String(data.total);
+    const onboarding = $('first-handoff');
+    if (onboarding) onboarding.hidden = data.total !== 0 || !!query || !!project;
     $('library-title').textContent = query ? 'Search results' : 'Recent handoffs';
     // Projects are the exact names apps reported when saving; nothing is grouped by inference.
     if (data.projects.length || project) for (const [label, name] of [['All', ''], ...data.projects.map(p => [`${p.name} · ${p.handoffs}`, p.name])])

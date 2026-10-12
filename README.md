@@ -18,6 +18,8 @@ Readable references such as `dashboard-planning--2` work across the dashboard an
 
 For cross-app continuity, prioritize the [independent hosted handoff pilot](docs/HOSTED_HANDOFFS.md) for ChatGPT and Claude. It has its own Railway service, Neon database and sign-in, while Converse retains its current integration. See [the shared MCP contract](docs/HANDOFF_MCP.md). Local launchers remain available; they do not synchronize with hosted storage.
 
+[Hosted plugin presentation](docs/HOSTED_PLUGIN.md) covers the icon, public onboarding/help/privacy pages, review-package build and directory preparation.
+
 Requires Node.js 22.13+. Use OPENAI_API_KEY for OpenAI or ANTHROPIC_API_KEY for Claude. Credentials are read from the process or Windows User/Machine environment; offline controls need no key.
 
 ```powershell

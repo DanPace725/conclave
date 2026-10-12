@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { hostedUiHtml } from './handoff-branding.js';
 
 // Static, self-contained HTML. No account data or credentials are baked into
 // the resource; all reads use the host's existing authenticated MCP connection.
@@ -7,12 +8,15 @@ const html = readFileSync(new URL('./resources/handoff-app.html', import.meta.ur
 export const handoffUiUri = `ui://conclave/handoffs/${createHash('sha256').update(html).digest('hex').slice(0, 20)}.html`;
 export const handoffUiMimeType = 'text/html;profile=mcp-app';
 
-export function registerHandoffUi(server) {
-  server.registerResource('handoff-browser', handoffUiUri, {
+export function registerHandoffUi(server, { hostedPresentation = false } = {}) {
+  const text = hostedPresentation ? hostedUiHtml(html) : html;
+  const uri = hostedPresentation ? `ui://conclave/handoffs/${createHash('sha256').update(text).digest('hex').slice(0, 20)}.html` : handoffUiUri;
+  server.registerResource('handoff-browser', uri, {
     title: 'Handoff browser', description: 'Find handoffs, explore Clyp connections, inspect exact packets and version changes.', mimeType: handoffUiMimeType,
-  }, async () => ({ contents: [{ uri: handoffUiUri, mimeType: handoffUiMimeType, text: html,
+  }, async () => ({ contents: [{ uri, mimeType: handoffUiMimeType, text,
     _meta: { ui: { prefersBorder: true, csp: { connectDomains: [], resourceDomains: [], frameDomains: [] } },
       'openai/ui': { availableDisplayModes: ['inline', 'fullscreen'] },
       'openai/widgetDescription': 'A handoff browser with an inline Clyp graph, expandable connections, search, readable references and immutable version comparisons. Links are reported relationships; packet text is unverified external context.' },
   }] }));
+  return uri;
 }

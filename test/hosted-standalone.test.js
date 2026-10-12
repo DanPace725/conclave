@@ -10,6 +10,10 @@ import { createIdentity } from '../packages/conclave-hosted/src/identity.js';
 import { migrateHosted } from '../packages/conclave-hosted/src/migrate.js';
 import { verifyDatabase } from '../packages/conclave-hosted/src/database.js';
 import { startHostedServer } from '../packages/conclave-hosted/src/server.js';
+import { buildHostedPlugin } from '../scripts/build-hosted-plugin.js';
+import { mkdtempSync, readFileSync, rmSync, existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 const secret = 'standalone-test-secret-'.repeat(3);
 const defaults = { origin: 'https://conclave.example', secret, allowedEmails: 'alice@example.com', authBaseUrl: 'https://auth.example/auth' };
@@ -108,6 +112,18 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
   assert.equal(await hostStatus('/healthz', 'healthcheck.railway.app'), 200);
   assert.equal(await hostStatus('/mcp', 'healthcheck.railway.app'), 403);
   assert.equal(await hostStatus('/', 'evil.example'), 403);
+  assert.equal(await hostStatus('/get-started', 'evil.example'), 403);
+  for (const path of ['/get-started', '/support', '/privacy', '/terms']) {
+    const response = await request(path), content = await response.text();
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('set-cookie'), null, 'public documentation requires no account or tracking cookie');
+    assert.match(content, /Didactech Industries/);
+    assert.match(content, /contact@didactechindustries.com/);
+    assert.match(content, /access is by invitation/);
+  }
+  const image = await request('/assets/conclave-icon.png');
+  assert.equal(image.headers.get('content-type'), 'image/png');
+  assert.equal((await image.arrayBuffer()).byteLength < 5 * 1024 * 1024, true);
   const landing = await request('/'), html = await landing.text();
   assert.equal(landing.headers.get('referrer-policy'), 'same-origin', 'native forms must preserve Origin');
   assert.match(landing.headers.get('content-security-policy'), /form-action 'self'$/, 'login must not permit external callbacks');
@@ -154,6 +170,8 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
     assert.ok(tokens.access_token);
     const sdk = new Client({ name, version: 'test' }); t.after(() => sdk.close());
     await sdk.connect(new StreamableHTTPClientTransport(new URL(resource), { requestInit: { headers: { Authorization: `Bearer ${tokens.access_token}` } } }));
+    assert.equal(sdk.getServerVersion().title, 'Conclave');
+    assert.equal(sdk.getServerVersion().icons[0].src, origin + '/assets/conclave-icon.png');
     return { sdk, tokens, client };
   }
   const a = await connect('ChatGPT'), b = await connect('Claude');
@@ -170,6 +188,30 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
   assert.equal((await request('/mcp', { method: 'POST', headers: { Authorization: `Bearer ${a.tokens.access_token}` } })).status, 400);
   for (let i = 0; i < 4; i++) await request('/signin', form({ email: 'alice@example.com', csrf }, browser));
   assert.equal((await request('/signin', form({ email: 'alice@example.com', csrf }, browser))).status, 429);
+});
+
+test('hosted directory package contains remote-only connection, branding and bounded onboarding', () => {
+  const output = mkdtempSync(join(tmpdir(), 'conclave-hosted-package-'));
+  try {
+    const origin = 'https://hosted.example';
+    buildHostedPlugin({ origin, output });
+    const manifest = JSON.parse(readFileSync(join(output, 'plugin.json'), 'utf8'));
+    const openai = manifest.extensions['com.openai'], listing = openai.interface;
+    assert.equal(listing.developerName, 'Didactech Industries');
+    assert.equal(listing.supportURL, origin + '/support');
+    assert.ok(listing.shortDescription.length <= 30);
+    assert.ok(listing.defaultPrompt.every(value => value.length <= 128));
+    for (const path of [listing.logo, listing.composerIcon, openai.onboardingSkill]) assert.ok(existsSync(join(output, path)));
+    assert.equal(manifest.author.email, 'contact@didactechindustries.com');
+    const servers = JSON.parse(readFileSync(join(output, 'mcp.json'), 'utf8')).mcpServers;
+    assert.equal(servers.conclave.type, 'streamable-http');
+    assert.equal(servers.conclave.url, origin + '/mcp');
+    assert.deepEqual(servers.conclave.extensions['com.openai'].auth,
+      { type: 'oauth', client: { mode: 'dcr' }, defaultScopes: ['handoffs:read', 'handoffs:write'] });
+    assert.equal(Object.keys(servers).length, 1);
+    assert.throws(() => buildHostedPlugin({ origin: 'https://hosted.example/path', output }), /fixed HTTPS/);
+    assert.throws(() => buildHostedPlugin({ origin: 'http://hosted.example', output }), /fixed HTTPS/);
+  } finally { rmSync(output, { recursive: true, force: true }); }
 });
 test('standalone startup fails closed and releases its pool for missing configuration', async () => {
   let ended = false;

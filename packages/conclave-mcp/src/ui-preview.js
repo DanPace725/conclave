@@ -7,11 +7,10 @@ import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { Store } from '../../../src/store.js';
 import { HandoffService } from '../../../src/handoffs.js';
 import { createHandoffMcpServer } from '../../../src/handoff-mcp-server.js';
-import { handoffUiUri } from '../../../src/handoff-ui.js';
 
 // Explicit loopback demo. Never load .env, the user's SQLite directory or hosted
 // credentials. Fixtures exist in memory and reset when this process stops.
-export async function startHandoffUiPreview({ port = 3214 } = {}) {
+export async function startHandoffUiPreview({ port = 3214, hostedPresentation = false } = {}) {
   const host = await build({ entryPoints: [fileURLToPath(new URL('../ui/preview-host.js', import.meta.url))],
     bundle: true, write: false, format: 'esm', platform: 'browser', minify: true, target: 'es2022', logLevel: 'warning' });
   const store = new Store(undefined, { memory: true }), service = new HandoffService(store);
@@ -26,9 +25,10 @@ export async function startHandoffUiPreview({ port = 3214 } = {}) {
   const first = service.save({ packet: fixturePacket, request_id: 'demo-first' });
   service.save({ packet: { ...fixturePacket, summary: 'The packet browser is ready for local testing.', constraints: ['Ask before publishing.'] }, request_id: 'demo-second', handoff_id: first.handoff_id, expected_revision: 1 });
   for (let i = 0; i < 10; i++) service.save({ packet: { title: i === 0 ? 'Literal <img src=x onerror="window.parent.xss=true">' : `Demo handoff ${i + 1}`, summary: 'Synthetic preview data.', constraints: ['Keep this as a demo.'] }, request_id: `demo-${i}` });
-  const mcp = createHandoffMcpServer(service, { write: false }), client = new Client({ name: 'local-ui-preview', version: '1' });
+  const mcp = createHandoffMcpServer(service, { write: false, hostedPresentation }), client = new Client({ name: 'local-ui-preview', version: '1' });
   const [a, b] = InMemoryTransport.createLinkedPair(); await mcp.connect(a); await client.connect(b);
-  const resource = await client.readResource({ uri: handoffUiUri });
+  const display = (await client.listTools()).tools.find(tool => tool.name === 'open_handoff_library');
+  const resource = await client.readResource({ uri: display._meta.ui.resourceUri });
   const allowed = new Set(['find_handoffs', 'get_handoff', 'list_handoff_versions', 'compare_handoff_versions', 'get_handoff_graph', 'open_handoff_library']);
   const server = createServer(async (req, res) => {
     res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Content-Type-Options', 'nosniff');

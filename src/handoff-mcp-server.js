@@ -1,6 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import { registerHandoffUi, handoffUiUri } from './handoff-ui.js';
+import { registerHandoffUi } from './handoff-ui.js';
 import { CLYP_RELATIONS } from './clyps.js';
 import { HANDOFF_REFERENCE } from './handoff-references.js';
 
@@ -35,8 +35,8 @@ const run = (action, formatError = value => value) => async args => {
   }
 };
 
-export function createHandoffMcpServer(service, { write = true, oauth = false, ui = true } = {}) {
-  const server = new McpServer({ name: 'conclave', version: '0.1.0' }, { instructions });
+export function createHandoffMcpServer(service, { write = true, oauth = false, ui = true, serverInfo, hostedPresentation = false } = {}) {
+  const server = new McpServer({ name: 'conclave', version: '0.1.0', ...serverInfo }, { instructions });
   const security = (scopes, visibility = ['model', 'app']) => ({ ui: { visibility },
     ...(oauth ? { securitySchemes: [{ type: 'oauth2', scopes }] } : {}) });
   if (write) server.registerTool('save_handoff', {
@@ -94,7 +94,7 @@ export function createHandoffMcpServer(service, { write = true, oauth = false, u
     _meta: security(['handoffs:read']),
   }, run(args => service.graph(args)));
   if (ui) {
-    registerHandoffUi(server);
+    const handoffUiUri = registerHandoffUi(server, { hostedPresentation });
     const savedMetadata = z.object({ handoff_id: z.string(), readable_id: z.string(), title: z.string(), summary: z.string(), revision: z.number().int().positive(),
       source_app: z.string().nullable(), source_model: z.string().nullable(), project: z.string().nullable(), updated_at: z.string() });
     const catalog = z.object({ handoffs: z.array(savedMetadata), next_offset: z.number().int().nonnegative().nullable(),

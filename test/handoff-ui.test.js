@@ -35,6 +35,14 @@ test('separate display tool exposes a static restricted UI resource while data t
   assert.equal(result.isError, undefined); assert.equal(result.structuredContent.view, 'packet');
   assert.equal(result.structuredContent.data.handoff_id, saved.handoff_id);
   assert.equal(JSON.parse(result.content[0].text).data.packet.title, '<script>private-title</script>');
+  const hosted = await fixture(t, { hostedPresentation: true });
+  const hostedDisplay = (await hosted.client.listTools()).tools.find(tool => tool.name === 'open_handoff_library');
+  assert.notEqual(hostedDisplay._meta.ui.resourceUri, handoffUiUri);
+  const branded = (await hosted.client.readResource({ uri: hostedDisplay._meta.ui.resourceUri })).contents[0];
+  assert.match(branded.text, /Didactech Industries/);
+  assert.match(branded.text, /How Conclave works/);
+  assert.ok(!branded.text.includes('Private packet contents'));
+  assert.deepEqual(branded._meta.ui.csp, ui.contents[0]._meta.ui.csp);
 });
 
 test('display tool returns useful paginated data to hosts without UI and handles errors without mutation', async t => {

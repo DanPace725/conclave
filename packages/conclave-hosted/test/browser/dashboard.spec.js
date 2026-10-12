@@ -2,6 +2,23 @@ import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { checkGraphNavigation } from '../../../../test/browser/graph-navigation.js';
 
+test('hosted guide, support and privacy are readable on desktop and mobile', async ({ page }, info) => {
+  const errors = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/get-started');
+  await expect(page.getByRole('heading', { name: 'Pick up where you left off.' })).toBeVisible();
+  await expect(page.getByLabel('Hosted server address')).toHaveValue(/\/mcp$/);
+  await expect(page.getByLabel('Save a handoff prompt')).toHaveValue(/continue this work/);
+  await expect(page.getByLabel('Resume a handoff prompt')).toHaveAttribute('readonly', '');
+  await expect(page.getByText('Conclave by Didactech Industries', { exact: true })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: info.outputPath('hosted-get-started.png'), fullPage: true });
+  await page.getByRole('navigation', { name: 'Conclave', exact: true }).getByRole('link', { name: 'Help', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Help with Conclave' })).toBeVisible();
+  await page.getByRole('navigation', { name: 'Information', exact: true }).getByRole('link', { name: 'Privacy', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Retention and your choices' })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test('graph fits, zooms and pans without losing node navigation', async ({ page }, info) => {
   await page.goto('/dashboard?view=graph');
   await expect(page.locator('.graph-node')).toHaveCount(2);
@@ -31,7 +48,7 @@ test('Clyp budgets, complete ORMD download and pinned cross-project graph naviga
   await page.getByRole('button', { name: 'Show connections', exact: true }).click();
   await expect(page.getByText(/12 handoffs · 1 explicit links/)).toBeVisible();
   await expect(page.getByRole('group', { name: 'Saved handoff graph' })).toBeVisible();
-  expect(await page.locator('img').count()).toBe(0);
+  expect(await page.locator('#detail img, #graph img').count()).toBe(0);
   await expect(page.locator('.graph-node[aria-current=true]')).toHaveCount(1);
   await expect(page.getByText('10 handoffs without links', { exact: true })).toBeVisible();
   await page.getByText('Linked revisions', { exact: true }).click();
@@ -105,7 +122,7 @@ test('empty results, inert packet text and clipboard fallback', async ({ page })
   await page.getByRole('button', { name: /Literal <img/ }).click();
   await expect(page.getByRole('heading', { name: /Literal <img/ })).toBeVisible();
   expect(await page.evaluate(() => window.xss)).toBeUndefined();
-  expect(await page.locator('img').count()).toBe(0);
+  expect(await page.locator('#detail img, #handoffs img').count()).toBe(0);
   await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { value: { writeText: async () => { throw Error('blocked'); } } }));
   await page.getByRole('button', { name: 'Copy continuation', exact: true }).click();
   await expect(page.getByLabel('Continuation text')).toBeVisible();

@@ -1,6 +1,7 @@
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { HandoffRepository } from './handoff-repository.js';
+import { hostedDashboardHtml } from './handoff-branding.js';
 
 const assets = new Map(['index.html', 'app.js', 'app.css', 'graph.js', 'graph.css'].map(name =>
   [name, readFileSync(new URL(`./resources/dashboard/${name}`, import.meta.url), 'utf8')]));
@@ -9,7 +10,7 @@ const invalid = () => { throw Object.assign(Error('Invalid dashboard request'), 
 
 // Read-only browser adapter over the same owner-scoped packet operations as MCP.
 // No browser bearer tokens, model calls, new tables, or packet writes.
-export function createHandoffDashboard({ pool, origin, identity, repository = owner => new HandoffRepository(pool, owner) }) {
+export function createHandoffDashboard({ pool, origin, identity, repository = owner => new HandoffRepository(pool, owner), hostedPresentation = false }) {
   const router = express.Router(), host = new URL(origin).host;
   router.use((req, res, next) => {
     res.set({ 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
@@ -23,7 +24,8 @@ export function createHandoffDashboard({ pool, origin, identity, repository = ow
   });
   router.get(['/', '/app.js', '/app.css', '/graph.js', '/graph.css'], (req, res) => {
     const name = req.path === '/' ? 'index.html' : req.path.slice(1);
-    res.type(name.endsWith('.js') ? 'js' : name.endsWith('.css') ? 'css' : 'html').send(assets.get(name));
+    const content = assets.get(name);
+    res.type(name.endsWith('.js') ? 'js' : name.endsWith('.css') ? 'css' : 'html').send(name === 'index.html' && hostedPresentation ? hostedDashboardHtml(content) : content);
   });
   router.get('/api/:operation', async (req, res) => {
     try {
