@@ -53,6 +53,12 @@ test('hosted password, email backup, recovery and Google navigation work on desk
       await page.screenshot({ path: `.conclave/hosted-login-previews/signin-${name}.png`, fullPage: true });
       await page.getByRole('button', { name: 'Sign in', exact: true }).click();
       await page.getByRole('button', { name: 'Sign out', exact: true }).waitFor();
+      await page.getByRole('link', { name: 'Account', exact: true }).click();
+      assert.equal(new URL(page.url()).pathname, '/account');
+      await page.getByRole('link', { name: 'Manage connections', exact: true }).click();
+      assert.match(await page.textContent('main'), /No active connections/);
+      await page.getByRole('link', { name: 'Account', exact: true }).click();
+      await page.screenshot({ path: `.conclave/hosted-login-previews/account-${name}.png`, fullPage: true });
       await page.getByRole('button', { name: 'Sign out', exact: true }).click();
       await page.getByRole('link', { name: 'Use an email code instead', exact: true }).click();
       await page.getByLabel('Email', { exact: true }).fill(user.email);

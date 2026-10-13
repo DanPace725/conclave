@@ -11,6 +11,12 @@ export const hostedBrand = Object.freeze({
   ]),
 });
 export const hostedIconPath = '/assets/conclave-icon.png';
+// Shared website navigation; the embedded MCP library keeps its own host UI.
+export function hostedNavigation(path = '', { signedIn = true } = {}) {
+  const account = ['/', '/account', '/connect'].includes(path) || path.startsWith('/signin');
+  const link = (href, label, active) => `<a href="${href}"${active ? ' aria-current="page"' : ''}>${label}</a>`;
+  return `<nav class="primary-nav" aria-label="Conclave">${signedIn ? link('/dashboard/', 'Dashboard', path.startsWith('/dashboard')) : ''}${link('/get-started', 'Getting Started', path === '/get-started')}${link('/docs', 'Docs', ['/docs', '/support'].includes(path))}</nav><a class="profile-button" href="/account" aria-label="Account" title="Account"${account ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></a>`;
+}
 export function hostedUiHtml(html) {
   // Self-contained help: no external requests, account data, or host navigation.
   return html.replace('<div id="view">', `<header class="row"><strong>Conclave</strong><span class="muted">${hostedBrand.tagline}</span></header><div id="view">`)
@@ -24,6 +30,7 @@ export function hostedServerInfo(origin) {
 export function hostedDashboardHtml(html) {
   return html.replace('<!-- hosted-head -->', `<link rel="icon" type="image/png" href="${hostedIconPath}"><link rel="stylesheet" href="/assets/hosted.css">`)
     .replace('<span class="mark" aria-hidden="true">C</span>', `<img class="brand-icon" src="${hostedIconPath}" width="32" height="32" alt="">`)
-    .replace('<!-- hosted-help -->', '<a href="/support">Help</a>')
-    .replace('<!-- hosted-onboarding -->', `<details id="first-handoff" class="notice" hidden><summary>Save your first handoff</summary><p>In a connected AI app, copy this prompt. Saving happens only when the chat calls Conclave successfully.</p><textarea readonly rows="3" aria-label="First handoff prompt">${hostedBrand.prompts[0]}</textarea><p>Keep the returned reference, then ask another connected app to retrieve it using the same Conclave account.</p><a href="/get-started">Read the full guide</a></details>`);
+    .replace('<header class="masthead">', '<header class="masthead hosted-masthead">')
+    .replace(/<nav aria-label="Account">.*?<\/nav>/, hostedNavigation('/dashboard/'))
+    .replace('<!-- hosted-onboarding -->', `<details id="first-handoff" class="notice" hidden><summary>Save your first handoff</summary><p>In a connected AI app, copy this prompt. Saving happens only when the chat calls Conclave successfully.</p><textarea readonly rows="3" aria-label="First handoff prompt">${hostedBrand.prompts[0]}</textarea><p>Keep the returned reference, then ask another connected app to retrieve it using the same Conclave account.</p><a href="/get-started">Getting Started</a></details>`);
 }

@@ -53,6 +53,8 @@ Local synthetic preview: `http://127.0.0.1:3214/?view=graph&inline=1`. Add `tool
 
 ## Installable dashboard
 
+The hosted website header has **Dashboard**, **Getting Started**, and **Docs**, plus a circular **Account** profile control at the top right. Getting Started at `/get-started` covers connecting, saving and resuming in three plain-language steps. `/docs` holds connection settings, permissions, tools, revision handling and a link to troubleshooting. `/account` contains **Connections → Manage connections** alongside password and sign-out controls. Existing `/` account and `/connect` management/consent URLs remain supported. These changes affect the standalone website; the embedded MCP App retains its host navigation.
+
 The standalone web dashboard has a PWA manifest at `/dashboard/manifest.webmanifest`, with a stable identity/start URL of `/dashboard/`, standalone display, PNG icons in 192/512 sizes, a maskable icon and an Apple touch icon. Its app navigation scope is `/` so account sign-in, connections and help can stay within the installed window. This is separate from the worker's narrower `/dashboard/` offline scope. Railway's HTTPS hosting meets the secure-origin requirement; localhost supports local checks. No additional hosting service or database migration is needed.
 
 Open the dashboard in a browser and select **Install Conclave** when the browser offers it. The **Use Conclave as an app** section above the dashboard footer explains browser-menu installation and Safari's **Share → Add to Home Screen** flow. Installed windows hide this guidance. Installation uses the existing Conclave account; it does not create another identity or change MCP connections.

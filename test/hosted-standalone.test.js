@@ -122,7 +122,7 @@ test('public Google signup keeps accounts isolated and bounds code sends across 
     assert.deepEqual(found.handoffs.map(row => row.handoff_id), [own.saved.handoff_id]);
     assert.equal((await request('/dashboard/api/get?handoff_id=' + accounts[1 - index].saved.handoff_id, init)).status, 404);
   }
-  for (const path of ['/get-started', '/support', '/privacy', '/terms']) {
+  for (const path of ['/get-started', '/docs', '/support', '/privacy', '/terms']) {
     const page = await (await request(path)).text(); assert.ok(!page.includes('invitation'));
   }
   for (let i = 0; i < 10; i++) assert.equal((await request('/signin', form({ email: `signup${i}@example.com` }))).status, 200);
@@ -249,12 +249,12 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
   assert.equal(await hostStatus('/mcp', 'healthcheck.railway.app'), 403);
   assert.equal(await hostStatus('/', 'evil.example'), 403);
   assert.equal(await hostStatus('/get-started', 'evil.example'), 403);
-  for (const path of ['/get-started', '/support', '/privacy', '/terms']) {
+  for (const path of ['/get-started', '/docs', '/support', '/privacy', '/terms']) {
     const response = await request(path), content = await response.text();
     assert.equal(response.status, 200);
     assert.equal(response.headers.get('set-cookie'), null, 'public documentation requires no account or tracking cookie');
     assert.match(content, /Didactech Industries/);
-    assert.match(content, /contact@didactechindustries.com/);
+    assert.match(content, /href="\/support"/);
     assert.match(content, /access is by invitation/);
   }
   const image = await request('/assets/conclave-icon.png');
@@ -280,7 +280,10 @@ test('standalone HTTP sign-in and two OAuth clients share durable packets and in
   const session = signed.headers.get('set-cookie').split(';')[0], cookies = browser + '; ' + session;
   assert.ok(!(await signed.text()).includes('never-return-this-token'));
   const dashboard = await (await request('/', { headers: { Cookie: cookies } })).text();
-  assert.match(dashboard, /ChatGPT or Claude/); assert.ok(!dashboard.includes('never-return-this-token'));
+  assert.match(dashboard, /Manage connections/); assert.ok(!dashboard.includes('never-return-this-token'));
+  const accountPage = await (await request('/account', { headers: { Cookie: cookies } })).text();
+  assert.match(accountPage, /class="profile-button" href="\/account" aria-label="Account"/);
+  assert.match(accountPage, /href="\/docs"/);
   const metadata = await (await request('/.well-known/oauth-authorization-server')).json();
   assert.deepEqual(metadata.code_challenge_methods_supported, ['S256']);
   assert.equal(metadata.registration_endpoint, origin + '/register');

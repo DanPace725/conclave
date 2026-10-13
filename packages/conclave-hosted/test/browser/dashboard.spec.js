@@ -2,20 +2,43 @@ import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { checkGraphNavigation } from '../../../../test/browser/graph-navigation.js';
 
-test('hosted guide, support and privacy are readable on desktop and mobile', async ({ page }, info) => {
+test('starter, docs and account navigation are readable on desktop and mobile', async ({ page }, info) => {
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/get-started');
-  await expect(page.getByRole('heading', { name: 'Pick up where you left off.' })).toBeVisible();
-  await expect(page.getByLabel('Hosted server address')).toHaveValue(/\/mcp$/);
+  await expect(page.getByRole('heading', { name: 'Getting Started', exact: true })).toBeVisible();
+  await expect(page.getByLabel('Server address', { exact: true })).toHaveValue(/\/mcp$/);
+  await expect(page.locator('.steps > li')).toHaveCount(3);
+  await expect(page.getByText('handoffs:read', { exact: true })).toHaveCount(0);
   await expect(page.getByLabel('Save a handoff prompt')).toHaveValue(/continue this work/);
   await expect(page.getByLabel('Resume a handoff prompt')).toHaveAttribute('readonly', '');
   await expect(page.getByText('Conclave by Didactech Industries', { exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: info.outputPath('hosted-get-started.png'), fullPage: true });
-  await page.getByRole('navigation', { name: 'Conclave', exact: true }).getByRole('link', { name: 'Help', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Conclave', exact: true }).getByRole('link', { name: 'Docs', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Docs', exact: true })).toBeVisible();
+  await expect(page.getByLabel('Hosted server address')).toHaveValue(/\/mcp$/);
+  await expect(page.getByRole('navigation', { name: 'Conclave', exact: true }).getByRole('link', { name: 'Docs', exact: true })).toHaveAttribute('aria-current', 'page');
+  await page.screenshot({ path: info.outputPath('hosted-docs.png'), fullPage: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole('navigation', { name: 'Docs sections' }).getByRole('link', { name: 'Troubleshooting' }).click();
   await expect(page.getByRole('heading', { name: 'Help with Conclave' })).toBeVisible();
   await page.getByRole('navigation', { name: 'Information', exact: true }).getByRole('link', { name: 'Privacy', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Retention and your choices' })).toBeVisible();
+  await page.getByRole('link', { name: 'Account', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Your account' })).toBeVisible();
+  await page.getByRole('link', { name: 'Manage connections' }).click();
+  await expect(page.getByRole('heading', { name: 'Conclave connections' })).toBeVisible();
+  await page.getByRole('navigation', { name: 'Conclave', exact: true }).getByRole('link', { name: 'Dashboard' }).click();
+  const nav = page.getByRole('navigation', { name: 'Conclave', exact: true });
+  await expect(nav.getByRole('link', { name: 'Connections', exact: true })).toHaveCount(0);
+  const profile = page.getByRole('link', { name: 'Account', exact: true });
+  const box = await profile.boundingBox();
+  expect(box.width).toBe(44); expect(box.height).toBe(44);
+  expect(await profile.evaluate(el => getComputedStyle(el).borderRadius)).toBe('50%');
+  await page.screenshot({ path: info.outputPath('hosted-navigation.png'), fullPage: true });
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.screenshot({ path: info.outputPath('hosted-navigation-dark.png'), fullPage: true, animations: 'disabled' });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(errors).toEqual([]);
 });
 
