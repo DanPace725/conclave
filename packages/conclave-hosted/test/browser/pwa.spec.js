@@ -1,4 +1,31 @@
 import { test, expect } from '@playwright/test';
+import { createServer } from 'node:http';
+
+test('cross-site top-level dashboard launches work before and after service worker activation', async ({ page, context, baseURL }) => {
+  const launcher = createServer((_req, res) => {
+    res.setHeader('Content-Type', 'text/html');
+    res.end(`<a href="${baseURL}/dashboard/">Open Conclave</a>`);
+  });
+  await new Promise(done => launcher.listen(0, '127.0.0.1', done));
+  try {
+    for (let launch = 0; launch < 2; launch++) {
+      // localhost and the dashboard's 127.0.0.1 are different sites.
+      await page.goto(`http://localhost:${launcher.address().port}/`);
+      const response = page.waitForResponse(response => response.request().isNavigationRequest() && response.url() === `${baseURL}/dashboard/`);
+      await page.getByRole('link', { name: 'Open Conclave' }).click();
+      expect((await response).status(), `launch ${launch + 1}`).toBe(200);
+      await expect(page.getByRole('button', { name: /Dashboard planning/ })).toBeVisible();
+      await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+      await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+    }
+    const blocked = await context.request.get('/dashboard/api/find', { headers: {
+      'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Dest': 'document' } });
+    expect(blocked.status()).toBe(403);
+  } finally {
+    launcher.closeAllConnections();
+    await new Promise(done => launcher.close(done));
+  }
+});
 
 test('dashboard PWA loads fresh data, caches only public offline resources and recovers after reconnecting', async ({ page, context }, info) => {
   const errors = []; page.on('pageerror', error => errors.push(error.message));

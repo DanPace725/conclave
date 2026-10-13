@@ -22,7 +22,19 @@ async function fixture(t) {
   const identity = createIdentity(options);
   const cookies = Object.fromEntries(['alice', 'bob'].map(id => [id, identity.sessionCookie({ id, email: `${id}@example.com` }).split(';')[0]]));
   app = createStandaloneApp(options);
-  const request = (path, owner = 'alice', init = {}) => fetch(origin + path, { redirect: 'manual', ...init, headers: { ...(owner ? { Cookie: cookies[owner] } : {}), ...init.headers } });
+  const request = (path, owner = 'alice', init = {}) => {
+    const headers = { ...(owner ? { Cookie: cookies[owner] } : {}), ...init.headers };
+    // Node fetch overwrites Sec-Fetch-Mode with cors. Send navigation metadata
+    // through HTTP directly so these tests exercise the browser's real headers.
+    if (headers['Sec-Fetch-Mode']) return new Promise((done, reject) => {
+      const req = httpRequest(origin + path, { method: init.method || 'GET', headers }, res => {
+        const chunks = []; res.on('data', chunk => chunks.push(chunk));
+        res.on('end', () => done(new Response(Buffer.concat(chunks), { status: res.statusCode, headers: res.headers })));
+      });
+      req.on('error', reject); req.end();
+    });
+    return fetch(origin + path, { redirect: 'manual', ...init, headers });
+  };
   return { db, pool, origin, cookies, request };
 }
 const packet = { title: 'Dashboard work', summary: 'A shared dashboard', source_app: 'ChatGPT', source_model: 'Sol',
@@ -86,6 +98,23 @@ test('dashboard serves an inert authenticated shell and enforces account, host, 
   assert.equal((await request('/dashboard/api/find', 'alice', { method: 'POST' })).status, 405);
   assert.equal((await request('/dashboard/api/find', 'alice', { headers: { Origin: 'https://evil.example' } })).status, 403);
   assert.equal((await request('/dashboard/api/find', 'alice', { headers: { 'Sec-Fetch-Site': 'cross-site' } })).status, 403);
+  const navigation = { 'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Dest': 'document' };
+  for (const path of ['/dashboard', '/dashboard/']) {
+    for (const dest of ['document', 'empty']) {
+      const launch = await request(path, 'alice', { headers: { ...navigation, 'Sec-Fetch-Dest': dest } });
+      assert.equal(launch.status, 200); assert.ok(!(await launch.text()).includes(saved.handoff_id));
+    }
+    const anonymous = await request(path, null, { headers: navigation });
+    assert.equal(anonymous.status, 303); assert.equal(anonymous.headers.get('location'), '/');
+  }
+  for (const path of ['/dashboard/api/find', '/dashboard/app.js', '/dashboard/sw.js'])
+    assert.equal((await request(path, 'alice', { headers: navigation })).status, 403, path);
+  for (const headers of [{ ...navigation, Origin: 'https://evil.example' },
+    { ...navigation, 'Sec-Fetch-Mode': 'cors' }, { 'Sec-Fetch-Site': 'cross-site' },
+    { ...navigation, 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty' },
+    ...['iframe', 'object', 'embed'].map(dest => ({ ...navigation, 'Sec-Fetch-Dest': dest }))])
+    assert.equal((await request('/dashboard/', 'alice', { headers })).status, 403);
+  assert.equal((await request('/dashboard/', 'alice', { headers: navigation, method: 'POST' })).status, 403);
   const hostStatus = await new Promise((done, reject) => {
     const req = httpRequest(origin + '/dashboard', { headers: { Host: 'evil.example' } }, res => { res.resume(); done(res.statusCode); });
     req.on('error', reject); req.end();

@@ -21,7 +21,14 @@ export function createHandoffDashboard({ pool, origin, identity, repository = ow
   router.use((req, res, next) => {
     res.set({ 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'same-origin', 'Content-Security-Policy': policy });
-    if (req.headers.host !== host || (req.headers.origin && req.headers.origin !== origin) || req.headers['sec-fetch-site'] === 'cross-site')
+    // External links and installed-app launches may be cross-site navigations.
+    // Worker-forwarded navigations retain navigate mode but have an empty
+    // destination in Chromium. Framing remains denied by frame-ancestors.
+    // Allow only the read-only shell; API and resource guards remain.
+    const shellNavigation = req.path === '/' && req.method === 'GET'
+      && req.headers['sec-fetch-mode'] === 'navigate' && ['document', 'empty'].includes(req.headers['sec-fetch-dest']);
+    if (req.headers.host !== host || (req.headers.origin && req.headers.origin !== origin)
+      || (req.headers['sec-fetch-site'] === 'cross-site' && !shellNavigation))
       return res.status(403).json({ error: 'forbidden' });
     if (req.method !== 'GET' && req.method !== 'HEAD') return res.status(405).set('Allow', 'GET, HEAD').json({ error: 'read_only' });
     const asset = publicAssets.get(req.path);

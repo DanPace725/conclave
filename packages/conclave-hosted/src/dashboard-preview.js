@@ -6,7 +6,6 @@ import { fileURLToPath } from 'node:url';
 import { Store } from '../../../src/store.js';
 import { HandoffService } from '../../../src/handoffs.js';
 import { createHandoffDashboard } from '../../../src/handoff-dashboard.js';
-import { hostedDashboardHtml } from '../../../src/handoff-branding.js';
 import { mountPublicPages } from './public-pages.js';
 
 // Explicit synthetic demo. No .env, saved local packets, hosted database or keys.
@@ -41,12 +40,14 @@ export async function startDashboardPreview({ port = 3226 } = {}) {
     app.get('/styles.css', (_req, res) => res.type('css').send(styles));
     app.get('/', (_req, res) => res.redirect('/dashboard'));
     app.get(['/connect', '/account'], (_req, res) => res.type('text').send('Synthetic preview only. No real account or app connections.'));
-    const html = hostedDashboardHtml(readFileSync(new URL('../../../src/resources/dashboard/index.html', import.meta.url), 'utf8'));
-    app.get(['/dashboard', '/dashboard/'], (req, res, next) => {
-      if (req.headers.host !== new URL(origin).host) return res.sendStatus(403);
-      if (req.headers.cookie?.includes('preview_expired=1')) return next();
-      res.set({ 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'" });
-      res.type('html').send(html.replace('<body>', '<body><p class="notice" role="note">Local demo · synthetic packets only. No live account data.</p>').replace('href="/">Account', 'href="/account">Account'));
+    // Keep the real dashboard routing and access guards in browser tests. Only
+    // annotate its HTML response to identify this synthetic preview.
+    app.use('/dashboard', (_req, res, next) => {
+      const send = res.send.bind(res);
+      res.send = body => send(typeof body === 'string' && body.startsWith('<!doctype html>')
+        ? body.replace('<body>', '<body><p class="notice" role="note">Local demo · synthetic packets only. No live account data.</p>').replace('href="/">Account', 'href="/account">Account')
+        : body);
+      next();
     });
     app.use('/dashboard', createHandoffDashboard({ origin, hostedPresentation: true, identity: req => req.headers.cookie?.includes('preview_expired=1') ? null : { id: 'synthetic-demo' }, repository: () => service }));
     return { server, service, demoId: first.handoff_id, url: origin + '/dashboard', async close() {
