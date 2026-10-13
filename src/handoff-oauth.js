@@ -4,6 +4,9 @@ import { InvalidGrantError, InvalidScopeError, InvalidTargetError, InvalidClient
 const random = () => randomBytes(32).toString('base64url');
 export const tokenHash = value => createHash('sha256').update(String(value)).digest('hex');
 const hour = 3600000, month = 30 * 86400000;
+// Clients carry opaque return-state data; Gemini uses more than 1,000
+// characters. Bound its UTF-8 storage size without interpreting or truncating it.
+const maxAuthorizationStateBytes = 4096;
 export const handoffScopes = ['handoffs:read', 'handoffs:write'];
 const encode = (data, secret) => {
   const iv = randomBytes(12), cipher = createCipheriv('aes-256-gcm', createHash('sha256').update(secret).digest(), iv);
@@ -56,7 +59,7 @@ export class HandoffOAuthProvider {
   async authorize(client, params, res) {
     this.target(params.resource);
     const scopes = this.scopes(params.scopes);
-    if (!/^[A-Za-z0-9_-]{43}$/.test(params.codeChallenge) || (params.state?.length || 0) > 1000)
+    if (!/^[A-Za-z0-9_-]{43}$/.test(params.codeChallenge) || Buffer.byteLength(params.state || '', 'utf8') > maxAuthorizationStateBytes)
       throw new InvalidRequestError('Invalid authorization parameters');
     const pending = random(), nonce = random();
     await this.records.put(`pending:${tokenHash(pending)}`, {

@@ -82,8 +82,9 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   const verifier = randomBytes(32).toString('base64url'), challenge = createHash('sha256').update(verifier).digest('base64url');
   // Follow MCP scope selection as Claude does: absent a 401 scope hint, use
   // protected-resource scopes, then require the owner's browser consent.
-  const parameters = { client_id: client.client_id, response_type: 'code', redirect_uri: client.redirect_uris[0], state: 'state-one', code_challenge: challenge, code_challenge_method: 'S256', resource, scope: metadata.scopes_supported.join(' ') };
-  for (const [field, value, error] of [['resource', undefined, 'invalid_target'], ['code_challenge', undefined, 'invalid_request'], ['scope', 'private-unknown-scope', 'invalid_scope'], ['state', 'x'.repeat(2048), 'invalid_request'], ['code_challenge', 'bad-format', 'invalid_request']]) {
+  const opaqueState = 'state-'.repeat(230);
+  const parameters = { client_id: client.client_id, response_type: 'code', redirect_uri: client.redirect_uris[0], state: opaqueState, code_challenge: challenge, code_challenge_method: 'S256', resource, scope: metadata.scopes_supported.join(' ') };
+  for (const [field, value, error] of [['resource', undefined, 'invalid_target'], ['code_challenge', undefined, 'invalid_request'], ['scope', 'private-unknown-scope', 'invalid_scope'], ['state', 'x'.repeat(4097), 'invalid_request'], ['code_challenge', 'bad-format', 'invalid_request']]) {
     const rejected = { ...parameters };
     if (value === undefined) delete rejected[field]; else rejected[field] = value;
     const response = await request('/authorize?' + new URLSearchParams(rejected));
@@ -94,11 +95,11 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   assert.equal(diagnostics[0].has_resource, false);
   assert.equal(diagnostics[1].has_code_challenge, false);
   assert.equal(diagnostics[2].scope_supported, false);
-  assert.equal(diagnostics[3].state_length, 2048);
+  assert.equal(diagnostics[3].state_length, 4097);
   assert.equal(diagnostics[3].code_challenge_valid, true);
   assert.equal(diagnostics[4].code_challenge_valid, false);
   const diagnosticText = JSON.stringify(diagnostics);
-  for (const privateValue of [client.client_id, parameters.state, challenge, parameters.redirect_uri, 'private-unknown-scope', 'x'.repeat(2048), 'bad-format'])
+  for (const privateValue of [client.client_id, parameters.state, challenge, parameters.redirect_uri, 'private-unknown-scope', 'x'.repeat(4097), 'bad-format'])
     assert.ok(!diagnosticText.includes(privateValue));
   const auth = await request('/authorize?' + new URLSearchParams(parameters));
   assert.equal(auth.status, 302);
@@ -127,7 +128,7 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   assert.match(completed, /Connection approved/);
   assert.match(completed, /src="\/connect\/return.js"/);
   const redirect = new URL(completed.match(/id="oauth-return" href="([^"]+)"/)[1].replaceAll('&amp;', '&'));
-  assert.equal(redirect.searchParams.get('state'), 'state-one');
+  assert.equal(redirect.searchParams.get('state'), opaqueState);
   const code = redirect.searchParams.get('code');
   const exchange = { client_id: client.client_id, grant_type: 'authorization_code', code, code_verifier: verifier, redirect_uri: client.redirect_uris[0], resource };
   assert.equal((await request('/token', form({ ...exchange, code_verifier: randomBytes(32).toString('base64url') }))).status, 400);
@@ -199,6 +200,14 @@ test('OAuth rejects other owners, changed resources, expired grants and unsafe r
   await provider.clientsStore.registerClient(client);
   const recovered = await new HandoffOAuthProvider(records, { origin: 'https://conclave.example', secret: provider.secret, emailAllowed: () => true }).clientsStore.getClient('x');
   assert.equal(recovered.client_id, 'x');
+  const authorization = { resource: new URL(provider.resource), codeChallenge: 'a'.repeat(43), redirectUri: client.redirect_uris[0], scopes: ['handoffs:read'] };
+  for (const state of ['x'.repeat(4096), 'é'.repeat(2048)]) {
+    let location, browserNonce;
+    await provider.authorize(client, { ...authorization, state }, { cookie(_key, value) { browserNonce = value; }, redirect(_status, value) { location = value; } });
+    const request = new URL(location, provider.origin).searchParams.get('request');
+    assert.equal((await provider.pending(request, browserNonce)).state, state);
+  }
+  await assert.rejects(provider.authorize(client, { ...authorization, state: 'é'.repeat(2049) }, {}), /Invalid authorization parameters/);
   let redirect, nonce;
   await provider.authorize(client, { resource: new URL(provider.resource), codeChallenge: 'a'.repeat(43), redirectUri: client.redirect_uris[0], scopes: ['handoffs:read'] }, { cookie(_key, value) { nonce = value; }, redirect(_status, value) { redirect = value; } });
   const pending = new URL(redirect, provider.origin).searchParams.get('request');

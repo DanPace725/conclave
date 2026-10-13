@@ -76,3 +76,25 @@ character state from a malformed challenge and checks neither value is logged.
 The actual Gemini size/format failure remains unestablished until the refined
 diagnostic is deployed and another real request is observed. Do not treat the
 synthetic over-limit test as a measured Gemini state size.
+
+## Confirmed cause and prepared compatibility fix
+
+After the refined deployment, real Gemini retries at 17:32:31 and 17:32:56 UTC
+show `code_challenge_valid: true` and state lengths 1,367 and 1,371 characters.
+All other required-field/resource/scope/method checks pass. These requests
+exceed Conclave's hardcoded 1,000-character bound in `HandoffOAuthProvider`
+and are rejected before a pending consent request can be created. This confirms
+the size cap is the blocker for reaching consent, not the browser console
+manifest/GPU messages. Later Gemini consent, callback and tool behavior remain
+unverified.
+
+The prepared local fix accepts opaque state up to 4,096 UTF-8 bytes and preserves
+the exact value. It keeps a finite storage bound and retains PKCE, resource,
+client, callback, scope, nonce, consent and owner validation. The existing local
+HTTP round trip now exercises a 1,380-character state through consent, callback,
+code exchange, MCP and revocation. Tests reject 4,097 ASCII bytes, exercise the
+4,096-byte boundary for ASCII and multibyte state, and reject multibyte input
+over that byte bound. Raw state values remain excluded from diagnostics.
+
+The user approved diagnostics; this authentication compatibility change needs
+separate production approval. It is prepared locally and not deployed.
