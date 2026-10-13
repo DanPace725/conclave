@@ -49,9 +49,30 @@ the embedded UI resolved checkout line-ending differences; its tracked bytes
 are unchanged and it is not part of this release.
 
 The user explicitly approved publishing and deploying this diagnostic change
-on October 13. It is applied to the current production source `f642970` in an
-isolated checkout, excluding the canonical checkout's pending data-removal work
-and unrelated edits. Production verification remains pending. After deployment
-and a fresh Gemini attempt, inspect
+on October 13. The first diagnostic release `1edaae7`, based on production
+`f642970` in an isolated checkout, is verified live in Railway deployment
+`be51986e-4a9f-41d8-beb1-c6ba7fc8e32c` (SUCCESS). All 16 public checks pass,
+and an intentional synthetic missing-resource request produced the expected
+structured `invalid_target` diagnostic. Converse snapshot `f4e2d45` remains
+local/unpushed, with 121-file parity, checks and 203 tests passing/one skip.
+Hosted progress revision 17 records that release. After a fresh Gemini attempt,
+inspect
 `conclave.oauth.authorization_rejected` runtime events before choosing a fix.
 Do not relax PKCE, scopes or resource binding based on the generic UI error.
+
+## Real retry and diagnostic refinement
+
+October 13 retries at 17:24:25 and 17:25:08 UTC reached `/authorize`, with
+structured diagnostics reporting `invalid_request`. Response type, challenge
+presence, S256 method, resource presence/exact match, supported scopes and state
+presence all pass. The browser screenshot's report-only script policy messages,
+blocked Gemini manifest and GPU warnings do not identify this OAuth rejection.
+
+The first diagnostic omitted the remaining provider bounds: S256 challenge
+format and a 1,000-character state cap. A diagnostic-only refinement records
+challenge validity and state length, without raw values or authorization
+behavior changes. Local fixture coverage distinguishes an oversized 2,048-
+character state from a malformed challenge and checks neither value is logged.
+The actual Gemini size/format failure remains unestablished until the refined
+diagnostic is deployed and another real request is observed. Do not treat the
+synthetic over-limit test as a measured Gemini state size.

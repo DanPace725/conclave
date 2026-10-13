@@ -78,11 +78,13 @@ export function createHostedHandoffApp({ pool, origin, secret, identity, emailAl
           error: knownErrors.includes(error) ? error : 'other',
           response_type_code: params.response_type === 'code',
           has_code_challenge: typeof params.code_challenge === 'string' && params.code_challenge.length > 0,
+          code_challenge_valid: typeof params.code_challenge === 'string' && /^[A-Za-z0-9_-]{43}$/.test(params.code_challenge),
           code_challenge_s256: params.code_challenge_method === 'S256',
           has_resource: typeof params.resource === 'string' && params.resource.length > 0,
           resource_matches: params.resource === provider.resource,
           scope_supported: scopeSupported,
-          has_state: typeof params.state === 'string' && params.state.length > 0 });
+          has_state: typeof params.state === 'string' && params.state.length > 0,
+          state_length: typeof params.state === 'string' ? params.state.length : null });
       } catch { /* Diagnostics must never change authorization behavior. */ }
     });
     next();
