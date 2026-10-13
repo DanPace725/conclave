@@ -49,7 +49,7 @@ export async function startDashboardPreview({ port = 3226 } = {}) {
         : body);
       next();
     });
-    app.use('/dashboard', createHandoffDashboard({ origin, hostedPresentation: true, identity: req => req.headers.cookie?.includes('preview_expired=1') ? null : { id: 'synthetic-demo' }, repository: () => service }));
+    app.use('/dashboard', createHandoffDashboard({ origin, hostedPresentation: true, identity: req => req.headers.cookie?.includes('preview_expired=1') ? null : { id: 'synthetic-demo', email: 'demo@example.test' }, repository: () => service }));
     return { server, service, demoId: first.handoff_id, url: origin + '/dashboard', async close() {
       server.closeAllConnections(); await new Promise(done => server.close(done)); store.close();
     } };

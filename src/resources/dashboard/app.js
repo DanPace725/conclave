@@ -1,4 +1,5 @@
 import { renderHandoffGraph } from './graph.js';
+import { initOnboarding } from './onboarding.js';
 
 const $ = id => document.getElementById(id);
 const element = (tag, text, className) => {
@@ -47,8 +48,7 @@ async function library(newOffset = 0) {
     if (operation !== listEpoch) return;
     $('handoffs').replaceChildren(); $('pages').replaceChildren(); $('projects').replaceChildren();
     $('count').textContent = String(data.total);
-    const onboarding = $('first-handoff');
-    if (onboarding) onboarding.hidden = data.total !== 0 || !!query || !!project;
+    if (!query && !project) setup?.setEmpty(data.total === 0);
     $('library-title').textContent = query ? 'Search results' : 'Recent handoffs';
     // Projects are the exact names apps reported when saving; nothing is grouped by inference.
     if (data.projects.length || project) for (const [label, name] of [['All', ''], ...data.projects.map(p => [`${p.name} · ${p.handoffs}`, p.name])])
@@ -284,4 +284,5 @@ $('graph-toggle').addEventListener('click', () => {
 if (new URLSearchParams(location.search).get('view') === 'graph') {
   $('graph-panel').hidden = false; $('graph-toggle').setAttribute('aria-pressed', 'true');
 }
+const setup = initOnboarding({ onSaved: () => { void library(); } });
 void library(); route();
