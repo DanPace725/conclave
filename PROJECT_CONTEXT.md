@@ -1,6 +1,6 @@
 # Conclave project context
 
-Updated 2026-10-13. Mutable current state; detailed receipts remain in the [archive](docs/archive/README.md). Start with [CLI usage](README.md), [development method](docs/DEVELOPMENT_METHOD.md), and [integration workflow](docs/CONVERSE_INTEGRATION.md).
+Updated 2026-10-13. Mutable current state; detailed receipts remain in the [archive](docs/archive/README.md). Start with the [product overview](README.md), [CLI usage](docs/CLI_GUIDE.md), [development method](docs/DEVELOPMENT_METHOD.md), and [integration workflow](docs/CONVERSE_INTEGRATION.md).
 
 ## Architecture and current capabilities
 
@@ -25,6 +25,8 @@ The October 12 review repairs stale image selection after a newer upload and Cly
 The earlier hosted polish/auth implementation `df75f9a89ba9f1497a6b68fb34427f1fc9abf2b8` was verified deployed before this public-admission increment. New real-account sign-in/recovery and ChatGPT/Claude acceptance remain outstanding. Only Conclave is authorized for publication; Converse main/production remain unchanged. A source push or documentation receipt alone does not establish deployment. [Earlier release evidence](docs/archive/2026-10-12/hosted-polish-main-release.md) · [Configuration evidence](docs/archive/2026-10-10/railway-main-clamp.md)
 
 ## Open work
+
+October 13 README refresh: the root README now introduces hosted cross-app handoffs in plain language, with connect/save/resume/update examples, dashboard/account behavior, privacy boundaries and developer links. Detailed engine commands and configuration moved to `docs/CLI_GUIDE.md`. Live public checks confirmed sign-in, getting-started and support pages available; `/docs` remains 404 before the navigation release, which the README explicitly labels awaiting deployment. Documentation links and CLI help were checked. This documentation-only follow-up stays on `codex/conclave-navigation`; no deployment or Converse change is included.
 
 October 13 website navigation: Getting Started (`/get-started`) now has three plain-language steps; Docs (`/docs`) contains connection settings, permissions/tools, revisions, library/graph guidance and troubleshooting links. A shared responsive header replaces the Connections/Account/Help tabs with Dashboard/Getting Started/Docs and a circular Account profile control at the top right. `/account` contains Connections management, password and sign-out controls; existing `/` and `/connect` routes remain supported. Implemented on `codex/conclave-navigation`, based on current published main and excluding unrelated pending changes. Source/resource checks, 18 focused HTTP tests, 8 desktop/mobile/scriptless login/consent checks and 20 dashboard/PWA browser cases pass on synthetic fixtures; light/dark screenshots reviewed. Conclave-only branch publication is authorized; no production deployment or Converse synchronization is included. [Changes and evidence](docs/archive/2026-10-13/website-navigation.md)
 
