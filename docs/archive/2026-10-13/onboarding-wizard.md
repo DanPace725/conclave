@@ -21,12 +21,16 @@ An optional second-AI walkthrough provides the corresponding setup instructions 
 ## Verification
 
 - Source syntax, generated MCP UI and credential checks passed.
-- Full engine suite with four-file concurrency: 379 passed, one optional skip.
-- Focused dashboard/standalone API suite: 15 passed, including account binding and session expiration.
-- Existing dashboard/browser suite plus initial wizard cases: 18 passed in Edge, desktop and 390px mobile emulation. After label-layout refinement and an empty-library response-order check, all six wizard cases passed. Total coverage is 14 existing cases plus six wizard cases.
+- Integrated engine suite with four-file concurrency: 377 passed, one optional skip, including owner/account binding and session expiration.
+- Dashboard/PWA browser suite: 26 passed in Edge, desktop and 390px mobile emulation, including all six wizard cases and the existing installation/offline checks.
+- MCP transport and consent/sign-in suite: 12 passed. Embedded MCP library: 14 desktop/mobile browser cases passed.
 - Synthetic saves use an in-memory service and real dashboard read adapter. Tests cover resume with the same marker, legacy rejection, immutable revision verification, exact continuation references, manual retrieval wording, blocked storage/clipboard, expired/changed accounts, and delayed empty-library loading.
 - Screenshots were reviewed for desktop and mobile layout. Windows sandbox Edge failed at launch; the synthetic browser run passed outside that sandbox.
 
 Real provider installation, OAuth consent, cross-account isolation in real clients, iOS/Safari behavior and first-time-user completion remain separate acceptance work. Observe a small group of nontechnical users: setup availability, time to first save, step requiring help, and successful second-app retrieval. No behavioral analytics are shipped by this change.
 
 Provider guidance checked October 13, 2026: [ChatGPT](https://developers.openai.com/api/docs/guides/custom-mcp-server), [Claude](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp), [Gemini](https://support.google.com/gemini/answer/17209137?hl=en). Settings navigation can change and account eligibility must be rechecked before release. In particular, Gemini setup uses the web app and currently requires a personal US account, age 18+, English and Keep Activity enabled.
+
+## Integration
+
+The verified source is branch `codex/onboarding-wizard` in `E:/Coding/converse/.test-tmp/conclave-onboarding`, based on `2796e3d`. It preserves the deployed Gemini state-size compatibility fix, compact dashboard and PWA. The original development checkout remains on its earlier branch with unrelated edits preserved; the feature-only development commit is `e4cbf90`. No pending data-removal migration or unrelated edits were pulled into this integration branch. Converse receives the managed source snapshot through the normal sync script; neither repository is pushed or deployed by this work.
