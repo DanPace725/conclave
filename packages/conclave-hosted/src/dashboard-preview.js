@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { Store } from '../../../src/store.js';
 import { HandoffService } from '../../../src/handoffs.js';
 import { createHandoffDashboard } from '../../../src/handoff-dashboard.js';
-import { mountPublicPages } from './public-pages.js';
+import { hostedPage, mountPublicPages } from './public-pages.js';
 
 // Explicit synthetic demo. No .env, saved local packets, hosted database or keys.
 export async function startDashboardPreview({ port = 3226 } = {}) {
@@ -35,17 +35,19 @@ export async function startDashboardPreview({ port = 3226 } = {}) {
         'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'" });
       next();
     });
+    app.use((req, res, next) => { res.locals.pagePath = req.path; res.locals.signedIn = () => true; next(); });
     mountPublicPages(app, origin);
     const styles = readFileSync(new URL('./styles.css', import.meta.url), 'utf8');
     app.get('/styles.css', (_req, res) => res.type('css').send(styles));
     app.get('/', (_req, res) => res.redirect('/dashboard'));
-    app.get(['/connect', '/account'], (_req, res) => res.type('text').send('Synthetic preview only. No real account or app connections.'));
+    app.get('/account', (_req, res) => hostedPage(res, 'Your account', '<p>Synthetic preview account. No live account data.</p><h2>Connections</h2><p><a class="button" href="/connect">Manage connections</a></p>'));
+    app.get('/connect', (_req, res) => hostedPage(res, 'Conclave connections', '<p>Synthetic preview only. No real account or app connections.</p>'));
     // Keep the real dashboard routing and access guards in browser tests. Only
     // annotate its HTML response to identify this synthetic preview.
     app.use('/dashboard', (_req, res, next) => {
       const send = res.send.bind(res);
       res.send = body => send(typeof body === 'string' && body.startsWith('<!doctype html>')
-        ? body.replace('<body>', '<body><p class="notice" role="note">Local demo · synthetic packets only. No live account data.</p>').replace('href="/">Account', 'href="/account">Account')
+        ? body.replace('<body>', '<body><p class="notice" role="note">Local demo · synthetic packets only. No live account data.</p>')
         : body);
       next();
     });
