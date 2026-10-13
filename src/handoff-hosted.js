@@ -15,7 +15,8 @@ const access = scopes => scopes.includes('handoffs:write') ? 'Can read and save 
 const day = value => { const date = new Date(value); return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleDateString('en-US', { dateStyle: 'medium', timeZone: 'UTC' }); };
 const policy = () => "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
 
-export function createHostedHandoffApp({ pool, origin, secret, identity, emailAllowed, accountName = 'Converse', trustProxy = false, presentation }) {
+export function createHostedHandoffApp({ pool, origin, secret, identity, emailAllowed, accountName = 'Converse', trustProxy = false, presentation,
+  authorizationDiagnostic = event => console.warn(JSON.stringify(event)) }) {
   const renderPage = presentation?.page || page;
   const signIn = `<p><a href="/" target="_blank" rel="noopener">Sign in to ${escape(accountName)}</a> in another tab using the account you want to share between apps. Then return here and continue.</p>`;
   // The independent hosted service holds only handoffs; Converse embeds this beside its chats.
@@ -57,6 +58,34 @@ export function createHostedHandoffApp({ pool, origin, secret, identity, emailAl
       if (!allowed) return res.status(429).json({ error: 'too_many_requests' });
       next();
     } catch (error) { next(error); }
+  });
+  // The SDK redirects rejected authorization requests back to the client, so
+  // proxy logs show only 302. Record fixed categories and presence checks;
+  // never record query strings, callback URLs, state, credentials or payloads.
+  app.use('/authorize', (req, res, next) => {
+    res.once('finish', () => {
+      const location = res.getHeader('location');
+      if (typeof location !== 'string') return;
+      let error;
+      try { error = new URL(location, origin).searchParams.get('error'); } catch { return; }
+      if (!error) return;
+      const params = req.method === 'POST' ? req.body || {} : req.query;
+      const knownErrors = ['invalid_request', 'invalid_client', 'invalid_scope', 'invalid_target', 'server_error', 'temporarily_unavailable'];
+      const scopeSupported = typeof params.scope === 'string'
+        ? params.scope.split(' ').every(scope => handoffScopes.includes(scope)) : null;
+      try {
+        authorizationDiagnostic({ event: 'conclave.oauth.authorization_rejected',
+          error: knownErrors.includes(error) ? error : 'other',
+          response_type_code: params.response_type === 'code',
+          has_code_challenge: typeof params.code_challenge === 'string' && params.code_challenge.length > 0,
+          code_challenge_s256: params.code_challenge_method === 'S256',
+          has_resource: typeof params.resource === 'string' && params.resource.length > 0,
+          resource_matches: params.resource === provider.resource,
+          scope_supported: scopeSupported,
+          has_state: typeof params.state === 'string' && params.state.length > 0 });
+      } catch { /* Diagnostics must never change authorization behavior. */ }
+    });
+    next();
   });
   app.use(mcpAuthRouter({ provider, issuerUrl: new URL(origin), resourceServerUrl: new URL(provider.resource),
     scopesSupported: handoffScopes, resourceName: 'Conclave handoffs' }));

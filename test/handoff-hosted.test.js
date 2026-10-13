@@ -57,7 +57,8 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   await new Promise(resolve => http.listen(0, '127.0.0.1', resolve));
   t.after(() => new Promise(resolve => { http.closeAllConnections(); http.close(resolve); }));
   const origin = `http://127.0.0.1:${http.address().port}`, resource = `${origin}/mcp`;
-  const options = { pool, origin, secret: 'test-secret-'.repeat(4),
+  const diagnostics = [];
+  const options = { pool, origin, secret: 'test-secret-'.repeat(4), authorizationDiagnostic: event => diagnostics.push(event),
     identity: req => req.headers.cookie?.includes('test_owner=alice') ? { id: 'alice', email: 'alice@example.com' } : null,
     emailAllowed: email => email === 'alice@example.com' };
   app = createHostedHandoffApp(options);
@@ -82,8 +83,23 @@ test('real HTTP OAuth discovery, consent, PKCE, MCP handoff and revocation', asy
   // Follow MCP scope selection as Claude does: absent a 401 scope hint, use
   // protected-resource scopes, then require the owner's browser consent.
   const parameters = { client_id: client.client_id, response_type: 'code', redirect_uri: client.redirect_uris[0], state: 'state-one', code_challenge: challenge, code_challenge_method: 'S256', resource, scope: metadata.scopes_supported.join(' ') };
+  for (const [field, value, error] of [['resource', undefined, 'invalid_target'], ['code_challenge', undefined, 'invalid_request'], ['scope', 'private-unknown-scope', 'invalid_scope']]) {
+    const rejected = { ...parameters };
+    if (value === undefined) delete rejected[field]; else rejected[field] = value;
+    const response = await request('/authorize?' + new URLSearchParams(rejected));
+    assert.equal(response.status, 302);
+    assert.equal(new URL(response.headers.get('location')).searchParams.get('error'), error);
+    assert.equal(diagnostics.at(-1).error, error);
+  }
+  assert.equal(diagnostics[0].has_resource, false);
+  assert.equal(diagnostics[1].has_code_challenge, false);
+  assert.equal(diagnostics[2].scope_supported, false);
+  const diagnosticText = JSON.stringify(diagnostics);
+  for (const privateValue of [client.client_id, parameters.state, challenge, parameters.redirect_uri, 'private-unknown-scope'])
+    assert.ok(!diagnosticText.includes(privateValue));
   const auth = await request('/authorize?' + new URLSearchParams(parameters));
   assert.equal(auth.status, 302);
+  assert.equal(diagnostics.length, 3);
   const cookie = auth.headers.get('set-cookie').split(';')[0] + '; test_owner=alice';
   const consentPath = auth.headers.get('location');
   // A new server instance can continue the durable authorization request.

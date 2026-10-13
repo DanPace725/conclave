@@ -1,6 +1,6 @@
 # Conclave project context
 
-Updated 2026-10-12. Mutable current state; detailed receipts remain in the [archive](docs/archive/README.md). Start with [CLI usage](README.md), [development method](docs/DEVELOPMENT_METHOD.md), and [integration workflow](docs/CONVERSE_INTEGRATION.md).
+Updated 2026-10-13. Mutable current state; detailed receipts remain in the [archive](docs/archive/README.md). Start with [CLI usage](README.md), [development method](docs/DEVELOPMENT_METHOD.md), and [integration workflow](docs/CONVERSE_INTEGRATION.md).
 
 ## Architecture and current capabilities
 
@@ -32,7 +32,7 @@ The dashboard PWA implementation `b4ee297c38ea34ad53dadd82953e2db1ad5c8940` is p
 
 A UI pass over the dashboard/PWA, hosted account pages and MCP App is implemented: a compact dashboard header that puts handoffs on a phone's first screen, visible toast feedback, Dashboard/Connections/Account/Help navigation on signed-in account pages, readable connection permissions and dates, and Conclave-only consent wording. 377 engine tests/one optional skip, 12 transport/consent/login checks and 32 dashboard/embedded browser cases pass on synthetic fixtures. Real-device and real-client acceptance remain pending; “revision” (dashboard) versus “version” (MCP App) wording is an open product choice. [Changes and validation](docs/archive/2026-10-12/dashboard-ui-pass.md)
 
-- Hosted distribution: real-app revocation/reconnection and restart/redeploy recovery, public listings, operational cleanup/retention and permanent deletion, hosted import and additional clients. Consumer Gemini custom-connector availability is unestablished. New graph gestures still need real ChatGPT desktop/Android acceptance.
+- Hosted distribution: real-app revocation/reconnection and restart/redeploy recovery, public listings, operational cleanup/retention and permanent deletion, hosted import and additional clients. Google documents consumer Gemini custom MCP apps; Conclave registration succeeds but real attempts appear to fail during authorization before consent. Credential-free rejection diagnostics are prepared and the user approved Conclave-only publication/deployment October 13; exact production verification and a fresh Gemini attempt remain pending. [Investigation](docs/archive/2026-10-13/gemini-authorization-diagnostics.md). New graph gestures still need real ChatGPT desktop/Android acceptance.
 - Clyps: live continuation-quality trials, useful budget ranges, arbitrary ORMD editing/import, stable independent idea/project identities, dependency closure beyond one boundary hop and durable-memory promotion. Existing explicit links are not inferred relationships.
 - CLP: portable bundles/sidecars, signed trust/frame/resolver registries, policy membranes and unresolved review, vector/graph brokerage, exploratory recall, calibrated confidence/separation and coherence/attention telemetry.
 - Retrieval/state: broader filter-aware semantics, quality calibration, durable vector backfill, approximate-index tuning, heading/TOC lookup; resolved/archive lifecycle, confirmation/proposal status, semantic conflicts and revision-conflict diffs.
