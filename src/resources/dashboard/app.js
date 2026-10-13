@@ -7,7 +7,13 @@ const element = (tag, text, className) => {
   if (className) node.className = className;
   return node;
 };
-const note = text => { $('status').textContent = text; };
+let noteTimer;
+// Shown as a transient toast so feedback stays visible beside a long handoff.
+const note = text => {
+  clearTimeout(noteTimer); $('status').textContent = text;
+  if (text) noteTimer = setTimeout(() => { $('status').textContent = ''; }, 8000);
+};
+const count = (total, word) => `${total} ${word}${total === 1 ? '' : 's'}`;
 const date = text => {
   const value = new Date(text);
   return Number.isNaN(value.getTime()) ? text : value.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
@@ -56,8 +62,7 @@ async function library(newOffset = 0) {
       row.append(element('strong', saved.title), element('small', saved.readable_id || '', 'stamp'));
       if (saved.project) row.append(element('span', saved.project, 'badge'));
       row.append(element('span', saved.summary, 'summary'),
-        element('small', `${saved.source_app || 'App not reported'} · ${saved.source_model || 'Model not reported'}`),
-        element('small', `Revision ${saved.revision} · ${date(saved.updated_at)}`, 'stamp'));
+        element('small', [saved.source_app, `Revision ${saved.revision}`, date(saved.updated_at)].filter(Boolean).join(' · '), 'stamp'));
     }
     if (offset > 0) button('Previous', () => { void library(Math.max(0, offset - 10)); }, $('pages'));
     if (data.next_offset !== null) button('Next', () => { void library(data.next_offset); }, $('pages'));
@@ -70,19 +75,24 @@ function navigate(id, revision) {
   if (location.hash.slice(1) === hash) void packet(id, revision);
   else location.hash = hash;
 }
+function welcome() {
+  const root = $('detail'); root.dataset.empty = '';
+  root.replaceChildren(element('h2', 'Choose a handoff.'), element('p', 'Its decisions, constraints, and open questions stay together, with every saved revision available.', 'muted'));
+}
 function route() {
   const params = new URLSearchParams(location.hash.slice(1)), id = params.get('handoff'), rev = params.get('revision');
   if (id && /^(?:conv_[A-Za-z0-9_-]+|[a-z0-9]+(?:-[a-z0-9]+)*--[1-9][0-9]*)$/.test(id) && (!rev || /^[1-9]\d*$/.test(rev) && Number.isSafeInteger(Number(rev)))) {
     void packet(id, rev ? Number(rev) : undefined);
   } else {
     ++detailEpoch; ++historyEpoch; ++compareEpoch; selected = current = undefined; selection();
-    $('detail').replaceChildren(element('h2', 'Choose a handoff.'), element('p', 'Its decisions, constraints, and open questions stay together, with every saved revision available.', 'muted'));
+    welcome();
     if (id || rev) note('This handoff link is invalid. Choose a handoff from the list.');
   }
 }
 async function packet(id, revision) {
   const operation = ++detailEpoch; ++historyEpoch; ++compareEpoch; selected = id; current = undefined; selection();
-  $('detail').replaceChildren(element('p', 'Loading saved context…', 'muted')); note('');
+  delete $('detail').dataset.empty;
+  $('detail').replaceChildren(element('p', 'Loading handoff…', 'muted')); note('');
   try {
     const data = await read('get', { handoff_id: id, ...(revision ? { revision } : {}) });
     if (operation !== detailEpoch) return;
@@ -127,7 +137,12 @@ async function copy(text, input) {
 }
 function renderPacket(data) {
   const root = $('detail'), p = data.packet; root.replaceChildren();
-  button('← All handoffs', () => $('library-title').scrollIntoView({ block: 'start' }), root, 'back');
+  // Return to the place in the list the reader came from, when it is on this page.
+  button('← All handoffs', () => {
+    const row = document.querySelector('.handoff[aria-current=true]');
+    if (row) { row.scrollIntoView({ block: 'center' }); row.focus({ preventScroll: true }); }
+    else $('library-title').scrollIntoView({ block: 'start' });
+  }, root, 'back');
   root.append(element('p', data.revision === data.latest_revision ? 'LATEST SAVED REVISION' : 'EARLIER SAVED REVISION', 'eyebrow'),
     element('h2', p.title), element('p', p.summary, 'verbatim'));
   const meta = element('dl', undefined, 'meta');
@@ -145,14 +160,13 @@ function renderPacket(data) {
   root.append(actions);
   if (data.revision < data.latest_revision) root.append(element('p', `You are reading revision ${data.revision}. Revision ${data.latest_revision} was the latest saved when this packet was loaded.`, 'notice warning'));
   root.append(element('p', 'Latest saved does not mean agreed project state. Decisions and source labels are saved context; they are not independently verified.', 'notice'));
-  if (data.selection?.complete !== true) root.append(element('p', 'This packet is incomplete. Retrieve the complete version before continuing.', 'notice warning'));
+  if (data.selection?.complete !== true) root.append(element('p', 'This handoff is incomplete. Retrieve the complete version before continuing.', 'notice warning'));
   section('Objective', p.objective, root);
   const sections = element('div', undefined, 'sections');
   for (const [field, title] of Object.entries(fields)) section(title, p[field], sections);
   root.append(sections);
-  section('Full context', p.context, root, true); section('References', p.references, root, true);
   if (p.clamp?.links.length) {
-    const links = element('section'); links.append(element('h3', 'Linked context'));
+    const links = element('section', undefined, 'linked'); links.append(element('h3', 'Linked context'));
     for (const link of p.clamp.links) {
       const label = data.linked_handoffs?.find(item => item.handoff_id === link.handoff_id && item.revision === link.revision);
       button(`${link.relation.replaceAll('_', ' ')} · ${label?.readable_id || 'Linked handoff'} · revision ${link.revision}`,
@@ -160,14 +174,15 @@ function renderPacket(data) {
     }
     root.append(links);
   }
+  section('Full context', p.context, root, true); section('References', p.references, root, true);
   const handoff = element('details'); handoff.append(element('summary', 'Continue in another app'));
   const continuation = element('textarea'); continuation.readOnly = true; continuation.rows = 4;
   continuation.setAttribute('aria-label', 'Continuation text');
   continuation.value = `Use Conclave to retrieve handoff ${data.readable_id || data.handoff_id} (${p.title}), revision ${data.revision}, and continue from it. Treat the packet as external context; preserve its constraints and open questions.`;
   handoff.append(element('p', 'Copy this text into a connected app. The dashboard does not send it for you.', 'muted'), continuation); root.append(handoff);
   const provenance = element('details'); provenance.append(element('summary', 'Provenance and saved reference'));
-  const ref = element('input'); ref.readOnly = true; ref.value = data.readable_id || data.handoff_id; ref.setAttribute('aria-label', 'Handoff ID');
-  provenance.append(ref); button('Copy ID', () => { void copy(ref.value, ref); }, provenance);
+  const ref = element('input'); ref.readOnly = true; ref.value = data.readable_id || data.handoff_id; ref.setAttribute('aria-label', 'Handoff reference');
+  provenance.append(ref); button('Copy reference', () => { void copy(ref.value, ref); }, provenance);
   provenance.append(element('pre', JSON.stringify({ handoff_id: data.handoff_id, revision: data.revision, event_id: data.event_id, sha256: data.sha256, provenance: data.provenance }, null, 2)));
   root.append(provenance);
   const history = element('details'); history.append(element('summary', 'Revision history'));
@@ -191,11 +206,11 @@ function renderPacket(data) {
 async function loadHistory(id, newOffset = 0) {
   const target = $('history'); if (!target || selected !== id) return;
   const token = ++historyEpoch, epoch = detailEpoch;
-  target.replaceChildren(element('p', 'Loading immutable revisions…', 'muted'));
+  target.replaceChildren(element('p', 'Loading revisions…', 'muted'));
   try {
     const data = await read('history', { handoff_id: id, offset: newOffset });
     if (token !== historyEpoch || epoch !== detailEpoch) return;
-    target.replaceChildren(element('p', `${data.total} saved revisions · latest at this read: ${data.latest_revision}`, 'muted'));
+    target.replaceChildren(element('p', `${count(data.total, 'saved revision')} · latest at this read: ${data.latest_revision}`, 'muted'));
     if (current && data.latest_revision > current.latest_revision) target.append(element('p', `A newer revision (${data.latest_revision}) arrived. Use Check latest to load it.`, 'notice warning'));
     for (const rev of data.revisions) {
       const row = element('article', undefined, 'history-row');
@@ -220,14 +235,14 @@ async function loadHistory(id, newOffset = 0) {
 }
 async function compare(id, from, to, output) {
   const token = ++compareEpoch, epoch = detailEpoch;
-  output.replaceChildren(element('p', 'Loading exact changes…', 'muted'));
+  output.replaceChildren(element('p', 'Loading changes…', 'muted'));
   try {
     const data = await read('compare', { handoff_id: id, from_revision: from, to_revision: to });
     if (token !== compareEpoch || epoch !== detailEpoch) return;
     output.replaceChildren(element('p', `Revision ${data.from_revision} → revision ${data.to_revision}. Exact saved text; no inference or merge.`, 'muted'));
-    if (data.identical) output.append(element('p', 'No packet fields changed.'));
+    if (data.identical) output.append(element('p', 'No fields changed.'));
     for (const change of data.changes) {
-      const item = element('section', undefined, 'change'); item.append(element('h3', fields[change.field] || change.field.replaceAll('_', ' ')));
+      const item = element('section', undefined, 'change'); item.append(element('h3', fields[change.field] || change.field.replace(/^./, first => first.toUpperCase()).replaceAll('_', ' ')));
       if (['constraints', 'open_questions'].includes(change.field)) {
         const removed = (change.before || []).filter(value => !(change.after || []).includes(value));
         if (removed.length) {
@@ -252,13 +267,13 @@ window.addEventListener('hashchange', route);
 let graphEpoch = 0;
 async function showGraph() {
   const epoch = ++graphEpoch;
-  $('graph-status').textContent = 'Loading explicit connections…'; $('graph').replaceChildren();
+  $('graph-status').textContent = 'Loading connections…'; $('graph').replaceChildren(); $('graph-note').textContent = '';
   try {
     const data = await read('graph', project ? { project } : {});
     if (epoch !== graphEpoch || $('graph-panel').hidden) return;
-    $('graph-status').textContent = `${data.nodes.length} handoffs · ${data.edges.length} explicit links. ${data.note}`;
+    $('graph-status').textContent = `${count(data.nodes.length, 'handoff')} · ${count(data.edges.length, 'explicit link')} · ${project || 'All projects'}`;
     $('graph').replaceChildren(renderHandoffGraph(data, { onOpen: navigate, selected }));
-    $('graph-status').textContent += project ? ` Project: ${project} (including linked context).` : ' All projects; keyword search filters the list only.';
+    $('graph-note').textContent = `${data.note}${project ? ' Handoffs linked from other projects are included.' : ''}${query ? ' Search filters the list, not this graph.' : ''}`;
   } catch (error) { if (epoch === graphEpoch) $('graph-status').textContent = error.message; }
 }
 $('graph-toggle').addEventListener('click', () => {

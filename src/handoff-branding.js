@@ -24,6 +24,6 @@ export function hostedServerInfo(origin) {
 export function hostedDashboardHtml(html) {
   return html.replace('<!-- hosted-head -->', `<link rel="icon" type="image/png" href="${hostedIconPath}"><link rel="stylesheet" href="/assets/hosted.css">`)
     .replace('<span class="mark" aria-hidden="true">C</span>', `<img class="brand-icon" src="${hostedIconPath}" width="32" height="32" alt="">`)
-    .replace('<!-- hosted-help -->', '<a href="/get-started">Get started</a><a href="/support">Help</a>')
+    .replace('<!-- hosted-help -->', '<a href="/support">Help</a>')
     .replace('<!-- hosted-onboarding -->', `<details id="first-handoff" class="notice" hidden><summary>Save your first handoff</summary><p>In a connected AI app, copy this prompt. Saving happens only when the chat calls Conclave successfully.</p><textarea readonly rows="3" aria-label="First handoff prompt">${hostedBrand.prompts[0]}</textarea><p>Keep the returned reference, then ask another connected app to retrieve it using the same Conclave account.</p><a href="/get-started">Read the full guide</a></details>`);
 }

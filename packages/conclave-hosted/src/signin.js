@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from 'node:crypto';
 import express from 'express';
 import { hostedPage } from './public-pages.js';
+import { hostedBrand } from '../../../src/handoff-branding.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const digest = value => createHash('sha256').update(value).digest('hex');
@@ -17,7 +18,8 @@ export function signinPage(account, req, res, { mode = 'password', email = '', c
   else if (mode === 'reset') content = `<p>Use a recovery code to set a password for your existing Conclave account. Your email is your username.</p><form action="/signin/reset" method="post">${csrf}${emailField}${code ? codeField + passwordField + '<label>Confirm new password<input name="confirm" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></label><p class="note">Use 12–128 characters. Passwords are managed by Neon Auth.</p>' : ''}<button>${code ? 'Save password' : 'Send recovery code'}</button></form><p><a href="/">Back to sign in</a> · <a href="/signin/code">Use an email code instead</a></p>`;
   else content = `<p>Get a six-digit code at your ${invited}email address. This also works if you have not set a password.</p><form action="/signin" method="post">${csrf}${emailField}${code ? codeField : ''}<button>${code ? 'Sign in with code' : 'Send email code'}</button></form><p><a href="/">Back to password or Google sign-in</a>${code ? ' · <a href="/signin/code">Request a new code</a>' : ''}</p>`;
   return hostedPage(res, mode === 'reset' ? 'Set or reset your password' : 'Sign in to Conclave',
-    `${message ? `<p class="note" role="status">${escape(message)}</p>` : ''}${content}<p class="note">${account.publicSignup ? 'Verified account required.' : 'Private pilot.'} Use the same Conclave email in ChatGPT and Claude.</p>`);
+    `${message ? `<p class="note" role="status">${escape(message)}</p>` : ''}${content}<p class="note">Use the same Conclave email in ChatGPT and Claude.</p>`,
+    { intro: mode === 'reset' ? '' : hostedBrand.tagline, signedIn: false });
 }
 
 export function mountSignin(app, { account, records, origin }) {

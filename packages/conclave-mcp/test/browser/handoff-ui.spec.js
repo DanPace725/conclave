@@ -116,13 +116,13 @@ test('view-only hosts keep a useful card and disable unavailable navigation', as
 test('inline graph expands, filters by project and opens pinned revisions; view-only hosts can inspect it', async ({ page }, testInfo) => {
   await page.goto('/?inline=1&view=graph'); const ui = page.frameLocator('iframe');
   await expect(ui.getByRole('group', { name: 'Saved handoff graph' })).toBeVisible();
-  await expect(ui.getByText('12 handoffs · 1 explicit links · All projects', { exact: true })).toBeVisible();
+  await expect(ui.getByText('12 handoffs · 1 explicit link · All projects', { exact: true })).toBeVisible();
   await expect(ui.getByText('10 handoffs without links', { exact: true })).toBeVisible();
   await page.screenshot({ path: `.conclave/handoff-graph-inline-${testInfo.project.name}.png`, fullPage: true });
   await ui.getByRole('button', { name: 'Open connections graph' }).click();
   await ui.getByLabel('Exact project name (leave empty for all)').fill('Conclave');
   await ui.getByRole('button', { name: 'Filter connections', exact: true }).click();
-  await expect(ui.getByText('2 handoffs · 1 explicit links · Conclave', { exact: true })).toBeVisible();
+  await expect(ui.getByText('2 handoffs · 1 explicit link · Conclave', { exact: true })).toBeVisible();
   await ui.getByText('Linked revisions', { exact: true }).click();
   await ui.getByRole('button', { name: 'Dashboard graph (r1)', exact: true }).click();
   await expect(ui.getByText('Version 1 of 2', { exact: false })).toBeVisible();

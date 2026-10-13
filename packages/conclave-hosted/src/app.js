@@ -12,7 +12,6 @@ import { mountSignin, signinPage } from './signin.js';
 const styles = readFileSync(new URL('./styles.css', import.meta.url), 'utf8');
 
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-const page = (res, content) => hostedPage(res, 'Conclave', content);
 export function createStandaloneApp({ pool, origin, secret, allowedEmails, authBaseUrl, fetcher, trustProxy = false }) {
   const account = createIdentity({ origin, secret, allowedEmails, authBaseUrl, fetcher });
   const mcp = createHostedHandoffApp({ pool, origin, secret, ...account, accountName: 'Conclave', trustProxy,
@@ -21,7 +20,8 @@ export function createStandaloneApp({ pool, origin, secret, allowedEmails, authB
   const app = express();
   app.set('trust proxy', trustProxy);
   app.disable('x-powered-by');
-  app.use((_req, res, next) => { res.locals.publicSignup = account.publicSignup; next(); });
+  // Evaluated when a page renders, after password recovery may have revoked this session.
+  app.use((req, res, next) => { res.locals.publicSignup = account.publicSignup; res.locals.signedIn = () => !!account.identity(req); next(); });
   // Railway's deployment probe uses its own Host. Only this non-data route accepts it.
   app.get('/healthz', async (req, res) => {
     res.set('Cache-Control', 'no-store');
@@ -44,7 +44,7 @@ export function createStandaloneApp({ pool, origin, secret, allowedEmails, authB
     const user = account.identity(req);
     if (!user) return signinPage(account, req, res, { message: req.query.signin === 'failed' ? 'Google sign-in could not be completed. Try again or use an email code.' : '' });
     const csrf = account.form(req, res);
-    page(res, `<p>Signed in as ${escape(user.email)}.</p><p><a href="/dashboard">Open your handoff dashboard</a></p><p><a href="/signin/reset">Set or reset your password</a></p><h2>Connect your AI apps</h2><p>MCP server address: <code>${escape(origin)}/mcp</code></p><p>Add this address as a custom MCP connection in ChatGPT or Claude. Choose OAuth and automatic client registration, then sign in with this account and approve access.</p><p>Ask one app to save a handoff and the other to retrieve its ID. Saved versions retain decisions, constraints and open questions.</p><p><a href="/connect">Manage app connections</a></p><p class="note">Only context you explicitly save is stored. Source app and model labels are reported claims. Signing out here keeps app connections active; revoke them on the connections page.</p><form method="post" action="/signout"><input type="hidden" name="csrf" value="${escape(csrf)}"><button>Sign out</button></form>`);
+    hostedPage(res, 'Your account', `<p>Signed in as ${escape(user.email)}.</p><p><a class="button" href="/dashboard">Open your dashboard</a></p><h2>Connect your AI apps</h2><p>MCP server address: <code>${escape(origin)}/mcp</code></p><p>Add this address as a custom MCP connection in ChatGPT or Claude. Choose OAuth and automatic client registration, then sign in with this account and approve access.</p><p>Ask one app to save a handoff and the other to retrieve it by its reference. Only context you explicitly save is stored. <a href="/get-started">Read the full guide</a>.</p><h2>Password and sign-out</h2><p><a href="/signin/reset">Set or reset your password</a></p><p class="note">Signing out here keeps app connections active; revoke them on <a href="/connect">Connections</a>.</p><form method="post" action="/signout"><input type="hidden" name="csrf" value="${escape(csrf)}"><button>Sign out</button></form>`);
   });
   app.post('/signout', (req, res) => {
     if (!account.checkForm(req)) return res.sendStatus(403);

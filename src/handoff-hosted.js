@@ -11,11 +11,16 @@ import { createHandoffMcpServer } from './handoff-mcp-server.js';
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const cookie = req => (req.headers.cookie || '').split(';').map(x => x.trim()).find(x => x.startsWith('conclave_connect='))?.slice(17);
 const page = (res, title, content) => res.type('html').send(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(title)}</title><link rel="stylesheet" href="/styles.css"><main><h1>${escape(title)}</h1>${content}</main></html>`);
+const access = scopes => scopes.includes('handoffs:write') ? 'Can read and save handoffs' : 'Can read handoffs';
+const day = value => { const date = new Date(value); return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleDateString('en-US', { dateStyle: 'medium', timeZone: 'UTC' }); };
 const policy = () => "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
 
 export function createHostedHandoffApp({ pool, origin, secret, identity, emailAllowed, accountName = 'Converse', trustProxy = false, presentation }) {
   const renderPage = presentation?.page || page;
   const signIn = `<p><a href="/" target="_blank" rel="noopener">Sign in to ${escape(accountName)}</a> in another tab using the account you want to share between apps. Then return here and continue.</p>`;
+  // The independent hosted service holds only handoffs; Converse embeds this beside its chats.
+  const limits = presentation ? 'It cannot use anything else in your account. This connection expires in 30 days. You can revoke it sooner from Connections.'
+    : 'It cannot access your Converse chats, canonical memory, or model API keys. This connection expires in 30 days. You can revoke it here.';
   const url = new URL(origin);
   if (url.origin !== origin || (url.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(url.hostname)) || url.username || url.password)
     throw Error('Configure a fixed HTTPS CONCLAVE_MCP_ORIGIN without a path');
@@ -64,11 +69,11 @@ if (link && ['https:', 'http:'].includes(new URL(link.href).protocol)) window.lo
     if (req.query.request) {
       const pending = await provider.pending(String(req.query.request), cookie(req));
       if (!user) return renderPage(res, 'Connect Conclave', `${signIn}<p><a href="/connect?request=${escape(req.query.request)}">Continue after signing in</a></p>`);
-      return renderPage(res, 'Allow this app to use your handoffs?', `<p>Signed in as ${escape(user.email)}.</p><p>App name (provided by the app): <strong>${escape(pending.clientName)}</strong>. Callback host: ${escape(new URL(pending.redirectUri).host)}.</p><p>This app can read ${pending.scopes.includes('handoffs:write') ? 'and save' : ''} your Conclave handoff packets. It cannot access your Converse chats, canonical memory, or model API keys. This connection expires in 30 days. You can revoke it here.</p><form method="post" action="/connect"><input type="hidden" name="request" value="${escape(req.query.request)}"><input type="hidden" name="csrf" value="${csrf(req)}"><button name="decision" value="allow">Allow connection</button><button name="decision" value="deny">Cancel</button></form>`);
+      return renderPage(res, 'Allow this app to use your handoffs?', `<p>Signed in as ${escape(user.email)}.</p><p>App name (provided by the app): <strong>${escape(pending.clientName)}</strong>. Callback host: ${escape(new URL(pending.redirectUri).host)}.</p><p>This app can read ${pending.scopes.includes('handoffs:write') ? 'and save ' : ''}your Conclave handoffs. ${limits}</p><form method="post" action="/connect"><input type="hidden" name="request" value="${escape(req.query.request)}"><input type="hidden" name="csrf" value="${csrf(req)}"><button name="decision" value="allow">Allow connection</button><button name="decision" value="deny">Cancel</button></form>`);
     }
     if (!user) return renderPage(res, 'Conclave connections', `${signIn}<p><a href="/connect">Continue after signing in</a></p>`);
     const grants = (await records.list(user.id)).filter(row => !row.data.revoked);
-    renderPage(res, 'Conclave connections', `<p>Signed in as ${escape(user.email)}. Signing out of ${escape(accountName)} does not disconnect your apps. Use Revoke below to block a connection immediately; saved packets remain.</p>${grants.length ? grants.map(row => `<form method="post" action="/connect"><p>${escape(row.data.clientName)} — ${escape(row.data.scopes.join(', '))} — connected ${escape(row.data.createdAt)}</p><input type="hidden" name="grant" value="${escape(row.key.slice(6))}"><input type="hidden" name="csrf" value="${csrf(req)}"><button>Revoke connection</button></form>`).join('') : '<p>No active connections.</p>'}`);
+    renderPage(res, 'Conclave connections', `<p>Signed in as ${escape(user.email)}. Signing out of ${escape(accountName)} does not disconnect your apps. Use Revoke below to block a connection immediately; saved handoffs remain.</p>${grants.length ? grants.map(row => `<form method="post" action="/connect"><p><strong>${escape(row.data.clientName)}</strong><br>${access(row.data.scopes)} · Connected ${escape(day(row.data.createdAt))}</p><input type="hidden" name="grant" value="${escape(row.key.slice(6))}"><input type="hidden" name="csrf" value="${csrf(req)}"><button>Revoke connection</button></form>`).join('') : '<p>No active connections.</p>'}`);
   });
   app.post('/connect', async (req, res) => {
     const user = identity(req);

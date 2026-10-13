@@ -46,7 +46,7 @@ test('Clyp budgets, complete ORMD download and pinned cross-project graph naviga
   expect(text).toContain('<!-- ormd:1.0 -->'); expect(text).toContain('Ask before publishing.');
   expect(text).toContain('depends_on');
   await page.getByRole('button', { name: 'Show connections', exact: true }).click();
-  await expect(page.getByText(/12 handoffs · 1 explicit links/)).toBeVisible();
+  await expect(page.getByText('12 handoffs · 1 explicit link · All projects', { exact: true })).toBeVisible();
   await expect(page.getByRole('group', { name: 'Saved handoff graph' })).toBeVisible();
   expect(await page.locator('#detail img, #graph img').count()).toBe(0);
   await expect(page.locator('.graph-node[aria-current=true]')).toHaveCount(1);

@@ -21,7 +21,7 @@ install.addEventListener('click', async () => {
   pending = undefined;
   install.hidden = true;
   try { await prompt.prompt(); await prompt.userChoice; }
-  catch { help.open = true; }
+  catch { help.open = true; help.scrollIntoView({ block: 'nearest' }); }
 });
 window.addEventListener('appinstalled', installed);
 if ('serviceWorker' in navigator && window.isSecureContext) {

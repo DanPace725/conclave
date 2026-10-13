@@ -11,6 +11,11 @@ const element = (tag, text, className) => {
   return node;
 };
 const note = text => { status.textContent = text; };
+const date = text => {
+  const value = new Date(text);
+  return Number.isNaN(value.getTime()) ? text : value.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+};
+const count = (total, word) => `${total} ${word}${total === 1 ? '' : 's'}`;
 function button(label, action, parent, requiresTools = true) {
   const node = element('button', label); node.type = 'button';
   node.dataset.requiresTools = String(requiresTools);
@@ -55,7 +60,7 @@ function connections(project = '') {
 }
 function renderGraph(data, state, compact = false) {
   reset('Connections');
-  view.append(element('p', `${data.nodes.length} handoffs · ${data.edges.length} explicit links · ${state.project || 'All projects'}`, 'muted'));
+  view.append(element('p', `${count(data.nodes.length, 'handoff')} · ${count(data.edges.length, 'explicit link')} · ${state.project || 'All projects'}`, 'muted'));
   const actions = element('div', undefined, 'row');
   if (compact) expansion(actions, 'Open connections graph');
   else {
@@ -86,13 +91,13 @@ function renderLibrary(data) {
   button('Search', submit, search);
   // Host sandboxes can disallow forms, including their submit events.
   input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); submit(); } });
-  view.append(search, element('p', `${data.total} saved handoff${data.total === 1 ? '' : 's'}`, 'muted'));
+  view.append(search, element('p', count(data.total, 'saved handoff'), 'muted'));
   if (!app.getHostCapabilities()?.serverTools) view.append(element('p', 'This host supports viewing only. Use Conclave’s tools in chat to navigate.', 'notice'));
   if (!data.handoffs?.length) view.append(element('p', query ? 'No matching handoffs. Try another name or keyword.' : 'No handoffs yet. Ask your chat to save one in Conclave.'));
   for (const saved of data.handoffs || []) {
     const card = element('article', undefined, 'card');
     card.append(element('h2', saved.title), element('p', saved.summary, 'verbatim'),
-      element('p', `Version ${saved.revision} · ${saved.source_app || 'App not reported'} · ${saved.updated_at}`, 'muted'));
+      element('p', [`Version ${saved.revision}`, saved.source_app, date(saved.updated_at)].filter(Boolean).join(' · '), 'muted'));
     const actions = element('div', undefined, 'row'); button('View handoff', () => packet(saved.handoff_id), actions); card.append(actions); view.append(card);
   }
   const pages = element('div', undefined, 'row');
@@ -124,7 +129,7 @@ function renderPacket(data) {
   reset(data.packet.title);
   const navigation = element('div', undefined, 'row'); button('All handoffs', () => library(offset), navigation);
   button('Show connections', () => connections(data.packet.project || ''), navigation); view.append(navigation);
-  view.append(element('p', `Version ${data.revision} of ${data.latest_revision} · Saved ${data.saved_at}`, 'muted'));
+  view.append(element('p', `Version ${data.revision} of ${data.latest_revision} · Saved ${date(data.saved_at)}`, 'muted'));
   if (data.revision < data.latest_revision) {
     view.append(element('p', 'You are viewing an earlier version. Later changes are available.', 'notice'));
     button('View latest version', () => packet(data.handoff_id), navigation);
@@ -164,9 +169,9 @@ function history(id, newOffset = 0) {
 function renderHistory(data, historyOffset = 0) {
   reset('Version history');
   const nav = element('div', undefined, 'row'); button('View latest handoff', () => packet(data.handoff_id), nav); view.append(nav);
-  view.append(element('p', `${data.total} immutable versions. Reading or comparing them leaves the saved handoff unchanged.`, 'muted'));
+  view.append(element('p', `${count(data.total, 'immutable version')}. Reading or comparing them leaves the saved handoff unchanged.`, 'muted'));
   for (const saved of data.revisions) {
-    const card = element('article', undefined, 'card'); card.append(element('h2', `Version ${saved.revision} · ${saved.title}`), element('p', saved.summary, 'verbatim'), element('p', saved.updated_at, 'muted'));
+    const card = element('article', undefined, 'card'); card.append(element('h2', `Version ${saved.revision} · ${saved.title}`), element('p', saved.summary, 'verbatim'), element('p', date(saved.updated_at), 'muted'));
     const actions = element('div', undefined, 'row'); button('Read version', () => packet(data.handoff_id, saved.revision), actions);
     if (saved.revision < data.latest_revision) button('Compare with latest', () => {
       void request('compare_handoff_versions', { handoff_id: data.handoff_id, from_revision: saved.revision, to_revision: data.latest_revision, max_characters: 128000 }, show);
@@ -182,10 +187,10 @@ function renderComparison(data) {
   reset('What changed');
   const nav = element('div', undefined, 'row'); button('Version history', () => history(data.handoff_id), nav); view.append(nav);
   view.append(element('p', `Version ${data.from_revision} → version ${data.to_revision}. Exact saved text; no judgment about which version is correct.`, 'muted'));
-  if (data.identical) view.append(element('p', 'No packet fields changed.'));
+  if (data.identical) view.append(element('p', 'No fields changed.'));
   const content = element('div', undefined, 'scroll');
   for (const change of data.changes) {
-    const item = element('section'); item.append(element('h2', change.field.replaceAll('_', ' ')));
+    const item = element('section'); item.append(element('h2', change.field.replace(/^./, first => first.toUpperCase()).replaceAll('_', ' ')));
     const columns = element('div', undefined, 'diff');
     for (const [label, value] of [['Before', change.before], ['After', change.after]]) {
       const column = element('div'); column.append(element('h3', label), element('pre', typeof value === 'string' ? value || 'Empty' : JSON.stringify(value, null, 2), 'verbatim')); columns.append(column);
@@ -222,7 +227,7 @@ function renderCompact(data) {
     section('Constraints', data.packet.constraints, view, true); section('Open questions', data.packet.open_questions, view, true);
     view.append(element('p', 'Ask your chat to retrieve this reference and continue, or open the browser for the full packet.', 'muted'));
   } else {
-    view.append(element('p', data.handoffs ? `${data.total} saved handoffs. Open the browser to search, read and compare them.` : 'Open the browser to inspect the exact saved versions.', 'muted'));
+    view.append(element('p', data.handoffs ? `${count(data.total, 'saved handoff')}. Open the browser to search, read and compare them.` : 'Open the browser to inspect the exact saved versions.', 'muted'));
     for (const saved of (data.handoffs || []).slice(0, 3)) {
       const item = element('article', undefined, 'card'); item.append(element('h2', saved.title), element('p', `Version ${saved.revision}`, 'muted')); view.append(item);
     }
