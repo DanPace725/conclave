@@ -1,6 +1,6 @@
 # Conclave project context
 
-Updated 2026-10-13. Mutable current state; detailed receipts remain in the [archive](docs/archive/README.md). Start with [CLI usage](README.md), [development method](docs/DEVELOPMENT_METHOD.md), and [integration workflow](docs/CONVERSE_INTEGRATION.md).
+Updated 2026-10-13. Mutable current state; detailed receipts remain in the [archive](docs/archive/README.md). Start with the [product overview](README.md), [CLI usage](docs/CLI_GUIDE.md), [development method](docs/DEVELOPMENT_METHOD.md), and [integration workflow](docs/CONVERSE_INTEGRATION.md).
 
 ## Architecture and current capabilities
 
@@ -26,9 +26,15 @@ The earlier hosted polish/auth implementation `df75f9a89ba9f1497a6b68fb34427f1fc
 
 ## October 13 onboarding wizard (local)
 
+Merge compatibility: current main `c149442` is integrated into `codex/onboarding-wizard`. The sole conflict was the hosted dashboard rendering chain; main's shared Getting Started/Docs/Account header is preserved alongside the wizard. Source checks, 377 engine tests / one optional skip, 26 dashboard/PWA browser cases and eight consent/login checks pass on the combined tree. The feature branch was previously pushed at `d7ed1a7`; this resolution is a Conclave-only branch update, with no main merge, production deployment or Converse changes. [Merge receipt](docs/archive/2026-10-13/onboarding-wizard.md#merge-compatibility-with-current-main)
+
 The hosted dashboard now has optional, resumable Choose an AI → Connect → Save a Clyp setup, provider-specific ChatGPT/Claude/Gemini guidance and a visible same-Conclave-account reminder. Read-only verification checks a unique exact test Clyp/revision in the current account; account-bound requests reject session switches. Second-app continuation pins that reference/revision and labels retrieval confirmation as manual. No migration, provider tracking or automatic installation. The isolated `codex/onboarding-wizard` branch preserves Gemini OAuth and PWA behavior. Source checks and 377 engine tests pass/one optional skip; 26 dashboard/PWA, 14 embedded-library and 12 transport/consent/login checks pass on synthetic fixtures. Production deployment and real first-time-user/provider acceptance remain pending. [Implementation and limits](docs/archive/2026-10-13/onboarding-wizard.md)
 
 ## Open work
+
+October 13 README refresh: the root README now introduces hosted cross-app handoffs in plain language, with connect/save/resume/update examples, dashboard/account behavior, privacy boundaries and developer links. Detailed engine commands and configuration moved to `docs/CLI_GUIDE.md`. Live public checks confirmed sign-in, getting-started and support pages available; `/docs` remains 404 before the navigation release, which the README explicitly labels awaiting deployment. Documentation links and CLI help were checked. This documentation-only follow-up stays on `codex/conclave-navigation`; no deployment or Converse change is included.
+
+October 13 website navigation: Getting Started (`/get-started`) now has three plain-language steps; Docs (`/docs`) contains connection settings, permissions/tools, revisions, library/graph guidance and troubleshooting links. A shared responsive header replaces the Connections/Account/Help tabs with Dashboard/Getting Started/Docs and a circular Account profile control at the top right. `/account` contains Connections management, password and sign-out controls; existing `/` and `/connect` routes remain supported. Implemented on `codex/conclave-navigation`, based on current published main and excluding unrelated pending changes. Source/resource checks, 18 focused HTTP tests, 8 desktop/mobile/scriptless login/consent checks and 20 dashboard/PWA browser cases pass on synthetic fixtures; light/dark screenshots reviewed. Conclave-only branch publication is authorized; no production deployment or Converse synchronization is included. [Changes and evidence](docs/archive/2026-10-13/website-navigation.md)
 
 The Android installed dashboard launch returning `forbidden` is corrected: allow cross-site GET shell navigations, including the existing Chromium worker's `navigate`/`empty` forwarding. API/resource access, account isolation, foreign Host/Origin rejection, write refusal and frame protection remain enforced. The browser preview now exercises production routing; 20 desktop/mobile dashboard cases pass, including launches before/after worker activation, plus 377 engine tests/one optional skip and syntax/resource checks. Conclave-only publication/deployment and live replay are recorded separately in the hosted progress log; real installed-phone reopening remains acceptance. [Diagnosis and correction](docs/archive/2026-10-12/pwa-launch-fix.md)
 

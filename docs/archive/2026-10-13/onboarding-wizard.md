@@ -34,3 +34,9 @@ Provider guidance checked October 13, 2026: [ChatGPT](https://developers.openai.
 ## Integration
 
 The verified source is branch `codex/onboarding-wizard` in `E:/Coding/converse/.test-tmp/conclave-onboarding`, based on `2796e3d`. It preserves the deployed Gemini state-size compatibility fix, compact dashboard and PWA. The original development checkout remains on its earlier branch with unrelated edits preserved; the feature-only development commit is `e4cbf90`. No pending data-removal migration or unrelated edits were pulled into this integration branch. Converse receives the managed source snapshot through the normal sync script; neither repository is pushed or deployed by this work.
+
+## Merge compatibility with current main
+
+After the user authorized a Conclave-only push, branch head `d7ed1a7` was published and independently verified; hosted progress revision 25 records it. Main subsequently includes navigation PR #13 at `c14944210eeacd87a7ef84a15546be5dd928787a`. Merging that main into the onboarding branch produced one textual conflict, in `src/handoff-branding.js`: the new shared website header and the wizard both changed the old first-handoff rendering chain.
+
+The resolution retains main's `hostedNavigation('/dashboard/')`, circular Account control, Getting Started/Docs navigation and hosted header styling, then inserts the wizard and removes the superseded first-handoff panel. Other main changes merge unchanged. Syntax/generated-resource checks, all 377 engine tests (one optional skip), all 26 dashboard/PWA browser cases and eight desktop/mobile/scriptless consent/login checks pass on the combined tree. This updates only the Conclave feature branch; it does not merge into main, deploy production or modify Converse.
