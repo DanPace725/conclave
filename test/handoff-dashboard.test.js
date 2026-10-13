@@ -70,6 +70,15 @@ test('hosted Clyps preserve original ORMD, JSONB hashes and owner-scoped pinned 
 
 test('dashboard serves an inert authenticated shell and enforces account, host, origin and read-only access', async t => {
   const { request, origin, pool } = await fixture(t);
+  const setup = await (await request('/dashboard/api/setup')).json();
+  assert.equal(setup.account_email, 'alice@example.com');
+  assert.equal(setup.server_url, `${origin}/mcp`);
+  assert.match(setup.resume_key, /^[a-f0-9]{64}$/);
+  assert.notEqual((await (await request('/dashboard/api/setup', 'bob')).json()).resume_key, setup.resume_key);
+  assert.equal((await request('/dashboard/api/setup', null)).status, 401);
+  assert.equal((await request('/dashboard/api/setup?owner=bob')).status, 400);
+  for (const path of ['find', 'get?handoff_id=conv_missing', 'setup'])
+    assert.equal((await request(`/dashboard/api/${path}`, 'bob', { headers: { 'X-Conclave-Setup-Account': setup.resume_key } })).status, 409);
   const a = new HandoffRepository(pool, 'alice'), saved = await a.save({ packet, request_id: 'first' });
   assert.equal((await request('/dashboard', null)).status, 303);
   assert.equal((await request('/dashboard/api/find', null)).status, 401);

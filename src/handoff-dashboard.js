@@ -1,9 +1,10 @@
 import express from 'express';
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { HandoffRepository } from './handoff-repository.js';
 import { hostedDashboardHtml } from './handoff-branding.js';
 
-const assets = new Map(['index.html', 'app.js', 'app.css', 'graph.js', 'graph.css'].map(name =>
+const assets = new Map(['index.html', 'app.js', 'app.css', 'graph.js', 'graph.css', 'onboarding.js', 'onboarding.css'].map(name =>
   [name, readFileSync(new URL(`./resources/dashboard/${name}`, import.meta.url), 'utf8')]));
 // These installation/offline resources contain no account data and must remain
 // available after a session expires, including for browser worker update checks.
@@ -35,12 +36,24 @@ export function createHandoffDashboard({ pool, origin, identity, repository = ow
     if (asset) return res.type(asset.type).send(asset.content);
     const user = identity(req);
     if (!user?.id) return req.path.startsWith('/api/') ? res.status(401).json({ error: 'sign_in_required' }) : res.redirect(303, '/');
-    res.locals.owner = user.id; next();
+    res.locals.owner = user.id;
+    res.locals.setupKey = createHash('sha256').update(`conclave-setup:${user.id}`).digest('hex');
+    res.locals.email = user.email;
+    // Bind wizard reads to the displayed account, including after a tab switches sessions.
+    if (req.headers['x-conclave-setup-account'] && req.headers['x-conclave-setup-account'] !== res.locals.setupKey)
+      return res.status(409).json({ error: 'account_changed' });
+    next();
   });
-  router.get(['/', '/app.js', '/app.css', '/graph.js', '/graph.css'], (req, res) => {
+  router.get(['/', '/app.js', '/app.css', '/graph.js', '/graph.css', '/onboarding.js', '/onboarding.css'], (req, res) => {
     const name = req.path === '/' ? 'index.html' : req.path.slice(1);
     const content = assets.get(name);
     res.type(name.endsWith('.js') ? 'js' : name.endsWith('.css') ? 'css' : 'html').send(name === 'index.html' && hostedPresentation ? hostedDashboardHtml(content) : content);
+  });
+  router.get('/api/setup', (req, res) => {
+    if (!hostedPresentation) return res.status(404).json({ error: 'not_found' });
+    if (Object.keys(req.query).length) return res.status(400).json({ error: 'invalid_input' });
+    res.json({ account_email: res.locals.email || 'your signed-in Conclave account',
+      resume_key: res.locals.setupKey, server_url: `${origin}/mcp` });
   });
   router.get('/api/:operation', async (req, res) => {
     try {
